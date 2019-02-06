@@ -1,3 +1,3 @@
 # BarlugoFX
 
-Universal photo editor made with &lt;3 in Italy
+Universal photo editor made with <3 in Italy
