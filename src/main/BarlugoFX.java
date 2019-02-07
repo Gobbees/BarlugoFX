@@ -3,6 +3,8 @@ package main;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import view.WelcomeViewImpl;
+
 /**
  * The main class that starts the application.
  *
@@ -21,5 +23,6 @@ public final class BarlugoFX extends Application {
     @Override
     public void start(final Stage stage) throws Exception {
         //initialize....
+        new WelcomeViewImpl().show();
     }
 }
