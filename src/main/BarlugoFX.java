@@ -1,20 +1,25 @@
 package main;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 /**
- * The main class that contains the main method.
+ * The main class that starts the application.
  *
  */
-final class BarlugoFX {
+public final class BarlugoFX extends Application {
 
-    //to silence a checkstyle warning
-    private BarlugoFX() {
-        throw new AssertionError("This class isn't instantiable");
-    }
 
     /**
-     * @param args: input parameters
+     * Launches the start function, which will initialize the whole application.
+     * @param args : input parameters
      */
     public static void main(final String... args) {
-        System.out.println("Hello");
+        launch(args);
+    }
+
+    @Override
+    public void start(final Stage stage) throws Exception {
+        //initialize....
     }
 }
