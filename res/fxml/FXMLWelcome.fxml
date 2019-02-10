@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Separator?>
+
+<AnchorPane fx:id="apaneMain" fx:controller="com.barlugofx.ui.welcome.WelcomeController" 
+            xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css" styleClass="anchorPane">
+    <children>
+	    <BorderPane fx:id="bpaneLeft" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+             <center>
+                <ImageView fx:id="iviewIcon" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                    <image>
+                        <Image url="@../img/logo.png" />
+                    </image>
+                 </ImageView>
+             </center>
+             <bottom>
+	             <Label fx:id="lblDescription" alignment="CENTER" contentDisplay="BOTTOM" text="A universal photo editor" BorderPane.alignment="TOP_CENTER" styleClass="label">
+	               <graphic>
+	                  <Separator fx:id="separLabel" orientation="VERTICAL"/>
+	               </graphic>
+	            </Label>
+             </bottom>
+        </BorderPane>    
+        <JFXButton fx:id="btnNew" mnemonicParsing="false" text="New project" onMouseClicked="#newProject" onMouseEntered="#newEntered" onMouseExited="#newExited" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="button">
+            <style>
+                -fx-border-width: 0 0 1 1; 
+                -fx-background-image: url(../img/logo.png);
+                -fx-background-position: center;
+            </style>
+        </JFXButton>
+        <JFXButton fx:id="btnOpen" mnemonicParsing="false" text="Open project" onMouseClicked="#openProject" onMouseEntered="#openEntered" onMouseExited="#openExited"  AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="button" style="-fx-border-width: 0 0 0 1">
+        </JFXButton>
+    </children>
+</AnchorPane>

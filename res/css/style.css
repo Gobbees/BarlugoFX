@@ -1,0 +1,22 @@
+@font-face {
+    src: url(../font/MajorMonoDisplay-Regular.ttf),
+}
+
+.anchorPane {
+    -fx-background-color: #333130;
+}
+
+.button {
+    -jfx-button-type: RAISED;
+    -fx-text-fill: white;
+    -fx-background-color: #312f2e;
+    -fx-border-color: white;
+    -fx-font-family: "Major Mono Display";
+    -fx-font-size: 20;
+    -jfx-disable-visual-focus: true;
+}
+.label {
+    -fx-font-family: "Major Mono Display";
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+}
