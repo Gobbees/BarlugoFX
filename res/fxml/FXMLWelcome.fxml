@@ -27,14 +27,14 @@
 	            </Label>
              </bottom>
         </BorderPane>    
-        <JFXButton fx:id="btnNew" mnemonicParsing="false" text="New project" onMouseClicked="#newProject" onMouseEntered="#newEntered" onMouseExited="#newExited" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="button">
+        <JFXButton fx:id="btnNew" mnemonicParsing="false" text="Open image" onMouseClicked="#newProject" onMouseEntered="#newEntered" onMouseExited="#newExited" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="button">
             <style>
                 -fx-border-width: 0 0 1 1; 
                 -fx-background-image: url(../img/logo.png);
                 -fx-background-position: center;
             </style>
         </JFXButton>
-        <JFXButton fx:id="btnOpen" mnemonicParsing="false" text="Open project" onMouseClicked="#openProject" onMouseEntered="#openEntered" onMouseExited="#openExited"  AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="button" style="-fx-border-width: 0 0 0 1">
+        <JFXButton fx:id="btnOpen" mnemonicParsing="false" text="Open bfx project" onMouseClicked="#openProject" onMouseEntered="#openEntered" onMouseExited="#openExited"  AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="button" style="-fx-border-width: 0 0 0 1">
         </JFXButton>
     </children>
 </AnchorPane>
