@@ -20,21 +20,19 @@
                  </ImageView>
              </center>
              <bottom>
-	             <Label fx:id="lblDescription" alignment="CENTER" contentDisplay="BOTTOM" text="A universal photo editor" BorderPane.alignment="TOP_CENTER" styleClass="label">
+	             <Label fx:id="lblDescription" alignment="CENTER" contentDisplay="BOTTOM" text="A universal photo editor" 
+	               BorderPane.alignment="TOP_CENTER" styleClass="label">
 	               <graphic>
 	                  <Separator fx:id="separLabel" orientation="VERTICAL"/>
 	               </graphic>
 	            </Label>
              </bottom>
         </BorderPane>    
-        <JFXButton fx:id="btnNew" mnemonicParsing="false" text="Open image" onMouseClicked="#newProject" onMouseEntered="#newEntered" onMouseExited="#newExited" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="button">
-            <style>
-                -fx-border-width: 0 0 1 1; 
-                -fx-background-image: url(../img/logo.png);
-                -fx-background-position: center;
-            </style>
-        </JFXButton>
-        <JFXButton fx:id="btnOpen" mnemonicParsing="false" text="Open bfx project" onMouseClicked="#openProject" onMouseEntered="#openEntered" onMouseExited="#openExited"  AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="button" style="-fx-border-width: 0 0 0 1">
-        </JFXButton>
+        <JFXButton fx:id="btnImage" mnemonicParsing="false" text="Open image" onMouseClicked="#openImage" 
+            onMouseEntered="#imgEntered" onMouseExited="#imgExited" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="button"
+            style="-fx-border-width: 0 0 1 1" />
+        <JFXButton fx:id="btnProject" mnemonicParsing="false" text="Open bfx project" onMouseClicked="#openProject"
+             onMouseEntered="#prjEntered" onMouseExited="#prjExited"  AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="button" 
+             style="-fx-border-width: 0 0 0 1" />
     </children>
 </AnchorPane>

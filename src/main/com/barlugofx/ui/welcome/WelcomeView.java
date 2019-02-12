@@ -2,6 +2,7 @@ package com.barlugofx.ui.welcome;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,15 +21,15 @@ public class WelcomeView {
     private static final Dimension DEFAULT_SCREEN = Toolkit.getDefaultToolkit().getScreenSize();
     private static final Dimension MIN_DIMENSION = new Dimension((int) DEFAULT_SCREEN.getWidth() / 5, (int) DEFAULT_SCREEN.getHeight() / 5);
     //private UI fields
-    private final Stage stage;
-    private final Parent root;
     private final Scene scene;
     private final WelcomeController vController;
     /**
      * The constructor that initializes all the fields and show the stage.
-     * @throws Exception if the loader file URL is invalid.
+     * @throws IOException if the loader file URL is invalid.
      */
-    public WelcomeView() throws Exception {
+    public WelcomeView() throws IOException {
+        final Stage stage;
+        final Parent root;
         //init stage
         stage = new Stage();
         stage.setTitle(STAGE_NAME);

@@ -1,17 +1,23 @@
 package com.barlugofx.ui.welcome;
 
+import java.io.File;
+import java.io.IOException;
+
+import com.barlugofx.ui.main.MainView;
 import com.jfoenix.controls.JFXButton;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.Bloom;
-//import javafx.scene.image.Image; decomment if you need to add the icons to buttons
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * This class manages the view events (i.e. button clicks, enter and exit) and effectively resizes the nodes.
@@ -23,6 +29,7 @@ public class WelcomeController {
     private static final double BTN_WIDTH_MULTIPLIER = 0.33;
     private static final double BTN_HEIGHT_MULTIPLIER = 0.5;
     private static final double BPANE_RIGHT_MULTIPLIER = 0.33;
+    private static final int ANIM_MILLIS = 300;
     @FXML
     private AnchorPane apaneMain;
     @FXML
@@ -34,9 +41,9 @@ public class WelcomeController {
     @FXML
     private Separator separLabel;
     @FXML
-    private JFXButton btnNew;
+    private JFXButton btnImage;
     @FXML
-    private JFXButton btnOpen;
+    private JFXButton btnProject;
     private Stage stage;
     /**
      * This method resizes all the view components.
@@ -44,10 +51,10 @@ public class WelcomeController {
      * @param height : the resized height
      */
     public void resizeComponents(final int width, final int height) {
-        btnNew.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
-        btnNew.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
-        btnOpen.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
-        btnOpen.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER - height % 2);
+        btnImage.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
+        btnImage.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
+        btnProject.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
+        btnProject.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER - height % 2);
         AnchorPane.setRightAnchor(bpaneLeft, width * BPANE_RIGHT_MULTIPLIER);
         separLabel.setVisible(false);
         separLabel.setPrefHeight(height / 10);
@@ -55,8 +62,6 @@ public class WelcomeController {
         bpaneLeft.setPrefSize(width, height);
         iviewIcon.setFitWidth(bpaneLeft.getPrefWidth() * IMG_MULTIPLIER);
         iviewIcon.setFitHeight(bpaneLeft.getPrefHeight() * IMG_MULTIPLIER);
-//        btnNew.setGraphic(new ImageView(new Image("file:res/img/file.png")));  //if ok transfer to fxml
-//        btnOpen.setGraphic(new ImageView(new Image("file:res/img/folder.png")));
     }
 
     /**
@@ -68,47 +73,71 @@ public class WelcomeController {
     }
     /**
      * Called by view events, this method initiates the main view.
+     * @throws IOException 
      */
     @FXML
-    public void newProject() {
-        System.out.println("Under construction");
+    public void openImage() throws IOException {
+        final FileChooser fc = new FileChooser();
+        fc.setTitle(btnImage.getText());
+        openMainView(fc.showOpenDialog(stage));
     }
     /**
      * Called by view events, this method opens a filechooser window and allow to open a file.
-     * @throws InterruptedException if something wrong happens with the filechooser.
+     * @throws IOException 
      */
     @FXML
-    public void openProject() throws InterruptedException {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Open Project");
-        fc.showOpenDialog(stage);
+    public void openProject() throws IOException {
+        final FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new ExtensionFilter("Select a BarlugoFX bfx file", "*.bfx"));
+        fc.setTitle(btnProject.getText());
+        openMainView(fc.showOpenDialog(stage));
     }
     /**
      * Effects.
      */
     @FXML
-    public void newEntered() {
-        btnNew.setEffect(new Bloom());
+    public void imgEntered() {
+        btnImage.setEffect(new Bloom());
     }
     /**
      * Effects.
      */
     @FXML
-    public void newExited() {
-        btnNew.setEffect(null);
+    public void imgExited() {
+        btnImage.setEffect(null);
     }
     /**
      * Effects.
      */
     @FXML
-    public void openEntered() {
-        btnOpen.setEffect(new Bloom());
+    public void prjEntered() {
+        btnProject.setEffect(new Bloom());
     }
     /**
      * Effects.
      */
     @FXML
-    public void openExited() {
-        btnOpen.setEffect(null);
+    public void prjExited() {
+        btnProject.setEffect(null);
+    }
+    //private functions
+    private void openMainView(final File project) {
+        if (project != null) {
+            FadeTransition ft = playFadeTransition();
+            ft.setOnFinished(e -> {
+                try {
+                    new MainView(stage, project);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            });
+        }
+    }
+    private FadeTransition playFadeTransition() {
+        final FadeTransition ft = new FadeTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.play();
+        return ft;
     }
 }
