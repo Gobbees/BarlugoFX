@@ -58,6 +58,15 @@ public final class ImageImpl implements Image {
      * @return a new Image
      */
     public static Image buildFromPixels(final int[][] pixels) {
+        return new ImageImpl(convertPixelsToBufferedImage(pixels), pixels);
+    }
+
+    /**
+     * Converts a matrix of pixels to a bufferedImage.
+     * @param pixels the matrix from which obtaining the bufferedImage.
+     * @return the BufferedImage.
+     */
+    public static BufferedImage convertPixelsToBufferedImage(final int[][] pixels) {
         final int width = pixels[0].length;
         final int height = pixels.length;
         final BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -67,7 +76,7 @@ public final class ImageImpl implements Image {
                 targetPixel[i * width + j] = pixels[i][j];
             }
         }
-        return new ImageImpl(target, pixels);
+        return target;
     }
 
     @Override

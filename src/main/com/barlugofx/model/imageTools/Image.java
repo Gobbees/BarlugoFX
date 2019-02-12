@@ -23,4 +23,5 @@ public interface Image {
      * @return height.
      */
     int getHeight();
+
 }
