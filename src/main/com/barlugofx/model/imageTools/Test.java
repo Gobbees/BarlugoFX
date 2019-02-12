@@ -13,6 +13,12 @@ import javax.imageio.ImageIO;
  *
  */
 public class Test {
+
+    /**
+     * TEST.
+     * @param args a.
+     * @throws IOException a.
+     */
     public static void main(final String[] args) throws IOException {
         final File file  = new File("/home/matteo/Desktop/a.jpg");
         final BufferedImage image = ImageIO.read(file);
@@ -25,11 +31,11 @@ public class Test {
         for (int i = 0; i < removeRed.length; i++) {
             for (int j = 0; j < removeRed[0].length; j++) {
 
-                removeRed[i][j] = changeColor.updateGreen(removeRed[i][j], 150);
+                removeRed[i][j] = changeColor.setGreen(removeRed[i][j], 0);
             }
         }
         final BufferedImage output = ImageImpl.convertPixelsToBufferedImage(removeRed);
-        ImageIO.write(output, "png", new File("/home/matteo/Desktop/b.png"));
+        ImageIO.write(output, "jpg", new File("/home/matteo/Desktop/b.jpg"));
 
         System.out.println(Arrays.toString(ImageIO.getWriterFormatNames()));
 

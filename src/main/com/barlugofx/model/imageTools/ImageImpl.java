@@ -2,7 +2,9 @@ package com.barlugofx.model.imageTools;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferInt;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A fast implementation of ImageImpl.
@@ -24,6 +26,11 @@ public final class ImageImpl implements Image {
     private final int height;
     private final boolean hasAlphaChannel;
     private final int[][] pixels;
+    private static final Set<Integer> ACCEPTED_BUFFERIMG_TYPE = new HashSet<>(
+            Arrays.asList(BufferedImage.TYPE_3BYTE_BGR,
+                    BufferedImage.TYPE_4BYTE_ABGR,
+                    BufferedImage.TYPE_4BYTE_ABGR_PRE,
+                    BufferedImage.TYPE_INT_BGR));
 
     private ImageImpl(final BufferedImage image) {
         this.image = image;
@@ -48,6 +55,10 @@ public final class ImageImpl implements Image {
      * @return a new builded image.
      */
     public static Image buildFromBufferedImage(final BufferedImage image) {
+        if (!ACCEPTED_BUFFERIMG_TYPE.contains(image.getType())) {
+            throw new IllegalArgumentException(
+                    "The Buffered Image is not a BGR but an RGB. Please convert it to a BGR");
+        }
         return new ImageImpl(image);
     }
 
@@ -69,11 +80,15 @@ public final class ImageImpl implements Image {
     public static BufferedImage convertPixelsToBufferedImage(final int[][] pixels) {
         final int width = pixels[0].length;
         final int height = pixels.length;
-        final BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        final int[] targetPixel = ((DataBufferInt) target.getRaster().getDataBuffer()).getData();
+        final BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+        final byte[] targetPixel = ((DataBufferByte) target.getRaster().getDataBuffer()).getData();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                targetPixel[i * width + j] = pixels[i][j];
+                final int element = pixels[i][j];
+                targetPixel[i * width * 4 + j * 4] = (byte) (element >> ALPHASHIFT);
+                targetPixel[i * width * 4 + j * 4 + 1] = (byte) (element >> REDSHIFT);
+                targetPixel[i * width * 4 + j * 4 + 2] = (byte) (element >> GREENSHIFT);
+                targetPixel[i * width * 4 + j * 4 + 3] = (byte) element;
             }
         }
         return target;
