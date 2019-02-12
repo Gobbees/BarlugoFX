@@ -5,6 +5,7 @@ import java.net.URL;
 
 import com.barlugofx.ui.Animations;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -43,7 +44,8 @@ public class LoadingView {
         vController.setStage(stage);
         //init scene
         scene = new Scene(root, stage.getScene().widthProperty().get(), stage.getScene().heightProperty().get());
-        Animations.playFadeInTransition(Duration.millis(ANIM_MILLIS), root);
+        FadeTransition ft = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), root);
+        ft.play();
         //changes the scene
         stage.setScene(scene);
     }

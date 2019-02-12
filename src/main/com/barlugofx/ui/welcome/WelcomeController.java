@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import com.barlugofx.ui.Animations;
 import com.barlugofx.ui.ViewController;
-import com.barlugofx.ui.loading.LoadingView;
 import com.jfoenix.controls.JFXButton;
 
 import javafx.animation.FadeTransition;
@@ -65,7 +64,6 @@ public class WelcomeController implements ViewController {
         iviewIcon.setFitWidth(bpaneLeft.getPrefWidth() * IMG_MULTIPLIER);
         iviewIcon.setFitHeight(bpaneLeft.getPrefHeight() * IMG_MULTIPLIER);
     }
-
     /**
      * Set the stage in order to permit the correct display of the filechooser window.
      * @param s the input stage
@@ -80,6 +78,7 @@ public class WelcomeController implements ViewController {
     @FXML
     public void openImage() throws IOException {
         final FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new ExtensionFilter("Select an image", "*.png", "*.jpg", "*.tiff", "*.gif"));
         fc.setTitle(btnImage.getText());
         openMainView(fc.showOpenDialog(stage));
     }
@@ -123,16 +122,17 @@ public class WelcomeController implements ViewController {
         btnProject.setEffect(null);
     }
     //private functions
-    private void openMainView(final File project) {
-        if (project != null) {
-            FadeTransition ft = Animations.playFadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
+    private void openMainView(final File file) {
+        if (file != null) {
+            FadeTransition ft = Animations.fadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
             ft.setOnFinished(e -> {
-                try {
-                    new LoadingView(stage); //temp: there will be mainview
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+//                try {
+//                    new MainView(stage, file);
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//                }
             });
+            ft.play();
         }
     }
 }

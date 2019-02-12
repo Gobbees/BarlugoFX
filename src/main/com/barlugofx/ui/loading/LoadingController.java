@@ -48,7 +48,8 @@ public class LoadingController implements ViewController {
      * Effectively stops the view with a fadeout animation.
      */
     public void stop() {
-        FadeTransition ft = Animations.playFadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
+        FadeTransition ft = Animations.fadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
         ft.setOnFinished(e -> stage.setScene(null));
+        ft.play();
     }
 }
