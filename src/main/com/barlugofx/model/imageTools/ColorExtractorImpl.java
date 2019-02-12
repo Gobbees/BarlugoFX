@@ -5,12 +5,12 @@ package com.barlugofx.model.imageTools;
  * The logic used is the same.
  *
  */
-public final class ColorImpl implements ColorExtractor {
+public final class ColorExtractorImpl implements ColorExtractor {
     private static final int CORRECTOR = 0x000000FF;
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
     private static final int ALPHASHIFT = 24;
-    private ColorImpl() {
+    private ColorExtractorImpl() {
 
     }
 
@@ -19,7 +19,7 @@ public final class ColorImpl implements ColorExtractor {
      * @return a ColorExtractor
      */
     public static ColorExtractor createColorExtractor() {
-        return new ColorImpl();
+        return new ColorExtractorImpl();
     }
 
     @Override

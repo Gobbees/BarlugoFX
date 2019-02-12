@@ -8,9 +8,9 @@ package com.barlugofx.model.imageTools;
 public interface Image {
     /**
      * A method returning the RGB value for each pixel of an image.
-     * @return an array containing all the pixels.
+     * @return a matrix width*height containing all the pixels.
      */
-    int[] getImageRGBvalues();
+    int[][] getImageRGBvalues();
 
     /**
      * Return the width of the image.
