@@ -3,7 +3,9 @@ package com.barlugofx.ui.welcome;
 import java.io.File;
 import java.io.IOException;
 
-import com.barlugofx.ui.main.MainView;
+import com.barlugofx.ui.Animations;
+import com.barlugofx.ui.ViewController;
+import com.barlugofx.ui.loading.LoadingView;
 import com.jfoenix.controls.JFXButton;
 
 import javafx.animation.FadeTransition;
@@ -23,7 +25,7 @@ import javafx.util.Duration;
  * This class manages the view events (i.e. button clicks, enter and exit) and effectively resizes the nodes.
  * Creating a WelcomeController object is useless and it probably will cause some sort of exception.
  */
-public class WelcomeController {
+public class WelcomeController implements ViewController {
     //private constant fields (nodes multipliers)
     private static final double IMG_MULTIPLIER = 0.66;
     private static final double BTN_WIDTH_MULTIPLIER = 0.33;
@@ -123,21 +125,14 @@ public class WelcomeController {
     //private functions
     private void openMainView(final File project) {
         if (project != null) {
-            FadeTransition ft = playFadeTransition();
+            FadeTransition ft = Animations.playFadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
             ft.setOnFinished(e -> {
                 try {
-                    new MainView(stage, project);
+                    new LoadingView(stage); //temp: there will be mainview
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
             });
         }
-    }
-    private FadeTransition playFadeTransition() {
-        final FadeTransition ft = new FadeTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
-        ft.setFromValue(1);
-        ft.setToValue(0);
-        ft.play();
-        return ft;
     }
 }

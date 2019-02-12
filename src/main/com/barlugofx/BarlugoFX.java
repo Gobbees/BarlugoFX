@@ -28,7 +28,7 @@ public final class BarlugoFX extends Application {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Ops, an error occurred");
-            alert.setContentText("I'm sorry, but there was a fatal error.\nSee log for information");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
     }
