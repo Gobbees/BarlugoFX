@@ -25,13 +25,15 @@ public class Test {
      */
     public static void main(final String[] args) throws IOException {
         long time = System.nanoTime();
-        final File file  = new File("/home/matteo/Desktop/a.jpg");
+        final File file  = new File("/home/matteo/Desktop/b.png");
         final BufferedImage image = ImageIO.read(file);
         final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
         final ImageFilter contrast = Contrast.createContrast();
-        contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<>(-128));
-        final BufferedImage output = ImageUtilities.convertImageToBufferedImage(contrast.applyFilter(toWorkWith));
-        ImageIO.write(output, "jpg", new File("/home/matteo/Desktop/b.png"));
+        contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<>(122));
+        final BufferedImage output = ImageUtilities.convertImageToBufferedImageWithoutAlpha(contrast.applyFilter(toWorkWith));
+        System.out.println(image.getType());
+        System.out.println(output.getType());
+        ImageIO.write(output, "jpg", new File("/home/matteo/Desktop/b.jpg"));
         time = System.nanoTime() - time;
 
         System.out.println("Execution time in milliseconds : " +

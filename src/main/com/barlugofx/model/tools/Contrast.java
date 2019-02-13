@@ -14,7 +14,7 @@ import com.barlugofx.model.tools.common.ParametersName;
  *
  */
 public final class Contrast extends ImageFilterImpl {
-    private static final int MAXVALUE = 255;
+    private static final double MAXVALUE = 255;
     private static final int TRANSLATION = 128;
 
     private Contrast() {
@@ -46,12 +46,13 @@ public final class Contrast extends ImageFilterImpl {
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
-                newPixels[i][j] = setter.setRed(pixels[i][j],
-                        (int) (contrastCorrectionFactor * (setter.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = setter.setGreen(pixels[i][j],
-                        (int) (contrastCorrectionFactor * (setter.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = setter.setBlue(pixels[i][j],
+                newPixels[i][j] = pixels[i][j];
+                newPixels[i][j] = setter.setBlue(newPixels[i][j],
                         (int) (contrastCorrectionFactor * (setter.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = setter.setGreen(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (setter.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = setter.setRed(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (setter.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
             }
         }
         return ImageImpl.buildFromPixels(newPixels);

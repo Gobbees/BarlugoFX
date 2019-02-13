@@ -16,7 +16,7 @@ public final class ImageImpl implements Image {
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
     private static final int ALPHASHIFT = 24;
-    private static final int ALPHAVALUE = -16777216; // If the alpha channel is not present, this means that the alpha
+    private static final int ALPHAVALUE = 0xFF000000; // If the alpha channel is not present, this means that the alpha
     // is 255, in a 32 bit
     // integer, this means that the first 8 are at 1, which is exactly the number
     // above
