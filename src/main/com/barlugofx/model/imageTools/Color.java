@@ -35,6 +35,7 @@ public interface Color {
 
     /**
      * Set the blue value of the pixel to the one of newBlueValue.
+     * Node that if the new value exceeds the inferior limit or the superior one, it will be rounded to 0 or 255, respectevely.
      * @param pixel the target pixel to update;
      * @param newBlueValue the blue update;
      * @return the updated pixel.
@@ -43,6 +44,7 @@ public interface Color {
 
     /**
      * Set  the green value of the pixel to the one of newGreenValue.
+     * Node that if the new value exceeds the inferior limit or the superior one, it will be rounded to 0 or 255, respectevely.
      * @param pixel the target pixel to update;
      * @param newGreenValue the blue update;
      * @return the updated pixel.
@@ -51,6 +53,7 @@ public interface Color {
 
     /**
      * Set  the red value of the pixel to the one of newRedValue.
+     * Node that if the new value exceeds the inferior limit or the superior one, it will be rounded to 0 or 255, respectevely.
      * @param pixel the target pixel to update;
      * @param newRedValue the blue update;
      * @return the updated pixel.
@@ -59,6 +62,7 @@ public interface Color {
 
     /**
      * Set  the alpha value of the pixel to the one of newAlphaValue.
+     * Node that if the new value exceeds the inferior limit or the superior one, it will be rounded to 0 or 255, respectevely.
      * @param pixel the target pixel to update;
      * @param newAlphaValue the blue update;
      * @return the updated pixel.

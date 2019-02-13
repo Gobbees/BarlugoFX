@@ -33,10 +33,10 @@ public final class Contrast extends ImageFilterImpl {
         try {
             value = (int) super.getParameter(ParametersName.CONTRAST).getValue();
         } catch (final ClassCastException e) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("The parameter Contrast should be an int");
         }
         if (value < -MAXVALUE || value > MAXVALUE) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("The parameter Contrast exceed the range of accepted value");
         }
         final double contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE)
                 / (MAXVALUE * (MAXVALUE + 4 - value));
