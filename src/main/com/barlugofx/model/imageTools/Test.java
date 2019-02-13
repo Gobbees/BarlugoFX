@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 
@@ -20,7 +21,8 @@ public class Test {
      * @throws IOException a.
      */
     public static void main(final String[] args) throws IOException {
-        final File file  = new File("/home/matteo/Desktop/a.jpg");
+        long time = System.nanoTime();
+        final File file  = new File("/Users/gg_mbpro/Desktop/a.png");
         final BufferedImage image = ImageIO.read(file);
         final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
         System.out.println(toWorkWith.getHeight());
@@ -35,9 +37,11 @@ public class Test {
             }
         }
         final BufferedImage output = ImageImpl.convertPixelsToBufferedImage(removeRed);
-        ImageIO.write(output, "jpg", new File("/home/matteo/Desktop/b.jpg"));
+        ImageIO.write(output, "jpg", new File("/Users/gg_mbpro/Desktop/b.jpg"));
+        time = System.nanoTime() - time;
 
-        System.out.println(Arrays.toString(ImageIO.getWriterFormatNames()));
+        System.out.println("Execution time in milliseconds : " + 
+                time / 1000000);
 
     }
 }

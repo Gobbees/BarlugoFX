@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<!-- SUPER TEMP. ONLY TO TEST THE CORRECT OPENING OF THE MAIN VIEW-->
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css">
+   <top>
+    <AnchorPane styleClass="menuPane">
+        <children>
+            <MenuBar prefHeight="40" BorderPane.alignment="CENTER" styleClass="menu-bar" prefWidth="1000" style="-fx-border-width: 2 2 2 2; -fx-border-color:white">
+                <menus>
+                <Menu mnemonicParsing="false" text="file">
+                <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label text="bArlugofx" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" AnchorPane.bottomAnchor="10.0" id="label"/>
+      </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" styleClass="pane">
+         <items>
+         
+            <ScrollPane prefHeight="370.0" prefWidth="445.0" style="-fx-background-color:red">
+            <content>
+                <ImageView pickOnBounds="true" preserveRatio="true">
+                <image>
+                
+                </image>
+                </ImageView>
+            </content>
+            </ScrollPane>
+            
+            <AnchorPane prefHeight="1000">
+                <children>
+                    <Label text="Tools" style="-fx-text-fill:white" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+                    
+                    <ScrollPane  maxHeight="500">
+                    <content>
+                    <Label text="ciao" style="-fx-text-fill:white"/>
+                    
+
+                    </content>
+                    </ScrollPane>
+                    <!--  <JFXListView AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0"/>-->
+                </children>
+            </AnchorPane>
+            
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>

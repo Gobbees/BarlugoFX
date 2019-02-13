@@ -44,7 +44,7 @@ public class LoadingView {
         vController.setStage(stage);
         //init scene
         scene = new Scene(root, stage.getScene().widthProperty().get(), stage.getScene().heightProperty().get());
-        FadeTransition ft = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), root);
+        final FadeTransition ft = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), root);
         ft.play();
         //changes the scene
         stage.setScene(scene);

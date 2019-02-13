@@ -1,7 +1,14 @@
 package com.barlugofx.ui;
 
+import java.awt.Dimension;
+
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.value.WritableValue;
 import javafx.scene.Node;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -38,10 +45,47 @@ public final class Animations {
     }
 
     /**
-     * 
+     * Returns a Timeline that resizes the stage to a certain dimension.
+     * @param duration the duration of the timeline
+     * @param stage the stage that will be resized
+     * @param step the step of each increment
+     * @param finalDimension the final dimension of the stage after the resize
+     * @return the animation Timeline
      */
-    public static void resizeToFullScreen() {
-
+    public static Timeline resizeToFullScreen(final Duration duration, final Stage stage, final double step, final Dimension finalDimension) {
+        WritableValue<Double> writableWidth = new WritableValue<Double>() {
+            @Override
+            public Double getValue() {
+                return stage.getWidth();
+            }
+            @Override
+            public void setValue(final Double value) {
+                stage.setWidth(value);
+                stage.centerOnScreen();
+            }
+        };
+        WritableValue<Double> writableHeight = new WritableValue<Double>() {
+            @Override
+            public Double getValue() {
+                return stage.getHeight();
+            }
+            @Override
+            public void setValue(final Double value) {
+                stage.setHeight(value);
+                stage.centerOnScreen();
+            }
+        };
+        Timeline tl = new Timeline();
+        tl.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO, // set start position at 0
+                    new KeyValue(writableWidth, writableWidth.getValue() + step),
+                    new KeyValue(writableHeight, writableHeight.getValue() + step)
+                ),
+                new KeyFrame(duration,
+                    new KeyValue(writableWidth, finalDimension.getWidth()),
+                    new KeyValue(writableHeight, finalDimension.getHeight())
+                )
+        );
+        return tl;
     }
-
 }

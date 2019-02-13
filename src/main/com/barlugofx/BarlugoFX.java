@@ -25,7 +25,8 @@ public final class BarlugoFX extends Application {
             new WelcomeView();
         } catch (Exception e) {
             //add log
-            Alert alert = new Alert(AlertType.ERROR);
+            e.printStackTrace();
+            final Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Ops, an error occurred");
             alert.setContentText(e.getMessage());

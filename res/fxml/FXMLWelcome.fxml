@@ -21,7 +21,7 @@
              </center>
              <bottom>
 	             <Label fx:id="lblDescription" alignment="CENTER" contentDisplay="BOTTOM" text="A universal photo editor" 
-	               BorderPane.alignment="TOP_CENTER" styleClass="label">
+	               BorderPane.alignment="TOP_CENTER" id="label">
 	               <graphic>
 	                  <Separator fx:id="separLabel" orientation="VERTICAL"/>
 	               </graphic>
@@ -29,10 +29,10 @@
              </bottom>
         </BorderPane>    
         <JFXButton fx:id="btnImage" mnemonicParsing="false" text="Open image" onMouseClicked="#openImage" 
-            onMouseEntered="#imgEntered" onMouseExited="#imgExited" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="button"
+            onMouseEntered="#imgEntered" onMouseExited="#imgExited" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" id="button"
             style="-fx-border-width: 0 0 1 1" />
         <JFXButton fx:id="btnProject" mnemonicParsing="false" text="Open bfx project" onMouseClicked="#openProject"
-             onMouseEntered="#prjEntered" onMouseExited="#prjExited"  AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="button" 
+             onMouseEntered="#prjEntered" onMouseExited="#prjExited"  AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" id="button" 
              style="-fx-border-width: 0 0 0 1" />
     </children>
 </AnchorPane>

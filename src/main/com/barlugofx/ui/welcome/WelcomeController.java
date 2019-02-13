@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.barlugofx.ui.Animations;
 import com.barlugofx.ui.ViewController;
+import com.barlugofx.ui.main.MainView;
 import com.jfoenix.controls.JFXButton;
 
 import javafx.animation.FadeTransition;
@@ -78,7 +79,7 @@ public class WelcomeController implements ViewController {
     @FXML
     public void openImage() throws IOException {
         final FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new ExtensionFilter("Select an image", "*.png", "*.jpg", "*.tiff", "*.gif"));
+        fc.getExtensionFilters().add(new ExtensionFilter("Select an image", "*.png", "*.jpg", "*.tiff", "*.gif", "*.bmp"));
         fc.setTitle(btnImage.getText());
         openMainView(fc.showOpenDialog(stage));
     }
@@ -126,11 +127,11 @@ public class WelcomeController implements ViewController {
         if (file != null) {
             FadeTransition ft = Animations.fadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
             ft.setOnFinished(e -> {
-//                try {
-//                    new MainView(stage, file);
-//                } catch (IOException e1) {
-//                    e1.printStackTrace();
-//                }
+                try {
+                    new MainView(stage, file);  //temp. the constructor of mainview will not throw exception.
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             });
             ft.play();
         }

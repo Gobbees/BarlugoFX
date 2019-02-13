@@ -1,12 +1,22 @@
 @font-face {
     src: url(../font/MajorMonoDisplay-Regular.ttf),
 }
-
+/*SUPER TEMP */
 .anchorPane {
     -fx-background-color: #333130;
 }
 
-.button {
+.pane {
+    -fx-background-color: #333130;
+    -fx-border-width: 0 0 0 0;
+    -fx-border-color: white;
+}
+
+.menuPane {
+    -fx-background-color: #333130;
+}
+
+#button {
     -jfx-button-type: RAISED;
     -fx-text-fill: white;
     -fx-background-color: #312f2e;
@@ -15,8 +25,55 @@
     -fx-font-size: 20;
     -jfx-disable-visual-focus: true;
 }
-.label {
+
+#label {
     -fx-font-family: "Major Mono Display";
-    -fx-text-fill: white;
+    -fx-text-fill: #5affd0;
     -fx-font-size: 20;
+}
+
+.menu-bar {
+    -fx-background-color: #333130;
+    -fx-font-family: "Major Mono Display";   
+    -fx-selection-bar: #333130 ;
+    -fx-text-background-color: #5affd0 ;
+    -fx-focused-text-base-color:  #5affd0  ;
+}
+
+.menu .label{
+    -fx-text-base-color: white;
+}
+.context-menu {
+    -fx-background-color: #333130;
+    -fx-text-fill:white;
+    -fx-border-width: 0 1 1 1;
+    -fx-border-color: #5affd0;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: #333130;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: #333130;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #5affd0;
+    -fx-background-radius: 0em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #333130;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-padding: 1;
+   -fx-background-color: white;
 }
