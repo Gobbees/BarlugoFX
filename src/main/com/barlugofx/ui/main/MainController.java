@@ -84,8 +84,9 @@ public class MainController implements ViewController {
     }
     //temp
     private void apply(int value) {
+        //imageView.setImage(null);
         final ImageFilter contrast = Brightness.createBrightnees();
-        contrast.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(122));
+        contrast.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(value));
         imageView.setImage(SwingFXUtils.toFXImage(ImageUtilities.convertImageToBufferedImageWithAlpha(contrast.applyFilter(image)), null));
         
     }
