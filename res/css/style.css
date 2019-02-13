@@ -2,14 +2,15 @@
     src: url(../font/MajorMonoDisplay-Regular.ttf),
 }
 /*SUPER TEMP */
-.anchorPane {
+.anchor-pane {
     -fx-background-color: #333130;
 }
 
 .pane {
     -fx-background-color: #333130;
-    -fx-border-width: 0 0 0 0;
+    -fx-border-width: 1 1 1 1;
     -fx-border-color: white;
+    
 }
 
 .menuPane {
@@ -26,10 +27,26 @@
     -jfx-disable-visual-focus: true;
 }
 
+.text-field{
+    -fx-pref-width:50;
+    -fx-pref-height:30;
+    -fx-text-fill:#333130;
+    -fx-background-color:white;
+    -fx-padding: 1 1 1 1;
+    -fx-highlight-fill: pink;
+    -fx-highlight-text-fill: yellow;
+}
+
 #label {
     -fx-font-family: "Major Mono Display";
     -fx-text-fill: #5affd0;
     -fx-font-size: 20;
+}
+
+#toolabel {
+    -fx-font-family: "Major Mono Display";
+    -fx-text-fill: white;
+    -fx-font-size: 14;
 }
 
 .menu-bar {
@@ -40,9 +57,42 @@
     -fx-focused-text-base-color:  #5affd0  ;
 }
 
+.slider {
+    -show-value-on-interaction:false;
+    -jfx-indicator-position: left;
+}
+
+.bar {
+    -fx-background-color: transparent ;
+}
+
+/* Styling the slider thumb */
+.jfx-slider > .thumb {
+     -fx-background-color: #5affd0;
+}
+
+.jfx-slider > .track {
+     -fx-background-color: black;
+}
+
+.jfx-slider > .colored-track {
+     -fx-background-color: white;
+}
+
+/* Styling the animated thumb */
+.jfx-slider > .animated-thumb {
+     -fx-background-color: transparent;
+}
+
+/* Styling the slider value text inside animated thumb */
+.jfx-slider .slider-value {
+     -fx-fill: transparent;
+     -fx-stroke: transparent;
+}
 .menu .label{
     -fx-text-base-color: white;
 }
+
 .context-menu {
     -fx-background-color: #333130;
     -fx-text-fill:white;

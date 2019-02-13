@@ -15,10 +15,15 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import com.jfoenix.controls.JFXMasonryPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Separator?>
 
 <!-- SUPER TEMP. ONLY TO TEST THE CORRECT OPENING OF THE MAIN VIEW-->
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css" fx:controller="com.barlugofx.ui.main.MainController">
    <top>
     <AnchorPane styleClass="menuPane">
         <children>
@@ -49,33 +54,68 @@
       </AnchorPane>
    </top>
    <center>
-      <SplitPane dividerPositions="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" styleClass="pane">
-         <items>
-         
-            <ScrollPane prefHeight="370.0" prefWidth="445.0" style="-fx-background-color:red">
+      <SplitPane dividerPositions="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>       
+            <ScrollPane prefWidth="445.0" style="-fx-background-color:red">
             <content>
-                <ImageView pickOnBounds="true" preserveRatio="true">
-                <image>
-                
-                </image>
+                <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true">
+
                 </ImageView>
             </content>
             </ScrollPane>
             
-            <AnchorPane prefHeight="1000">
-                <children>
-                    <Label text="Tools" style="-fx-text-fill:white" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <SplitPane  fx:id="spRightColumn" orientation="VERTICAL" prefHeight="1000" styleClass="pane">
+                <items>
                     
-                    <ScrollPane  maxHeight="500">
+                    
+                    <ScrollPane  fx:id="spTools"  > 
                     <content>
-                    <Label text="ciao" style="-fx-text-fill:white"/>
+                    <VBox>
+                    <children>
+                        <BorderPane minHeight="50">
+                        <center>
+                        <Label text="Adjustment tools" id="label"/>
+                        </center>
+                        </BorderPane>
+						<AnchorPane fx:id="apane" style="-fx-border-width: 3 0 1 0; -fx-border-color: white"> 
+						  <children>
+						      <Label text="contrast" id="toolabel" AnchorPane.topAnchor="0"  AnchorPane.leftAnchor="0"/>
+						      <JFXSlider fx:id="slider" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
+						      <JFXTextField fx:id="tf" AnchorPane.topAnchor="5"  AnchorPane.rightAnchor="5" />				      
+						  </children>
+                        </AnchorPane>
+
+
+
                     
+                      </children>
+                    </VBox>
 
                     </content>
                     </ScrollPane>
-                    <!--  <JFXListView AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0"/>-->
-                </children>
-            </AnchorPane>
+                    
+                    </items>    
+            </SplitPane>
+            
+            
+            
+            
+            
+            
             
          </items>
       </SplitPane>
