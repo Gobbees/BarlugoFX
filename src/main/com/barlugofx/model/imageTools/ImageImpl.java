@@ -21,7 +21,6 @@ public final class ImageImpl implements Image {
     // integer, this means that the first 8 are at 1, which is exactly the number
     // above
 
-    private final BufferedImage image;
     private final int width;
     private final int height;
     private final boolean hasAlphaChannel;
@@ -33,18 +32,16 @@ public final class ImageImpl implements Image {
                     BufferedImage.TYPE_INT_BGR));
 
     private ImageImpl(final BufferedImage image) {
-        this.image = image;
         width = image.getWidth();
         height = image.getHeight();
         hasAlphaChannel = image.getAlphaRaster() != null;
-        pixels = constructPixels();
+        pixels = constructPixels(image);
     }
 
-    private ImageImpl(final BufferedImage image, final int[][] pixels) {
-        this.image = image;
-        width = image.getWidth();
-        height = image.getHeight();
-        hasAlphaChannel = image.getAlphaRaster() != null;
+    private ImageImpl(final int[][] pixels) {
+        width = pixels[0].length;
+        height = pixels.length;
+        hasAlphaChannel = true;
         this.pixels = pixels;
     }
 
@@ -63,35 +60,13 @@ public final class ImageImpl implements Image {
     }
 
     /**
-     * Builds an image starting from its matrix of pixels.
-     *
+     * Builds an image starting from its matrix of pixels. Note that any successive modification on the pixels will result in a modification
+     * of the image.
      * @param pixels the matrix from which we build on
      * @return a new Image
      */
     public static Image buildFromPixels(final int[][] pixels) {
-        return new ImageImpl(convertPixelsToBufferedImage(pixels), pixels);
-    }
-
-    /**
-     * Converts a matrix of pixels to a bufferedImage.
-     * @param pixels the matrix from which obtaining the bufferedImage.
-     * @return the BufferedImage.
-     */
-    public static BufferedImage convertPixelsToBufferedImage(final int[][] pixels) {
-        final int width = pixels[0].length;
-        final int height = pixels.length;
-        final BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-        final byte[] targetPixel = ((DataBufferByte) target.getRaster().getDataBuffer()).getData();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                final int element = pixels[i][j];
-                targetPixel[i * width * 4 + j * 4] = (byte) (element >> ALPHASHIFT);
-                targetPixel[i * width * 4 + j * 4 + 1] = (byte) (element >> REDSHIFT);
-                targetPixel[i * width * 4 + j * 4 + 2] = (byte) (element >> GREENSHIFT);
-                targetPixel[i * width * 4 + j * 4 + 3] = (byte) element;
-            }
-        }
-        return target;
+        return new ImageImpl(pixels);
     }
 
     @Override
@@ -109,7 +84,7 @@ public final class ImageImpl implements Image {
         return height;
     }
 
-    private int[][] constructPixels() {
+    private int[][] constructPixels(final BufferedImage image) {
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 
         final int[][] result = new int[height][width];

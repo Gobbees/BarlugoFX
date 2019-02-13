@@ -62,70 +62,52 @@ public final class ColorImpl implements Color {
 
     @Override
     public int setBlue(final int pixel, final int newBlueValue) {
-        return (pixel & RESET_BLUE) + newBlueValue;
+        return (pixel & RESET_BLUE) + truncate(newBlueValue);
     }
 
     @Override
     public int setGreen(final int pixel, final int newGreenValue) {
-        return (pixel & RESET_GREEN) + (newGreenValue << GREENSHIFT);
+        return (pixel & RESET_GREEN) + (truncate(newGreenValue) << GREENSHIFT);
     }
 
     @Override
     public int setRed(final int pixel, final int newRedValue) {
-        return (pixel & RESET_RED) + (newRedValue << REDSHIFT);
+        return (pixel & RESET_RED) + (truncate(newRedValue) << REDSHIFT);
     }
 
     @Override
     public int setAlpha(final int pixel, final int newAlphaValue) {
-        return (pixel & RESET_ALPHA) + (newAlphaValue << ALPHASHIFT);
+        return (pixel & RESET_ALPHA) + (truncate(newAlphaValue) << ALPHASHIFT);
     }
 
     @Override
     public int updateRed(final int pixel, final int valueToAdd) {
-        final int newRed = getRed(pixel) + valueToAdd;
-        if (newRed > MAX_CAP) {
-            return setRed(pixel, MAX_CAP);
-        }
-        if (newRed < MIN_CAP) {
-            return setRed(pixel, MIN_CAP);
-        }
-        return setRed(pixel, newRed);
+        return setRed(pixel, getRed(pixel) + valueToAdd);
     }
 
     @Override
     public int updateGreen(final int pixel, final int valueToAdd) {
-        final int newGreen = getGreen(pixel) + valueToAdd;
-        if (newGreen > MAX_CAP) {
-            return setGreen(pixel, MAX_CAP);
-        }
-        if (newGreen < MIN_CAP) {
-            return setGreen(pixel, MIN_CAP);
-        }
-        return setGreen(pixel, newGreen);
+        return setGreen(pixel, getGreen(pixel) + valueToAdd);
     }
 
     @Override
     public int updateBlue(final int pixel, final int valueToAdd) {
-        final int newBlue = getBlue(pixel) + valueToAdd;
-        if (newBlue > MAX_CAP) {
-            return setBlue(pixel, MAX_CAP);
-        }
-        if (newBlue < MIN_CAP) {
-            return setBlue(pixel, MIN_CAP);
-        }
-        return setBlue(pixel, newBlue);
+        return setBlue(pixel, getBlue(pixel) + valueToAdd);
     }
 
     @Override
     public int updateAlpha(final int pixel, final int valueToAdd) {
-        final int newAlpha = getAlpha(pixel) + valueToAdd;
-        if (newAlpha > MAX_CAP) {
-            return setAlpha(pixel, MAX_CAP);
-        }
-        if (newAlpha < MIN_CAP) {
-            return setAlpha(pixel, MIN_CAP);
-        }
-        return setAlpha(pixel, newAlpha);
+        return setAlpha(pixel, getAlpha(pixel) + valueToAdd);
     }
 
+
+    private int truncate(final int rgbValue) {
+        if (rgbValue > MAX_CAP) {
+            return MAX_CAP;
+        }
+        if (rgbValue < MIN_CAP) {
+            return MIN_CAP;
+        }
+        return rgbValue;
+    }
 }

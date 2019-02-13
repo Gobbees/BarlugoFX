@@ -1,4 +1,4 @@
-package com.barlugofx.model.filters.common;
+package com.barlugofx.model.tools.common;
 
 /**
  * A simple implementation of Parameter.

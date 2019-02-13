@@ -1,4 +1,4 @@
-package com.barlugofx.model.filters.common;
+package com.barlugofx.model.tools.common;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,5 +40,10 @@ public abstract class ImageFilterImpl implements ImageFilter {
         parameters.remove(name);
     }
 
-    abstract boolean isAccepted(ParametersName name);
+    /**
+     * a function that returns true if and only if the parameter name is valid.
+     * @param name the parameter name to test.
+     * @return true if valid.
+     */
+    protected abstract boolean isAccepted(ParametersName name);
 }

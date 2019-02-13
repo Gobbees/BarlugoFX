@@ -1,4 +1,4 @@
-package com.barlugofx.model.filters.common;
+package com.barlugofx.model.tools.common;
 
 import com.barlugofx.model.imageTools.Image;
 
@@ -9,7 +9,7 @@ import com.barlugofx.model.imageTools.Image;
 public interface ImageFilter {
 
     /**
-     * Applies the filter to an Image. Note that after this function toApply will be modified.
+     * Applies the filter to toApply and returns the result in a new Image.
      * @param toApply the image to which apply the filter
      * @return the edited image.
      * @throws IllegalStateException if there are not the necessary valid parameters or the parameter is not of the proper type.

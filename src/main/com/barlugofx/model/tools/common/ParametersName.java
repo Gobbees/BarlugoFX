@@ -1,4 +1,4 @@
-package com.barlugofx.model.filters.common;
+package com.barlugofx.model.tools.common;
 
 /**
  * This enum contains the possible parameters a filter can have. Note that each filter have a specific parameter that accepts.
