@@ -1,0 +1,88 @@
+package com.barlugofx.model.tools;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.function.UnaryOperator;
+
+import com.barlugofx.model.imageTools.Image;
+import com.barlugofx.model.tools.common.ImageFilterImpl;
+import com.barlugofx.model.tools.common.Parameter;
+import com.barlugofx.model.tools.common.ParametersName;
+
+/**
+ *  The white balance class implements one of the simpliest auto-balancing algorithm used by gimp. It works discarding pixel colors at
+ *  each end of the Red, Green and Blue histograms which are used by only 0.05% of the pixels in the image
+ *  and stretches the remaining range as much as possible.
+ *  The value in input must be a float between 0 and 1;
+ *  @see <a href="https://docs.gimp.org/2.8/en/gimp-layer-white-balance.html">GIMP documentation</a>
+ */
+public final class WhiteBalance extends ImageFilterImpl {
+    static final int MAXVALUE = 1;
+    static final int MINVALUE = 0;
+
+    private WhiteBalance() {
+    }
+
+    WhiteBalance createWhiteBalance() {
+        return new WhiteBalance();
+    }
+
+    @Override
+    public Image applyFilter(final Image toApply) {
+        float value = 0;
+        final Optional<Parameter<?>> white = super.getParameter(ParametersName.WHITEBALANCE);
+        if (!white.isPresent()) {
+            throw new IllegalStateException("The whitebalance parameter is not present");
+        }
+        try {
+            value = (float) white.get().getValue();
+        } catch (final ClassCastException e) {
+            throw new IllegalStateException("The whilebalance parameter is not a float");
+        }
+        if (value < MINVALUE || value > MAXVALUE) {
+            throw new IllegalStateException("The parameter whitebalance exceed the range of accepted value");
+        }
+        final int[][] pixels = toApply.getImageRGBvalues();
+        for (int i = 0; i < pixels.length; i++) {
+
+        }
+        return null;
+    }
+
+    private int[] rgbValues(final UnaryOperator<Integer> obtainRgb, final int[] array) {
+        final int[] onlyThatColor = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            onlyThatColor[i] = obtainRgb.apply(array[i]);
+        }
+        return onlyThatColor;
+    }
+
+    private int[] whiteBalanceRGB(final int[] array, final float percentile) {
+        final int[] copy = new int[array.length];
+        System.arraycopy(array, 0, copy, 0, array.length);
+        Arrays.sort(copy);
+
+    }
+
+    /**
+     * @see <a href="https://en.wikipedia.org/wiki/Percentile">Percentile</a>
+     */
+    private int percentile(final int[] array, final float percentile) {
+        final float nPercent = (array.length + 1) * percentile / 100;
+        if (nPercent <= 1) {
+            return array[0];
+        } else if (nPercent >= array.length) {
+            return array[array.length - 1];
+        } else {
+            final int intNPercent = (int) nPercent;
+            final double d = nPercent - intNPercent;
+            return (int) (array[intNPercent - 1] + d * (array[intNPercent] - array[intNPercent - 1]));
+        }
+    }
+
+    @Override
+    protected boolean isAccepted(final ParametersName name) {
+        return name == ParametersName.WHITEBALANCE;
+    }
+
+}

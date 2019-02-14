@@ -22,6 +22,10 @@ public enum ParametersName {
      */
     EXPOSURE,
     /**
+     * parameter for WHITEBALANCE filter.
+     */
+    WHITEBALANCE,
+    /**
      * parameter for BRIGHTNESS filter.
      */
     BRIGHTNESS;
