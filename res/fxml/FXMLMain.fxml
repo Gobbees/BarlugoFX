@@ -20,104 +20,216 @@
 <?import javafx.scene.control.TextField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
 
-<!-- SUPER TEMP. ONLY TO TEST THE CORRECT OPENING OF THE MAIN VIEW-->
+<BorderPane fx:id="bpaneMain"
+	xmlns="http://javafx.com/javafx/8.0.1"
+	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
+	fx:controller="com.barlugofx.ui.main.MainController">
+	<top>
+		<AnchorPane fx:id="apaneMenuBar" styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
+			<children>
+				<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+					<menus>
+						<Menu mnemonicParsing="false" text="file">
+							<items>
+								<MenuItem mnemonicParsing="true"
+									text="new photo editing" onAction="#menuNew">
+									<accelerator>
+										<KeyCodeCombination code="n" control="DOWN"
+											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+								<!-- TODO -->
+								<MenuItem mnemonicParsing="false" text="open project">
+									<accelerator>
+										<KeyCodeCombination code="o" control="DOWN"
+											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+								<SeparatorMenuItem />
+								<!-- TODO -->
+								<MenuItem mnemonicParsing="false"
+									text="save as bfx project">
+									<accelerator>
+										<KeyCodeCombination code="s" control="DOWN"
+											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+								<!-- TODO -->
+								<MenuItem mnemonicParsing="false" text="export image">
+									<accelerator>
+										<KeyCodeCombination code="e" control="DOWN"
+											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="edit">
+							<items>
+								<!-- TODO -->
+								<MenuItem mnemonicParsing="true" text="undo">
+									<accelerator>
+										<KeyCodeCombination code="z" control="DOWN"
+											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="tools">
+							<items>
+								<!-- TODO -->
+								<MenuItem mnemonicParsing="false" text="crop" />
+								<MenuItem mnemonicParsing="false" text="rotate +90" />
+								<MenuItem mnemonicParsing="false" text="rotate -90" />
+								<MenuItem mnemonicParsing="false"
+									text="apply .bps preset" />
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="view">
+							<items>
+								<!-- TODO -->
+								<MenuItem mnemonicParsing="false" text="zoom +" />
+								<MenuItem mnemonicParsing="false" text="zoom -" />
+								<SeparatorMenuItem />
+								<MenuItem mnemonicParsing="false"
+									text="toggle full screen" />
+								<MenuItem mnemonicParsing="false" text="minimize" />
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="help">
+							<items>
+								<!-- TODO -->
+								<MenuItem mnemonicParsing="false" text="about" />
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<ImageView fx:id="iviewLogo" preserveRatio="true"
+					AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="5.0">
+					<image>
+						<Image url="@../img/logoTextWhite.png" />
+					</image>
+				</ImageView>
+			</children>
+		</AnchorPane>
+	</top>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css" fx:controller="com.barlugofx.ui.main.MainController">
-   <top>
-    <AnchorPane styleClass="menuPane">
-        <children>
-            <MenuBar prefHeight="40" BorderPane.alignment="CENTER" styleClass="menu-bar" prefWidth="1000" style="-fx-border-width: 2 2 2 2; -fx-border-color:white">
-                <menus>
-                <Menu mnemonicParsing="false" text="file">
-                <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-              <MenuItem mnemonicParsing="false" text="Close" />
-              <MenuItem mnemonicParsing="false" text="Close" />
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Label text="bArlugofx" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" AnchorPane.bottomAnchor="10.0" id="label"/>
-      </children>
-      </AnchorPane>
-   </top>
-   <center>
-      <SplitPane dividerPositions="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>       
-            <ScrollPane prefWidth="445.0" style="-fx-background-color:red">
-            <content>
-                <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true">
+	<!-- TODO -->
+	<center>
+		<SplitPane fx:id="spaneMain" dividerPositions="0.8" style="-fx-border-width: 1 0 0 0">
+			<items>
+				<ScrollPane fx:id="scpaneImage">
+					<content>
+						<ImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image url="@../img/logo.png" />
+							</image>
+						</ImageView>
+					</content>
+				</ScrollPane>
 
-                </ImageView>
-            </content>
-            </ScrollPane>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <SplitPane  fx:id="spRightColumn" orientation="VERTICAL" prefHeight="1000" styleClass="pane">
-                <items>
-                    
-                    
-                    <ScrollPane  fx:id="spTools"  > 
-                    <content>
-                    <VBox>
-                    <children>
-                        <BorderPane minHeight="50">
-                        <center>
-                        <Label text="Adjustment tools" id="label"/>
-                        </center>
-                        </BorderPane>
-						<AnchorPane fx:id="apane" style="-fx-border-width: 3 0 1 0; -fx-border-color: white"> 
-						  <children>
-						      <Label text="contrast" id="toolabel" AnchorPane.topAnchor="0"  AnchorPane.leftAnchor="0"/>
-						      <JFXSlider fx:id="slider" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
-						      <JFXTextField fx:id="tf" AnchorPane.topAnchor="5"  AnchorPane.rightAnchor="5" />				      
-						  </children>
-                        </AnchorPane>
+				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL" style="-fx-border-width: 0 0 0 0">
+					<items>
+						<ScrollPane fx:id="scpaneAdjs" >
+							<content>
+								<VBox fx:id="vboxAdjs">
+									<children>
+									
+								       <TitledPane fx:id="tpaneLights" text="lights" id="firstitlepane" style="-fx-border-width: 0 0 0 0">
+									       <content>
+									           <VBox>
+									               <children>
 
+				                                        <AnchorPane fx:id="apaneExposure" minHeight="70" style="-fx-border-width: 0 0 0 0">
+				                                            <children>
+				                                                <Label text="exposure" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+				                                                <JFXSlider fx:id="slExposure" id="whiteblackslider"
+				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
+				                                                <JFXTextField fx:id="tfExposure"
+				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+				                                            </children>
+				                                        </AnchorPane>
+				                                        
+				                                        <AnchorPane fx:id="apaneContrast" minHeight="70" style="-fx-border-width: 0 0 0 0">
+				                                            <children>
+				                                                <Label text="contrast" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+				                                                <JFXSlider fx:id="slContrast" id="blackwhiteslider"
+				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+				                                                    AnchorPane.rightAnchor="10" />
+				                                                <JFXTextField fx:id="tfContrast"
+				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+				                                            </children>
+				                                        </AnchorPane>
+				                                        
+				                                        <AnchorPane fx:id="apaneBrightness" minHeight="70" style="-fx-border-width: 6 0 6 0">
+				                                            <children>
+				                                                <Label text="brightness" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+				                                                <JFXSlider fx:id="slBrightness" id="whiteblackslider"
+				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+				                                                    AnchorPane.rightAnchor="10" />
+				                                                <JFXTextField fx:id="tfBrightness"
+				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+				                                            </children>
+				                                        </AnchorPane>
+									               </children>
+									           </VBox>
+									       </content>
+									   </TitledPane>
+										
+										
+										
+										<TitledPane fx:id="tpaneColors" text="colors" style="-fx-border-width: 1 0 0 0">
+                                           <content>
+                                               <VBox>
+                                                   <children>
 
-
-                    
-                      </children>
-                    </VBox>
-
-                    </content>
-                    </ScrollPane>
-                    
-                    </items>    
-            </SplitPane>
-            
-            
-            
-            
-            
-            
-            
-         </items>
-      </SplitPane>
-   </center>
+                                                        <AnchorPane fx:id="apaneWhitebalance" minHeight="70" style="-fx-border-width: 1 0 0 0">
+                                                            <children>
+                                                                <Label text="white balance" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slWhitebalance" id="whitebalanceslider"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfWhitebalance"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        
+                                                        <AnchorPane fx:id="apaneSaturation" minHeight="70" style="-fx-border-width: 0 0 0 0">
+                                                            <children>
+                                                                <Label text="saturation" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slSaturation" id="saturationslider"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+                                                                    AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfSaturation"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        
+                                                        <AnchorPane fx:id="apaneHue" minHeight="70" style="-fx-border-width: 6 0 6 0">
+                                                            <children>
+                                                                <Label text="hue" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slHue" id="hueslider"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+                                                                    AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfHue"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                   </children>
+                                               </VBox>
+                                           </content>
+                                       </TitledPane>                                      
+									</children>
+								</VBox>
+							</content>
+						</ScrollPane>
+						<ListView/>
+					</items>
+				</SplitPane>
+			</items>
+		</SplitPane>
+	</center>
 </BorderPane>
