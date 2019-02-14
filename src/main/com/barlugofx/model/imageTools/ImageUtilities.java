@@ -90,7 +90,7 @@ public final class ImageUtilities {
      * @param pixelsHSB the float 3-D array that we need to convert.
      * @return the converted pixels matrix
      */
-    public static int[][] hsbToRgb(final float[][][] pixelsHSB){
+    public static int[][] hsbToRgb(final float[][][] pixelsHSB) {
         final int[][] pixels = new int[pixelsHSB.length][pixelsHSB[0].length];
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {

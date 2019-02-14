@@ -100,8 +100,8 @@ public final class ColorManipulatorImpl implements ColorManipulator {
         return setAlpha(pixel, getAlpha(pixel) + valueToAdd);
     }
 
-
-    private int truncate(final int rgbValue) {
+    @Override
+    public int truncate(final int rgbValue) {
         if (rgbValue > MAX_CAP) {
             return MAX_CAP;
         }

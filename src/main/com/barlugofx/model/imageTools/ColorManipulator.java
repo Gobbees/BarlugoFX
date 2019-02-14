@@ -115,4 +115,11 @@ public interface ColorManipulator {
      * @return the int.
      */
     int pixelsToInt(int red, int blue, int green, int alpha);
+
+    /**
+     * Truncate a color between 0 and 255.
+     * @param rgbValue the color to truncate
+     * @return the truncated color.
+     */
+    int truncate(int rgbValue);
 }
