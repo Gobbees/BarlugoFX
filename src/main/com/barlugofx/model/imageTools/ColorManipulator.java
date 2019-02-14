@@ -6,7 +6,7 @@ package com.barlugofx.model.imageTools;
  * This inferface expose the function we need to work with rgb values.
  *
  */
-public interface Color {
+public interface ColorManipulator {
     /**
      * Return the value from 0 to 255, of the red component for the pixel.
      * @param pixel the pixel from which we extract the red value

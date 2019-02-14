@@ -1,7 +1,7 @@
 package com.barlugofx.model.tools;
 
-import com.barlugofx.model.imageTools.Color;
-import com.barlugofx.model.imageTools.ColorImpl;
+import com.barlugofx.model.imageTools.ColorManipulator;
+import com.barlugofx.model.imageTools.ColorManipulatorImpl;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.tools.common.ImageFilterImpl;
@@ -36,7 +36,7 @@ public final class Brightness extends ImageFilterImpl {
         if (value < -MAXVALUE || value > MAXVALUE) {
             throw new IllegalStateException("The parameter Brightness exceed the range of accepted value");
         }
-        final Color setter = ColorImpl.createColorExtractor();
+        final ColorManipulator setter = ColorManipulatorImpl.createColorExtractor();
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         for (int i = 0; i < pixels.length; i++) {
