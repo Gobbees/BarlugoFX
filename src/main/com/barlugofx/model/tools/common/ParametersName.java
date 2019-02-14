@@ -10,6 +10,18 @@ public enum ParametersName {
      */
     CONTRAST,
     /**
+     * parameter for SATURATION filter.
+     */
+    SATURATION,
+    /**
+     *  parameter for HUE filter.
+     */
+    HUE,
+    /**
+     * parameter for EXPOSURE (BRIGHTNESS in HSB) filter.
+     */
+    EXPOSURE,
+    /**
      * parameter for BRIGHTNESS filter.
      */
     BRIGHTNESS;

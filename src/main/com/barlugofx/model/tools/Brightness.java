@@ -1,10 +1,13 @@
 package com.barlugofx.model.tools;
 
+import java.util.Optional;
+
 import com.barlugofx.model.imageTools.ColorManipulator;
 import com.barlugofx.model.imageTools.ColorManipulatorImpl;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.tools.common.ImageFilterImpl;
+import com.barlugofx.model.tools.common.Parameter;
 import com.barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -28,10 +31,14 @@ public final class Brightness extends ImageFilterImpl {
     @Override
     public Image applyFilter(final Image toApply) {
         int value = 0;
+        final Optional<Parameter<?>> brightness = super.getParameter(ParametersName.BRIGHTNESS);
+        if (!brightness.isPresent()) {
+            throw new IllegalStateException("The brightness parameter is not present");
+        }
         try {
-            value = (int) super.getParameter(ParametersName.BRIGHTNESS).getValue();
+            value = (int) brightness.get().getValue();
         } catch (final ClassCastException e) {
-            throw new IllegalStateException("The parameter Brightness should be an int");
+            throw new IllegalStateException("The brightness parameter is not an int");
         }
         if (value < -MAXVALUE || value > MAXVALUE) {
             throw new IllegalStateException("The parameter Brightness exceed the range of accepted value");

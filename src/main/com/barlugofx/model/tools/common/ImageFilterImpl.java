@@ -2,6 +2,7 @@ package com.barlugofx.model.tools.common;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This abstact class implements the common function to all filters implementing ImageFilter.
@@ -11,16 +12,13 @@ public abstract class ImageFilterImpl implements ImageFilter {
     private final Map<ParametersName, Parameter<?>> parameters = new HashMap<>();
 
     /**
-     * This function return the parameter associated with the name.
+     * This function return (optionally) the parameter associated with the name.
      * @param name the name of the parameter to get
      * @return the parameter
-     * @throws IllegalArgumentException if the parameter is not present.
+     *
      */
-    protected Parameter<?> getParameter(final ParametersName name) {
-        if (!parameters.containsKey(name)) {
-            throw new IllegalArgumentException("the name specified is not present in the filter parameters");
-        }
-        return parameters.get(name);
+    protected Optional<Parameter<?>> getParameter(final ParametersName name) {
+        return Optional.ofNullable(parameters.get(name));
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.barlugofx.model.tools;
 
+import java.util.Optional;
+
 import com.barlugofx.model.imageTools.ColorManipulator;
 import com.barlugofx.model.imageTools.ColorManipulatorImpl;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.tools.common.ImageFilterImpl;
+import com.barlugofx.model.tools.common.Parameter;
 import com.barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -30,10 +33,14 @@ public final class Contrast extends ImageFilterImpl {
     @Override
     public Image applyFilter(final Image toApply) {
         int value = 0;
+        final Optional<Parameter<?>> contrast = super.getParameter(ParametersName.CONTRAST);
+        if (!contrast.isPresent()) {
+            throw new IllegalStateException("The contrast parameter is not present");
+        }
         try {
-            value = (int) super.getParameter(ParametersName.CONTRAST).getValue();
+            value = (int) contrast.get().getValue();
         } catch (final ClassCastException e) {
-            throw new IllegalStateException("The parameter Contrast should be an int");
+            throw new IllegalStateException("The contrast parameter is not an int");
         }
         if (value < -MAXVALUE || value > MAXVALUE) {
             throw new IllegalStateException("The parameter Contrast exceed the range of accepted value");

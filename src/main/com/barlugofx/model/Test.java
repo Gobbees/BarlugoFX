@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.imageTools.ImageUtilities;
-import com.barlugofx.model.tools.Brightness;
+import com.barlugofx.model.tools.HSBModifier;
 import com.barlugofx.model.tools.common.ImageFilter;
 import com.barlugofx.model.tools.common.ParameterImpl;
 import com.barlugofx.model.tools.common.ParametersName;
@@ -31,11 +31,10 @@ public class Test {
         final File file  = new File("/home/matteo/Desktop/0.jpeg");
         final BufferedImage image = ImageIO.read(file);
         final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
-        final ImageFilter contrast = Brightness.createBrightnees();
-        contrast.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(122));
-        final BufferedImage output = ImageUtilities.convertImageToBufferedImageWithAlpha(contrast.applyFilter(toWorkWith));
-        System.out.println(image.getType());
-        System.out.println(output.getType());
+        final ImageFilter hsb = HSBModifier.createHSB();
+        hsb.addParameter(ParametersName.EXPOSURE, new ParameterImpl<>((float)1));
+        hsb.addParameter(ParametersName.SATURATION, new ParameterImpl<>((float)-1));
+        final BufferedImage output = ImageUtilities.convertImageToBufferedImageWithAlpha(hsb.applyFilter(toWorkWith));
         ImageIO.write(output, "png", new File("/home/matteo/Desktop/2.png"));
         time = System.nanoTime() - time;
 

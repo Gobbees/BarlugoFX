@@ -19,7 +19,6 @@ import com.barlugofx.model.tools.common.ParametersName;
 import com.barlugofx.ui.Animations;
 import com.barlugofx.ui.loading.LoadingView;
 
-import apple.laf.JRSUIUtils.ScrollBar;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
