@@ -18,6 +18,18 @@ public enum ParametersName {
      */
     HUE,
     /**
+     * parameter for RGBCHANGES filter.
+     */
+    RED,
+    /**
+     * parameter for RGBCHANGES filter.
+     */
+    BLUE,
+    /**
+     * parameter for RGBCHANGES filter.
+     */
+    GREEN,
+    /**
      * parameter for EXPOSURE (BRIGHTNESS in HSB) filter.
      */
     EXPOSURE,
