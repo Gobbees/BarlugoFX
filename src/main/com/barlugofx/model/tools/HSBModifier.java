@@ -35,9 +35,9 @@ public final class HSBModifier extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final float hue = super.getValueFromParameter(ParametersName.HUE, 0, Float.MAX_VALUE, 0);
-        final float saturation = getValueFromParameter(ParametersName.SATURATION, 0, Float.MAX_VALUE, 0);
-        final float exposure = getValueFromParameter(ParametersName.EXPOSURE, 0, Float.MAX_VALUE, 0);
+        final float hue = super.getValueFromParameter(ParametersName.HUE, 0, Float.MAX_VALUE, 0f);
+        final float saturation = getValueFromParameter(ParametersName.SATURATION, 0, Float.MAX_VALUE, 0f);
+        final float exposure = getValueFromParameter(ParametersName.EXPOSURE, 0, Float.MAX_VALUE, 0f);
 
         if (saturation < MIN || saturation > MAX) {
             throw new IllegalStateException("Saturation should be between -1 and 1");

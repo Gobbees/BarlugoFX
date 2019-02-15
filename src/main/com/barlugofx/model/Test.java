@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.imageTools.ImageUtilities;
-import com.barlugofx.model.tools.Brightness;
+import com.barlugofx.model.tools.BlackAndWhite;
 import com.barlugofx.model.tools.common.ImageFilter;
 import com.barlugofx.model.tools.common.ParameterImpl;
 import com.barlugofx.model.tools.common.ParametersName;
@@ -31,10 +31,12 @@ public class Test {
         final File file  = new File("/home/matteo/Desktop/0.jpeg");
         final BufferedImage image = ImageIO.read(file);
         final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
-        final ImageFilter hsb = Brightness.createBrightnees();
-        hsb.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>("ciao"));
+        final ImageFilter hsb = BlackAndWhite.createBlackAndWhite();
+        hsb.addParameter(ParametersName.WRED, new ParameterImpl<>(0.0));
+        hsb.addParameter(ParametersName.WGREEN, new ParameterImpl<>(1.0));
+        hsb.addParameter(ParametersName.WBLUE, new ParameterImpl<>(0.8));
         final BufferedImage output = ImageUtilities.convertImageToBufferedImageWithAlpha(hsb.applyFilter(toWorkWith));
-        ImageIO.write(output, "png", new File("/home/matteo/Desktop/2.png"));
+        ImageIO.write(output, "png", new File("/home/matteo/Desktop/3.png"));
         time = System.nanoTime() - time;
 
         System.out.println("Execution time in milliseconds : " +

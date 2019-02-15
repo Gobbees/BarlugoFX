@@ -26,14 +26,14 @@ public abstract class ImageFilterImpl implements ImageFilter {
         if (isAccepted(name) && !parameters.containsKey(name)) {
             parameters.put(name, value);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("A parameter is already present, please remove it.");
         }
     }
 
     @Override
     public final void removeParameter(final ParametersName name) {
         if (!parameters.containsKey(name)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The parameter is not present");
         }
         parameters.remove(name);
     }
