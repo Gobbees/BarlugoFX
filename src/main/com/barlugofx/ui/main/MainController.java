@@ -21,6 +21,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -112,6 +113,13 @@ public class MainController implements ViewController {
         this.stage = stage;
         initComponentSize();
         addListeners();
+        //temp
+        iviewLogo.setFitHeight(menuBar.getHeight() - 10);
+        //iviewLogo.setFitHeight(menuBar.getHeight());
+        System.out.println(System.getProperty("os.name"));
+//        IF (SYSTEM.GETPROPERTY("OS.NAME").TOLOWERCASE().EQUALS("MAC OS X")) {
+//            MENUBAR.SETUSESYSTEMMENUBAR(TRUE);
+//        }
         //slider related
 //        slider.setValue(0);
 //        slider.setMin(-100);
@@ -147,12 +155,12 @@ public class MainController implements ViewController {
 //            }
 //        });
         
-        KeyCombination kc = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_ANY);
-        Runnable rn = () -> stage.setIconified(true);;;
+        KeyCombination kc = new KeyCharacterCombination("+", KeyCombination.CONTROL_DOWN);
+        Runnable rn = () -> System.out.println("CIAO");
         
         stage.getScene().getAccelerators().put(kc,  rn);
  
-        iviewLogo.setFitWidth(stage.getScene().getWidth() / 12);
+        //iviewLogo.setFitWidth(stage.getScene().getWidth() / 12);
         AnchorPane.setRightAnchor(iviewLogo, stage.getScene().getWidth() / 60);
         
     }
@@ -180,7 +188,7 @@ public class MainController implements ViewController {
     }
     //
     @FXML
-    public void menuNew() {
+    public void print() {
         System.out.println("New");
     }
     

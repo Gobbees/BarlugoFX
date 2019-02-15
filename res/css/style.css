@@ -1,20 +1,23 @@
 @font-face {
     src: url(../font/Inconsolata-Regular.ttf);
 }
+@font-face {
+    src: url(../font/Inconsolata-Bold.ttf);
+}
 
 .button {
     -jfx-button-type: RAISED;
     -fx-text-fill: white;
     -fx-background-color: #312f2e;
     -fx-border-color: #5affd0;
-    -fx-font-family: "arial";
+    -fx-font-family: "Inconsolata Bold";
     -fx-font-size: 20;
     -jfx-disable-visual-focus: true;
 }
 
 /* LABELS */
 #generalabel {
-    -fx-font-family: "Inconsolata Regular";
+    -fx-font-family: "Inconsolata Bold";
     -fx-text-fill: #5affd0;
     -fx-font-size: 20;
 }
@@ -71,7 +74,8 @@
     -fx-background-color: #333130;
     -fx-selection-bar: #333130 ;
     -fx-text-background-color: #5affd0;
-    -fx-font-family: "Inconsolata Regular";   
+    -fx-font-family: "Inconsolata Regular";
+    -fx-font-size: 15;  
     -fx-focused-text-base-color:  #5affd0;
 }
 .menu .label{
