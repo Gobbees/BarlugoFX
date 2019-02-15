@@ -50,6 +50,22 @@ public enum ParametersName {
      */
     WHITEBALANCE,
     /**
+     * parameter for CROP filter.
+     */
+    X1,
+    /**
+     * parameter for CROP filter.
+     */
+    X2,
+    /**
+     * parameter for CROP filter.
+     */
+    Y1,
+    /**
+     * parameter for CROP filter.
+     */
+    Y2,
+    /**
      * parameter for BRIGHTNESS filter.
      */
     BRIGHTNESS;
