@@ -24,6 +24,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.input.KeyCharacterCombination?>
 
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
@@ -34,17 +35,16 @@
 			<children>
 				<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
 					<menus>
-						<Menu mnemonicParsing="false" text="file">
+						<Menu mnemonicParsing="false" text="File">
 							<items>
-								<MenuItem mnemonicParsing="true"
-									text="new photo editing" onAction="#menuNew">
+								<MenuItem mnemonicParsing="true" text="New photo editing" >
 									<accelerator>
 										<KeyCodeCombination code="n" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="open project">
+								<MenuItem mnemonicParsing="false" text="Open project">
 									<accelerator>
 										<KeyCodeCombination code="o" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -52,15 +52,14 @@
 								</MenuItem>
 								<SeparatorMenuItem />
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false"
-									text="save as bfx project">
+								<MenuItem mnemonicParsing="false" text="Save as bfx project">
 									<accelerator>
 										<KeyCodeCombination code="s" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="export image">
+								<MenuItem mnemonicParsing="false" text="Export">
 									<accelerator>
 										<KeyCodeCombination code="e" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -68,50 +67,48 @@
 								</MenuItem>
 							</items>
 						</Menu>
-						<Menu mnemonicParsing="false" text="edit">
+						<Menu mnemonicParsing="false" text="Edit">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="true" text="undo">
+								<MenuItem mnemonicParsing="true" text="Undo">
 									<accelerator>
-										<KeyCodeCombination code="z" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+										<KeyCodeCombination code="z" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 							</items>
 						</Menu>
-						<Menu mnemonicParsing="false" text="tools">
+						<Menu mnemonicParsing="false" text="Tools">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="crop" />
-								<MenuItem mnemonicParsing="false" text="rotate +90" />
-								<MenuItem mnemonicParsing="false" text="rotate -90" />
+								<MenuItem mnemonicParsing="false" text="Crop" />
+								<MenuItem mnemonicParsing="false" text="Rotate +90" />
+								<MenuItem mnemonicParsing="false" text="Rotate -90" />
 								<MenuItem mnemonicParsing="false"
-									text="apply .bps preset" />
+									text="Apply .bps preset" />
 							</items>
 						</Menu>
-						<Menu mnemonicParsing="false" text="view">
+						<Menu mnemonicParsing="false" text="View">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="zoom +" />
-								<MenuItem mnemonicParsing="false" text="zoom -" />
+								<MenuItem mnemonicParsing="false" text="Zoom +" onAction="#print"/>
+								<MenuItem mnemonicParsing="false" text="Zoom -" />
 								<SeparatorMenuItem />
 								<MenuItem mnemonicParsing="false"
-									text="toggle full screen" />
-								<MenuItem mnemonicParsing="false" text="minimize" />
+									text="Toggle full screen" />
+								<MenuItem mnemonicParsing="false" text="Minimize" />
 							</items>
 						</Menu>
-						<Menu mnemonicParsing="false" text="help">
+						<Menu mnemonicParsing="false" text="Help">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="about" />
+								<MenuItem mnemonicParsing="false" text="About" />
 							</items>
 						</Menu>
 					</menus>
 				</MenuBar>
-				<ImageView fx:id="iviewLogo" preserveRatio="true"
-					AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="5.0">
+				<ImageView fx:id="iviewLogo" preserveRatio="true" pickOnBounds="true" AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.bottomAnchor="5.0">
 					<image>
-						<Image url="@../img/logoTextWhite.png" />
+						<Image url="@../img/logoTextColored.png" />
 					</image>
 				</ImageView>
 			</children>
@@ -139,14 +136,14 @@
 								<VBox fx:id="vboxAdjs">
 									<children>
 									
-								       <TitledPane fx:id="tpaneLights" text="lights" id="firstitlepane" style="-fx-border-width: 0 0 0 0">
+								       <TitledPane fx:id="tpaneLights" text="Lights" id="firstitlepane" style="-fx-border-width: 0 0 0 0">
 									       <content>
 									           <VBox>
 									               <children>
 
 				                                        <AnchorPane fx:id="apaneExposure" minHeight="70" style="-fx-border-width: 0 0 0 0">
 				                                            <children>
-				                                                <Label text="exposure" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+				                                                <Label text="Exposure" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
 				                                                <JFXSlider fx:id="slExposure" id="whiteblackslider"
 				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
 				                                                <JFXTextField fx:id="tfExposure"
@@ -156,7 +153,7 @@
 				                                        
 				                                        <AnchorPane fx:id="apaneContrast" minHeight="70" style="-fx-border-width: 0 0 0 0">
 				                                            <children>
-				                                                <Label text="contrast" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+				                                                <Label text="Contrast" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
 				                                                <JFXSlider fx:id="slContrast" id="blackwhiteslider"
 				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
 				                                                    AnchorPane.rightAnchor="10" />
@@ -167,7 +164,7 @@
 				                                        
 				                                        <AnchorPane fx:id="apaneBrightness" minHeight="70" style="-fx-border-width: 6 0 6 0">
 				                                            <children>
-				                                                <Label text="brightness" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+				                                                <Label text="Brightness" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
 				                                                <JFXSlider fx:id="slBrightness" id="whiteblackslider"
 				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
 				                                                    AnchorPane.rightAnchor="10" />
@@ -182,14 +179,14 @@
 										
 										
 										
-										<TitledPane fx:id="tpaneColors" text="colors" style="-fx-border-width: 1 0 0 0">
+										<TitledPane fx:id="tpaneColors" text="Colors" style="-fx-border-width: 1 0 0 0">
                                            <content>
                                                <VBox>
                                                    <children>
 
                                                         <AnchorPane fx:id="apaneWhitebalance" minHeight="70" style="-fx-border-width: 1 0 0 0">
                                                             <children>
-                                                                <Label text="white balance" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <Label text="White balance" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
                                                                 <JFXSlider fx:id="slWhitebalance" id="whitebalanceslider"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
                                                                 <JFXTextField fx:id="tfWhitebalance"
@@ -199,7 +196,7 @@
                                                         
                                                         <AnchorPane fx:id="apaneSaturation" minHeight="70" style="-fx-border-width: 0 0 0 0">
                                                             <children>
-                                                                <Label text="saturation" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <Label text="Saturation" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
                                                                 <JFXSlider fx:id="slSaturation" id="saturationslider"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
@@ -210,7 +207,7 @@
                                                         
                                                         <AnchorPane fx:id="apaneHue" minHeight="70" style="-fx-border-width: 6 0 6 0">
                                                             <children>
-                                                                <Label text="hue" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <Label text="Hue" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
                                                                 <JFXSlider fx:id="slHue" id="hueslider"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
