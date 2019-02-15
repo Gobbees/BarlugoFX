@@ -9,7 +9,8 @@
 <?import javafx.scene.control.Separator?>
 
 <AnchorPane fx:id="apaneMain" fx:controller="com.barlugofx.ui.welcome.WelcomeController" 
-            xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css" styleClass="anchorPane">
+            xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css" 
+            styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
     <children>
 	    <BorderPane fx:id="bpaneLeft" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
              <center>
@@ -21,7 +22,7 @@
              </center>
              <bottom>
 	             <Label fx:id="lblDescription" alignment="CENTER" contentDisplay="BOTTOM" text="A universal photo editor" 
-	               BorderPane.alignment="TOP_CENTER" id="label">
+	               BorderPane.alignment="TOP_CENTER" id="generalabel">
 	               <graphic>
 	                  <Separator fx:id="separLabel" orientation="VERTICAL"/>
 	               </graphic>
