@@ -39,30 +39,26 @@
 							<items>
 								<MenuItem mnemonicParsing="true" text="New photo editing" >
 									<accelerator>
-										<KeyCodeCombination code="n" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+										<KeyCodeCombination code="n" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 								<!-- TODO -->
 								<MenuItem mnemonicParsing="false" text="Open project">
 									<accelerator>
-										<KeyCodeCombination code="o" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+										<KeyCodeCombination code="o" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 								<SeparatorMenuItem />
 								<!-- TODO -->
 								<MenuItem mnemonicParsing="false" text="Save as bfx project">
 									<accelerator>
-										<KeyCodeCombination code="s" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+										<KeyCodeCombination code="s" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 								<!-- TODO -->
 								<MenuItem mnemonicParsing="false" text="Export">
 									<accelerator>
-										<KeyCodeCombination code="e" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
+										<KeyCodeCombination code="e" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 							</items>
@@ -83,14 +79,13 @@
 								<MenuItem mnemonicParsing="false" text="Crop" />
 								<MenuItem mnemonicParsing="false" text="Rotate +90" />
 								<MenuItem mnemonicParsing="false" text="Rotate -90" />
-								<MenuItem mnemonicParsing="false"
-									text="Apply .bps preset" />
+								<MenuItem mnemonicParsing="false" text="Apply .bps preset" />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="View">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="Zoom +" onAction="#print"/>
+								<MenuItem mnemonicParsing="false" text="Zoom +""/>
 								<MenuItem mnemonicParsing="false" text="Zoom -" />
 								<SeparatorMenuItem />
 								<MenuItem mnemonicParsing="false"
