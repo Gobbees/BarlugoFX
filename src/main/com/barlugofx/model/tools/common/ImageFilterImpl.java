@@ -23,7 +23,10 @@ public abstract class ImageFilterImpl implements ImageFilter {
 
     @Override
     public final void addParameter(final ParametersName name, final Parameter<?> value) {
-        if (isAccepted(name) && !parameters.containsKey(name)) {
+        if(!isAccepted(name)) {
+            throw new IllegalArgumentException("Parameter " + name + " is not correct for " + this.getClass().getName());
+        }
+        if (!parameters.containsKey(name)) {
             parameters.put(name, value);
         } else {
             throw new IllegalArgumentException("A parameter is already present, please remove it.");
@@ -59,11 +62,16 @@ public abstract class ImageFilterImpl implements ImageFilter {
     protected <T extends Number> T getValueFromParameter(final ParametersName name, final double min, final double max, final T defaultVal) {
         final Optional<Parameter<?>> param = getParameter(name);
         T result = defaultVal;
+        final String className = result.getClass().getSimpleName();
         if (param.isPresent()) {
             try {
                 result = (T) param.get().getValue();
+                if (!result.getClass().getSimpleName().equals(className)) { // Without this control T can be double and
+                    // defaultValue integer
+                    throw new ClassCastException();
+                }
             } catch (final ClassCastException e) {
-                throw new IllegalArgumentException("The " + name  + " parameter is not a " + result.getClass().getName());
+                throw new IllegalArgumentException("The " + name  + " parameter is not a " + className);
             }
         }
         if (result.doubleValue() > max || result.doubleValue() < min) {
