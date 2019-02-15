@@ -85,7 +85,7 @@
 						<Menu mnemonicParsing="false" text="View">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="Zoom +""/>
+								<MenuItem mnemonicParsing="false" text="Zoom +"/>
 								<MenuItem mnemonicParsing="false" text="Zoom -" />
 								<SeparatorMenuItem />
 								<MenuItem mnemonicParsing="false"
