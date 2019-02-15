@@ -9,8 +9,10 @@ import javax.imageio.ImageIO;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.imageTools.ImageUtilities;
-import com.barlugofx.model.tools.SelectiveRGBChanges;
+import com.barlugofx.model.tools.Brightness;
 import com.barlugofx.model.tools.common.ImageFilter;
+import com.barlugofx.model.tools.common.ParameterImpl;
+import com.barlugofx.model.tools.common.ParametersName;
 
 /**
  * A Rapid TEST.
@@ -29,7 +31,8 @@ public class Test {
         final File file  = new File("/home/matteo/Desktop/0.jpeg");
         final BufferedImage image = ImageIO.read(file);
         final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
-        final ImageFilter hsb = SelectiveRGBChanges.createSelective();
+        final ImageFilter hsb = Brightness.createBrightnees();
+        hsb.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>("ciao"));
         final BufferedImage output = ImageUtilities.convertImageToBufferedImageWithAlpha(hsb.applyFilter(toWorkWith));
         ImageIO.write(output, "png", new File("/home/matteo/Desktop/2.png"));
         time = System.nanoTime() - time;

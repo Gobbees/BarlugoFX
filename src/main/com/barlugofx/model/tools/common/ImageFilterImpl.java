@@ -17,7 +17,7 @@ public abstract class ImageFilterImpl implements ImageFilter {
      * @return the parameter
      *
      */
-    protected Optional<Parameter<?>> getParameter(final ParametersName name) {
+    private Optional<Parameter<?>> getParameter(final ParametersName name) {
         return Optional.ofNullable(parameters.get(name));
     }
 
@@ -44,4 +44,31 @@ public abstract class ImageFilterImpl implements ImageFilter {
      * @return true if valid.
      */
     protected abstract boolean isAccepted(ParametersName name);
+
+    /**
+     * This function returns the value associated with the Parameter or the default value if the parameter is not present.
+     * @param <T> the class type of the value we want to obtain
+     * @param name the name of the parameter to find.
+     * @param min the minimum value accepted (inclusive)
+     * @param max the maximum value accepted (inclusive)
+     * @param defaultVal the default value to return if the parameter is not present
+     * @return the value or the default value
+     * @throws IllegalArgumentException if the boundaries are not respected or if the parameter is not of the correct type.
+     */
+    @SuppressWarnings("unchecked")
+    protected <T extends Number> T getValueFromParameter(final ParametersName name, final double min, final double max, final T defaultVal) {
+        final Optional<Parameter<?>> param = getParameter(name);
+        T result = defaultVal;
+        if (param.isPresent()) {
+            try {
+                result = (T) param.get().getValue();
+            } catch (final ClassCastException e) {
+                throw new IllegalArgumentException("The " + name  + " parameter is not a " + result.getClass().getName());
+            }
+        }
+        if (result.doubleValue() > max || result.doubleValue() < min) {
+            throw new IllegalArgumentException("The " + name + " parameter does not respect the restrition specified by the class");
+        }
+        return result;
+    }
 }

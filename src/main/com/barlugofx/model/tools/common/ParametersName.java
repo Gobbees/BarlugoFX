@@ -30,6 +30,18 @@ public enum ParametersName {
      */
     GREEN,
     /**
+     * parameter for BlackAndWhite filter.
+     */
+    WBLUE,
+    /**
+     * parameter for BlackAndWhite filter.
+     */
+    WGREEN,
+    /**
+     * parameter for BlackAndWhite filter.
+     */
+    WRED,
+    /**
      * parameter for EXPOSURE (BRIGHTNESS in HSB) filter.
      */
     EXPOSURE,

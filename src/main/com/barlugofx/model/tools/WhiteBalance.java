@@ -1,7 +1,6 @@
 package com.barlugofx.model.tools;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.function.UnaryOperator;
 
 import com.barlugofx.model.imageTools.ColorManipulator;
@@ -9,7 +8,6 @@ import com.barlugofx.model.imageTools.ColorManipulatorImpl;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.tools.common.ImageFilterImpl;
-import com.barlugofx.model.tools.common.Parameter;
 import com.barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -36,19 +34,7 @@ public final class WhiteBalance extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        float value = 0;
-        final Optional<Parameter<?>> white = super.getParameter(ParametersName.WHITEBALANCE);
-        if (!white.isPresent()) {
-            throw new IllegalStateException("The whitebalance parameter is not present");
-        }
-        try {
-            value = (float) white.get().getValue();
-        } catch (final ClassCastException e) {
-            throw new IllegalStateException("The whilebalance parameter is not a float");
-        }
-        if (value < MINVALUE) {
-            throw new IllegalStateException("The parameter whitebalance exceed the range of accepted value");
-        }
+        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, 0, Integer.MAX_VALUE, 0);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final int[] pixelsAsArray = Arrays.stream(pixels).flatMapToInt(x -> Arrays.stream(x)).toArray();

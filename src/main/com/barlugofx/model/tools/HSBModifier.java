@@ -2,19 +2,17 @@ package com.barlugofx.model.tools;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.imageTools.ImageUtilities;
 import com.barlugofx.model.tools.common.ImageFilterImpl;
-import com.barlugofx.model.tools.common.Parameter;
 import com.barlugofx.model.tools.common.ParametersName;
 
 /**
  * This class handles the change of an image involving Hue, Saturation and Exposure (Brightness in HSB). This class accepts up
- * to three parameter: HUE, which must be a float number, Saturation, which must be a float number between -1 and 1, and Exposure,
+ * to three parameter: HUE, which must be a positive float number, Saturation, which must be a float number between -1 and 1, and Exposure,
  * a float number between -1 and 1. By receiving more than one parameter, this class permits multiple changes to HSV limiting conversions,
  * resulting in more efficient changes.
  *
@@ -37,9 +35,9 @@ public final class HSBModifier extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final float hue = getFloatFromParameter(ParametersName.HUE);
-        final float saturation = getFloatFromParameter(ParametersName.SATURATION);
-        final float exposure = getFloatFromParameter(ParametersName.EXPOSURE);
+        final float hue = super.getValueFromParameter(ParametersName.HUE, 0, Float.MAX_VALUE, 0);
+        final float saturation = getValueFromParameter(ParametersName.SATURATION, 0, Float.MAX_VALUE, 0);
+        final float exposure = getValueFromParameter(ParametersName.EXPOSURE, 0, Float.MAX_VALUE, 0);
 
         if (saturation < MIN || saturation > MAX) {
             throw new IllegalStateException("Saturation should be between -1 and 1");
@@ -70,20 +68,6 @@ public final class HSBModifier extends ImageFilterImpl {
                 return result;
             }
         }
-    }
-
-    private float getFloatFromParameter(final ParametersName name) {
-        final Optional<Parameter<?>> param = super.getParameter(name);
-        float result = 0;
-        if (param.isPresent()) {
-            try {
-                result = (float) param.get().getValue();
-                return result;
-            } catch (final ClassCastException e) {
-                throw new IllegalStateException("The " + name  + " parameter is not a float");
-            }
-        }
-        return result;
     }
 
     @Override

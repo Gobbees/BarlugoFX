@@ -2,7 +2,6 @@ package com.barlugofx.model.tools;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import com.barlugofx.model.imageTools.ColorManipulator;
@@ -10,7 +9,6 @@ import com.barlugofx.model.imageTools.ColorManipulatorImpl;
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.imageTools.ImageImpl;
 import com.barlugofx.model.tools.common.ImageFilterImpl;
-import com.barlugofx.model.tools.common.Parameter;
 import com.barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -36,9 +34,9 @@ public final class SelectiveRGBChanges extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final int red = getIntFromParameter(ParametersName.RED, -MAX, MAX);
-        final int green = getIntFromParameter(ParametersName.GREEN, -MAX, MAX);
-        final int blue = getIntFromParameter(ParametersName.BLUE, -MAX, MAX);
+        final int red = getValueFromParameter(ParametersName.RED, -MAX, MAX, 0);
+        final int green = getValueFromParameter(ParametersName.GREEN, -MAX, MAX, 0);
+        final int blue = getValueFromParameter(ParametersName.BLUE, -MAX, MAX, 0);
 
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
@@ -56,22 +54,5 @@ public final class SelectiveRGBChanges extends ImageFilterImpl {
     @Override
     protected boolean isAccepted(final ParametersName name) {
         return ACCEPTED.contains(name);
-    }
-
-
-    private int getIntFromParameter(final ParametersName name, final int min, final int max) {
-        final Optional<Parameter<?>> param = super.getParameter(name);
-        int result = 0;
-        if (param.isPresent()) {
-            try {
-                result = (int) param.get().getValue();
-            } catch (final ClassCastException e) {
-                throw new IllegalStateException("The " + name  + " parameter is not an int");
-            }
-        }
-        if (result > max || result < min) {
-            throw new IllegalStateException("The " + name + " parameter does not respect the restrition specified by the class");
-        }
-        return result;
     }
 }
