@@ -25,6 +25,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.input.KeyCharacterCombination?>
+<?import com.jfoenix.controls.JFXSnackbar?>
 
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
@@ -37,7 +38,7 @@
 					<menus>
 						<Menu mnemonicParsing="false" text="File">
 							<items>
-								<MenuItem mnemonicParsing="true" text="New photo editing" >
+								<MenuItem mnemonicParsing="false" text="New photo editing" >
 									<accelerator>
 										<KeyCodeCombination code="n" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
@@ -86,7 +87,7 @@
 							<items>
 								<!-- TODO -->
 								<MenuItem mnemonicParsing="false" text="Zoom +"/>
-								<MenuItem mnemonicParsing="false" text="Zoom -" />
+								<MenuItem mnemonicParsing="false" text="Zoom -"/>
 								<SeparatorMenuItem />
 								<MenuItem mnemonicParsing="false"
 									text="Toggle full screen" />
@@ -139,9 +140,9 @@
 				                                        <AnchorPane fx:id="apaneExposure" minHeight="70" style="-fx-border-width: 0 0 0 0">
 				                                            <children>
 				                                                <Label text="Exposure" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-				                                                <JFXSlider fx:id="slExposure" id="whiteblackslider"
-				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
-				                                                <JFXTextField fx:id="tfExposure"
+				                                                <JFXSlider fx:id="slExposure" id="whiteblackslider" min="-100" max="100" value="0"
+				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
+				                                                <JFXTextField fx:id="tfExposure" text="0"
 				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
 				                                            </children>
 				                                        </AnchorPane>
@@ -149,10 +150,9 @@
 				                                        <AnchorPane fx:id="apaneContrast" minHeight="70" style="-fx-border-width: 0 0 0 0">
 				                                            <children>
 				                                                <Label text="Contrast" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-				                                                <JFXSlider fx:id="slContrast" id="blackwhiteslider"
-				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
-				                                                    AnchorPane.rightAnchor="10" />
-				                                                <JFXTextField fx:id="tfContrast"
+				                                                <JFXSlider fx:id="slContrast" id="blackwhiteslider" min="-100" max="100" value="0"
+				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
+				                                                <JFXTextField fx:id="tfContrast" text="0"
 				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
 				                                            </children>
 				                                        </AnchorPane>
@@ -160,10 +160,10 @@
 				                                        <AnchorPane fx:id="apaneBrightness" minHeight="70" style="-fx-border-width: 6 0 6 0">
 				                                            <children>
 				                                                <Label text="Brightness" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-				                                                <JFXSlider fx:id="slBrightness" id="whiteblackslider"
+				                                                <JFXSlider fx:id="slBrightness" id="whiteblackslider" min="-100" max="100" value="0"
 				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
 				                                                    AnchorPane.rightAnchor="10" />
-				                                                <JFXTextField fx:id="tfBrightness"
+				                                                <JFXTextField fx:id="tfBrightness" text="0"
 				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
 				                                            </children>
 				                                        </AnchorPane>
@@ -178,13 +178,13 @@
                                            <content>
                                                <VBox>
                                                    <children>
-
+                                                        <!-- TEMP. WHITE BALANCE REQUIRES A TEMPERATURE NOT A -100/100 RANGE VALUE -->
                                                         <AnchorPane fx:id="apaneWhitebalance" minHeight="70" style="-fx-border-width: 1 0 0 0">
                                                             <children>
                                                                 <Label text="White balance" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-                                                                <JFXSlider fx:id="slWhitebalance" id="whitebalanceslider"
+                                                                <JFXSlider fx:id="slWhitebalance" id="whitebalanceslider" min="-100" max="100" value="0"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
-                                                                <JFXTextField fx:id="tfWhitebalance"
+                                                                <JFXTextField fx:id="tfWhitebalance" text="0"
                                                                     AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
                                                             </children>
                                                         </AnchorPane>
@@ -192,21 +192,21 @@
                                                         <AnchorPane fx:id="apaneSaturation" minHeight="70" style="-fx-border-width: 0 0 0 0">
                                                             <children>
                                                                 <Label text="Saturation" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-                                                                <JFXSlider fx:id="slSaturation" id="saturationslider"
+                                                                <JFXSlider fx:id="slSaturation" id="saturationslider" min="-100" max="100" value="0"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
-                                                                <JFXTextField fx:id="tfSaturation"
+                                                                <JFXTextField fx:id="tfSaturation" text="0"
                                                                     AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
                                                             </children>
                                                         </AnchorPane>
                                                         
-                                                        <AnchorPane fx:id="apaneHue" minHeight="70" style="-fx-border-width: 6 0 6 0">
+                                                        <AnchorPane fx:id="apaneHue" minHeight="70" style="-fx-border-width: 0 0 0 0">
                                                             <children>
                                                                 <Label text="Hue" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-                                                                <JFXSlider fx:id="slHue" id="hueslider"
+                                                                <JFXSlider fx:id="slHue" id="hueslider" min="-100" max="100" value="0"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
-                                                                <JFXTextField fx:id="tfHue"
+                                                                <JFXTextField fx:id="tfHue" text="0"
                                                                     AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
                                                             </children>
                                                         </AnchorPane>

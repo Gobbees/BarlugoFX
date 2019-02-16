@@ -4,7 +4,7 @@
 @font-face {
     src: url(../font/Inconsolata-Bold.ttf);
 }
-
+/* WELCOME BUTTONS */
 .button {
     -jfx-button-type: RAISED;
     -fx-text-fill: white;
@@ -67,6 +67,25 @@
 }
 #firstitlepane > .title {
     -fx-border-width: 0 0 0 0;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: #333130;
+}
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: #333130;
+}
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #5affd0;
+    -fx-background-radius: 0em;
+}
+.scroll-pane > .corner {
+    -fx-background-color: #333130;
 }
 
 /*MENU-BAR*/
@@ -135,7 +154,7 @@
     -fx-background-color: transparent;
 }
 
-
+/* TEXT FIELDS */
 .jfx-text-field {
     -jfx-focus-color: #5affd0;
     -fx-alignment: center;
@@ -148,27 +167,3 @@
     -fx-highlight-fill: #5affd0;
     -fx-highlight-text-fill: #333130;
 }
-
-.scroll-pane > .viewport {
-   -fx-background-color: #333130;
-}
-
-.scroll-bar:horizontal, .scroll-bar:vertical{
-    -fx-background-color: #333130;
-}
-
-.increment-button, .decrement-button {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
-.scroll-bar:horizontal .thumb,
-.scroll-bar:vertical .thumb {
-    -fx-background-color: #5affd0;
-    -fx-background-radius: 0em;
-}
-
-.scroll-pane > .corner {
-    -fx-background-color: #333130;
-}
-

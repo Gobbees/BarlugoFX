@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public interface ViewController {
     /**
      * Sets the private field stage.
-     * @param stage the stage
+     * @param stage the input stage
      */
     void setStage(Stage stage);
 }
