@@ -34,7 +34,7 @@
 	<top>
 		<AnchorPane fx:id="apaneMenuBar" styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
 			<children>
-				<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+				<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER" AnchorPane.bottomAnchor="0.0">
 					<menus>
 						<Menu mnemonicParsing="false" text="File">
 							<items>
@@ -117,7 +117,7 @@
 			<items>
 				<ScrollPane fx:id="scpaneImage">
 					<content>
-						<ImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="true">
+						<ImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="false">
 							<image>
 								<Image url="@../img/logo.png" />
 							</image>

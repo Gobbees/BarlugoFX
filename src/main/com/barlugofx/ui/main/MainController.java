@@ -109,7 +109,7 @@ public class MainController implements ViewController {
     //this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
         System.out.println(menuBar.getHeight());
-        iviewLogo.setFitHeight(menuBar.getHeight() - LOGO_PANE_CONSTRAINTS); //sets the logo dimension
+        iviewLogo.setFitHeight(menuBar.getHeight()); //sets the logo dimension
         scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);

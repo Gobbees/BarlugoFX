@@ -83,6 +83,7 @@ public class WelcomeController implements ViewController {
         fc.setTitle(btnImage.getText());
         openMainView(fc.showOpenDialog(stage));
     }
+    //[JPG, jpg, bmp, BMP, gif, GIF, WBMP, png, PNG, wbmp, jpeg, JPEG] add this array into controller class
     /**
      * Called by view events, this method opens a filechooser window and allow to open a file.
      * @throws IOException 
