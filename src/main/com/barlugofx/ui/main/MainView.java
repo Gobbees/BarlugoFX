@@ -20,6 +20,7 @@ import com.barlugofx.ui.Animations;
 import com.barlugofx.ui.loading.LoadingView;
 
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,7 +33,6 @@ import javafx.util.Duration;
  */
 public class MainView {
     //private constant fields
-    private static final String STAGE_TITLE = "BarlugoFX";
     private static final double ANIM_MILLIS = 1000.0;
     private static final double ANIM_STEP = 10.0;
 
@@ -40,6 +40,7 @@ public class MainView {
     private Parent root;
     private Scene scene;
     private final Dimension screenDimension;
+
     /**
      * @param stage
      * @param file
@@ -47,12 +48,12 @@ public class MainView {
      */
     public MainView(final Stage stage, final File file) throws IOException {
         //init stage
-        LoadingView t = new LoadingView(stage);
+        //LoadingView t = new LoadingView(stage);
         this.stage = stage;
-        stage.setTitle(STAGE_TITLE);
+        //stage.setTitle(file.getName());
         //temp
-        final BufferedImage image = ImageIO.read(file);
-        final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
+        //final BufferedImage image = ImageIO.read(file);
+        //final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
         //
         screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         final FXMLLoader loader = new FXMLLoader();
@@ -60,21 +61,19 @@ public class MainView {
         root = loader.load();
         scene = new Scene(root, screenDimension.getWidth(), screenDimension.getHeight());
         MainController mc = loader.getController();
-        mc.setImage(toWorkWith);
-        mc.setStage(stage);
-        
-        
+
         //load file, do initial operations (history init, ecc) by controller (to do)
-        t.stop();
-        
+        //t.stop();
         Timeline tl = Animations.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, screenDimension);
         tl.setOnFinished(e -> {
             stage.setScene(scene);
+            stage.show();
+            System.out.println("showed");
+            //calls the controller setStage function after the show because I need the components sizes on the screen, and they are initialized only with the show function
+            Platform.runLater(() -> {
+                mc.setStage(stage);
+            });
         });
         tl.play();
-        
-        stage.show();
-        
-        
     }
 }
