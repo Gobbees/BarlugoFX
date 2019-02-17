@@ -66,6 +66,10 @@ public enum ParametersName {
      */
     Y2,
     /**
+     * parameter for ROTATE filter.
+     */
+    ANGLE,
+    /**
      * parameter for BRIGHTNESS filter.
      */
     BRIGHTNESS;
