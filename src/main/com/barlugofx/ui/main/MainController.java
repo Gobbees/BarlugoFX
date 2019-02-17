@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
@@ -24,7 +25,6 @@ import javafx.stage.Stage;
  */
 public class MainController implements ViewController {
     //private constant fields
-    private static final int LOGO_PANE_CONSTRAINTS = 10;
     private static final double RIGHT_COLUMN_MIN_MULTIPLIER = 0.15;
     private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.5;
 
@@ -35,7 +35,7 @@ public class MainController implements ViewController {
     @FXML
     private MenuBar menuBar;
     @FXML
-    private ImageView iviewLogo;
+    private TextFlow tflowLogo;
     @FXML
     private SplitPane spaneMain;
     @FXML
@@ -109,7 +109,7 @@ public class MainController implements ViewController {
     //this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
         System.out.println(menuBar.getHeight());
-        iviewLogo.setFitHeight(menuBar.getHeight()); //sets the logo dimension
+        tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
         scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);

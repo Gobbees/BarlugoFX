@@ -26,6 +26,8 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.input.KeyCharacterCombination?>
 <?import com.jfoenix.controls.JFXSnackbar?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
@@ -102,11 +104,10 @@
 						</Menu>
 					</menus>
 				</MenuBar>
-				<ImageView fx:id="iviewLogo" preserveRatio="true" pickOnBounds="true" AnchorPane.topAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.bottomAnchor="5.0">
-					<image>
-						<Image url="@../img/logoTextColored.png" />
-					</image>
-				</ImageView>
+				<TextFlow fx:id="tflowLogo" AnchorPane.rightAnchor="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" styleClass="text-flow">
+				    <Text  text="BARLUGO" style="-fx-font-family: 'Ostrich Sans Medium'"/>
+				    <Text  text="FX" style="-fx-font-family: 'Ostrich Sans Heavy'"/>
+				</TextFlow>
 			</children>
 		</AnchorPane>
 	</top>

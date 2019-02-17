@@ -4,6 +4,12 @@
 @font-face {
     src: url(../font/Inconsolata-Bold.ttf);
 }
+@font-face {
+    src: url(../font/OstrichSans-Heavy.otf);
+}
+@font-face {
+    src: url(../font/OstrichSans-Medium.otf);
+}
 /* WELCOME BUTTONS */
 .button {
     -jfx-button-type: RAISED;
@@ -166,4 +172,7 @@
     -fx-pref-height:30;
     -fx-highlight-fill: #5affd0;
     -fx-highlight-text-fill: #333130;
+}
+.text-flow > Text{
+    -fx-fill: #5affd0;
 }
