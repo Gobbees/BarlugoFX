@@ -52,4 +52,9 @@ public class LoadingController implements ViewController {
         ft.setOnFinished(e -> stage.setScene(null));
         ft.play();
     }
+    @Override
+    public void resizeComponents(int width, int height) {
+        // TODO Auto-generated method stub
+        
+    }
 }

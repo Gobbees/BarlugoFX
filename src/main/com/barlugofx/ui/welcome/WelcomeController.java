@@ -47,11 +47,10 @@ public class WelcomeController implements ViewController {
     @FXML
     private JFXButton btnProject;
     private Stage stage;
-    /**
-     * This method resizes all the view components.
-     * @param width : the resized width
-     * @param height : the resized height
+    /* (non-Javadoc)
+     * @see com.barlugofx.ui.ViewController#resizeComponents(int, int)
      */
+    @Override
     public void resizeComponents(final int width, final int height) {
         btnImage.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
         btnImage.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);

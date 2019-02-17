@@ -1,58 +1,43 @@
 package com.barlugofx.ui.loading;
 
+import java.awt.Dimension;
 import java.io.IOException;
-import java.net.URL;
 
+import com.barlugofx.ui.AbstractView;
 import com.barlugofx.ui.Animations;
 
 import javafx.animation.FadeTransition;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
  *  This class switches from the past scene to a new loading scene. It must be called by its constructor method.
  */
-public class LoadingView {
+public class LoadingView extends AbstractView {
     //private constant fields
-    private static final String FXML_FILE_PATH = "file:res/fxml/FXMLLoading.fxml";
-    private static final int ANIM_MILLIS = 3000;
-    private static final String STAGE_TITLE = "Loading...";
-    //private UI fields
-    private final Stage stage;
-    private final Scene scene;
-    private final Parent root;
-    private final LoadingController vController;
+    private static final int ANIM_MILLIS = 700;
     /**
      * The constructor that initializes the scene and updates the stage.
-     * @param s the input stage where the new scene will be updated
-     * @throws IOException if the loader file URL is invalid.
+     * @param stage the input stage where the new scene will be updated
      */
-    public LoadingView(final Stage s) throws IOException {
-        //stage operations
-        this.stage = s;
-        stage.setResizable(false);
-        stage.setTitle(STAGE_TITLE);
-        //init root
-        final FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL(FXML_FILE_PATH));
-        root = loader.load();
-        //init viewcontroller
-        vController = loader.getController();
-        vController.setStage(stage);
-        //init scene
-        scene = new Scene(root, stage.getScene().widthProperty().get(), stage.getScene().heightProperty().get());
-        final FadeTransition ft = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), root);
+    public LoadingView(final Stage stage) {
+        super("Loading...", "file:res/img/logo.png", stage, new Dimension((int) stage.getScene().getWidth(), (int) stage.getScene().getHeight()));
+        this.getStage().setResizable(false);
+        try {
+            this.loadFXML("file:res/fxml/FXMLLoading.fxml");
+        } catch (IOException e) {
+            //log !!!!!
+            e.printStackTrace();
+        }
+        this.getController().setStage(this.getStage());
+        final FadeTransition ft = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
         ft.play();
-        //changes the scene
-        stage.setScene(scene);
+        this.getStage().setScene(this.getScene());
     }
     /**
      * Stops the loadingview.
      */
     public void stop() { 
-        vController.stop();
+        ((LoadingController) this.getController()).stop();
     }
 }
