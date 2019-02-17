@@ -23,7 +23,7 @@ public abstract class ImageFilterImpl implements ImageFilter {
 
     @Override
     public final void addParameter(final ParametersName name, final Parameter<?> value) {
-        if(!isAccepted(name)) {
+        if (!isAccepted(name)) {
             throw new IllegalArgumentException("Parameter " + name + " is not correct for " + this.getClass().getName());
         }
         if (!parameters.containsKey(name)) {

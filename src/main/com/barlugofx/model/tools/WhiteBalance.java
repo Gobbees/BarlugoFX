@@ -34,7 +34,7 @@ public final class WhiteBalance extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, 0, Integer.MAX_VALUE, 0f);
+        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE, 0f);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final int[] pixelsAsArray = Arrays.stream(pixels).flatMapToInt(x -> Arrays.stream(x)).toArray();
