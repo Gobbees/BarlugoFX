@@ -2,6 +2,7 @@ package com.barlugofx.ui.main;
 
 import com.barlugofx.ui.InputOutOfBoundException;
 import com.barlugofx.ui.ViewController;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
@@ -106,6 +107,26 @@ public class MainController implements ViewController {
     private JFXSlider slSCB;
     @FXML
     private JFXTextField tfSCB;
+    @FXML
+    private AnchorPane apaneBWR;
+    @FXML
+    private JFXSlider slBWR;
+    @FXML
+    private JFXTextField tfBWR;
+    @FXML
+    private AnchorPane apaneBWG;
+    @FXML
+    private JFXSlider slBWG;
+    @FXML
+    private JFXTextField tfBWG;
+    @FXML
+    private AnchorPane apaneBWB;
+    @FXML
+    private JFXSlider slBWB;
+    @FXML
+    private JFXTextField tfBWB;
+    @FXML
+    private JFXButton btnBWApply;
     private Stage stage;
     private Scene scene;
 
@@ -132,7 +153,7 @@ public class MainController implements ViewController {
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
     }
     //this function adds all the components listeners
-    private void addListeners() {
+    private void addListeners() {  //TODO REFACTORING
         tfExposure.textProperty().addListener((ev, ov, nv) -> {
             try {
                 int newValue = Integer.parseInt(nv);
@@ -250,6 +271,45 @@ public class MainController implements ViewController {
                 tfSCB.setStyle("-jfx-focus-color: red");
             }
         });
+        tfBWR.textProperty().addListener((ev, ov, nv) -> {
+            try {
+                int newValue = Integer.parseInt(nv);
+                if (newValue >= slBWR.getMin() && newValue <= slBWR.getMax()) {
+                    slBWR.setValue(newValue);
+                    tfBWR.setStyle("-jfx-focus-color: #5affd0");
+                } else {
+                    throw new InputOutOfBoundException();
+                }
+            } catch (NumberFormatException | InputOutOfBoundException ex) {
+                tfBWR.setStyle("-jfx-focus-color: red");
+            }
+        });
+        tfBWG.textProperty().addListener((ev, ov, nv) -> {
+            try {
+                int newValue = Integer.parseInt(nv);
+                if (newValue >= slBWG.getMin() && newValue <= slBWG.getMax()) {
+                    slBWG.setValue(newValue);
+                    tfBWG.setStyle("-jfx-focus-color: #5affd0");
+                } else {
+                    throw new InputOutOfBoundException();
+                }
+            } catch (NumberFormatException | InputOutOfBoundException ex) {
+                tfBWG.setStyle("-jfx-focus-color: red");
+            }
+        });
+        tfBWB.textProperty().addListener((ev, ov, nv) -> {
+            try {
+                int newValue = Integer.parseInt(nv);
+                if (newValue >= slBWB.getMin() && newValue <= slBWB.getMax()) {
+                    slBWB.setValue(newValue);
+                    tfBWB.setStyle("-jfx-focus-color: #5affd0");
+                } else {
+                    throw new InputOutOfBoundException();
+                }
+            } catch (NumberFormatException | InputOutOfBoundException ex) {
+                tfBWB.setStyle("-jfx-focus-color: red");
+            }
+        });
 
         slExposure.valueProperty().addListener((ev, ov, nv) -> {
             tfExposure.setText(nv.intValue() + "");
@@ -278,10 +338,19 @@ public class MainController implements ViewController {
         slSCB.valueProperty().addListener((ev, ov, nv) -> {
             tfSCB.setText(nv.intValue() + "");
         });
+        slBWR.valueProperty().addListener((ev, ov, nv) -> {
+            tfBWR.setText(nv.intValue() + "");
+        });
+        slBWG.valueProperty().addListener((ev, ov, nv) -> {
+            tfBWG.setText(nv.intValue() + "");
+        });
+        slBWB.valueProperty().addListener((ev, ov, nv) -> {
+            tfBWB.setText(nv.intValue() + "");
+        });
     }
 
     @Override
-    public void resizeComponents(int width, int height) {
-        // TODO Auto-generated method stub
+    public void resizeComponents(final int width, final int height) {
+        //TODO
     }
 }

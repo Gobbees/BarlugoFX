@@ -2,78 +2,59 @@ package com.barlugofx.ui.main;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
-
-import com.barlugofx.model.imageTools.Image;
-import com.barlugofx.model.imageTools.ImageImpl;
-import com.barlugofx.model.imageTools.ImageUtilities;
-import com.barlugofx.model.tools.Brightness;
-import com.barlugofx.model.tools.common.ImageFilter;
-import com.barlugofx.model.tools.common.ParameterImpl;
-import com.barlugofx.model.tools.common.ParametersName;
+import com.barlugofx.ui.AbstractView;
 import com.barlugofx.ui.Animations;
 import com.barlugofx.ui.loading.LoadingView;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
  * This class creates the main view. It must be called by its constructor method.
  */
-public class MainView {
+public class MainView extends AbstractView {
     //private constant fields
-    private static final double ANIM_MILLIS = 1000.0;
-    private static final double ANIM_STEP = 10.0;
-
-    private Stage stage;
-    private Parent root;
-    private Scene scene;
-    private final Dimension screenDimension;
-
+    private static final double ANIM_MILLIS = 600.0;
+    private static final double ANIM_STEP = 50.0;
     /**
-     * @param stage
-     * @param file
-     * @throws IOException 
+     * @param stage the input stage
+     * @param file the file chosen by the user
+     * @throws IOException
      */
-    public MainView(final Stage stage, final File file) throws IOException {
-        //init stage
-        //LoadingView t = new LoadingView(stage);
-        this.stage = stage;
-        //stage.setTitle(file.getName());
-        //temp
-        //final BufferedImage image = ImageIO.read(file);
-        //final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
-        //
-        screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-        final FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(new URL("file:res/fxml/FXMLMain.fxml"));
-        root = loader.load();
-        scene = new Scene(root, screenDimension.getWidth(), screenDimension.getHeight());
-        MainController mc = loader.getController();
-
-        //load file, do initial operations (history init, ecc) by controller (to do)
-        //t.stop();
-        Timeline tl = Animations.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, screenDimension);
-        tl.setOnFinished(e -> {
-            stage.setScene(scene);
-            stage.show();
-            System.out.println("showed");
-            //calls the controller setStage function after the show because I need the components sizes on the screen, and they are initialized only with the show function
-            Platform.runLater(() -> {
-                mc.setStage(stage);
+    public MainView(final Stage stage, final File file) {
+        super("BarlugoFX", "file:res/img/logo.png", stage, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
+                            (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() - (stage.getHeight() - stage.getScene().getHeight()))));
+        LoadingView t = new LoadingView(stage);
+        try {
+            this.loadFXML("file:res/fxml/FXMLMain.fxml");
+        } catch (IOException e) {
+            //log!!!!!
+            e.printStackTrace();
+        }
+        FadeTransition loadingOut = t.getFadeOutTransition();
+        loadingOut.setOnFinished(fadeOutEvent -> {
+            this.getStage().setScene(null);
+            this.getStage().setResizable(true);
+            //this is performed after the animation finish because if not the view is closed too strongly.
+            Timeline stageTimeline = Animations.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, Toolkit.getDefaultToolkit().getScreenSize());
+            stageTimeline.setOnFinished(timelineEvent -> {
+                FadeTransition mainIn = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
+                mainIn.play();
+                this.getStage().setScene(this.getScene());
+                //calls the controller setStage function after the scene set because I need the components sizes on the screen, and they are initialized only with the new scene set
+                Platform.runLater(() -> {
+                    this.getController().setStage(this.getStage());
+                });
             });
+            stageTimeline.play();
+            this.getStage().show();
         });
-        tl.play();
+        loadingOut.play();
     }
 }

@@ -28,6 +28,7 @@
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXButton?>
 
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
@@ -214,34 +215,35 @@
                                                         
                                                         <Separator orientation="VERTICAL" visible="FALSE" prefHeight="10"/>
                                                         <Label text="Selective Colour" id="toolabel"/>
+                                                        <Separator orientation="VERTICAL" visible="FALSE" prefHeight="10"/>
                                                         
                                                         <AnchorPane fx:id="apaneSCR" minHeight="70" style="-fx-border-width: 0 0 0 0">
                                                             <children>
                                                                 <Label text="R" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-                                                                <JFXSlider fx:id="slSCR" id="scrslider" min="-100" max="100" value="0"
+                                                                <JFXSlider fx:id="slSCR" id="redslider" min="0" max="100" value="50"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
-                                                                <JFXTextField fx:id="tfSCR" text="0"
+                                                                <JFXTextField fx:id="tfSCR" text="50"
                                                                     AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
                                                             </children>
                                                         </AnchorPane>
                                                         <AnchorPane fx:id="apaneSCG" minHeight="70" style="-fx-border-width: 0 0 0 0">
                                                             <children>
                                                                 <Label text="G" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-                                                                <JFXSlider fx:id="slSCG" id="scgslider" min="-100" max="100" value="0"
+                                                                <JFXSlider fx:id="slSCG" id="greenslider" min="0" max="100" value="50"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
-                                                                <JFXTextField fx:id="tfSCG" text="0"
+                                                                <JFXTextField fx:id="tfSCG" text="50"
                                                                     AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
                                                             </children>
                                                         </AnchorPane>
                                                         <AnchorPane fx:id="apaneSCB" minHeight="70" style="-fx-border-width: 0 0 0 0">
                                                             <children>
                                                                 <Label text="B" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-                                                                <JFXSlider fx:id="slSCB" id="scbslider" min="-100" max="100" value="0"
+                                                                <JFXSlider fx:id="slSCB" id="blueslider" min="0" max="100" value="50"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
-                                                                <JFXTextField fx:id="tfSCB" text="0"
+                                                                <JFXTextField fx:id="tfSCB" text="50"
                                                                     AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
                                                             </children>
                                                         </AnchorPane>
@@ -249,7 +251,49 @@
                                                    </children>
                                                </VBox>
                                            </content>
-                                       </TitledPane>                                      
+                                       </TitledPane> 
+                                       
+                                       <TitledPane fx:id="tpaneBW" text="Black n White" style="-fx-border-width: 1 0 0 0">
+                                           <content>
+                                               <VBox>
+                                                   <children>
+
+                                                        <AnchorPane fx:id="apaneBWR" minHeight="70" style="-fx-border-width: 0 0 0 0">
+                                                            <children>
+                                                                <Label text="R" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slBWR" id="redslider" min="0" max="100" value="50"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"/>
+                                                                <JFXTextField fx:id="tfBWR" text="50"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        
+                                                        <AnchorPane fx:id="apaneBWG" minHeight="70" style="-fx-border-width: 0 0 0 0">
+                                                            <children>
+                                                                <Label text="G" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slBWG" id="greenslider" min="0" max="100" value="50"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfBWG" text="50"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        
+                                                        <AnchorPane fx:id="apaneBWB" minHeight="70" style="-fx-border-width: 6 0 6 0">
+                                                            <children>
+                                                                <Label text="B" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slBWB" id="blueslider" min="0" max="100" value="50"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+                                                                    AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfBWB" text="50"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        <Separator orientation="VERTICAL" visible="FALSE" prefHeight="10"/>
+                                                        <JFXButton fx:id="btnBWApply" text="Apply"/>
+                                                   </children>
+                                               </VBox>
+                                           </content>
+                                       </TitledPane>                                    
 									</children>
 								</VBox>
 							</content>

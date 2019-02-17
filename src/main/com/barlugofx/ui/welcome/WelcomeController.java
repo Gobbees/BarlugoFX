@@ -127,11 +127,7 @@ public class WelcomeController implements ViewController {
         if (file != null) {
             FadeTransition ft = Animations.fadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
             ft.setOnFinished(e -> {
-                try {
-                    new MainView(stage, file);  //temp. the constructor of mainview will not throw exception.
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                new MainView(stage, file);
             });
             ft.play();
         }

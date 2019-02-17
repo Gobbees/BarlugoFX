@@ -12,10 +12,11 @@ import javafx.util.Duration;
 
 /**
  *  This class switches from the past scene to a new loading scene. It must be called by its constructor method.
+ *  The view is not resizable.
  */
 public class LoadingView extends AbstractView {
     //private constant fields
-    private static final int ANIM_MILLIS = 700;
+    private static final int ANIM_MILLIS = 600;
     /**
      * The constructor that initializes the scene and updates the stage.
      * @param stage the input stage where the new scene will be updated
@@ -35,9 +36,11 @@ public class LoadingView extends AbstractView {
         this.getStage().setScene(this.getScene());
     }
     /**
-     * Stops the loadingview.
+     * This animation, when played, performs a fadeout on the loading scene. If you want to effectively stop the view, add on animation finish stage.setScene(null).
+     * @return the fadeout animation on the current scene.
      */
-    public void stop() { 
-        ((LoadingController) this.getController()).stop();
+    public FadeTransition getFadeOutTransition() {
+        FadeTransition animation = Animations.fadeOutTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
+        return animation;
     }
 }

@@ -159,22 +159,22 @@
 #hueslider > .colored-track {
     -fx-background-color: transparent;
 }
-#scrslider > .track {
+#redslider > .track {
     -fx-background-color: #999999;
 }
-#scrslider > .colored-track { 
+#redslider > .colored-track { 
     -fx-background-color: red;
 }
-#scgslider > .track {
+#greenslider > .track {
     -fx-background-color: #999999;
 }
-#scgslider > .colored-track { 
+#greenslider > .colored-track { 
     -fx-background-color: green;
 }
-#scbslider > .track {
+#blueslider > .track {
     -fx-background-color: #999999;
 }
-#scbslider > .colored-track { 
+#blueslider > .colored-track { 
     -fx-background-color: blue;
 }
 
