@@ -159,6 +159,24 @@
 #hueslider > .colored-track {
     -fx-background-color: transparent;
 }
+#scrslider > .track {
+    -fx-background-color: #999999;
+}
+#scrslider > .colored-track { 
+    -fx-background-color: red;
+}
+#scgslider > .track {
+    -fx-background-color: #999999;
+}
+#scgslider > .colored-track { 
+    -fx-background-color: green;
+}
+#scbslider > .track {
+    -fx-background-color: #999999;
+}
+#scbslider > .colored-track { 
+    -fx-background-color: blue;
+}
 
 /* TEXT FIELDS */
 .jfx-text-field {

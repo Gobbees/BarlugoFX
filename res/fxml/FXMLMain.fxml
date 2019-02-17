@@ -211,6 +211,41 @@
                                                                     AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
                                                             </children>
                                                         </AnchorPane>
+                                                        
+                                                        <Separator orientation="VERTICAL" visible="FALSE" prefHeight="10"/>
+                                                        <Label text="Selective Colour" id="toolabel"/>
+                                                        
+                                                        <AnchorPane fx:id="apaneSCR" minHeight="70" style="-fx-border-width: 0 0 0 0">
+                                                            <children>
+                                                                <Label text="R" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slSCR" id="scrslider" min="-100" max="100" value="0"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+                                                                    AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfSCR" text="0"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        <AnchorPane fx:id="apaneSCG" minHeight="70" style="-fx-border-width: 0 0 0 0">
+                                                            <children>
+                                                                <Label text="G" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slSCG" id="scgslider" min="-100" max="100" value="0"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+                                                                    AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfSCG" text="0"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        <AnchorPane fx:id="apaneSCB" minHeight="70" style="-fx-border-width: 0 0 0 0">
+                                                            <children>
+                                                                <Label text="B" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+                                                                <JFXSlider fx:id="slSCB" id="scbslider" min="-100" max="100" value="0"
+                                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+                                                                    AnchorPane.rightAnchor="10" />
+                                                                <JFXTextField fx:id="tfSCB" text="0"
+                                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                        
                                                    </children>
                                                </VBox>
                                            </content>

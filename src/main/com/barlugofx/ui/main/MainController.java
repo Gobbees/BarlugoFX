@@ -88,6 +88,24 @@ public class MainController implements ViewController {
     private JFXSlider slHue;
     @FXML
     private JFXTextField tfHue;
+    @FXML
+    private AnchorPane apaneSCR;
+    @FXML
+    private JFXSlider slSCR;
+    @FXML
+    private JFXTextField tfSCR;
+    @FXML
+    private AnchorPane apaneSCG;
+    @FXML
+    private JFXSlider slSCG;
+    @FXML
+    private JFXTextField tfSCG;
+    @FXML
+    private AnchorPane apaneSCB;
+    @FXML
+    private JFXSlider slSCB;
+    @FXML
+    private JFXTextField tfSCB;
     private Stage stage;
     private Scene scene;
 
@@ -194,6 +212,45 @@ public class MainController implements ViewController {
                 tfHue.setStyle("-jfx-focus-color: red");
             }
         });
+        tfSCR.textProperty().addListener((ev, ov, nv) -> {
+            try {
+                int newValue = Integer.parseInt(nv);
+                if (newValue >= slSCR.getMin() && newValue <= slSCR.getMax()) {
+                    slSCR.setValue(newValue);
+                    tfSCR.setStyle("-jfx-focus-color: #5affd0");
+                } else {
+                    throw new InputOutOfBoundException();
+                }
+            } catch (NumberFormatException | InputOutOfBoundException ex) {
+                tfSCR.setStyle("-jfx-focus-color: red");
+            }
+        });
+        tfSCG.textProperty().addListener((ev, ov, nv) -> {
+            try {
+                int newValue = Integer.parseInt(nv);
+                if (newValue >= slSCG.getMin() && newValue <= slSCG.getMax()) {
+                    slSCG.setValue(newValue);
+                    tfSCG.setStyle("-jfx-focus-color: #5affd0");
+                } else {
+                    throw new InputOutOfBoundException();
+                }
+            } catch (NumberFormatException | InputOutOfBoundException ex) {
+                tfSCG.setStyle("-jfx-focus-color: red");
+            }
+        });
+        tfSCB.textProperty().addListener((ev, ov, nv) -> {
+            try {
+                int newValue = Integer.parseInt(nv);
+                if (newValue >= slSCB.getMin() && newValue <= slSCB.getMax()) {
+                    slSCB.setValue(newValue);
+                    tfSCB.setStyle("-jfx-focus-color: #5affd0");
+                } else {
+                    throw new InputOutOfBoundException();
+                }
+            } catch (NumberFormatException | InputOutOfBoundException ex) {
+                tfSCB.setStyle("-jfx-focus-color: red");
+            }
+        });
 
         slExposure.valueProperty().addListener((ev, ov, nv) -> {
             tfExposure.setText(nv.intValue() + "");
@@ -212,6 +269,15 @@ public class MainController implements ViewController {
         });
         slHue.valueProperty().addListener((ev, ov, nv) -> {
             tfHue.setText(nv.intValue() + "");
+        });
+        slSCR.valueProperty().addListener((ev, ov, nv) -> {
+            tfSCR.setText(nv.intValue() + "");
+        });
+        slSCG.valueProperty().addListener((ev, ov, nv) -> {
+            tfSCG.setText(nv.intValue() + "");
+        });
+        slSCB.valueProperty().addListener((ev, ov, nv) -> {
+            tfSCB.setText(nv.intValue() + "");
         });
     }
 }
