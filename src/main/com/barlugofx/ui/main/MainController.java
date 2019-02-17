@@ -118,7 +118,7 @@ public class MainController implements ViewController {
         this.scene = this.stage.getScene();
         initComponentSize();
         addListeners();
-
+//KEYCOMBINATION
 //        KeyCombination kc = new KeyCharacterCombination("+", KeyCombination.CONTROL_DOWN);
 //        Runnable rn = () -> System.out.println("CIAO");
 //        stage.getScene().getAccelerators().put(kc,  rn);
@@ -126,7 +126,6 @@ public class MainController implements ViewController {
 
     //this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
-        System.out.println(menuBar.getHeight());
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
         scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
@@ -279,5 +278,10 @@ public class MainController implements ViewController {
         slSCB.valueProperty().addListener((ev, ov, nv) -> {
             tfSCB.setText(nv.intValue() + "");
         });
+    }
+
+    @Override
+    public void resizeComponents(int width, int height) {
+        // TODO Auto-generated method stub
     }
 }
