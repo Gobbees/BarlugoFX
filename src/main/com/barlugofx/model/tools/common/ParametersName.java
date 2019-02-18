@@ -70,6 +70,10 @@ public enum ParametersName {
      */
     ANGLE,
     /**
+     * specify the increment of the VIBRANCE.
+     */
+    VIBRANCE_INCREMENT,
+    /**
      * parameter for BRIGHTNESS filter.
      */
     BRIGHTNESS;
