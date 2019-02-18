@@ -17,6 +17,11 @@ import com.barlugofx.model.tools.common.ParametersName;
  * X2 and Y2 must be less than the image width and height respectively.
  */
 public final class Crop extends ImageFilterImpl {
+
+    private static final int MIN_VALUE_1 = 0;
+    private static final int MAX_VALUE_2 = 1;
+    private static final int DEFAULT_VALUE_1 = 0;
+
     private static final Set<ParametersName> ACCEPTED = new HashSet<>(
             Arrays.asList(ParametersName.X1, ParametersName.X2, ParametersName.Y1, ParametersName.Y2));
 
@@ -33,10 +38,10 @@ public final class Crop extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final int x2 = super.getValueFromParameter(ParametersName.X2, 1, toApply.getWidth(), toApply.getWidth());
-        final int x1 = super.getValueFromParameter(ParametersName.X1, 0, x2, 0);
-        final int y2 = super.getValueFromParameter(ParametersName.Y2, 1, toApply.getHeight(), toApply.getHeight());
-        final int y1 = super.getValueFromParameter(ParametersName.Y1, 0, y2, 0);
+        final int x2 = super.getValueFromParameter(ParametersName.X2, MAX_VALUE_2, toApply.getWidth(), toApply.getWidth());
+        final int x1 = super.getValueFromParameter(ParametersName.X1, MIN_VALUE_1, x2, DEFAULT_VALUE_1);
+        final int y2 = super.getValueFromParameter(ParametersName.Y2, MAX_VALUE_2, toApply.getHeight(), toApply.getHeight());
+        final int y1 = super.getValueFromParameter(ParametersName.Y1, MIN_VALUE_1, y2, DEFAULT_VALUE_1);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[y2 - y1][x2 - x1];
         for (int i = 0; i < newPixels.length; i++) {

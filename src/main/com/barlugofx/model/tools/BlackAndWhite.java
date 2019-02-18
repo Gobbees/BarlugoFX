@@ -19,6 +19,8 @@ import com.barlugofx.model.tools.common.ParametersName;
  */
 public final class BlackAndWhite extends ImageFilterImpl {
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
+    private static final double MIN_VALUE = 0;
+    private static final double DEFAULT_VALUE = 1.0;
     private static final double RED_MULTIPLIER = 0.299;
     private static final double GREEN_MULTIPLIER = 0.587;
     private static final double BLUE_MULTIPLIER = 0.114;
@@ -38,9 +40,9 @@ public final class BlackAndWhite extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final double redFactor = super.getValueFromParameter(ParametersName.WRED, 0, Double.MAX_VALUE, 1.0) * RED_MULTIPLIER;
-        final double greenFactor = super.getValueFromParameter(ParametersName.WGREEN, 0, Double.MAX_VALUE, 1.0) * GREEN_MULTIPLIER;
-        final double blueFactor = super.getValueFromParameter(ParametersName.WBLUE, 0, Double.MAX_VALUE, 1.0) * BLUE_MULTIPLIER;
+        final double redFactor = super.getValueFromParameter(ParametersName.WRED, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE) * RED_MULTIPLIER;
+        final double greenFactor = super.getValueFromParameter(ParametersName.WGREEN, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE) * GREEN_MULTIPLIER;
+        final double blueFactor = super.getValueFromParameter(ParametersName.WBLUE, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE) * BLUE_MULTIPLIER;
 
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];

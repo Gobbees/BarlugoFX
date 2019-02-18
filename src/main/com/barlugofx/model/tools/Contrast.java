@@ -16,6 +16,7 @@ import com.barlugofx.model.tools.common.ParametersName;
 public final class Contrast extends ImageFilterImpl {
     private static final double MAXVALUE = 255;
     private static final int TRANSLATION = 128;
+    private static final int DEFAULT_VALUE = 0;
 
     private Contrast() {
     }
@@ -29,7 +30,7 @@ public final class Contrast extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final int value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, 0);
+        final int value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         final double contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE)
                 / (MAXVALUE * (MAXVALUE + 4 - value));
 

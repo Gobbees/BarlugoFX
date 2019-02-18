@@ -15,6 +15,7 @@ import com.barlugofx.model.tools.common.ParametersName;
  */
 public final class Brightness extends ImageFilterImpl {
     private static final double MAXVALUE = 255;
+    private static final int DEFAULT_VALUE = 0;
     private Brightness() {
     }
     /**
@@ -27,7 +28,7 @@ public final class Brightness extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final int value = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, 0);
+        final int value = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         final ColorManipulator setter = ColorManipulatorImpl.createColorExtractor();
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];

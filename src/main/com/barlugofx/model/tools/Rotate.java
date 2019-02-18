@@ -18,6 +18,7 @@ import com.barlugofx.model.tools.common.ParametersName;
  */
 public final class Rotate extends ImageFilterImpl {
     private static final int MAX = 360;
+    private static final int DEFAULT = 0;
 
     private Rotate() {
     }
@@ -33,7 +34,7 @@ public final class Rotate extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final int degreesToRotate = super.getValueFromParameter(ParametersName.ANGLE, -MAX, MAX, 0);
+        final int degreesToRotate = super.getValueFromParameter(ParametersName.ANGLE, -MAX, MAX, DEFAULT);
         final BufferedImage src = ImageUtilities.convertImageToBufferedImageWithAlpha(toApply);
         int width = src.getWidth();
         int height = src.getHeight();

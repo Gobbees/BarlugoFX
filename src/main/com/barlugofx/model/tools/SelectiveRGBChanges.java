@@ -18,6 +18,7 @@ import com.barlugofx.model.tools.common.ParametersName;
  */
 public final class SelectiveRGBChanges extends ImageFilterImpl {
     private static final int MAX = 255;
+    private static final int DEFAULT =  0;
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private static final Set<ParametersName> ACCEPTED = new HashSet<>(
             Arrays.asList(ParametersName.RED, ParametersName.GREEN, ParametersName.BLUE));
@@ -34,9 +35,9 @@ public final class SelectiveRGBChanges extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final int red = getValueFromParameter(ParametersName.RED, -MAX, MAX, 0);
-        final int green = getValueFromParameter(ParametersName.GREEN, -MAX, MAX, 0);
-        final int blue = getValueFromParameter(ParametersName.BLUE, -MAX, MAX, 0);
+        final int red = getValueFromParameter(ParametersName.RED, -MAX, MAX, DEFAULT);
+        final int green = getValueFromParameter(ParametersName.GREEN, -MAX, MAX, DEFAULT);
+        final int blue = getValueFromParameter(ParametersName.BLUE, -MAX, MAX, DEFAULT);
 
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];

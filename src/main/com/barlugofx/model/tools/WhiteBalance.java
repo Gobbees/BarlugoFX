@@ -18,8 +18,9 @@ import com.barlugofx.model.tools.common.ParametersName;
  *  @see <a href="https://docs.gimp.org/2.8/en/gimp-layer-white-balance.html">GIMP documentation</a>
  */
 public final class WhiteBalance extends ImageFilterImpl {
-    private static final int MINVALUE = 0;
+    private static final double MINVALUE = 0;
     private static final double MAXRGB = 255.0;
+    private static final float DEFAULT = 0f;
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
 
     private WhiteBalance() {
@@ -34,7 +35,7 @@ public final class WhiteBalance extends ImageFilterImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE, 0f);
+        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE, DEFAULT);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final int[] pixelsAsArray = Arrays.stream(pixels).flatMapToInt(x -> Arrays.stream(x)).toArray();
