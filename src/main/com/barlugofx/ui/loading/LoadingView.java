@@ -14,7 +14,7 @@ import javafx.util.Duration;
  *  This class switches from the past scene to a new loading scene. It must be called by its constructor method.
  *  The view is not resizable.
  */
-public class LoadingView extends AbstractView {
+public class LoadingView extends AbstractView<LoadingController> {
     //private constant fields
     private static final int ANIM_MILLIS = 600;
     /**
@@ -22,7 +22,7 @@ public class LoadingView extends AbstractView {
      * @param stage the input stage where the new scene will be updated
      */
     public LoadingView(final Stage stage) {
-        super("Loading...", "file:res/img/logo.png", stage, new Dimension((int) stage.getScene().getWidth(), (int) stage.getScene().getHeight()));
+        super("BarlugoFX", "file:res/img/logo.png", stage, new Dimension((int) stage.getScene().getWidth(), (int) stage.getScene().getHeight()));
         this.getStage().setResizable(false);
         try {
             this.loadFXML("file:res/fxml/FXMLLoading.fxml");

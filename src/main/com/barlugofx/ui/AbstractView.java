@@ -9,15 +9,18 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+
 /**
  * Abstract skeleton of a view class.
+ *
+ * @param <T>
  */
-public abstract class AbstractView {
+public abstract class AbstractView<T extends ViewController> {
 
     private final Dimension sceneDims;
     private final FXMLLoader fxml;
     private final Stage stage;
-    private ViewController controller;
+    private T controller;
     private Scene scene;
     /**
      * Initializer of the main fields of the class.
@@ -61,11 +64,11 @@ public abstract class AbstractView {
      * @return the view controller
      * @throws NullPointerException if the controller is null
      */
-    protected ViewController getController() throws NullPointerException {
-        if (controller == null) {
-            throw new NullPointerException("Controller is null. You must call loadFXML before this function");
+    protected T getController() throws NullPointerException {
+        if (this.controller == null) {
+            throw new NullPointerException();
         }
-        return controller;
+        return (T) this.controller;
     }
     /**
      * @return the stage

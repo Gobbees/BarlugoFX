@@ -12,6 +12,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 //import javafx.scene.input.KeyCharacterCombination;
 //import javafx.scene.input.KeyCombination;
@@ -41,6 +42,8 @@ public class MainController implements ViewController {
     private SplitPane spaneMain;
     @FXML
     private ScrollPane scpaneImage;
+    @FXML
+    private BorderPane bpaneImage;
     @FXML
     private ImageView iviewImage;
     @FXML
@@ -151,6 +154,9 @@ public class MainController implements ViewController {
         scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
+        iviewImage.setImage(new Image("file:res/img/logo.png"));
+        iviewImage.setFitWidth(scpaneImage.getWidth());
+        iviewImage.setFitHeight(scpaneImage.getHeight());
     }
     //this function adds all the components listeners
     private void addListeners() {  //TODO REFACTORING
@@ -348,9 +354,16 @@ public class MainController implements ViewController {
             tfBWB.setText(nv.intValue() + "");
         });
     }
-
     @Override
     public void resizeComponents(final int width, final int height) {
         //TODO
+    }
+    //TODO
+    /**
+     *
+     * @param image the input image of the new project
+     */
+    public void setImage(final Image image) {
+        iviewImage.setImage(image);
     }
 }

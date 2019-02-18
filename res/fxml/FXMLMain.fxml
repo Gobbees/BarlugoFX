@@ -29,6 +29,7 @@
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.text.Text?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.canvas.Canvas?>
 
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
@@ -117,15 +118,22 @@
 	<center>
 		<SplitPane fx:id="spaneMain" dividerPositions="0.8" style="-fx-border-width: 1 0 0 0">
 			<items>
-				<ScrollPane fx:id="scpaneImage">
+			    <BorderPane fx:id="bpaneImage">
+			    <center>
+				<ScrollPane fx:id="scpaneImage" fitToWidth="true" fitToHeight="true">
 					<content>
-						<ImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="false">
-							<image>
-								<Image url="@../img/logo.png" />
-							</image>
-						</ImageView>
-					</content>
-				</ScrollPane>
+					<BorderPane>
+					<center>
+					<ImageView fx:id="iviewImage" preserveRatio="true"/>
+					</center>
+					</BorderPane>
+					    </content>
+                </ScrollPane>
+					       
+						      
+						   </center>
+						</BorderPane>
+					
 
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL" style="-fx-border-width: 0 0 0 0">
 					<items>

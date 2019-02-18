@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  *  This class shows the welcome view of barlugofx program. It must be called by its constructor method.
  *  WelcomeView loads the view from FXMLWelcome.fxml file and sets the stage and scene sizes, icons and titles.
  */
-public class WelcomeView extends AbstractView {
+public class WelcomeView extends AbstractView<WelcomeController> {
     private static final double MIN_DIM_MULTIPLIER = 0.2;
     /**
      * The constructor that initializes all the fields and show the stage.

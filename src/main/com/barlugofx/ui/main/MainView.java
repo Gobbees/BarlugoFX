@@ -12,13 +12,14 @@ import com.barlugofx.ui.loading.LoadingView;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
  * This class creates the main view. It must be called by its constructor method.
  */
-public class MainView extends AbstractView {
+public class MainView extends AbstractView<MainController> {
     //private constant fields
     private static final double ANIM_MILLIS = 600.0;
     private static final double ANIM_STEP = 50.0;
@@ -50,6 +51,7 @@ public class MainView extends AbstractView {
                 //calls the controller setStage function after the scene set because I need the components sizes on the screen, and they are initialized only with the new scene set
                 Platform.runLater(() -> {
                     this.getController().setStage(this.getStage());
+                    this.getController().setImage(new Image(file.toURI().toString()));
                 });
             });
             stageTimeline.play();
