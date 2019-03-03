@@ -38,7 +38,6 @@ public interface ImageFilter {
     /**
      * Remove the parameter value and his name from the filter.
      * @param name the name of the parameter to be removed.
-     * @throws IllegalArgumentException if the name of the parameter is not present.
      */
     void removeParameter(ParametersName name);
 }

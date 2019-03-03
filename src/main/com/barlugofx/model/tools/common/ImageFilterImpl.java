@@ -13,7 +13,7 @@ public abstract class ImageFilterImpl implements ImageFilter {
 
 
     @Override
-    public Optional<Parameter<?>> getParameter(final ParametersName name) {
+    public final Optional<Parameter<?>> getParameter(final ParametersName name) {
         return Optional.ofNullable(parameters.get(name));
     }
 
@@ -31,10 +31,9 @@ public abstract class ImageFilterImpl implements ImageFilter {
 
     @Override
     public final void removeParameter(final ParametersName name) {
-        if (!parameters.containsKey(name)) {
-            throw new IllegalArgumentException("The parameter is not present");
+        if (parameters.containsKey(name)) {
+            parameters.remove(name);
         }
-        parameters.remove(name);
     }
 
     /**
