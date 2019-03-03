@@ -11,13 +11,9 @@ import java.util.Optional;
 public abstract class ImageFilterImpl implements ImageFilter {
     private final Map<ParametersName, Parameter<?>> parameters = new HashMap<>();
 
-    /**
-     * This function return (optionally) the parameter associated with the name.
-     * @param name the name of the parameter to get
-     * @return the parameter
-     *
-     */
-    private Optional<Parameter<?>> getParameter(final ParametersName name) {
+
+    @Override
+    public Optional<Parameter<?>> getParameter(final ParametersName name) {
         return Optional.ofNullable(parameters.get(name));
     }
 

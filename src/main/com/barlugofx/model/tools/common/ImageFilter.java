@@ -1,5 +1,7 @@
 package com.barlugofx.model.tools.common;
 
+import java.util.Optional;
+
 import com.barlugofx.model.imageTools.Image;
 
 /**
@@ -24,6 +26,14 @@ public interface ImageFilter {
      * Please check on filter docs that your are passing the right argument.
      */
     void addParameter(ParametersName name, Parameter<?> value);
+
+    /**
+     * This function return (optionally) the parameter associated with the name.
+     * @param name the name of the parameter to get
+     * @return the parameter
+     *
+     */
+    Optional<Parameter<?>> getParameter(ParametersName name);
 
     /**
      * Remove the parameter value and his name from the filter.
