@@ -169,7 +169,7 @@
 				                                        
 				                                        <AnchorPane fx:id="apaneBrightness" minHeight="70" style="-fx-border-width: 6 0 6 0">
 				                                            <children>
-				                                                <Label text="Brightness" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
+				                                                <Label text="Brightness" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5"/>
 				                                                <JFXSlider fx:id="slBrightness" id="whiteblackslider" min="-100" max="100" value="0"
 				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
 				                                                    AnchorPane.rightAnchor="10" />
@@ -297,17 +297,19 @@
                                                             </children>
                                                         </AnchorPane>
                                                         <Separator orientation="VERTICAL" visible="FALSE" prefHeight="10"/>
+                                                        <!-- TEMP -->
                                                         <!-- <JFXButton fx:id="btnBWApply" text="Apply"/> -->
                                                    </children>
                                                </VBox>
                                            </content>
                                        </TitledPane>
+                                       <!-- TODO TEMP -->
                                        <JFXButton fx:id="btnBWApply" text="Apply all" onMouseClicked="#apply"/>                                    
 									</children>
 								</VBox>
 							</content>
 						</ScrollPane>
-						<ListView/>
+						<ListView style="-fx-background-color:#333130"/>
 					</items>
 				</SplitPane>
 			</items>

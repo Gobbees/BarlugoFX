@@ -14,14 +14,16 @@ public interface AppManager {
     Image getImage();
 
     /**
-     * @param red
-     * @param green
-     * @param blue
+     * This function, taken the input, computes the new image applying bw tool on it.
+     * @param red the wred value
+     * @param green the wgreen value
+     * @param blue the wblue value
      */
-    void setBW(final double red, final double green, final double blue);
-    
+    void setBW(double red, double green, double blue);
+
     /**
-     * @param value
+     * This function, taken the input, computes the new image applying brightness tool on it.
+     * @param value the brightness value
      */
-    void setBrightness(final int value);
+    void setBrightness(int value);
 }

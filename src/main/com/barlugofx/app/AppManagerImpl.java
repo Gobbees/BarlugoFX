@@ -2,6 +2,7 @@ package com.barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 import com.barlugofx.model.imageTools.Image;
 import com.barlugofx.model.tools.BlackAndWhite;
@@ -66,13 +67,14 @@ public class AppManagerImpl implements AppManager {
      */
     @Override
     public void setBW(final double red, final double green, final double blue) {
-        bw.addParameter(ParametersName.WRED, new ParameterImpl<Double>(red));
-        bw.addParameter(ParametersName.WGREEN, new ParameterImpl<Double>(green));
-        bw.addParameter(ParametersName.WBLUE, new ParameterImpl<Double>(blue));
-        image = bw.applyFilter(image);
-        bw.removeParameter(ParametersName.WRED);
-        bw.removeParameter(ParametersName.WGREEN);
-        bw.removeParameter(ParametersName.WBLUE);
+        //TODO
+//        bw.addParameter(ParametersName.WRED, new ParameterImpl<Double>(red));
+//        bw.addParameter(ParametersName.WGREEN, new ParameterImpl<Double>(green));
+//        bw.addParameter(ParametersName.WBLUE, new ParameterImpl<Double>(blue));
+//        image = bw.applyFilter(image);
+//        bw.removeParameter(ParametersName.WRED);
+//        bw.removeParameter(ParametersName.WGREEN);
+//        bw.removeParameter(ParametersName.WBLUE);
     }
 
     /* (non-Javadoc)
@@ -80,8 +82,13 @@ public class AppManagerImpl implements AppManager {
      */
     @Override
     public void setBrightness(final int value) {
+        //TODO history
+        System.out.println("Computed");
+        brightness.removeParameter(ParametersName.BRIGHTNESS);
         brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<Integer>(value));
         image = brightness.applyFilter(image);
-        brightness.removeParameter(ParametersName.BRIGHTNESS);
     }
+    //TODO finish filters
+    //TODO history
+    //TODO
 }

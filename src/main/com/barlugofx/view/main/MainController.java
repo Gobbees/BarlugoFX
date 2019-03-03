@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -17,8 +18,10 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 //import javafx.scene.input.KeyCharacterCombination;
 //import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -136,6 +139,7 @@ public class MainController implements ViewController {
     private Stage stage;
     private Scene scene;
     private AppManager manager;
+    private int brightnessValue;
 
     /* (non-Javadoc)
      * @see com.barlugofx.ui.ViewController#setStage(javafx.stage.Stage)
@@ -153,7 +157,10 @@ public class MainController implements ViewController {
     }
 
     private void setImage(final Image image) {
-        iviewImage.setImage(image);
+        Platform.runLater(() -> {
+            iviewImage.setImage(image);
+        });
+        
     }
     /**TODO
      * @param manager
@@ -172,6 +179,7 @@ public class MainController implements ViewController {
         iviewImage.setImage(new Image("file:res/img/logo.png"));
         iviewImage.setFitWidth(scpaneImage.getWidth());
         iviewImage.setFitHeight(scpaneImage.getHeight());
+        brightnessValue = (int) slBrightness.getValue();
     }
     //this function adds all the components listeners
     private void addListeners() {  //TODO REFACTORING
@@ -367,6 +375,14 @@ public class MainController implements ViewController {
         });
         slBWB.valueProperty().addListener((ev, ov, nv) -> {
             tfBWB.setText(nv.intValue() + "");
+        });
+        //TODO also for the others and for textfields
+        slBrightness.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER) && (int) slBrightness.getValue() != brightnessValue) {
+                brightnessValue = (int) slBrightness.getValue();
+                manager.setBrightness(brightnessValue);
+                setImage(SwingFXUtils.toFXImage(ImageUtilities.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+            }
         });
     }
     /**
