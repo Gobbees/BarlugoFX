@@ -1,10 +1,10 @@
-package com.barlugofx.ui.welcome;
+package com.barlugofx.view.welcome;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 
-import com.barlugofx.ui.AbstractView;
+import com.barlugofx.view.AbstractView;
 
 import javafx.stage.Stage;
 /**

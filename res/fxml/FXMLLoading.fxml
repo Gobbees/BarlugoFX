@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Separator?>
 
 <BorderPane fx:id="bpaneMain" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" 
-    fx:controller="com.barlugofx.ui.loading.LoadingController">
+    fx:controller="com.barlugofx.view.loading.LoadingController">
     <center>
 	    <ImageView fx:id="iviewLogo" pickOnBounds="true" preserveRatio="true">
 	        <image>

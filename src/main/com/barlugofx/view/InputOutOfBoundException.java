@@ -1,4 +1,4 @@
-package com.barlugofx.ui;
+package com.barlugofx.view;
 
 /**
  * This exception is thrown when the input of a textfield is out of the slider min/max range.

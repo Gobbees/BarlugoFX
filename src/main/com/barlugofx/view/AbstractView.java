@@ -1,4 +1,4 @@
-package com.barlugofx.ui;
+package com.barlugofx.view;
 
 import java.awt.Dimension;
 import java.io.IOException;

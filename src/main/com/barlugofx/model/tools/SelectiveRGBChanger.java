@@ -16,21 +16,21 @@ import com.barlugofx.model.tools.common.ParametersName;
  *  -255 to 255, BLUE, wich is an int with the same restrictions, and GREEN, which again is an int from -255 to 255.
  *
  */
-public final class SelectiveRGBChanges extends ImageFilterImpl {
+public final class SelectiveRGBChanger extends ImageFilterImpl {
     private static final int MAX = 255;
     private static final int DEFAULT =  0;
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private static final Set<ParametersName> ACCEPTED = new HashSet<>(
             Arrays.asList(ParametersName.RED, ParametersName.GREEN, ParametersName.BLUE));
 
-    private SelectiveRGBChanges() {
+    private SelectiveRGBChanger() {
     }
     /**
      * Creates a new SelectiveRGB changes.
      * @return a new SelectiveRGBChanges.
      */
-    public static SelectiveRGBChanges createSelective() {
-        return new SelectiveRGBChanges();
+    public static SelectiveRGBChanger createSelective() {
+        return new SelectiveRGBChanger();
     }
 
     @Override

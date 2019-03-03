@@ -1,11 +1,11 @@
-package com.barlugofx.ui.welcome;
+package com.barlugofx.view.welcome;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.barlugofx.ui.Animations;
-import com.barlugofx.ui.ViewController;
-import com.barlugofx.ui.main.MainView;
+import com.barlugofx.view.Animations;
+import com.barlugofx.view.ViewController;
+import com.barlugofx.view.main.MainView;
 import com.jfoenix.controls.JFXButton;
 
 import javafx.animation.FadeTransition;

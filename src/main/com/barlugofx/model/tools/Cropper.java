@@ -16,7 +16,7 @@ import com.barlugofx.model.tools.common.ParametersName;
  * X1 must be less than X2 and >= 0. Same goes for Y1 and Y2.
  * X2 and Y2 must be less than the image width and height respectively.
  */
-public final class Crop extends ImageFilterImpl {
+public final class Cropper extends ImageFilterImpl {
 
     private static final int MIN_VALUE_1 = 0;
     private static final int MAX_VALUE_2 = 1;
@@ -25,15 +25,15 @@ public final class Crop extends ImageFilterImpl {
     private static final Set<ParametersName> ACCEPTED = new HashSet<>(
             Arrays.asList(ParametersName.X1, ParametersName.X2, ParametersName.Y1, ParametersName.Y2));
 
-    private Crop() {
+    private Cropper() {
     }
 
     /**
-     * creates and instantiate a new Crop.
+     * creates and instantiate a new Cropper.
      * @return the new Crop.
      */
-    public static Crop createCrop() {
-        return new Crop();
+    public static Cropper createCropper() {
+        return new Cropper();
     }
 
     @Override

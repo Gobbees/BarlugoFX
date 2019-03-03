@@ -34,7 +34,7 @@
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
 	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
-	fx:controller="com.barlugofx.ui.main.MainController">
+	fx:controller="com.barlugofx.view.main.MainController">
 	<top>
 		<AnchorPane fx:id="apaneMenuBar" styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
 			<children>
@@ -297,11 +297,12 @@
                                                             </children>
                                                         </AnchorPane>
                                                         <Separator orientation="VERTICAL" visible="FALSE" prefHeight="10"/>
-                                                        <JFXButton fx:id="btnBWApply" text="Apply"/>
+                                                        <!-- <JFXButton fx:id="btnBWApply" text="Apply"/> -->
                                                    </children>
                                                </VBox>
                                            </content>
-                                       </TitledPane>                                    
+                                       </TitledPane>
+                                       <JFXButton fx:id="btnBWApply" text="Apply all" onMouseClicked="#apply"/>                                    
 									</children>
 								</VBox>
 							</content>

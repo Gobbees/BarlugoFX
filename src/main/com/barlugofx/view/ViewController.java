@@ -1,4 +1,4 @@
-package com.barlugofx.ui;
+package com.barlugofx.view;
 
 import javafx.stage.Stage;
 

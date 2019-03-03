@@ -1,18 +1,19 @@
-package com.barlugofx.ui.main;
+package com.barlugofx.view.main;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 
-import com.barlugofx.ui.AbstractView;
-import com.barlugofx.ui.Animations;
-import com.barlugofx.ui.loading.LoadingView;
+import com.barlugofx.app.AppManager;
+import com.barlugofx.app.AppManagerImpl;
+import com.barlugofx.view.AbstractView;
+import com.barlugofx.view.Animations;
+import com.barlugofx.view.loading.LoadingView;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -23,6 +24,8 @@ public class MainView extends AbstractView<MainController> {
     //private constant fields
     private static final double ANIM_MILLIS = 600.0;
     private static final double ANIM_STEP = 50.0;
+
+    private final AppManager manager;
     /**
      * @param stage the input stage
      * @param file the file chosen by the user
@@ -31,6 +34,7 @@ public class MainView extends AbstractView<MainController> {
     public MainView(final Stage stage, final File file) {
         super("BarlugoFX", "file:res/img/logo.png", stage, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
                             (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() - (stage.getHeight() - stage.getScene().getHeight()))));
+        manager = new AppManagerImpl(file);
         LoadingView t = new LoadingView(stage);
         try {
             this.loadFXML("file:res/fxml/FXMLMain.fxml");
@@ -51,7 +55,7 @@ public class MainView extends AbstractView<MainController> {
                 //calls the controller setStage function after the scene set because I need the components sizes on the screen, and they are initialized only with the new scene set
                 Platform.runLater(() -> {
                     this.getController().setStage(this.getStage());
-                    this.getController().setImage(new Image(file.toURI().toString()));
+                    this.getController().setManager(manager);
                 });
             });
             stageTimeline.play();

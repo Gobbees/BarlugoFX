@@ -1,10 +1,10 @@
-package com.barlugofx.ui.loading;
+package com.barlugofx.view.loading;
 
 import java.awt.Dimension;
 import java.io.IOException;
 
-import com.barlugofx.ui.AbstractView;
-import com.barlugofx.ui.Animations;
+import com.barlugofx.view.AbstractView;
+import com.barlugofx.view.Animations;
 
 import javafx.animation.FadeTransition;
 import javafx.stage.Stage;

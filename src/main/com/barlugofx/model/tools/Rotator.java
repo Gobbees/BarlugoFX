@@ -16,11 +16,11 @@ import com.barlugofx.model.tools.common.ParametersName;
  * which must be an integer between -360 and +360.
  *
  */
-public final class Rotate extends ImageFilterImpl {
+public final class Rotator extends ImageFilterImpl {
     private static final int MAX = 360;
     private static final int DEFAULT = 0;
 
-    private Rotate() {
+    private Rotator() {
     }
 
     /**
@@ -28,8 +28,8 @@ public final class Rotate extends ImageFilterImpl {
      *
      * @return the rotate instance.
      */
-    public static Rotate createRotate() {
-        return new Rotate();
+    public static Rotator createRotator() {
+        return new Rotator();
     }
 
     @Override

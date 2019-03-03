@@ -8,7 +8,7 @@ import com.barlugofx.model.tools.common.ImageFilterImpl;
 import com.barlugofx.model.tools.common.ParametersName;
 
 /**
- * A brightness class that allows to change an image contrast. It only accepts one parameter, Contrast, which must be between
+ * A brightness class that allows to change an image contrast. It only accepts one parameter, Brightness, which must be between
  * -255 and 255. Eventual other value will result in an {@link IllegalStateException}.
  *
  *

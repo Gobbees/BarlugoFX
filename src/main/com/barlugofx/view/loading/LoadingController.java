@@ -1,6 +1,6 @@
-package com.barlugofx.ui.loading;
+package com.barlugofx.view.loading;
 
-import com.barlugofx.ui.ViewController;
+import com.barlugofx.view.ViewController;
 import com.jfoenix.controls.JFXSpinner;
 
 import javafx.fxml.FXML;

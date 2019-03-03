@@ -1,11 +1,14 @@
-package com.barlugofx.ui.main;
+package com.barlugofx.view.main;
 
-import com.barlugofx.ui.InputOutOfBoundException;
-import com.barlugofx.ui.ViewController;
+import com.barlugofx.app.AppManager;
+import com.barlugofx.model.imageTools.ImageUtilities;
+import com.barlugofx.view.InputOutOfBoundException;
+import com.barlugofx.view.ViewController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -132,6 +135,7 @@ public class MainController implements ViewController {
     private JFXButton btnBWApply;
     private Stage stage;
     private Scene scene;
+    private AppManager manager;
 
     /* (non-Javadoc)
      * @see com.barlugofx.ui.ViewController#setStage(javafx.stage.Stage)
@@ -146,6 +150,17 @@ public class MainController implements ViewController {
 //        KeyCombination kc = new KeyCharacterCombination("+", KeyCombination.CONTROL_DOWN);
 //        Runnable rn = () -> System.out.println("CIAO");
 //        stage.getScene().getAccelerators().put(kc,  rn);
+    }
+
+    private void setImage(final Image image) {
+        iviewImage.setImage(image);
+    }
+    /**TODO
+     * @param manager
+     */
+    public void setManager(final AppManager manager) {
+        this.manager = manager;
+        setImage(SwingFXUtils.toFXImage(ImageUtilities.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
     }
 
     //this function initializes all the components sizes in relation to the screen size.
@@ -354,16 +369,18 @@ public class MainController implements ViewController {
             tfBWB.setText(nv.intValue() + "");
         });
     }
+    /**
+     * 
+     */
+    @FXML
+    public void apply() {
+        manager.setBW(slBWR.getValue(), slBWG.getValue(), slBWB.getValue());
+        manager.setBrightness((int) slBrightness.getValue());
+        setImage(SwingFXUtils.toFXImage(ImageUtilities.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+    }
     @Override
     public void resizeComponents(final int width, final int height) {
         //TODO
     }
-    //TODO
-    /**
-     *
-     * @param image the input image of the new project
-     */
-    public void setImage(final Image image) {
-        iviewImage.setImage(image);
-    }
+
 }
