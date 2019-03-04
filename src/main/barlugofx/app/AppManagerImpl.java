@@ -26,7 +26,7 @@ import barlugofx.model.tools.common.ParametersName;
  */
 public class AppManagerImpl implements AppManager {
     //multipliers used to adapt the input from the view to the model
-    private static final double EXPOSURE_MULTIPLIER = 100.0;
+    private static final float EXPOSURE_MULTIPLIER = 100.0f;
     
     private Image image;
     private IOManagerImpl fileManager;
@@ -74,7 +74,8 @@ public class AppManagerImpl implements AppManager {
     @Override
     public void setExposure(final int value) {
         //TODO HISTORY
-        hsb.addParameter(ParametersName.EXPOSURE, new ParameterImpl<Double>(value / EXPOSURE_MULTIPLIER));
+        hsb.removeParameter(ParametersName.EXPOSURE);
+        hsb.addParameter(ParametersName.EXPOSURE, new ParameterImpl<Float>(value / EXPOSURE_MULTIPLIER));
         image = hsb.applyFilter(image);
     }
 
@@ -83,6 +84,7 @@ public class AppManagerImpl implements AppManager {
      */
     @Override
     public void setContrast(final int value) {
+        contrast.removeParameter(ParametersName.CONTRAST);
         contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<Integer>(value));
         image = contrast.applyFilter(image);
     }

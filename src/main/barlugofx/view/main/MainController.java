@@ -226,6 +226,34 @@ public class MainController implements ViewController {
         addComponentProperties(tfBWB, slBWB, BWB);
 
         //TODO also for the others and for textfields
+        tfExposure.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(EXPOSURE).getSecond() && Integer.parseInt(tfExposure.getText()) != toolStatus.get(EXPOSURE).getFirst().intValue()) {
+                toolStatus.get(EXPOSURE).setFirst((int) slExposure.getValue());
+                manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slExposure.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slExposure.getValue() != toolStatus.get(EXPOSURE).getFirst().intValue()) {
+              toolStatus.get(EXPOSURE).setFirst((int) slExposure.getValue());
+              manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+              updateImage();
+          }
+        });
+        tfContrast.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(CONTRAST).getSecond() && Integer.parseInt(tfContrast.getText()) != toolStatus.get(CONTRAST).getFirst().intValue()) {
+                toolStatus.get(CONTRAST).setFirst((int) slContrast.getValue());
+                manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slContrast.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slContrast.getValue() != toolStatus.get(CONTRAST).getFirst().intValue()) {
+              toolStatus.get(CONTRAST).setFirst((int) slContrast.getValue());
+              manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+              updateImage();
+          }
+        });
         tfBrightness.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(BRIGHTNESS).getSecond() && Integer.parseInt(tfBrightness.getText()) != toolStatus.get(BRIGHTNESS).getFirst().intValue()) {
                 toolStatus.get(BRIGHTNESS).setFirst((int) slBrightness.getValue());
