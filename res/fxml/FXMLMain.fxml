@@ -34,7 +34,7 @@
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
 	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
-	fx:controller="com.barlugofx.view.main.MainController">
+	fx:controller="barlugofx.view.main.MainController">
 	<top>
 		<AnchorPane fx:id="apaneMenuBar" styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
 			<children>
@@ -117,22 +117,20 @@
 	<!-- TODO -->
 	<center>
 		<SplitPane fx:id="spaneMain" dividerPositions="0.8" style="-fx-border-width: 1 0 0 0">
-			<items>
-			    <BorderPane fx:id="bpaneImage">
-			    <center>
-				<ScrollPane fx:id="scpaneImage" fitToWidth="true" fitToHeight="true">
-					<content>
-					<BorderPane>
-					<center>
-					<ImageView fx:id="iviewImage" preserveRatio="true"/>
-					</center>
-					</BorderPane>
-					    </content>
-                </ScrollPane>
-					       
-						      
-						   </center>
-						</BorderPane>
+	       <items>
+		      <BorderPane fx:id="bpaneImage">
+			     <center>
+				    <ScrollPane fx:id="scpaneImage" fitToWidth="true" fitToHeight="true">
+					   <content>
+						  <BorderPane>
+							<center>
+								<ImageView fx:id="iviewImage" preserveRatio="true" />
+							</center>
+					      </BorderPane>
+					   </content>
+				    </ScrollPane>
+                </center>
+		      </BorderPane>
 					
 
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL" style="-fx-border-width: 0 0 0 0">
@@ -146,7 +144,7 @@
 									       <content>
 									           <VBox>
 									               <children>
-
+                                                        <Label text="Press Enter to apply" id="hintlabel"/>
 				                                        <AnchorPane fx:id="apaneExposure" minHeight="70" style="-fx-border-width: 0 0 0 0">
 				                                            <children>
 				                                                <Label text="Exposure" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
@@ -174,7 +172,7 @@
 				                                                    AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
 				                                                    AnchorPane.rightAnchor="10" />
 				                                                <JFXTextField fx:id="tfBrightness" text="0"
-				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5" />
+				                                                    AnchorPane.topAnchor="5" AnchorPane.rightAnchor="5"/>
 				                                            </children>
 				                                        </AnchorPane>
 									               </children>
@@ -188,6 +186,7 @@
                                            <content>
                                                <VBox>
                                                    <children>
+                                                        <Label text="Press Enter to apply" id="hintlabel"/>
                                                         <!-- TEMP. WHITE BALANCE REQUIRES A TEMPERATURE NOT A -100/100 RANGE VALUE -->
                                                         <AnchorPane fx:id="apaneWhitebalance" minHeight="70" style="-fx-border-width: 1 0 0 0">
                                                             <children>
@@ -302,14 +301,12 @@
                                                    </children>
                                                </VBox>
                                            </content>
-                                       </TitledPane>
-                                       <!-- TODO TEMP -->
-                                       <JFXButton fx:id="btnBWApply" text="Apply all" onMouseClicked="#apply"/>                                    
+                                       </TitledPane>                                    
 									</children>
 								</VBox>
 							</content>
 						</ScrollPane>
-						<ListView style="-fx-background-color:#333130"/>
+						<ListView style="-fx-background-color:#333130"/> <!-- TODO Styling -->
 					</items>
 				</SplitPane>
 			</items>

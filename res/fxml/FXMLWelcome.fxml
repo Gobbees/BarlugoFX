@@ -8,7 +8,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Separator?>
 
-<AnchorPane fx:id="apaneMain" fx:controller="com.barlugofx.view.welcome.WelcomeController" 
+<AnchorPane fx:id="apaneMain" fx:controller="barlugofx.view.welcome.WelcomeController" 
             xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css" 
             styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
     <children>

@@ -27,7 +27,11 @@
     -fx-text-fill: #5affd0;
     -fx-font-size: 20;
 }
-
+#hintlabel {
+    -fx-font-family: "Inconsolata Bold";
+    -fx-text-fill: #5affd0;
+    -fx-font-size: 10;
+}
 #toolabel {
     -fx-text-fill: white;
     -fx-font-size: 15;
