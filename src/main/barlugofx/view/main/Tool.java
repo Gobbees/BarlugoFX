@@ -10,6 +10,7 @@ enum Tool {
     WHITEBALANCE,
     SATURATION,
     HUE,
+    VIBRANCE,
     SCR,
     SCG,
     SCB,

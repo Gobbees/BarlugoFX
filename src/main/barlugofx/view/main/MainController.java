@@ -86,7 +86,7 @@ public class MainController implements ViewController {
     @FXML
     private JFXTextField tfBrightness;
     @FXML
-    private TitledPane tpaneColors;
+    private TitledPane tpaneColours;
     @FXML
     private AnchorPane apaneWhitebalance;
     @FXML
@@ -106,6 +106,14 @@ public class MainController implements ViewController {
     @FXML
     private JFXTextField tfHue;
     @FXML
+    private AnchorPane apaneVibrance;
+    @FXML
+    private JFXSlider slVibrance;
+    @FXML
+    private JFXTextField tfVibrance;
+    @FXML
+    private TitledPane tpaneSC;
+    @FXML
     private AnchorPane apaneSCR;
     @FXML
     private JFXSlider slSCR;
@@ -123,6 +131,10 @@ public class MainController implements ViewController {
     private JFXSlider slSCB;
     @FXML
     private JFXTextField tfSCB;
+    @FXML
+    private JFXButton btnSCApply;
+    @FXML
+    private TitledPane tpaneBW;
     @FXML
     private AnchorPane apaneBWR;
     @FXML
@@ -191,7 +203,6 @@ public class MainController implements ViewController {
         scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
-        iviewImage.setImage(new Image("file:res/img/logo.png"));
         iviewImage.setFitWidth(scpaneImage.getWidth());
         iviewImage.setFitHeight(scpaneImage.getHeight());
     }
@@ -203,12 +214,14 @@ public class MainController implements ViewController {
         toolStatus.put(WHITEBALANCE, new MutablePair<>(slWhitebalance.getValue(), true));
         toolStatus.put(SATURATION, new MutablePair<>(slSaturation.getValue(), true));
         toolStatus.put(HUE, new MutablePair<>(slHue.getValue(), true));
+        toolStatus.put(VIBRANCE, new MutablePair<>(slVibrance.getValue(), true));
         toolStatus.put(SCR, new MutablePair<>(slSCR.getValue(), true));
         toolStatus.put(SCG, new MutablePair<>(slSCG.getValue(), true));
         toolStatus.put(SCB, new MutablePair<>(slSCB.getValue(), true));
-        toolStatus.put(BWR, new MutablePair<>(slBWR.getValue(), true));
-        toolStatus.put(BWG, new MutablePair<>(slBWG.getValue(), true));
-        toolStatus.put(BWB, new MutablePair<>(slBWB.getValue(), true));
+        //TODO temp: to resolve the fact that if the user presses apply on default values the bw won't apply
+        toolStatus.put(BWR, new MutablePair<>(slBWR.getMin() - 1, true));
+        toolStatus.put(BWG, new MutablePair<>(slBWG.getMin() - 1, true));
+        toolStatus.put(BWB, new MutablePair<>(slBWB.getMin() - 1, true));
     }
     //This function adds all the components listeners.
     private void addListeners() {
@@ -218,56 +231,14 @@ public class MainController implements ViewController {
         addComponentProperties(tfWhitebalance, slWhitebalance, WHITEBALANCE);
         addComponentProperties(tfSaturation, slSaturation, SATURATION);
         addComponentProperties(tfHue, slHue, HUE);
+        addComponentProperties(tfVibrance, slVibrance, VIBRANCE);
         addComponentProperties(tfSCR, slSCR, SCR);
         addComponentProperties(tfSCG, slSCG, SCG);
         addComponentProperties(tfSCB, slSCB, SCB);
         addComponentProperties(tfBWR, slBWR, BWR);
         addComponentProperties(tfBWG, slBWG, BWG);
         addComponentProperties(tfBWB, slBWB, BWB);
-
-        //TODO also for the others and for textfields
-        tfExposure.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(EXPOSURE).getSecond() && Integer.parseInt(tfExposure.getText()) != toolStatus.get(EXPOSURE).getFirst().intValue()) {
-                toolStatus.get(EXPOSURE).setFirst((int) slExposure.getValue());
-                manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
-                updateImage();
-            }
-        });
-        slExposure.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(KeyCode.ENTER) && (int) slExposure.getValue() != toolStatus.get(EXPOSURE).getFirst().intValue()) {
-              toolStatus.get(EXPOSURE).setFirst((int) slExposure.getValue());
-              manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
-              updateImage();
-          }
-        });
-        tfContrast.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(CONTRAST).getSecond() && Integer.parseInt(tfContrast.getText()) != toolStatus.get(CONTRAST).getFirst().intValue()) {
-                toolStatus.get(CONTRAST).setFirst((int) slContrast.getValue());
-                manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
-                updateImage();
-            }
-        });
-        slContrast.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(KeyCode.ENTER) && (int) slContrast.getValue() != toolStatus.get(CONTRAST).getFirst().intValue()) {
-              toolStatus.get(CONTRAST).setFirst((int) slContrast.getValue());
-              manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
-              updateImage();
-          }
-        });
-        tfBrightness.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(BRIGHTNESS).getSecond() && Integer.parseInt(tfBrightness.getText()) != toolStatus.get(BRIGHTNESS).getFirst().intValue()) {
-                toolStatus.get(BRIGHTNESS).setFirst((int) slBrightness.getValue());
-                manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
-                updateImage();
-            }
-        });
-        slBrightness.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(KeyCode.ENTER) && (int) slBrightness.getValue() != toolStatus.get(BRIGHTNESS).getFirst().intValue()) {
-              toolStatus.get(BRIGHTNESS).setFirst((int) slBrightness.getValue());
-              manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
-              updateImage();
-          }
-        });
+        setEventListeners();
     }
     @Override
     public void resizeComponents(final int width, final int height) {
@@ -277,7 +248,7 @@ public class MainController implements ViewController {
     private void addComponentProperties(final JFXTextField tfield, final JFXSlider slider, final Tool tool) {
         tfield.textProperty().addListener((ev, ov, nv) -> {
             try {
-                int newValue = Integer.parseInt(nv);
+                final int newValue = Integer.parseInt(nv);
                 if (newValue >= slider.getMin() && newValue <= slider.getMax()) {
                     slider.setValue(newValue);
                     toolStatus.get(tool).setSecond(true);
@@ -296,6 +267,141 @@ public class MainController implements ViewController {
         slider.focusedProperty().addListener((ev, ov, nv) -> {
             if (nv) {
                 tfield.setText((int) slider.getValue() + "");
+            }
+        });
+    }
+
+    private void setEventListeners() {
+        tfExposure.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(EXPOSURE).getSecond() && Integer.parseInt(tfExposure.getText()) != toolStatus.get(EXPOSURE).getFirst().intValue()) {
+                toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
+                manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slExposure.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slExposure.getValue() != toolStatus.get(EXPOSURE).getFirst().intValue()) {
+              toolStatus.get(EXPOSURE).setFirst((int) slExposure.getValue());
+              manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+              updateImage();
+          }
+        });
+
+        tfContrast.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(CONTRAST).getSecond() && Integer.parseInt(tfContrast.getText()) != toolStatus.get(CONTRAST).getFirst().intValue()) {
+                toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
+                manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slContrast.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slContrast.getValue() != toolStatus.get(CONTRAST).getFirst().intValue()) {
+              toolStatus.get(CONTRAST).setFirst((int) slContrast.getValue());
+              manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+              updateImage();
+          }
+        });
+
+        tfBrightness.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(BRIGHTNESS).getSecond() && Integer.parseInt(tfBrightness.getText()) != toolStatus.get(BRIGHTNESS).getFirst().intValue()) {
+                toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
+                manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slBrightness.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slBrightness.getValue() != toolStatus.get(BRIGHTNESS).getFirst().intValue()) {
+              toolStatus.get(BRIGHTNESS).setFirst((int) slBrightness.getValue());
+              manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
+              updateImage();
+          }
+        });
+
+        tfWhitebalance.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(WHITEBALANCE).getSecond() && Integer.parseInt(tfWhitebalance.getText()) != toolStatus.get(WHITEBALANCE).getFirst().intValue()) {
+                toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
+                manager.setWB(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slWhitebalance.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slWhitebalance.getValue() != toolStatus.get(WHITEBALANCE).getFirst().intValue()) {
+              toolStatus.get(WHITEBALANCE).setFirst((int) slWhitebalance.getValue());
+              manager.setWB(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+              updateImage();
+          }
+        });
+
+        tfSaturation.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(SATURATION).getSecond() && Integer.parseInt(tfSaturation.getText()) != toolStatus.get(SATURATION).getFirst().intValue()) {
+                toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
+                manager.setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slSaturation.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slSaturation.getValue() != toolStatus.get(SATURATION).getFirst().intValue()) {
+              toolStatus.get(SATURATION).setFirst((int) slSaturation.getValue());
+              manager.setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
+              updateImage();
+          }
+        });
+
+        tfHue.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(HUE).getSecond() && Integer.parseInt(tfHue.getText()) != toolStatus.get(HUE).getFirst().intValue()) {
+                toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
+                manager.setHue(toolStatus.get(HUE).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slHue.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slHue.getValue() != toolStatus.get(HUE).getFirst().intValue()) {
+              toolStatus.get(HUE).setFirst((int) slHue.getValue());
+              manager.setHue(toolStatus.get(HUE).getFirst().intValue());
+              updateImage();
+          }
+        });
+
+        tfVibrance.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(VIBRANCE).getSecond() && Integer.parseInt(tfVibrance.getText()) != toolStatus.get(VIBRANCE).getFirst().intValue()) {
+                toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
+                manager.setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
+                updateImage();
+            }
+        });
+        slVibrance.setOnKeyPressed(ke -> {
+            if (ke.getCode().equals(KeyCode.ENTER) && (int) slVibrance.getValue() != toolStatus.get(VIBRANCE).getFirst().intValue()) {
+              toolStatus.get(VIBRANCE).setFirst((int) slVibrance.getValue());
+              manager.setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
+              updateImage();
+          }
+        });
+
+        btnSCApply.setOnMouseClicked(ev -> {
+            if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()) {
+                if ((int) slSCR.getValue() != toolStatus.get(SCR).getFirst().intValue()
+                   || (int) slSCG.getValue() != toolStatus.get(SCG).getFirst().intValue()
+                   || (int) slSCB.getValue() != toolStatus.get(SCB).getFirst().intValue()) {
+                    toolStatus.get(SCR).setFirst((int) slSCR.getValue());
+                    toolStatus.get(SCG).setFirst((int) slSCG.getValue());
+                    toolStatus.get(SCB).setFirst((int) slSCB.getValue());
+                    manager.setSC(toolStatus.get(SCR).getFirst().intValue(), toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
+                    updateImage();
+                }
+            }
+        });
+
+        btnBWApply.setOnMouseClicked(ev -> {
+            if (toolStatus.get(BWR).getSecond() && toolStatus.get(BWG).getSecond() && toolStatus.get(BWB).getSecond()) {
+                if ((int) slBWR.getValue() != toolStatus.get(BWR).getFirst().intValue()
+                   || (int) slBWG.getValue() != toolStatus.get(BWG).getFirst().intValue()
+                   || (int) slBWB.getValue() != toolStatus.get(BWB).getFirst().intValue()) {
+                    toolStatus.get(BWR).setFirst((int) slBWR.getValue());
+                    toolStatus.get(BWG).setFirst((int) slBWG.getValue());
+                    toolStatus.get(BWB).setFirst((int) slBWB.getValue());
+                    manager.setBW(toolStatus.get(BWR).getFirst().intValue(), toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
+                    updateImage();
+                }
             }
         });
     }
