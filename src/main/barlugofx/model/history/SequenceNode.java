@@ -1,7 +1,7 @@
 package barlugofx.model.history;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.tools.common.ImageFilter;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.tools.common.ImageTool;
 
 /**
  * 
@@ -43,5 +43,5 @@ public interface SequenceNode {
      * 
      * @return filter
      */
-    ImageFilter getFilter();
+    ImageTool getFilter();
 }
