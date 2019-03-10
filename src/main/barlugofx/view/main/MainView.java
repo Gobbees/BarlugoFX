@@ -8,7 +8,7 @@ import java.io.IOException;
 import barlugofx.app.AppManager;
 import barlugofx.app.AppManagerImpl;
 import barlugofx.view.AbstractView;
-import barlugofx.view.Animations;
+import barlugofx.view.AnimationUtils;
 import barlugofx.view.loading.LoadingView;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
@@ -34,21 +34,21 @@ public class MainView extends AbstractView<MainController> {
         super("BarlugoFX", "file:res/img/logo.png", stage, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
                             (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() - (stage.getHeight() - stage.getScene().getHeight()))));
         manager = new AppManagerImpl(file);
-        LoadingView t = new LoadingView(stage);
+        final LoadingView t = new LoadingView(stage);
         try {
             this.loadFXML("file:res/fxml/FXMLMain.fxml");
         } catch (IOException e) {
             //log!!!!!
             e.printStackTrace();
         }
-        FadeTransition loadingOut = t.getFadeOutTransition();
+        final FadeTransition loadingOut = t.getFadeOutTransition();
         loadingOut.setOnFinished(fadeOutEvent -> {
             this.getStage().setScene(null);
             this.getStage().setResizable(true);
             //this is performed after the animation finish because if not the view is closed too strongly.
-            Timeline stageTimeline = Animations.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, Toolkit.getDefaultToolkit().getScreenSize());
+            final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, Toolkit.getDefaultToolkit().getScreenSize());
             stageTimeline.setOnFinished(timelineEvent -> {
-                FadeTransition mainIn = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
+                final FadeTransition mainIn = AnimationUtils.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
                 mainIn.play();
                 this.getStage().setScene(this.getScene());
                 //calls the controller setStage function after the scene set because I need the components sizes on the screen, and they are initialized only with the new scene set

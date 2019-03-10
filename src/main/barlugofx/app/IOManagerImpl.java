@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
 
 /**
  *  Implementation of IOManager interface.

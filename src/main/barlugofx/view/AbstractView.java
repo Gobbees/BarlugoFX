@@ -62,11 +62,11 @@ public abstract class AbstractView<T extends ViewController> {
 
     /**
      * @return the view controller
-     * @throws NullPointerException if the controller is null
+     * @throws IllegalStateException if the controller is null
      */
-    protected T getController() throws NullPointerException {
+    protected T getController() throws IllegalStateException {
         if (this.controller == null) {
-            throw new NullPointerException();
+            throw new IllegalStateException("The controller is null");
         }
         return (T) this.controller;
     }

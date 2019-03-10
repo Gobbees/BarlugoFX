@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import com.jfoenix.controls.JFXButton;
 
-import barlugofx.view.Animations;
+import barlugofx.view.AnimationUtils;
 import barlugofx.view.ViewController;
 import barlugofx.view.main.MainView;
 import javafx.animation.FadeTransition;
@@ -47,10 +47,11 @@ public class WelcomeController implements ViewController {
     @FXML
     private JFXButton btnProject;
     private Stage stage;
-    /* (non-Javadoc)
-     * @see com.barlugofx.ui.ViewController#resizeComponents(int, int)
+    /**
+     * Resizes the components in relation to the new sizes.
+     * @param width the new width
+     * @param height the new height
      */
-    @Override
     public void resizeComponents(final int width, final int height) {
         btnImage.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
         btnImage.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
@@ -125,7 +126,7 @@ public class WelcomeController implements ViewController {
     //private functions
     private void openMainView(final File file) {
         if (file != null) {
-            FadeTransition ft = Animations.fadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
+            final FadeTransition ft = AnimationUtils.fadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
             ft.setOnFinished(e -> {
                 new MainView(stage, file);
             });

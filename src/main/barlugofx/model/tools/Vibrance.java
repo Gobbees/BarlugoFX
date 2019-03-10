@@ -1,11 +1,11 @@
 package barlugofx.model.tools;
 
-import barlugofx.model.imageTools.ColorManipulator;
-import barlugofx.model.imageTools.ColorManipulatorImpl;
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.imageTools.ImageUtilities;
-import barlugofx.model.tools.common.ImageFilterImpl;
+import barlugofx.model.imagetools.ColorManipulator;
+import barlugofx.model.imagetools.ColorManipulatorImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.imagetools.ImageUtils;
+import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -14,7 +14,7 @@ import barlugofx.model.tools.common.ParametersName;
  * will not encounter great differences.
  * It accepts one parameter: VIBRANCE_INCREMENT which specify the value to add. Must be a float between -1 and 1.
  */
-public final class Vibrance extends ImageFilterImpl {
+public final class Vibrance extends ImageToolImpl {
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private static final float MIN_INCREMENT = -1;
     private static final float MAX_INCREMENT = 1;
@@ -22,6 +22,7 @@ public final class Vibrance extends ImageFilterImpl {
     private static final float DEFAULT_VALUE = 0;
 
     private Vibrance() {
+        super();
     }
 
     /**
@@ -38,7 +39,7 @@ public final class Vibrance extends ImageFilterImpl {
                 MAX_INCREMENT, DEFAULT_VALUE) / 100;
 
         final int[][] pixels = toApply.getImageRGBvalues();
-        final float[][][] hsb = ImageUtilities.rgbToHsb(toApply.getImageRGBvalues());
+        final float[][][] hsb = ImageUtils.rgbToHsb(toApply.getImageRGBvalues());
         for (int i = 0; i < hsb.length; i++) {
             for (int j = 0; j < hsb[0].length; j++) {
                 float brightness = COL.getRed(pixels[i][j]) + COL.getBlue(pixels[i][j]) + COL.getGreen(pixels[i][j]);
@@ -47,7 +48,7 @@ public final class Vibrance extends ImageFilterImpl {
                 hsb[i][j][1] = truncateSum(hsb[i][j][1], (maxColor - brightness) * increment);
             }
         }
-        return ImageImpl.buildFromPixels(ImageUtilities.hsbToRgb(hsb));
+        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(hsb));
     }
 
     private float truncateSum(final float saturation, final float toAdd) {

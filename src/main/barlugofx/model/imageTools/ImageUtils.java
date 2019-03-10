@@ -1,4 +1,4 @@
-package barlugofx.model.imageTools;
+package barlugofx.model.imagetools;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -8,12 +8,12 @@ import java.awt.image.DataBufferByte;
  * This class contains a series of utilites specific for Image class and that can be changed anytime.
  *
  */
-public final class ImageUtilities {
+public final class ImageUtils {
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
     private static final int ALPHASHIFT = 24;
 
-    private ImageUtilities() {
+    private ImageUtils() {
 
     }
     /**
@@ -71,7 +71,7 @@ public final class ImageUtilities {
      * @param pixels the matrix to convert
      * @return the converted float matrix.
      */
-    public static float[][][] rgbToHsb(final int[][] pixels) {
+    public static float[][][] rgbToHsb(final int[]... pixels) {
         final float[][][] result = new float[pixels.length][pixels[0].length][3];
         final ColorManipulator getter = ColorManipulatorImpl.createColorExtractor();
         for (int i = 0; i < pixels.length; i++) {
@@ -90,7 +90,7 @@ public final class ImageUtilities {
      * @param pixelsHSB the float 3-D array that we need to convert.
      * @return the converted pixels matrix
      */
-    public static int[][] hsbToRgb(final float[][][] pixelsHSB) {
+    public static int[][] hsbToRgb(final float[][]... pixelsHSB) {
         final int[][] pixels = new int[pixelsHSB.length][pixelsHSB[0].length];
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {

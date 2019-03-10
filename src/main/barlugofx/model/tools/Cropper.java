@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.tools.common.ImageFilterImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -16,7 +16,7 @@ import barlugofx.model.tools.common.ParametersName;
  * X1 must be less than X2 and >= 0. Same goes for Y1 and Y2.
  * X2 and Y2 must be less than the image width and height respectively.
  */
-public final class Cropper extends ImageFilterImpl {
+public final class Cropper extends ImageToolImpl {
 
     private static final int MIN_VALUE_1 = 0;
     private static final int MAX_VALUE_2 = 1;
@@ -26,6 +26,7 @@ public final class Cropper extends ImageFilterImpl {
             Arrays.asList(ParametersName.X1, ParametersName.X2, ParametersName.Y1, ParametersName.Y2));
 
     private Cropper() {
+        super();
     }
 
     /**

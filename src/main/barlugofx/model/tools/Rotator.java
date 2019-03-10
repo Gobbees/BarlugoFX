@@ -5,10 +5,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.imageTools.ImageUtilities;
-import barlugofx.model.tools.common.ImageFilterImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.imagetools.ImageUtils;
+import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -16,11 +16,12 @@ import barlugofx.model.tools.common.ParametersName;
  * which must be an integer between -360 and +360.
  *
  */
-public final class Rotator extends ImageFilterImpl {
+public final class Rotator extends ImageToolImpl {
     private static final int MAX = 360;
     private static final int DEFAULT = 0;
 
     private Rotator() {
+        super();
     }
 
     /**
@@ -35,7 +36,7 @@ public final class Rotator extends ImageFilterImpl {
     @Override
     public Image applyFilter(final Image toApply) {
         final int degreesToRotate = super.getValueFromParameter(ParametersName.ANGLE, -MAX, MAX, DEFAULT);
-        final BufferedImage src = ImageUtilities.convertImageToBufferedImageWithAlpha(toApply);
+        final BufferedImage src = ImageUtils.convertImageToBufferedImageWithAlpha(toApply);
         int width = src.getWidth();
         int height = src.getHeight();
 
@@ -57,7 +58,8 @@ public final class Rotator extends ImageFilterImpl {
         // find max point and min point so we can then calculate new width and heigth
         final Point min = new Point(points[0]);
         final Point max = new Point(points[0]);
-        for (int i = 1, n = points.length; i < n; i++) {
+        final int n = points.length;
+        for (int i = 1; i < n; i++) {
             final Point p = points[i];
             final double pX = p.getX(), pY = p.getY();
 

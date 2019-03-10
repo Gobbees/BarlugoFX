@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.imageTools.ImageUtilities;
-import barlugofx.model.tools.common.ImageFilterImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.imagetools.ImageUtils;
+import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -17,7 +17,7 @@ import barlugofx.model.tools.common.ParametersName;
  * resulting in more efficient changes.
  *
  */
-public final class HSBModifier extends ImageFilterImpl {
+public final class HSBModifier extends ImageToolImpl {
     private static final int MAX = 1;
     private static final int MIN = -1;
     private static final float DEFAULT_VALUE = 0f;
@@ -25,6 +25,7 @@ public final class HSBModifier extends ImageFilterImpl {
             Arrays.asList(ParametersName.EXPOSURE, ParametersName.HUE, ParametersName.SATURATION));
 
     private HSBModifier() {
+        super();
     }
     /**
      * Creates a new HSBModifier.
@@ -40,7 +41,7 @@ public final class HSBModifier extends ImageFilterImpl {
         final float saturation = getValueFromParameter(ParametersName.SATURATION, MIN, MAX, DEFAULT_VALUE);
         final float exposure = getValueFromParameter(ParametersName.EXPOSURE, MIN, MAX, DEFAULT_VALUE);
 
-        final float[][][] hsv = ImageUtilities.rgbToHsb(toApply.getImageRGBvalues());
+        final float[][][] hsv = ImageUtils.rgbToHsb(toApply.getImageRGBvalues());
         for (int i = 0; i < hsv.length; i++) {
             for (int j = 0; j < hsv[0].length; j++) {
                 hsv[i][j][0] = hue == 0 ? hsv[i][j][0] : hsv[i][j][0] + hue; //truncate qui non e' necessario
@@ -48,7 +49,7 @@ public final class HSBModifier extends ImageFilterImpl {
                 hsv[i][j][2] = exposure == 0 ? hsv[i][j][2] : truncateSum(hsv[i][j][2], exposure);
             }
         }
-        return ImageImpl.buildFromPixels(ImageUtilities.hsbToRgb(hsv));
+        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(hsv));
     }
 
     private float truncateSum(final float hsv, final float hue) {

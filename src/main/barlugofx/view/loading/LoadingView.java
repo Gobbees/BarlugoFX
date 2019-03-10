@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 
 import barlugofx.view.AbstractView;
-import barlugofx.view.Animations;
+import barlugofx.view.AnimationUtils;
 import javafx.animation.FadeTransition;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -30,7 +30,7 @@ public class LoadingView extends AbstractView<LoadingController> {
             e.printStackTrace();
         }
         this.getController().setStage(this.getStage());
-        final FadeTransition ft = Animations.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
+        final FadeTransition ft = AnimationUtils.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
         ft.play();
         this.getStage().setScene(this.getScene());
     }
@@ -39,7 +39,6 @@ public class LoadingView extends AbstractView<LoadingController> {
      * @return the fadeout animation on the current scene.
      */
     public FadeTransition getFadeOutTransition() {
-        FadeTransition animation = Animations.fadeOutTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
-        return animation;
+        return AnimationUtils.fadeOutTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
     }
 }

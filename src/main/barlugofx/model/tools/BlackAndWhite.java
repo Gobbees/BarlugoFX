@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imageTools.ColorManipulator;
-import barlugofx.model.imageTools.ColorManipulatorImpl;
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.tools.common.ImageFilterImpl;
+import barlugofx.model.imagetools.ColorManipulator;
+import barlugofx.model.imagetools.ColorManipulatorImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -17,7 +17,7 @@ import barlugofx.model.tools.common.ParametersName;
  *  that are between 0.8-1.2. The higher the value, the more the channel selected will count on  the black and white image.
  *
  */
-public final class BlackAndWhite extends ImageFilterImpl {
+public final class BlackAndWhite extends ImageToolImpl {
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private static final double MIN_VALUE = 0;
     private static final double DEFAULT_VALUE = 1.0;
@@ -28,7 +28,7 @@ public final class BlackAndWhite extends ImageFilterImpl {
             Arrays.asList(ParametersName.WRED, ParametersName.WGREEN, ParametersName.WBLUE));
 
     private BlackAndWhite() {
-
+        super();
     }
     /**
      * Creates a new BlackAndWhite instance.

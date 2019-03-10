@@ -1,4 +1,4 @@
-package barlugofx.model.imageTools;
+package barlugofx.model.imagetools;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -38,11 +38,11 @@ public final class ImageImpl implements Image {
         pixels = constructPixels(image);
     }
 
-    private ImageImpl(final int[][] pixels) {
+    private ImageImpl(final int[]... pixels) {
         width = pixels[0].length;
         height = pixels.length;
         hasAlphaChannel = true;
-        this.pixels = pixels;
+        this.pixels = Arrays.copyOf(pixels, pixels.length);
     }
 
     /**
@@ -65,13 +65,13 @@ public final class ImageImpl implements Image {
      * @param pixels the matrix from which we build on
      * @return a new Image
      */
-    public static Image buildFromPixels(final int[][] pixels) {
+    public static Image buildFromPixels(final int[]... pixels) {
         return new ImageImpl(pixels);
     }
 
     @Override
     public int[][] getImageRGBvalues() {
-        return pixels;
+        return Arrays.copyOf(pixels, pixels.length);
     }
 
     @Override

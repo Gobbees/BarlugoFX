@@ -27,21 +27,15 @@ public class LoadingController implements ViewController {
     private Separator bottomSeparator;
     @FXML
     private JFXSpinner spinner;
-    private Stage stage;
-
     /**
      * Sets the private field stage (and sets the general sizes of components).
      * @param s the input stage(needed to take scene sizes)
      */
     public void setStage(final Stage s) {
-        this.stage = s;
+        final Stage stage = s;
         iviewLogo.setFitWidth(stage.getScene().widthProperty().get() * IMG_MULTIPLIER);
         iviewLogo.setFitHeight(stage.getScene().heightProperty().get() * IMG_MULTIPLIER);
         bottomSeparator.setVisible(false);
         bottomSeparator.setPrefHeight(stage.getScene().heightProperty().get() * SEP_MULTIPLIER);
-    }
-    @Override
-    public void resizeComponents(final int width, final int height) {
-        //it is empty since the loading view is not resizable.
     }
 }

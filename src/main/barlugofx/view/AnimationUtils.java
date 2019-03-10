@@ -14,9 +14,9 @@ import javafx.util.Duration;
 /**
  * This utility class provides static functions to return a node animation.
  */
-public final class Animations {
+public final class AnimationUtils {
 
-    private Animations() { }
+    private AnimationUtils() { }
 
     /**
      * Returns a FadeOut transition.
@@ -53,7 +53,7 @@ public final class Animations {
      * @return the animation Timeline
      */
     public static Timeline resizeToFullScreen(final Duration duration, final Stage stage, final double step, final Dimension finalDimension) {
-        WritableValue<Double> writableWidth = new WritableValue<Double>() {
+        final WritableValue<Double> writableWidth = new WritableValue<Double>() {
             @Override
             public Double getValue() {
                 return stage.getWidth();
@@ -64,7 +64,7 @@ public final class Animations {
                 stage.centerOnScreen();
             }
         };
-        WritableValue<Double> writableHeight = new WritableValue<Double>() {
+        final WritableValue<Double> writableHeight = new WritableValue<Double>() {
             @Override
             public Double getValue() {
                 return stage.getHeight();
@@ -75,7 +75,7 @@ public final class Animations {
                 stage.centerOnScreen();
             }
         };
-        Timeline tl = new Timeline();
+        final Timeline tl = new Timeline();
         tl.getKeyFrames().addAll(
                 new KeyFrame(Duration.ZERO, // set start position at 0
                     new KeyValue(writableWidth, writableWidth.getValue() + step),

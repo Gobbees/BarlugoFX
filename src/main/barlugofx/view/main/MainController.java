@@ -1,6 +1,18 @@
 package barlugofx.view.main;
-
-import static barlugofx.view.main.Tool.*;
+//to silence the warning
+import static barlugofx.view.main.Tool.BRIGHTNESS;
+import static barlugofx.view.main.Tool.BWB;
+import static barlugofx.view.main.Tool.BWG;
+import static barlugofx.view.main.Tool.BWR;
+import static barlugofx.view.main.Tool.CONTRAST;
+import static barlugofx.view.main.Tool.EXPOSURE;
+import static barlugofx.view.main.Tool.HUE;
+import static barlugofx.view.main.Tool.SATURATION;
+import static barlugofx.view.main.Tool.SCB;
+import static barlugofx.view.main.Tool.SCG;
+import static barlugofx.view.main.Tool.SCR;
+import static barlugofx.view.main.Tool.VIBRANCE;
+import static barlugofx.view.main.Tool.WHITEBALANCE;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +22,8 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
 import barlugofx.app.AppManager;
-import barlugofx.model.imageTools.ImageUtilities;
+import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.MutablePair;
-import barlugofx.view.main.Tool;
 import barlugofx.view.InputOutOfBoundException;
 import barlugofx.view.ViewController;
 import javafx.application.Platform;
@@ -23,12 +34,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 //import javafx.scene.input.KeyCharacterCombination;
 //import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
+//import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -155,10 +165,9 @@ public class MainController implements ViewController {
     private JFXTextField tfBWB;
     @FXML
     private JFXButton btnBWApply;
-    private Stage stage;
     private Scene scene;
     private AppManager manager;
-    private Map<Tool, MutablePair<Number, Boolean>> toolStatus;
+    private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
 
     /**
      * The constructor of the class. It is private because FXML obligates to do so.
@@ -172,8 +181,9 @@ public class MainController implements ViewController {
      */
     @Override
     public void setStage(final Stage stage) {
-        this.stage = stage;
-        this.scene = this.stage.getScene();
+        final Stage st;
+        st = stage;
+        this.scene = st.getScene();
         initComponentSize();
         initToolStatus();
         addListeners();
@@ -185,7 +195,7 @@ public class MainController implements ViewController {
 
     private void updateImage() {
         Platform.runLater(() -> {
-            iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtilities.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+            iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
         });
     }
     //TODO
@@ -240,10 +250,6 @@ public class MainController implements ViewController {
         addComponentProperties(tfBWB, slBWB, BWB);
         setEventListeners();
     }
-    @Override
-    public void resizeComponents(final int width, final int height) {
-        //TODO
-    }
 
     private void addComponentProperties(final JFXTextField tfield, final JFXSlider slider, final Tool tool) {
         tfield.textProperty().addListener((ev, ov, nv) -> {
@@ -262,11 +268,11 @@ public class MainController implements ViewController {
             }
         });
         slider.valueProperty().addListener((ev, ov, nv) -> {
-            tfield.setText(nv.intValue() + "");
+            tfield.setText(String.format("%d", nv.intValue()));
         });
         slider.focusedProperty().addListener((ev, ov, nv) -> {
             if (nv) {
-                tfield.setText((int) slider.getValue() + "");
+                tfield.setText(String.format("%d", (int) slider.getValue()));
             }
         });
     }
@@ -378,30 +384,28 @@ public class MainController implements ViewController {
         });
 
         btnSCApply.setOnMouseClicked(ev -> {
-            if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()) {
-                if ((int) slSCR.getValue() != toolStatus.get(SCR).getFirst().intValue()
-                   || (int) slSCG.getValue() != toolStatus.get(SCG).getFirst().intValue()
-                   || (int) slSCB.getValue() != toolStatus.get(SCB).getFirst().intValue()) {
-                    toolStatus.get(SCR).setFirst((int) slSCR.getValue());
-                    toolStatus.get(SCG).setFirst((int) slSCG.getValue());
-                    toolStatus.get(SCB).setFirst((int) slSCB.getValue());
-                    manager.setSC(toolStatus.get(SCR).getFirst().intValue(), toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
-                    updateImage();
-                }
+            if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()
+                    && ((int) slSCR.getValue() != toolStatus.get(SCR).getFirst().intValue()
+                            || (int) slSCG.getValue() != toolStatus.get(SCG).getFirst().intValue()
+                            || (int) slSCB.getValue() != toolStatus.get(SCB).getFirst().intValue())) {
+                toolStatus.get(SCR).setFirst((int) slSCR.getValue());
+                toolStatus.get(SCG).setFirst((int) slSCG.getValue());
+                toolStatus.get(SCB).setFirst((int) slSCB.getValue());
+                manager.setSC(toolStatus.get(SCR).getFirst().intValue(), toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
+                updateImage();
             }
         });
 
         btnBWApply.setOnMouseClicked(ev -> {
-            if (toolStatus.get(BWR).getSecond() && toolStatus.get(BWG).getSecond() && toolStatus.get(BWB).getSecond()) {
-                if ((int) slBWR.getValue() != toolStatus.get(BWR).getFirst().intValue()
-                   || (int) slBWG.getValue() != toolStatus.get(BWG).getFirst().intValue()
-                   || (int) slBWB.getValue() != toolStatus.get(BWB).getFirst().intValue()) {
-                    toolStatus.get(BWR).setFirst((int) slBWR.getValue());
-                    toolStatus.get(BWG).setFirst((int) slBWG.getValue());
-                    toolStatus.get(BWB).setFirst((int) slBWB.getValue());
-                    manager.setBW(toolStatus.get(BWR).getFirst().intValue(), toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
-                    updateImage();
-                }
+            if (toolStatus.get(BWR).getSecond() && toolStatus.get(BWG).getSecond() && toolStatus.get(BWB).getSecond()
+                    && (int) slBWR.getValue() != toolStatus.get(BWR).getFirst().intValue()
+                    || (int) slBWG.getValue() != toolStatus.get(BWG).getFirst().intValue()
+                    || (int) slBWB.getValue() != toolStatus.get(BWB).getFirst().intValue()) {
+                toolStatus.get(BWR).setFirst((int) slBWR.getValue());
+                toolStatus.get(BWG).setFirst((int) slBWG.getValue());
+                toolStatus.get(BWB).setFirst((int) slBWB.getValue());
+                manager.setBW(toolStatus.get(BWR).getFirst().intValue(), toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
+                updateImage();
             }
         });
     }

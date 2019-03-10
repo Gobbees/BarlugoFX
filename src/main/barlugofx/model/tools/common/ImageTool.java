@@ -2,13 +2,13 @@ package barlugofx.model.tools.common;
 
 import java.util.Optional;
 
-import barlugofx.model.imageTools.Image;
+import barlugofx.model.imagetools.Image;
 
 /**
  * This interface represents a possible filter that can be applied to an image.
  *
  */
-public interface ImageFilter {
+public interface ImageTool {
 
     /**
      * Applies the filter to toApply and returns the result in a new Image.

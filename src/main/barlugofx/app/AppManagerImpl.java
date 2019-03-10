@@ -2,22 +2,17 @@ package barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
-import barlugofx.model.imageTools.Image;
+import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
-import barlugofx.model.tools.Cropper;
+//import barlugofx.model.tools.Cropper;
 import barlugofx.model.tools.HSBModifier;
-import barlugofx.model.tools.Rotator;
+//import barlugofx.model.tools.Rotator;
 import barlugofx.model.tools.SelectiveRGBChanger;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.WhiteBalance;
-import barlugofx.model.tools.common.ImageFilter;
-import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParametersName;
 
@@ -33,7 +28,6 @@ public class AppManagerImpl implements AppManager {
     private static final float BW_SHIFTER = 0.8f;
 
     private Image image;
-    private IOManagerImpl fileManager;
     //tools
     private final HSBModifier hsb;
     private final Contrast contrast;
@@ -41,15 +35,15 @@ public class AppManagerImpl implements AppManager {
     private final WhiteBalance wb;
     private final SelectiveRGBChanger srgb;
     private final BlackAndWhite bw;
-    private final Cropper cropper;
-    private final Rotator rotator;
+    //private final Cropper cropper;
+    //private final Rotator rotator;
     private final Vibrance vibrance;
     //TODO
     /**
      * @param input
      */
     public AppManagerImpl(final File input) {
-        fileManager = new IOManagerImpl();
+        final IOManagerImpl fileManager = new IOManagerImpl();
         try {
             image = fileManager.loadImageFromFile(input);
         } catch (final IOException e) {
@@ -61,8 +55,8 @@ public class AppManagerImpl implements AppManager {
         wb = WhiteBalance.createWhiteBalance();
         srgb = SelectiveRGBChanger.createSelective();
         bw = BlackAndWhite.createBlackAndWhite();
-        cropper = Cropper.createCropper();
-        rotator = Rotator.createRotator();
+        //cropper = Cropper.createCropper();
+        //rotator = Rotator.createRotator();
         vibrance = Vibrance.createVibrance();
     }
 

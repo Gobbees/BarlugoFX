@@ -28,13 +28,13 @@ public final class BarlugoFX extends Application {
     public void start(final Stage stage) {
         //initialize....
         try {
-            new WelcomeView();
+            //new WelcomeView();
             //NOT USEFUL. I use it cause the main opening is faster.
-//            final Stage s = new Stage();
-//            s.setScene(new Scene(new Group(), 100, 100));
-//            s.setWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
-//            s.setHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-//            new MainView(s, new File("/Users/gg_mbpro/Desktop/London 2019/IMG_5532.png"));
+            final Stage s = new Stage();
+            s.setScene(new Scene(new Group(), 100, 100));
+            s.setWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
+            s.setHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+            new MainView(s, new File("/Users/gg_mbpro/Desktop/London 2019/IMG_5532.png"));
         } catch (Exception e) {
             //add log
             e.printStackTrace();

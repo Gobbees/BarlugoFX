@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imageTools.ColorManipulator;
-import barlugofx.model.imageTools.ColorManipulatorImpl;
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.tools.common.ImageFilterImpl;
+import barlugofx.model.imagetools.ColorManipulator;
+import barlugofx.model.imagetools.ColorManipulatorImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -16,7 +16,7 @@ import barlugofx.model.tools.common.ParametersName;
  *  -255 to 255, BLUE, wich is an int with the same restrictions, and GREEN, which again is an int from -255 to 255.
  *
  */
-public final class SelectiveRGBChanger extends ImageFilterImpl {
+public final class SelectiveRGBChanger extends ImageToolImpl {
     private static final int MAX = 255;
     private static final int DEFAULT =  0;
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
@@ -24,6 +24,7 @@ public final class SelectiveRGBChanger extends ImageFilterImpl {
             Arrays.asList(ParametersName.RED, ParametersName.GREEN, ParametersName.BLUE));
 
     private SelectiveRGBChanger() {
+        super();
     }
     /**
      * Creates a new SelectiveRGB changes.

@@ -3,11 +3,11 @@ package barlugofx.model.tools;
 import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
-import barlugofx.model.imageTools.ColorManipulator;
-import barlugofx.model.imageTools.ColorManipulatorImpl;
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.tools.common.ImageFilterImpl;
+import barlugofx.model.imagetools.ColorManipulator;
+import barlugofx.model.imagetools.ColorManipulatorImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -17,13 +17,14 @@ import barlugofx.model.tools.common.ParametersName;
  *  The value in input must be a float greater than 0. For optimal result we suggest values around 0.3-0.7;
  *  @see <a href="https://docs.gimp.org/2.8/en/gimp-layer-white-balance.html">GIMP documentation</a>
  */
-public final class WhiteBalance extends ImageFilterImpl {
+public final class WhiteBalance extends ImageToolImpl {
     private static final double MINVALUE = 0;
     private static final double MAXRGB = 255.0;
     private static final float DEFAULT = 0f;
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
 
     private WhiteBalance() {
+        super();
     }
     /**
      * Creates a new WhiteBalance filter.
@@ -54,7 +55,7 @@ public final class WhiteBalance extends ImageFilterImpl {
         return ImageImpl.buildFromPixels(newPixels);
     }
 
-    private int[] rgbValues(final UnaryOperator<Integer> obtainRgb, final int[] array) {
+    private int[] rgbValues(final UnaryOperator<Integer> obtainRgb, final int... array) {
         final int[] onlyThatColor = new int[array.length];
         for (int i = 0; i < array.length; i++) {
             onlyThatColor[i] = obtainRgb.apply(array[i]);

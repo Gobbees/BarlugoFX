@@ -1,6 +1,6 @@
 package barlugofx.app;
 
-import barlugofx.model.imageTools.Image;
+import barlugofx.model.imagetools.Image;
 
 /**
  * This interface describes the application manager (the mvc controller).

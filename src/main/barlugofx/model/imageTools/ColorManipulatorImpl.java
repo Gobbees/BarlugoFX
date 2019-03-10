@@ -1,4 +1,4 @@
-package barlugofx.model.imageTools;
+package barlugofx.model.imagetools;
 
 /**
  * A faster implementation of the one used by java.awt.color since it does not

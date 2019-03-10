@@ -11,10 +11,4 @@ public interface ViewController {
      * @param stage the input stage
      */
     void setStage(Stage stage);
-    /**
-     * This method resizes all the view components.
-     * @param width : the resized width
-     * @param height : the resized height
-     */
-    void resizeComponents(int width, int height);
 }

@@ -1,4 +1,4 @@
-package barlugofx.model.imageTools;
+package barlugofx.model.imagetools;
 
 /**
  *
