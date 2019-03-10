@@ -10,8 +10,8 @@ import barlugofx.model.tools.common.ImageTool;
  */
 public interface SequenceNode {
     /**
-     * dafd.
-     * @return Image before the filter is applied.
+     *
+     * @return Image before the tool is applied.
      */
     Image getStartImage();
 
@@ -22,7 +22,7 @@ public interface SequenceNode {
 
     /**
      * 
-     * @return true if the filter is active
+     * @return true if the tool is active.
      */
     Boolean isActive();
 
@@ -35,13 +35,13 @@ public interface SequenceNode {
     /**
      * 
      * @param name 
-     * nome del filtro
+     * nome del tool
      */
     void setNodeName(String name);
 
     /**
      * 
-     * @return filter
+     * @return tool
      */
-    ImageTool getFilter();
+    ImageTool getTool();
 }

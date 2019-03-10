@@ -19,46 +19,46 @@ public interface History {
     /**
      * 
      * @param index
-     * Index of the filter you want to delete.
+     * Index of the tool you want to delete.
      */
-    void deleteFilter(int index);
+    void deleteTool(int index);
 
     /**
      * 
      * @param index
-     * Index of the filter you want to hide.
+     * Index of the tool you want to hide.
      */
-    void hideFilter(int index);
+    void hideTool(int index);
 
     /**
      * 
      * @param index
-     * Index of the filter you want to show
+     * Index of the tool you want to show
      */
-    void showFilter(int index);
+    void showTool(int index);
 
     /**
      * 
-     * @param filterName
-     * Name of the filter of which you want the index.
-     * @return index of the filter.
+     * @param toolName
+     * Name of the tool of which you want the index.
+     * @return index of the tool.
      */
-    int findByName(String filterName);
+    int findByName(String toolName);
 
     /**
      * 
      * @param index
-     * Index of the filter you want to edit.
+     * Index of the tool you want to edit.
      * @param node
      * New node that is going to replace the node at index.
      */
-    void editFilter(int index, SequenceNode node);
+    void editTool(int index, SequenceNode node);
 
     /**
      * 
      * @param name
-     * Name of the filter of which you want the value.
-     * @return value of the filter with name "name"
+     * Name of the tool of which you want the value.
+     * @return value of the tool with name "name"
      */
     Parameter<? extends Number> getValue(String name);
 }
