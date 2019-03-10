@@ -60,5 +60,5 @@ public interface History {
      * Name of the filter of which you want the value.
      * @return value of the filter with name "name"
      */
-    Parameter<Double> getValue(String name);
+    Parameter<? extends Number> getValue(String name);
 }
