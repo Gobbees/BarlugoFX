@@ -13,9 +13,16 @@ import barlugofx.model.tools.common.ImageTool;
 public class SequenceNodeImpl implements SequenceNode {
     private Image startImage;
     private Boolean isActive;
-    private String filterName;
+    private String nodeName;
     private ImageTool tool;
 
+    SequenceNodeImpl(final String nodeName, final ImageTool tool, Image startImage){
+        this.startImage = startImage;
+        this.isActive = true;
+        this.nodeName = nodeName;
+        this.tool = tool;
+    }
+    
     /* (non-Javadoc)
      * @see barlugofx.model.history.SequenceNode#getStartImage()
      */
@@ -42,6 +49,18 @@ public class SequenceNodeImpl implements SequenceNode {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    /**
+     *  Enables the tool.
+     */
+    @Override
+    void enable();
+
+    /**
+     *  Disable the tool.
+     */
+    @Override
+    void disable();
 
     /* (non-Javadoc)
      * @see barlugofx.model.history.SequenceNode#getNodeName()
