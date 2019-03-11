@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import barlugofx.model.history.History;
 import barlugofx.model.history.HistoryImpl;
+import barlugofx.model.history.SequenceNode;
 import barlugofx.model.history.SequenceNodeImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
@@ -95,5 +96,17 @@ public final class HistoryTest {
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
+    }
+
+    /**
+     * Basic test to test encapsulation. Ugly but functional.
+     */
+    @Test
+    public void testEncapsulation() {
+        final History hist = new HistoryImpl();
+        final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
+        hist.addTool(node);
+        node.setNodeName("CASSARO"); //modifiche fuori dalla sequence non devono riflettersi sulla History.
+        Assert.assertFalse(hist.findByName("CASSARO") == 0);
     }
 }

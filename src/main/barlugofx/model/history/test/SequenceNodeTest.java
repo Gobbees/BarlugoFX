@@ -29,7 +29,7 @@ public final class SequenceNodeTest {
          *TODO : If this test passed than all the equals are implemented correctly
          */
         final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        Assert.assertTrue(node.isActive());
+        Assert.assertTrue(node.isEnabled());
         Assert.assertSame(DEFAULT_NAME, node.getNodeName());
         Assert.assertSame(DEFAULT_IMAGE, node.getStartImage());
         Assert.assertSame(DEFAULT_TOOL, node.getTool());
@@ -55,9 +55,9 @@ public final class SequenceNodeTest {
             Assert.fail();
         }
         node.disable();
-        Assert.assertFalse(node.isActive());
+        Assert.assertFalse(node.isEnabled());
         node.enable();
-        Assert.assertTrue(node.isActive());
+        Assert.assertTrue(node.isEnabled());
     }
 
     /**
