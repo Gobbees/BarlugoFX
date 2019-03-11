@@ -12,6 +12,7 @@ public final class ImageUtils {
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
     private static final int ALPHASHIFT = 24;
+    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
 
     private ImageUtils() {
 
@@ -82,19 +83,19 @@ public final class ImageUtils {
         }
         return result;
     }
-
     /**
      * This method converts hsb values into a matrix of rgb pixels. The hsv values has to be passed as a 3-D float array, in which the
-     * [i][j][0] value corresponds to Hue, the [i][j][1] to Saturation and the [i][j][2]  to Brightness. Alpha value (if present) is not
-     * handled.
+     * [i][j][0] value corresponds to Hue, the [i][j][1] to Saturation and the [i][j][2]  to Brightness. Alpha value is taken from old pixels.
      * @param pixelsHSB the float 3-D array that we need to convert.
+     * @param oldPixels the oldvalues from which take the alpha.
      * @return the converted pixels matrix
      */
-    public static int[][] hsbToRgb(final float[][]... pixelsHSB) {
+    public static int[][] hsbToRgb(final int[][] oldPixels, final float[][]... pixelsHSB) {
         final int[][] pixels = new int[pixelsHSB.length][pixelsHSB[0].length];
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 pixels[i][j] = Color.HSBtoRGB(pixelsHSB[i][j][0], pixelsHSB[i][j][1], pixelsHSB[i][j][2]);
+                pixels[i][j] = COL.setAlpha(pixels[i][j], COL.getAlpha(oldPixels[i][j]));
             }
         }
         return pixels;

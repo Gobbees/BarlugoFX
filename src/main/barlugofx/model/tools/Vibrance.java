@@ -48,7 +48,7 @@ public final class Vibrance extends ImageToolImpl {
                 hsb[i][j][1] = truncateSum(hsb[i][j][1], (maxColor - brightness) * increment);
             }
         }
-        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(hsb));
+        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(toApply.getImageRGBvalues(), hsb));
     }
 
     private float truncateSum(final float saturation, final float toAdd) {

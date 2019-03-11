@@ -49,7 +49,7 @@ public final class HSBModifier extends ImageToolImpl {
                 hsv[i][j][2] = exposure == 0 ? hsv[i][j][2] : truncateSum(hsv[i][j][2], exposure);
             }
         }
-        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(hsv));
+        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(toApply.getImageRGBvalues(), hsv));
     }
 
     private float truncateSum(final float hsv, final float hue) {
