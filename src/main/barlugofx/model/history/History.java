@@ -41,6 +41,14 @@ public interface History {
     void enableTool(int index);
 
     /**
+     * This function returns the enabled state of tool.
+     * @param index
+     * Index of the tool of which I want the state
+     * @return true if the tool is enabled, false otherwise.
+     */
+    boolean isToolEnabled(int index);
+
+    /**
      * 
      * @param toolName
      * Name of the tool of which you want the index.
