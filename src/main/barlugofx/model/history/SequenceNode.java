@@ -25,7 +25,7 @@ public interface SequenceNode {
      * 
      * @return true if the tool is enabled, false otherwise.
      */
-    boolean isActive();
+    boolean isEnabled();
 
     /**
      *  Enables the tool.

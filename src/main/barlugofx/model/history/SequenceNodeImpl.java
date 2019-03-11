@@ -11,10 +11,10 @@ import barlugofx.model.tools.common.ImageTool;
  *
  */
 public class SequenceNodeImpl implements SequenceNode {
-    private final Image startImage;
-    private Boolean isActive;
-    private final String nodeName;
-    private final ImageTool tool;
+    private Image startImage;
+    private boolean enabled;
+    private String nodeName;
+    private ImageTool tool;
 
     /**
      * Some javadoc to write.
@@ -24,7 +24,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     public SequenceNodeImpl(final String nodeName, final ImageTool tool, final Image startImage){
         this.startImage = startImage;
-        isActive = true;
+        this.enabled = true;
         this.nodeName = nodeName;
         this.tool = tool;
     }
@@ -52,9 +52,9 @@ public class SequenceNodeImpl implements SequenceNode {
      * @see barlugofx.model.history.SequenceNode#isActive()
      */
     @Override
-    public boolean isActive() {
+    public boolean isEnabled() {
         // TODO Auto-generated method stub
-        return null;
+        return this.enabled;
     }
 
     /**
@@ -62,7 +62,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public void enable() {
-        isActive = true;
+        this.enabled = true;
     }
 
     /**
@@ -70,7 +70,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public void disable() {
-        isActive = false;
+        this.enabled = false;
     }
 
     /* (non-Javadoc)
