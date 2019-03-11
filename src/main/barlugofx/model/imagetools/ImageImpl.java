@@ -90,23 +90,33 @@ public final class ImageImpl implements Image {
         final int[][] result = new int[height][width];
         if (hasAlphaChannel) {
             final int pixelLength = 4;
-            for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength, col = (col + 1) % width, row = (pixel / pixelLength) % width) {
+            for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
                 int argb = 0;
                 argb += (pixels[pixel] & CORRECTOR) << ALPHASHIFT; // alpha
                 argb += pixels[pixel + 1] & CORRECTOR; // blue
                 argb += (pixels[pixel + 2] & CORRECTOR) << GREENSHIFT; // green
                 argb += (pixels[pixel + 3] & CORRECTOR) << REDSHIFT; // red
                 result[row][col] = argb;
+                col++;
+                if (col == width) {
+                    col = 0;
+                    row++;
+                }
             }
         } else {
             final int pixelLength = 3;
-            for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength, col = (col + 1) % width, row = (pixel / pixelLength) % width) {
+            for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
                 int argb = 0;
                 argb += ALPHAVALUE; // 255 alpha
                 argb += pixels[pixel] & CORRECTOR; // blue
                 argb += (pixels[pixel + 1] & CORRECTOR) << GREENSHIFT; // green
                 argb += (pixels[pixel + 2] & CORRECTOR) << REDSHIFT; // red
                 result[row][col] = argb;
+                col++;
+                if (col == width) {
+                    col = 0;
+                    row++;
+                }
             }
         }
 
