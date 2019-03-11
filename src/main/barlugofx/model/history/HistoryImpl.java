@@ -35,7 +35,7 @@ public class HistoryImpl implements History {
      * @see barlugofx.model.history.History#hideTool(int)
      */
     @Override
-    public void hideTool(int index) {
+    public void disableTool(int index) {
         // TODO Auto-generated method stub
 
     }
@@ -44,7 +44,7 @@ public class HistoryImpl implements History {
      * @see barlugofx.model.history.History#showTool(int)
      */
     @Override
-    public void showTool(int index) {
+    public void enableTool(int index) {
         // TODO Auto-generated method stub
 
     }

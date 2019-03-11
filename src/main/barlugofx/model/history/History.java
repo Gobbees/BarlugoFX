@@ -26,16 +26,16 @@ public interface History {
     /**
      * 
      * @param index
-     * Index of the tool you want to hide.
+     * Index of the tool you want to disable.
      */
-    void hideTool(int index);
+    void disableTool(int index);
 
     /**
      * 
      * @param index
-     * Index of the tool you want to show
+     * Index of the tool you want to enable.
      */
-    void showTool(int index);
+    void enableTool(int index);
 
     /**
      * 
