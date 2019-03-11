@@ -25,7 +25,7 @@ public interface ImageTool {
      * @throws IllegalArgumentException if the name is not appropriate for the filter or the parameter is already present.
      * Please check on filter docs that your are passing the right argument.
      */
-    void addParameter(ParametersName name, Parameter<?> value);
+    void addParameter(ParametersName name, Parameter<? extends Number> value);
 
     /**
      * This function return (optionally) the parameter associated with the name.
@@ -33,7 +33,7 @@ public interface ImageTool {
      * @return the parameter
      *
      */
-    Optional<Parameter<?>> getParameter(ParametersName name);
+    Optional<Parameter<? extends Number>> getParameter(ParametersName name);
 
     /**
      * Remove the parameter value and his name from the filter.

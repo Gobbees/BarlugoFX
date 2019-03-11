@@ -9,16 +9,16 @@ import java.util.Optional;
  *
  */
 public abstract class ImageToolImpl implements ImageTool {
-    private final Map<ParametersName, Parameter<?>> parameters = new HashMap<>();
+    private final Map<ParametersName, Parameter<? extends Number>> parameters = new HashMap<>();
 
 
     @Override
-    public final Optional<Parameter<?>> getParameter(final ParametersName name) {
+    public final Optional<Parameter<? extends Number>> getParameter(final ParametersName name) {
         return Optional.ofNullable(parameters.get(name));
     }
 
     @Override
-    public final void addParameter(final ParametersName name, final Parameter<?> value) {
+    public final void addParameter(final ParametersName name, final Parameter<? extends Number> value) {
         if (!isAccepted(name)) {
             throw new IllegalArgumentException("Parameter " + name + " is not correct for " + this.getClass().getName());
         }
@@ -55,14 +55,13 @@ public abstract class ImageToolImpl implements ImageTool {
      */
     @SuppressWarnings("unchecked")
     protected <T extends Number> T getValueFromParameter(final ParametersName name, final double min, final double max, final T defaultVal) {
-        final Optional<Parameter<?>> param = getParameter(name);
+        final Optional<Parameter<? extends Number>> param = getParameter(name);
         T result = defaultVal;
         final String className = result.getClass().getSimpleName();
         if (param.isPresent()) {
             try {
                 result = (T) param.get().getValue();
-                if (!result.getClass().getSimpleName().equals(className)) { // Without this control T can be double and
-                    // defaultValue integer
+                if (!result.getClass().getSimpleName().equals(className)) { // Without this control T can be double and defaultValue integer
                     throw new ClassCastException();
                 }
             } catch (final ClassCastException e) {
