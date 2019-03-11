@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package barlugofx.model.history;
 
@@ -11,14 +11,20 @@ import barlugofx.model.tools.common.ImageTool;
  *
  */
 public class SequenceNodeImpl implements SequenceNode {
-    private Image startImage;
+    private final Image startImage;
     private Boolean isActive;
-    private String nodeName;
-    private ImageTool tool;
+    private final String nodeName;
+    private final ImageTool tool;
 
-    SequenceNodeImpl(final String nodeName, final ImageTool tool, final Image startImage){
+    /**
+     * Some javadoc to write.
+     * @param nodeName a.
+     * @param tool b.
+     * @param startImage c.
+     */
+    public SequenceNodeImpl(final String nodeName, final ImageTool tool, final Image startImage){
         this.startImage = startImage;
-        this.isActive = true;
+        isActive = true;
         this.nodeName = nodeName;
         this.tool = tool;
     }
@@ -55,7 +61,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public void enable() {
-        this.isActive = true;
+        isActive = true;
     }
 
     /**
@@ -63,7 +69,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public void disable() {
-        this.isActive = false;
+        isActive = false;
     }
 
     /* (non-Javadoc)

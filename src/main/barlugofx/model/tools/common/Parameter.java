@@ -6,7 +6,7 @@ package barlugofx.model.tools.common;
  *
  * @param <T> they object type.
  */
-public interface Parameter<T> {
+public interface Parameter<T extends Number> {
 
     /**
      * Gets the value contained in Parameter.

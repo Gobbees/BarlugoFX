@@ -122,4 +122,47 @@ public final class ImageImpl implements Image {
 
         return result;
     }
+
+    private static final int HASHCODEFIRST = 1231;
+    private static final int HASHCODESECOND = 1237;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (hasAlphaChannel ? HASHCODEFIRST  : HASHCODESECOND);
+        result = prime * result + height;
+        result = prime * result + Arrays.deepHashCode(pixels);
+        result = prime * result + width;
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ImageImpl)) {
+            return false;
+        }
+        final ImageImpl other = (ImageImpl) obj;
+        if (hasAlphaChannel != other.hasAlphaChannel) {
+            return false;
+        }
+        if (height != other.height) {
+            return false;
+        }
+        if (!Arrays.deepEquals(pixels, other.pixels)) {
+            return false;
+        }
+        if (width != other.width) {
+            return false;
+        }
+        return true;
+    }
+
+
+
 }
