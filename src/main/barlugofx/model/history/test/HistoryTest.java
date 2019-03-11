@@ -75,15 +75,15 @@ public final class HistoryTest {
         Assert.assertTrue(hist.findByName(DEFAULT_NAME) == -1);
         Assert.assertTrue(hist.findByName("CASA") == 0);
         hist.disableTool(0);
-        Assert.assertFalse(hist.isToolEnalbed(0));
+        Assert.assertFalse(hist.isToolEnabled(0));
         hist.enableTool(0);
-        Assert.assertTrue(hist.isToolEnalbed(0));
+        Assert.assertTrue(hist.isToolEnabled(0));
 
         hist.disableTool(0);
         hist.editTool(0, new SequenceNodeImpl("CASTA", DEFAULT_TOOL, DEFAULT_IMAGE));
         Assert.assertTrue(hist.findByName("CASA") == -1);
         Assert.assertTrue(hist.findByName("CASTA") == 0);
-        Assert.assertTrue(hist.isToolEnalbed(0));
+        Assert.assertTrue(hist.isToolEnabled(0));
 
         DEFAULT_TOOL.addParameter(ParametersName.WRED, new ParameterImpl<>(10));
         hist.addTool(new SequenceNodeImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
