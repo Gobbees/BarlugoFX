@@ -34,24 +34,25 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public Image getStartImage() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.startImage;
     }
 
     /* (non-Javadoc)
      * @see barlugofx.model.history.SequenceNode#setStartImage()
      */
     @Override
-    public void setStartImage() {
-        // TODO Auto-generated method stub
-
+    public void setStartImage(final Image startImage) {
+        if (startImage == null) {
+            // TODO throw IllegalArgumentException
+        }
+        this.startImage = startImage;
     }
 
     /* (non-Javadoc)
      * @see barlugofx.model.history.SequenceNode#isActive()
      */
     @Override
-    public Boolean isActive() {
+    public boolean isActive() {
         // TODO Auto-generated method stub
         return null;
     }

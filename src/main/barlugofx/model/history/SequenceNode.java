@@ -16,15 +16,16 @@ public interface SequenceNode {
     Image getStartImage();
 
     /**
-     * 
+     * @param startImage 
+     * Image before the tool il applied.
      */
-    void setStartImage();
+    void setStartImage(Image startImage);
 
     /**
      * 
      * @return true if the tool is enabled, false otherwise.
      */
-    Boolean isActive();
+    boolean isActive();
 
     /**
      *  Enables the tool.
