@@ -17,7 +17,7 @@ public class HistoryImpl implements History {
      * @see barlugofx.model.history.History#addFilter(barlugofx.model.history.SequenceNode)
      */
     @Override
-    public void addFilter(SequenceNode node) {
+    public void addTool(SequenceNode node) {
         // TODO Auto-generated method stub
 
     }

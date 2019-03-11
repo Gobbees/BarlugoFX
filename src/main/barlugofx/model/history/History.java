@@ -12,9 +12,9 @@ public interface History {
     /**
      * 
      * @param node
-     * Sequence node you want to add
+     * Sequence node you want to add.
      */
-    void addFilter(SequenceNode node);
+    void addTool(SequenceNode node);
 
     /**
      * 
