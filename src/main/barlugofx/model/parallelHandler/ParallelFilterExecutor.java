@@ -1,4 +1,4 @@
-package barlugofx.model.tools.parallelHandler;
+package barlugofx.model.parallelHandler;
 
 import java.awt.Point;
 import java.util.Collection;
@@ -76,23 +76,24 @@ public final class ParallelFilterExecutor {
             Thread.currentThread().interrupt();
             throw new AssertionError("Unexpected interruption of parallel filtering algorithm", e);
         }
-        return ImageImpl.buildFromPixels(pixels);
+        return ImageImpl.buildFromPixels(newPixels);
     }
 
     private Collection<MutablePair<Point, Point>> divideImage(final Image target) {
         final int width = target.getWidth();
+        final int height = target.getHeight();
         final int bandWidth = width / nThreads;
 
         final Collection<MutablePair<Point, Point>> dividedImage = new LinkedList<>();
 
         int currPixel = 0;
         for (int i = 0; i < nThreads - 1; i++) {
-            final Point begin = new Point(0, currPixel);
+            final Point begin = new Point(currPixel, 0);
             currPixel += bandWidth;
-            final Point end = new Point(0, currPixel);
+            final Point end = new Point(currPixel, height);
             dividedImage.add(new MutablePair<>(begin, end));
         }
-        dividedImage.add(new MutablePair<>(new Point(0, currPixel), new Point(0, width)));
+        dividedImage.add(new MutablePair<>(new Point(currPixel, 0), new Point(width, height)));
         return dividedImage;
     }
 
