@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 import java.awt.Toolkit;
 import java.io.File;
 
-import barlugofx.model.imagetools.Image;
-import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.imageTools.Image;
+import barlugofx.model.imageTools.ImageImpl;
 import barlugofx.view.export.ExportView;
 import barlugofx.view.main.MainView;
 import barlugofx.view.welcome.WelcomeView;

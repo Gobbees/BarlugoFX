@@ -22,7 +22,7 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
 import barlugofx.app.AppManager;
-import barlugofx.model.imagetools.ImageUtils;
+import barlugofx.model.imageTools.ImageUtils;
 import barlugofx.utils.MutablePair;
 import barlugofx.view.InputOutOfBoundException;
 import barlugofx.view.ViewController;

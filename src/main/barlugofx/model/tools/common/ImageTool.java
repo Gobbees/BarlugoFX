@@ -2,7 +2,7 @@ package barlugofx.model.tools.common;
 
 import java.util.Optional;
 
-import barlugofx.model.imagetools.Image;
+import barlugofx.model.imageTools.Image;
 
 /**
  * This interface represents a possible filter that can be applied to an image.
