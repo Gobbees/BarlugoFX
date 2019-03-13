@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.utils.MutablePair;
 
@@ -75,7 +76,7 @@ public final class ParallelFilterExecutor {
             Thread.currentThread().interrupt();
             throw new AssertionError("Unexpected interruption of parallel filtering algorithm", e);
         }
-        return null;
+        return ImageImpl.buildFromPixels(pixels);
     }
 
     private Collection<MutablePair<Point, Point>> divideImage(final Image target) {
