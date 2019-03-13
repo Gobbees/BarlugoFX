@@ -9,21 +9,24 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Separator?>
 
-<BorderPane fx:id="bpaneMain" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1" 
-    fx:controller="barlugofx.view.loading.LoadingController">
-    <center>
-	    <ImageView fx:id="iviewLogo" pickOnBounds="true" preserveRatio="true">
-	        <image>
-	            <Image url="@../img/logoText.png" />
-	        </image>
-	    </ImageView>
-    </center>
-    <bottom> 
-        <VBox fx:id="vboxCenter" BorderPane.alignment="CENTER">
-            <children>
-                <JFXSpinner/>
-                <Separator fx:id="bottomSeparator" orientation="VERTICAL"/>
-            </children>
-        </VBox>
-    </bottom>
+<BorderPane fx:id="bpaneMain"
+	xmlns="http://javafx.com/javafx/8.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="barlugofx.view.loading.LoadingController">
+	<center>
+		<ImageView fx:id="iviewLogo" pickOnBounds="true"
+			preserveRatio="true">
+			<image>
+				<Image url="@../img/logoText.png" />
+			</image>
+		</ImageView>
+	</center>
+	<bottom>
+		<VBox fx:id="vboxCenter" BorderPane.alignment="CENTER">
+			<children>
+				<JFXSpinner />
+				<Separator fx:id="bottomSeparator" orientation="VERTICAL" />
+			</children>
+		</VBox>
+	</bottom>
 </BorderPane>

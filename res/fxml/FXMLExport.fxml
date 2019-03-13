@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.scene.control.Separator?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.1"
+	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
+	fx:controller="barlugofx.view.export.ExportController">
+	<top>
+		<BorderPane id="border-pane">
+			<center>
+				<Label text="Choose the output format:" id="generalabel" />
+			</center>
+		</BorderPane>
+	</top>
+	<center>
+		<HBox>
+			<children>
+				<JFXButton fx:id="btnPNG" text="PNG"
+					mnemonicParsing="false" onAction="#pngClicked" />
+				<JFXButton fx:id="btnJPEG" text="JPEG"
+					mnemonicParsing="false" onAction="#jpegClicked" />
+				<JFXButton fx:id="btnGIF" text="GIF"
+					mnemonicParsing="false" onAction="#gifClicked" />
+			</children>
+		</HBox>
+	</center>
+	<bottom>
+		<BorderPane id="border-pane">
+			<left>
+				<Separator fx:id="horizDistance" orientation="horizontal"
+					visible="false" />
+			</left>
+			<top>
+				<Separator fx:id="verticDistanceTop"
+					orientation="vertical" visible="false" />
+			</top>
+			<center>
+				<HBox visible="false" fx:id="hboxQuality">
+					<children>
+						<Label text="Quality" id="toolabel" />
+						<Separator orientation="horizontal" visible="false"
+							prefWidth="10" />
+						<JFXSlider fx:id="sliderQuality" value="100"
+							id="qualityslider" />
+						<Separator orientation="horizontal" visible="false"
+							prefWidth="10" />
+						<JFXButton text="Undo" onAction="#undoJPEG" />
+						<JFXButton text="Export" onAction="#exportJPEG" />
+					</children>
+				</HBox>
+			</center>
+			<bottom>
+				<Separator fx:id="verticDistanceBottom"
+					orientation="vertical" visible="false" prefHeight="20" />
+			</bottom>
+		</BorderPane>
+	</bottom>
+</BorderPane>

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.jfoenix.controls.JFXButton;
 
+import barlugofx.utils.Format;
 import barlugofx.view.AnimationUtils;
 import barlugofx.view.ViewController;
 import barlugofx.view.main.MainView;
@@ -25,7 +26,7 @@ import javafx.util.Duration;
  * This class manages the view events (i.e. button clicks, enter and exit) and effectively resizes the nodes.
  * Creating a WelcomeController object is useless and it probably will cause some sort of exception.
  */
-public class WelcomeController implements ViewController {
+public final class WelcomeController implements ViewController {
     //private constant fields (nodes multipliers)
     private static final double IMG_MULTIPLIER = 0.66;
     private static final double BTN_WIDTH_MULTIPLIER = 0.33;
@@ -47,6 +48,11 @@ public class WelcomeController implements ViewController {
     @FXML
     private JFXButton btnProject;
     private Stage stage;
+
+    @Override
+    public void setStage(final Stage s) {
+        stage = s;
+    }
     /**
      * Resizes the components in relation to the new sizes.
      * @param width the new width
@@ -66,24 +72,16 @@ public class WelcomeController implements ViewController {
         iviewIcon.setFitHeight(bpaneLeft.getPrefHeight() * IMG_MULTIPLIER);
     }
     /**
-     * Set the stage in order to permit the correct display of the filechooser window.
-     * @param s the input stage
-     */
-    public void setStage(final Stage s) {
-        stage = s;
-    }
-    /**
      * Called by view events, this method initiates the main view.
      * @throws IOException 
      */
     @FXML
     public void openImage() throws IOException {
         final FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new ExtensionFilter("Select an image", "*.png", "*.jpg", "*.tiff", "*.gif", "*.bmp"));
+        fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
         fc.setTitle(btnImage.getText());
         openMainView(fc.showOpenDialog(stage));
     }
-    //[JPG, jpg, bmp, BMP, gif, GIF, WBMP, png, PNG, wbmp, jpeg, JPEG] add this array into controller class
     /**
      * Called by view events, this method opens a filechooser window and allow to open a file.
      * @throws IOException 

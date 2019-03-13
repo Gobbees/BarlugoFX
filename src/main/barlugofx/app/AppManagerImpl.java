@@ -15,11 +15,12 @@ import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.WhiteBalance;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParametersName;
+import barlugofx.utils.Format;
 
 /**
  * The main controller class.
  */
-public class AppManagerImpl implements AppManager {
+public final class AppManagerImpl implements AppManager {
     //multipliers used to adapt the input from the view to the model
     private static final float HSB_MULTIPLIER = 0.01f;
     private static final float WB_MULTIPLIER = 0.015f;
@@ -38,12 +39,13 @@ public class AppManagerImpl implements AppManager {
     //private final Cropper cropper;
     //private final Rotator rotator;
     private final Vibrance vibrance;
+    private final IOManager fileManager;
     //TODO
     /**
      * @param input
      */
     public AppManagerImpl(final File input) {
-        final IOManagerImpl fileManager = new IOManagerImpl();
+        fileManager = new IOManagerImpl();
         try {
             image = fileManager.loadImageFromFile(input);
         } catch (final IOException e) {
@@ -59,18 +61,15 @@ public class AppManagerImpl implements AppManager {
         //rotator = Rotator.createRotator();
         vibrance = Vibrance.createVibrance();
     }
-
-    /* (non-Javadoc)
-     * @see com.barlugofx.app.AppManager#getImage()
-     */
     @Override
     public Image getImage() {
         return image;
     }
+    @Override
+    public String getInputFileName() {
+        return fileManager.getFileName();
+    }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setExposure(int)
-     */
     @Override
     public void setExposure(final int value) {
         //TODO HISTORY
@@ -79,9 +78,6 @@ public class AppManagerImpl implements AppManager {
         hsb.removeParameter(ParametersName.EXPOSURE);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setContrast(int)
-     */
     @Override
     public void setContrast(final int value) {
         contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<Integer>(value));
@@ -89,9 +85,6 @@ public class AppManagerImpl implements AppManager {
         contrast.removeParameter(ParametersName.CONTRAST);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setBrightness(int)
-     */
     @Override
     public void setBrightness(final int value) {
         brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<Integer>(value));
@@ -99,9 +92,6 @@ public class AppManagerImpl implements AppManager {
         brightness.removeParameter(ParametersName.BRIGHTNESS);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setWB(int)
-     */
     @Override
     public void setWB(final int value) {
         System.out.println("WB: " + (value * WB_MULTIPLIER));
@@ -110,9 +100,6 @@ public class AppManagerImpl implements AppManager {
         wb.removeParameter(ParametersName.WHITEBALANCE);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setSaturation(int)
-     */
     @Override
     public void setSaturation(final int value) {
         System.out.println("Saturation: " + (value * HSB_MULTIPLIER));
@@ -121,9 +108,6 @@ public class AppManagerImpl implements AppManager {
         hsb.removeParameter(ParametersName.SATURATION);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setHue(int)
-     */
     @Override
     public void setHue(final int value) {
         //TODO set hue slider colors after that the history will be finished
@@ -132,9 +116,6 @@ public class AppManagerImpl implements AppManager {
         hsb.removeParameter(ParametersName.HUE);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setVibrance(int)
-     */
     @Override
     public void setVibrance(final int value) {
         vibrance.addParameter(ParametersName.VIBRANCE_INCREMENT, new ParameterImpl<Float>(value * VIBRANCE_MULTIPLIER));
@@ -142,9 +123,6 @@ public class AppManagerImpl implements AppManager {
         vibrance.removeParameter(ParametersName.VIBRANCE_INCREMENT);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setSC(int, int, int)
-     */
     @Override
     public void setSC(final int r, final int g, final int b) {
         //TODO make it possible to change only one of these.
@@ -157,9 +135,6 @@ public class AppManagerImpl implements AppManager {
         srgb.removeParameter(ParametersName.BLUE);
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.app.AppManager#setSC(int, int, int)
-     */
     @Override
     public void setBW(final double r, final double g, final double b) {
         bw.addParameter(ParametersName.WRED, new ParameterImpl<Double>(r * BW_MULTIPLIER + BW_SHIFTER));
@@ -168,6 +143,18 @@ public class AppManagerImpl implements AppManager {
         bw.removeParameter(ParametersName.WRED);
         bw.removeParameter(ParametersName.WGREEN);
         bw.removeParameter(ParametersName.WBLUE);
+    }
+
+    @Override
+    public void exportImage(final File file, final Format format) throws IOException {
+        fileManager.exportImage(image, file, format);
+        
+    }
+
+    @Override
+    public void exportImage(final File file, final float quality) throws IOException {
+        fileManager.exportJPEGWithQuality(image, file, quality);
+        
     }
 
     //TODO history

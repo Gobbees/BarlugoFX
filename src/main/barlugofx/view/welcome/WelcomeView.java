@@ -8,7 +8,6 @@ import barlugofx.view.AbstractView;
 import javafx.stage.Stage;
 /**
  *  This class shows the welcome view of barlugofx program. It must be called by its constructor method.
- *  WelcomeView loads the view from FXMLWelcome.fxml file and sets the stage and scene sizes, icons and titles.
  */
 public class WelcomeView extends AbstractView<WelcomeController> {
     private static final double MIN_DIM_MULTIPLIER = 0.2;
@@ -22,7 +21,7 @@ public class WelcomeView extends AbstractView<WelcomeController> {
         try {
             this.loadFXML("file:res/fxml/FXMLWelcome.fxml");
         } catch (IOException e) {
-            //log!!!!!!!!!!!!!!!!!!!!!
+            //TODO log!!!!!!!!!!!!!!!!!!!!!
             e.printStackTrace();
         }
         this.getStage().setMinWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * MIN_DIM_MULTIPLIER);

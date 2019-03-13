@@ -26,9 +26,11 @@ import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.MutablePair;
 import barlugofx.view.InputOutOfBoundException;
 import barlugofx.view.ViewController;
+import barlugofx.view.export.ExportView;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -36,9 +38,8 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-//import javafx.scene.input.KeyCharacterCombination;
-//import javafx.scene.input.KeyCombination;
-//import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCharacterCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -170,7 +171,7 @@ public class MainController implements ViewController {
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
 
     /**
-     * The constructor of the class. It is private because FXML obligates to do so.
+     * The constructor of the class. It is public because FXML obligates to do so.
      */
     public MainController() {
         toolStatus = new HashMap<>();
@@ -187,10 +188,15 @@ public class MainController implements ViewController {
         initComponentSize();
         initToolStatus();
         addListeners();
-//KEYCOMBINATION
-//        KeyCombination kc = new KeyCharacterCombination("+", KeyCombination.CONTROL_DOWN);
-//        Runnable rn = () -> System.out.println("CIAO");
-//        stage.getScene().getAccelerators().put(kc,  rn);
+        addKeyboardShortcuts();
+    }
+    /**
+     * Export event triggered.
+     */
+    @FXML
+    public void export() {
+        scene.setCursor(Cursor.WAIT);
+        new ExportView();
     }
 
     private void updateImage() {
@@ -408,5 +414,11 @@ public class MainController implements ViewController {
                 updateImage();
             }
         });
+    }
+    private void addKeyboardShortcuts() {
+
+      KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
+      Runnable rn = () -> export();
+      scene.getAccelerators().put(kc,  rn);
     }
 }

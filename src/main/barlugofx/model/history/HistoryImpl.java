@@ -99,4 +99,10 @@ public class HistoryImpl implements History {
         return 42;
     }
 
+    @Override
+    public boolean isToolEnabled(int index) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

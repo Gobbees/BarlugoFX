@@ -1,6 +1,10 @@
 package barlugofx.app;
 
+import java.io.File;
+import java.io.IOException;
+
 import barlugofx.model.imagetools.Image;
+import barlugofx.utils.Format;
 
 /**
  * This interface describes the application manager (the mvc controller).
@@ -12,6 +16,11 @@ public interface AppManager {
      * @return the image
      */
     Image getImage();
+    /**
+     * Returns the input file name.
+     * @return the file name
+     */
+    String getInputFileName();
     /**
      * Sets the exposure to value and computes the new image.
      * @param value the exposure input value
@@ -61,4 +70,19 @@ public interface AppManager {
      * @param b the blue input value
      */
     void setBW(double r, double g, double b);
+
+    /**
+     * Exports the image in the requested file and format.
+     * @param file the output file
+     * @param format the output format
+     * @throws IOException if the operation fails
+     */
+    void exportImage(File file, Format format) throws IOException;
+    /**
+     * Export the image in the JPEG format with the requested quality.
+     * @param file the output file
+     * @param quality the requested quality
+     * @throws IOException if the operation fails
+     */
+    void exportImage(File file, float quality) throws IOException;
 }

@@ -60,8 +60,7 @@
 										<KeyCodeCombination code="s" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
-								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="Export">
+								<MenuItem mnemonicParsing="false" text="Export" onAction="#export">
 									<accelerator>
 										<KeyCodeCombination code="e" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>

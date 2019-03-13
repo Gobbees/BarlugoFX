@@ -97,7 +97,9 @@
 .scroll-pane > .corner {
     -fx-background-color: #333130;
 }
-
+#border-pane {
+    -fx-background-color: #333130;
+}
 /*MENU-BAR*/
 .menu-bar {
     -fx-background-color: #333130;
@@ -181,7 +183,16 @@
 #blueslider > .colored-track { 
     -fx-background-color: blue;
 }
-
+#qualityslider > .animated-thumb {
+    -fx-background-color: #5affd0;
+}
+#qualityslider > .colored-track {
+    -fx-background-color: #5affd0;
+}
+#qualityslider .slider-value {
+     -fx-fill: #333130;
+     -fx-stroke: #333130;
+}
 /* TEXT FIELDS */
 .jfx-text-field {
     -jfx-focus-color: #5affd0;
