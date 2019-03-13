@@ -1,10 +1,13 @@
 package barlugofx.model.tools;
 
+import java.awt.Point;
+
 import barlugofx.model.imagetools.ColorManipulator;
 import barlugofx.model.imagetools.ColorManipulatorImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ParallelImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -13,7 +16,7 @@ import barlugofx.model.tools.common.ParametersName;
  *
  *
  */
-public final class Brightness extends ImageToolImpl {
+public final class Brightness extends ImageToolImpl implements ParallelImageTool {
     private static final double MAXVALUE = 255;
     private static final int DEFAULT_VALUE = 0;
     private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
@@ -30,23 +33,27 @@ public final class Brightness extends ImageToolImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final int value = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
-        for (int i = 0; i < pixels.length; i++) {
-            for (int j = 0; j < pixels[0].length; j++) {
+        executeFilter(pixels, newPixels, new Point(0, 0), new Point(toApply.getWidth(), toApply.getHeight()));
+        return ImageImpl.buildFromPixels(newPixels);
+    }
+
+    @Override
+    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+        final int value = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
+        for (int i = begin.x; i < end.x; i++) {
+            for (int j = begin.y; j < end.y; j++) {
                 newPixels[i][j] = pixels[i][j];
                 newPixels[i][j] = COL.updateBlue(newPixels[i][j], value);
                 newPixels[i][j] = COL.updateGreen(newPixels[i][j], value);
                 newPixels[i][j] = COL.updateRed(newPixels[i][j], value);
             }
         }
-        return ImageImpl.buildFromPixels(newPixels);
     }
 
     @Override
     protected boolean isAccepted(final ParametersName name) {
         return ParametersName.BRIGHTNESS == name;
     }
-
 }
