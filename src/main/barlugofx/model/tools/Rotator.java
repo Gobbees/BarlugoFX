@@ -5,9 +5,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.imageTools.ImageUtils;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 

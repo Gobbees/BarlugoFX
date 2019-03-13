@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import barlugofx.model.history.SequenceNode;
 import barlugofx.model.history.SequenceNodeImpl;
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.common.ImageTool;
 

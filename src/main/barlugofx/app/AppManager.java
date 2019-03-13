@@ -3,7 +3,7 @@ package barlugofx.app;
 import java.io.File;
 import java.io.IOException;
 
-import barlugofx.model.imageTools.Image;
+import barlugofx.model.imagetools.Image;
 import barlugofx.utils.Format;
 
 /**

@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.imageTools.ImageUtils;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 

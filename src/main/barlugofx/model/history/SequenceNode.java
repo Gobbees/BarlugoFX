@@ -1,6 +1,6 @@
 package barlugofx.model.history;
 
-import barlugofx.model.imageTools.Image;
+import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.common.ImageTool;
 
 /**

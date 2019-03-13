@@ -9,9 +9,9 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 
-import barlugofx.model.imageTools.Image;
-import barlugofx.model.imageTools.ImageImpl;
-import barlugofx.model.imageTools.ImageUtils;
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.Format;
 
 /**
