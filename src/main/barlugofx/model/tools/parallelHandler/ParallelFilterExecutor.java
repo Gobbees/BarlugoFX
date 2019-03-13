@@ -1,6 +1,7 @@
 package barlugofx.model.tools.parallelHandler;
 
 import barlugofx.model.imageTools.Image;
+import barlugofx.model.tools.common.ParallelizableImageTool;
 
 /**
  * This class allows the usage of the image tools in a parallel way. The number of thread to instantiate is automatically chosen.
@@ -38,5 +39,16 @@ public final class ParallelFilterExecutor {
          * migliorato.
          */
         return (long) target.getHeight() * target.getWidth() > THRESHOLD;
+    }
+
+    /**
+     * Given a ParallelizableImageTool, this function apply it to the target image in a parallel way.
+     * @param tool the tool to apply to the image
+     * @param target the image to update
+     * @return the image in which the tool has been applied.
+     */
+    public Image applyTool(final ParallelizableImageTool tool, final Image target) {
+        //TODO : Implement this function
+        return null;
     }
 }

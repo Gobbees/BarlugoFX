@@ -6,7 +6,7 @@ import barlugofx.model.imageTools.ColorManipulator;
 import barlugofx.model.imageTools.Image;
 import barlugofx.model.imageTools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
-import barlugofx.model.tools.common.ParallelImageTool;
+import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -15,7 +15,7 @@ import barlugofx.model.tools.common.ParametersName;
  *
  *
  */
-public final class Brightness extends ImageToolImpl implements ParallelImageTool {
+public final class Brightness extends ImageToolImpl implements ParallelizableImageTool {
     private static final double MAXVALUE = 255;
     private static final int DEFAULT_VALUE = 0;
     private Brightness() {

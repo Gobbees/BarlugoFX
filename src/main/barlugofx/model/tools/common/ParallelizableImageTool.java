@@ -7,7 +7,7 @@ import java.awt.Point;
  * necessary.
  *
  */
-public interface ParallelImageTool extends ImageTool {
+public interface ParallelizableImageTool extends ImageTool {
     /**
      * This method perform this filter into the given matrix pixels, assuming that each integer represents a pixel.
      * If pixels and newPixels sizes are different, than the result is undefined.
