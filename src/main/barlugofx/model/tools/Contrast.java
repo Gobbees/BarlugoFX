@@ -17,6 +17,7 @@ public final class Contrast extends ImageToolImpl {
     private static final double MAXVALUE = 255;
     private static final int TRANSLATION = 128;
     private static final int DEFAULT_VALUE = 0;
+    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
 
     private Contrast() {
         super();
@@ -34,19 +35,17 @@ public final class Contrast extends ImageToolImpl {
         final int value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         final double contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE)
                 / (MAXVALUE * (MAXVALUE + 4 - value));
-
-        final ColorManipulator setter = ColorManipulatorImpl.createColorExtractor();
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = setter.setBlue(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (setter.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = setter.setGreen(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (setter.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = setter.setRed(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (setter.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = COL.setBlue(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (COL.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = COL.setGreen(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (COL.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = COL.setRed(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (COL.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
             }
         }
         return ImageImpl.buildFromPixels(newPixels);

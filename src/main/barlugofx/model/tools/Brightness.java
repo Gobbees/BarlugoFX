@@ -16,7 +16,7 @@ import barlugofx.model.tools.common.ParametersName;
 public final class Brightness extends ImageToolImpl {
     private static final double MAXVALUE = 255;
     private static final int DEFAULT_VALUE = 0;
-
+    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private Brightness() {
         super();
     }
@@ -31,15 +31,14 @@ public final class Brightness extends ImageToolImpl {
     @Override
     public Image applyFilter(final Image toApply) {
         final int value = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
-        final ColorManipulator setter = ColorManipulatorImpl.createColorExtractor();
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = setter.updateBlue(newPixels[i][j], value);
-                newPixels[i][j] = setter.updateGreen(newPixels[i][j], value);
-                newPixels[i][j] = setter.updateRed(newPixels[i][j], value);
+                newPixels[i][j] = COL.updateBlue(newPixels[i][j], value);
+                newPixels[i][j] = COL.updateGreen(newPixels[i][j], value);
+                newPixels[i][j] = COL.updateRed(newPixels[i][j], value);
             }
         }
         return ImageImpl.buildFromPixels(newPixels);

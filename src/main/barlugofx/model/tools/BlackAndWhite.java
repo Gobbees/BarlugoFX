@@ -40,9 +40,12 @@ public final class BlackAndWhite extends ImageToolImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final double redFactor = super.getValueFromParameter(ParametersName.WRED, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE) * RED_MULTIPLIER;
-        final double greenFactor = super.getValueFromParameter(ParametersName.WGREEN, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE) * GREEN_MULTIPLIER;
-        final double blueFactor = super.getValueFromParameter(ParametersName.WBLUE, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE) * BLUE_MULTIPLIER;
+        final double redFactor = super.getValueFromParameter(ParametersName.WRED, MIN_VALUE, Double.MAX_VALUE,
+                DEFAULT_VALUE) * RED_MULTIPLIER;
+        final double greenFactor = super.getValueFromParameter(ParametersName.WGREEN, MIN_VALUE, Double.MAX_VALUE,
+                DEFAULT_VALUE) * GREEN_MULTIPLIER;
+        final double blueFactor = super.getValueFromParameter(ParametersName.WBLUE, MIN_VALUE, Double.MAX_VALUE,
+                DEFAULT_VALUE) * BLUE_MULTIPLIER;
 
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
