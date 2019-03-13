@@ -40,8 +40,8 @@ public final class Brightness extends ImageToolImpl implements ParallelImageTool
     @Override
     public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
         final int value = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
-        for (int i = begin.x; i < end.x; i++) {
-            for (int j = begin.y; j < end.y; j++) {
+        for (int i = begin.y; i < end.y; i++) {
+            for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];
                 newPixels[i][j] = ColorManipulator.updateBlue(newPixels[i][j], value);
                 newPixels[i][j] = ColorManipulator.updateGreen(newPixels[i][j], value);
