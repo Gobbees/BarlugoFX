@@ -1,7 +1,15 @@
 package barlugofx.model.tools.parallelHandler;
 
+import java.awt.Point;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.common.ParallelizableImageTool;
+import barlugofx.utils.MutablePair;
 
 /**
  * This class allows the usage of the image tools in a parallel way. The number of thread to instantiate is automatically chosen.
@@ -10,13 +18,17 @@ import barlugofx.model.tools.common.ParallelizableImageTool;
  */
 public final class ParallelFilterExecutor {
     private static final long THRESHOLD = 4000000L;
+    private final int nThreads;
+    private final ExecutorService exec;
+
 
     private static class LazyInizialization {
         private static final ParallelFilterExecutor SINGLETON = new ParallelFilterExecutor();
     }
 
     private ParallelFilterExecutor() {
-
+        nThreads = Runtime.getRuntime().availableProcessors() + 1;
+        exec = Executors.newFixedThreadPool(nThreads);
     }
 
     /**
@@ -48,7 +60,48 @@ public final class ParallelFilterExecutor {
      * @return the image in which the tool has been applied.
      */
     public Image applyTool(final ParallelizableImageTool tool, final Image target) {
-        //TODO : Implement this function
+        final int[][] pixels = target.getImageRGBvalues();
+        final int[][] newPixels = new int[pixels.length][pixels[0].length];
+        final CountDownLatch latch = new CountDownLatch(nThreads);
+        divideImage(target).stream().forEach(pair -> {
+            exec.execute(() -> {
+                tool.executeFilter(pixels, newPixels, pair.getFirst(), pair.getSecond());
+                latch.countDown();
+            });
+        });
+        try {
+            latch.await();
+        } catch (final InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new AssertionError("Unexpected interruption of parallel filtering algorithm", e);
+        }
         return null;
     }
+
+    private Collection<MutablePair<Point, Point>> divideImage(final Image target) {
+        final int width = target.getWidth();
+        final int bandWidth = width / nThreads;
+
+        final Collection<MutablePair<Point, Point>> dividedImage = new LinkedList<>();
+
+        int currPixel = 0;
+        for (int i = 0; i < nThreads - 1; i++) {
+            final Point begin = new Point(0, currPixel);
+            currPixel += bandWidth;
+            final Point end = new Point(0, currPixel);
+            dividedImage.add(new MutablePair<>(begin, end));
+        }
+        dividedImage.add(new MutablePair<>(new Point(0, currPixel), new Point(0, width)));
+        return dividedImage;
+    }
+
+    /* test for divideImage. JUnit was an overkill.
+    public static void main(final String[] args) {
+        final Image temp = ImageImpl.buildFromPixels(new int[1920][1080]);
+        final ParallelFilterExecutor exec = ParallelFilterExecutor.executor();
+        final Queue<MutablePair<Point, Point>> que = exec.divideImage(temp);
+        System.out.println(que.size());
+        que.stream().forEach(x -> System.out.println(x.getFirst().y + " " + x.getSecond().y));
+    }
+     */
 }

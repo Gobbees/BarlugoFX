@@ -90,4 +90,11 @@ public final class MutablePair<F, S> {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "MutablePair [first=" + first + ", second=" + second + "]";
+    }
+
+
 }
