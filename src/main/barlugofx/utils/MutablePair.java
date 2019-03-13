@@ -72,7 +72,8 @@ public final class MutablePair<F, S> {
         if (!(obj instanceof MutablePair)) {
             return false;
         }
-        final MutablePair other = (MutablePair) obj;
+        @SuppressWarnings("unchecked")
+        final MutablePair<F, S> other = (MutablePair<F, S>) obj;
         if (first == null) {
             if (other.first != null) {
                 return false;
