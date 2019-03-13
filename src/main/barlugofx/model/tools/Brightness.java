@@ -3,7 +3,6 @@ package barlugofx.model.tools;
 import java.awt.Point;
 
 import barlugofx.model.imagetools.ColorManipulator;
-import barlugofx.model.imagetools.ColorManipulatorImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
@@ -19,7 +18,6 @@ import barlugofx.model.tools.common.ParametersName;
 public final class Brightness extends ImageToolImpl implements ParallelImageTool {
     private static final double MAXVALUE = 255;
     private static final int DEFAULT_VALUE = 0;
-    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private Brightness() {
         super();
     }
@@ -45,9 +43,9 @@ public final class Brightness extends ImageToolImpl implements ParallelImageTool
         for (int i = begin.x; i < end.x; i++) {
             for (int j = begin.y; j < end.y; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = COL.updateBlue(newPixels[i][j], value);
-                newPixels[i][j] = COL.updateGreen(newPixels[i][j], value);
-                newPixels[i][j] = COL.updateRed(newPixels[i][j], value);
+                newPixels[i][j] = ColorManipulator.updateBlue(newPixels[i][j], value);
+                newPixels[i][j] = ColorManipulator.updateGreen(newPixels[i][j], value);
+                newPixels[i][j] = ColorManipulator.updateRed(newPixels[i][j], value);
             }
         }
     }

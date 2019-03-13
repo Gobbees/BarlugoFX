@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import barlugofx.model.imagetools.ColorManipulator;
-import barlugofx.model.imagetools.ColorManipulatorImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
@@ -18,7 +17,6 @@ import barlugofx.model.tools.common.ParametersName;
  *
  */
 public final class BlackAndWhite extends ImageToolImpl {
-    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private static final double MIN_VALUE = 0;
     private static final double DEFAULT_VALUE = 1.0;
     private static final double RED_MULTIPLIER = 0.299;
@@ -53,11 +51,11 @@ public final class BlackAndWhite extends ImageToolImpl {
         for (int i = 0; i < newPixels.length; i++) {
             for (int j = 0; j < newPixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                final int newValue = (int) (redFactor * COL.getRed(pixels[i][j])
-                        + greenFactor * COL.getGreen(pixels[i][j]) + blueFactor * COL.getBlue(pixels[i][j]));
-                newPixels[i][j] = COL.setRed(newPixels[i][j], newValue);
-                newPixels[i][j] = COL.setGreen(newPixels[i][j], newValue);
-                newPixels[i][j] = COL.setBlue(newPixels[i][j], newValue);
+                final int newValue = (int) (redFactor * ColorManipulator.getRed(pixels[i][j])
+                        + greenFactor * ColorManipulator.getGreen(pixels[i][j]) + blueFactor * ColorManipulator.getBlue(pixels[i][j]));
+                newPixels[i][j] = ColorManipulator.setRed(newPixels[i][j], newValue);
+                newPixels[i][j] = ColorManipulator.setGreen(newPixels[i][j], newValue);
+                newPixels[i][j] = ColorManipulator.setBlue(newPixels[i][j], newValue);
             }
         }
         return ImageImpl.buildFromPixels(newPixels);

@@ -1,7 +1,6 @@
 package barlugofx.model.tools;
 
 import barlugofx.model.imagetools.ColorManipulator;
-import barlugofx.model.imagetools.ColorManipulatorImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.imagetools.ImageUtils;
@@ -15,7 +14,6 @@ import barlugofx.model.tools.common.ParametersName;
  * It accepts one parameter: VIBRANCE_INCREMENT which specify the value to add. Must be a float between -1 and 1.
  */
 public final class Vibrance extends ImageToolImpl {
-    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private static final float MIN_INCREMENT = -1;
     private static final float MAX_INCREMENT = 1;
     private static final float MAX_SATURATION = 1;
@@ -42,10 +40,11 @@ public final class Vibrance extends ImageToolImpl {
         final float[][][] hsb = ImageUtils.rgbToHsb(toApply.getImageRGBvalues());
         for (int i = 0; i < hsb.length; i++) {
             for (int j = 0; j < hsb[0].length; j++) {
-                float brightness = COL.getRed(pixels[i][j]) + COL.getBlue(pixels[i][j]) + COL.getGreen(pixels[i][j]);
+                float brightness = ColorManipulator.getRed(pixels[i][j]) + ColorManipulator.getBlue(pixels[i][j])
+                + ColorManipulator.getGreen(pixels[i][j]);
                 brightness = brightness / 3;
-                final int maxColor = Integer.max(COL.getRed(pixels[i][j]),
-                        Integer.max(COL.getBlue(pixels[i][j]), COL.getGreen(pixels[i][j])));
+                final int maxColor = Integer.max(ColorManipulator.getRed(pixels[i][j]),
+                        Integer.max(ColorManipulator.getBlue(pixels[i][j]), ColorManipulator.getGreen(pixels[i][j])));
                 hsb[i][j][1] = truncateSum(hsb[i][j][1], (maxColor - brightness) * increment);
             }
         }

@@ -12,7 +12,6 @@ public final class ImageUtils {
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
     private static final int ALPHASHIFT = 24;
-    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
 
     private ImageUtils() {
 
@@ -74,11 +73,10 @@ public final class ImageUtils {
      */
     public static float[][][] rgbToHsb(final int[]... pixels) {
         final float[][][] result = new float[pixels.length][pixels[0].length][3];
-        final ColorManipulator getter = ColorManipulatorImpl.createColorExtractor();
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
-                Color.RGBtoHSB(getter.getRed(pixels[i][j]), getter.getGreen(pixels[i][j]), getter.getBlue(pixels[i][j]),
-                        result[i][j]);
+                Color.RGBtoHSB(ColorManipulator.getRed(pixels[i][j]), ColorManipulator.getGreen(pixels[i][j]),
+                        ColorManipulator.getBlue(pixels[i][j]), result[i][j]);
             }
         }
         return result;
@@ -95,7 +93,7 @@ public final class ImageUtils {
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 pixels[i][j] = Color.HSBtoRGB(pixelsHSB[i][j][0], pixelsHSB[i][j][1], pixelsHSB[i][j][2]);
-                pixels[i][j] = COL.setAlpha(pixels[i][j], COL.getAlpha(oldPixels[i][j]));
+                pixels[i][j] = ColorManipulator.setAlpha(pixels[i][j], ColorManipulator.getAlpha(oldPixels[i][j]));
             }
         }
         return pixels;

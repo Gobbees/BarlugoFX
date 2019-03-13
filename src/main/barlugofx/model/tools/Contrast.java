@@ -1,7 +1,6 @@
 package barlugofx.model.tools;
 
 import barlugofx.model.imagetools.ColorManipulator;
-import barlugofx.model.imagetools.ColorManipulatorImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
@@ -17,7 +16,6 @@ public final class Contrast extends ImageToolImpl {
     private static final double MAXVALUE = 255;
     private static final int TRANSLATION = 128;
     private static final int DEFAULT_VALUE = 0;
-    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
 
     private Contrast() {
         super();
@@ -40,12 +38,12 @@ public final class Contrast extends ImageToolImpl {
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = COL.setBlue(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (COL.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = COL.setGreen(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (COL.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = COL.setRed(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (COL.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = ColorManipulator.setBlue(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (ColorManipulator.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = ColorManipulator.setGreen(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (ColorManipulator.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = ColorManipulator.setRed(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (ColorManipulator.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
             }
         }
         return ImageImpl.buildFromPixels(newPixels);

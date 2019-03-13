@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import barlugofx.model.imagetools.ColorManipulator;
-import barlugofx.model.imagetools.ColorManipulatorImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
@@ -19,7 +18,6 @@ import barlugofx.model.tools.common.ParametersName;
 public final class SelectiveRGBChanger extends ImageToolImpl {
     private static final int MAX = 255;
     private static final int DEFAULT =  0;
-    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
     private static final Set<ParametersName> ACCEPTED = new HashSet<>(
             Arrays.asList(ParametersName.RED, ParametersName.GREEN, ParametersName.BLUE));
 
@@ -45,9 +43,9 @@ public final class SelectiveRGBChanger extends ImageToolImpl {
         for (int i = 0; i < newPixels.length; i++) {
             for (int j = 0; j < newPixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = COL.updateRed(newPixels[i][j], red);
-                newPixels[i][j] = COL.updateGreen(newPixels[i][j], green);
-                newPixels[i][j] = COL.updateBlue(newPixels[i][j], blue);
+                newPixels[i][j] = ColorManipulator.updateRed(newPixels[i][j], red);
+                newPixels[i][j] = ColorManipulator.updateGreen(newPixels[i][j], green);
+                newPixels[i][j] = ColorManipulator.updateBlue(newPixels[i][j], blue);
             }
         }
         return ImageImpl.buildFromPixels(newPixels);

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
 import barlugofx.model.imagetools.ColorManipulator;
-import barlugofx.model.imagetools.ColorManipulatorImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
@@ -21,7 +20,6 @@ public final class WhiteBalance extends ImageToolImpl {
     private static final double MINVALUE = 0;
     private static final double MAXRGB = 255.0;
     private static final float DEFAULT = 0f;
-    private static final ColorManipulator COL = ColorManipulatorImpl.createColorExtractor();
 
     private WhiteBalance() {
         super();
@@ -40,16 +38,16 @@ public final class WhiteBalance extends ImageToolImpl {
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final int[] pixelsAsArray = Arrays.stream(pixels).flatMapToInt(x -> Arrays.stream(x)).toArray();
-        final int[] newRed = whiteBalanceRGB(rgbValues(x -> COL.getRed(x), pixelsAsArray), value);
-        final int[] newGreen = whiteBalanceRGB(rgbValues(x -> COL.getGreen(x), pixelsAsArray), value);
-        final int[] newBlue = whiteBalanceRGB(rgbValues(x -> COL.getBlue(x), pixelsAsArray), value);
+        final int[] newRed = whiteBalanceRGB(rgbValues(x -> ColorManipulator.getRed(x), pixelsAsArray), value);
+        final int[] newGreen = whiteBalanceRGB(rgbValues(x -> ColorManipulator.getGreen(x), pixelsAsArray), value);
+        final int[] newBlue = whiteBalanceRGB(rgbValues(x -> ColorManipulator.getBlue(x), pixelsAsArray), value);
 
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = COL.setRed(newPixels[i][j], newRed[i * pixels[0].length + j]);
-                newPixels[i][j] = COL.setGreen(newPixels[i][j], newGreen[i * pixels[0].length + j]);
-                newPixels[i][j] = COL.setBlue(newPixels[i][j], newBlue[i * pixels[0].length + j]);
+                newPixels[i][j] = ColorManipulator.setRed(newPixels[i][j], newRed[i * pixels[0].length + j]);
+                newPixels[i][j] = ColorManipulator.setGreen(newPixels[i][j], newGreen[i * pixels[0].length + j]);
+                newPixels[i][j] = ColorManipulator.setBlue(newPixels[i][j], newBlue[i * pixels[0].length + j]);
             }
         }
         return ImageImpl.buildFromPixels(newPixels);
