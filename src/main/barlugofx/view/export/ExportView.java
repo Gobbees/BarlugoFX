@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 
+import barlugofx.app.AppManager;
 import barlugofx.view.AbstractView;
-import javafx.scene.Cursor;
 import javafx.stage.Stage;
 
 /**
@@ -16,8 +16,9 @@ public class ExportView extends AbstractView<ExportController> {
     private static final double HEIGHT_MULTIPLIER = 0.25;
     /**
      * The class constructor. It sets all the parameters and display the export stage.
+     * @param manager the input manager
      */
-    public ExportView() {
+    public ExportView(final AppManager manager) {
         super("Export", "file:res/img/logo.png", new Stage(), new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * WIDTH_MULTIPLIER),
               (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * HEIGHT_MULTIPLIER)));
         try {
@@ -29,9 +30,9 @@ public class ExportView extends AbstractView<ExportController> {
         this.getStage().setResizable(false);
         this.getStage().setScene(this.getScene());
         this.getController().setStage(this.getStage());
+        this.getController().setManager(manager);
         this.getStage().centerOnScreen();
         this.getStage().show();
-        this.getScene().setCursor(Cursor.DEFAULT);
     }
 
 }

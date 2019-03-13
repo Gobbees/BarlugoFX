@@ -40,17 +40,14 @@ public final class AppManagerImpl implements AppManager {
     //private final Rotator rotator;
     private final Vibrance vibrance;
     private final IOManager fileManager;
-    //TODO
     /**
-     * @param input
+     * The constructor of the class. It takes the input file chosen by the user and initiates all the elements
+     * @param file the input file
+     * @throws IOException if the file opening fails
      */
-    public AppManagerImpl(final File input) {
+    public AppManagerImpl(final File file) throws IOException {
         fileManager = new IOManagerImpl();
-        try {
-            image = fileManager.loadImageFromFile(input);
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+        image = fileManager.loadImageFromFile(file);
         hsb = HSBModifier.createHSB();
         contrast = Contrast.createContrast();
         brightness = Brightness.createBrightness();
@@ -148,13 +145,11 @@ public final class AppManagerImpl implements AppManager {
     @Override
     public void exportImage(final File file, final Format format) throws IOException {
         fileManager.exportImage(image, file, format);
-        
     }
 
     @Override
     public void exportImage(final File file, final float quality) throws IOException {
         fileManager.exportJPEGWithQuality(image, file, quality);
-        
     }
 
     //TODO history

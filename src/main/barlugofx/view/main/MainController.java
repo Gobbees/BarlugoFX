@@ -30,7 +30,6 @@ import barlugofx.view.export.ExportView;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -47,13 +46,14 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 /**
- * This class sets the sizes of the components in relation to the screen size and manages all the view events.
+ * This class manages the view events. IMPORTANT: set the app manager with setManager() function.
+ * Creating a MainController object is useless and it probably will cause some sort of exception.
  */
-public class MainController implements ViewController {
+public final class MainController implements ViewController {
     //private constant fields
     private static final double RIGHT_COLUMN_MIN_MULTIPLIER = 0.15;
     private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.5;
-
+    //TODO avoid nullpointer on manager calls.
     @FXML
     private BorderPane bpaneMain;
     @FXML
@@ -169,17 +169,12 @@ public class MainController implements ViewController {
     private Scene scene;
     private AppManager manager;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
-
     /**
      * The constructor of the class. It is public because FXML obligates to do so.
      */
     public MainController() {
         toolStatus = new HashMap<>();
     }
- 
-    /* (non-Javadoc)
-     * @see com.barlugofx.ui.ViewController#setStage(javafx.stage.Stage)
-     */
     @Override
     public void setStage(final Stage stage) {
         final Stage st;
@@ -195,24 +190,21 @@ public class MainController implements ViewController {
      */
     @FXML
     public void export() {
-        scene.setCursor(Cursor.WAIT);
-        new ExportView();
+        new ExportView(manager);
     }
-
-    private void updateImage() {
-        Platform.runLater(() -> {
-            iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
-        });
-    }
-    //TODO
     /**
-     * @param manager
+     * This function sets the app manager (controller). It must be called in order to avoid future errors.
+     * @param manager the input manager
      */
     public void setManager(final AppManager manager) {
         this.manager = manager;
         updateImage();
     }
-
+    private void updateImage() {
+        Platform.runLater(() -> {
+            iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+        });
+    }
     //this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
@@ -222,7 +214,6 @@ public class MainController implements ViewController {
         iviewImage.setFitWidth(scpaneImage.getWidth());
         iviewImage.setFitHeight(scpaneImage.getHeight());
     }
-    //
     private void initToolStatus() {
         toolStatus.put(EXPOSURE, new MutablePair<>(slExposure.getValue(), true));
         toolStatus.put(CONTRAST, new MutablePair<>(slContrast.getValue(), true));

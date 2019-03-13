@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 
 import barlugofx.app.AppManager;
-import barlugofx.app.AppManagerImpl;
 import barlugofx.utils.Format;
 import barlugofx.view.ViewController;
 import javafx.fxml.FXML;
@@ -21,7 +20,7 @@ import static barlugofx.utils.Format.JPEG;
 import static barlugofx.utils.Format.GIF;
 
 /**
- * This class manages the view events.
+ * This class manages the view events. IMPORTANT: set the app manager with setManager() function.
  * Creating a ExportController object is useless and it probably will cause some sort of exception.
  */
 public final class ExportController implements ViewController {
@@ -55,12 +54,11 @@ public final class ExportController implements ViewController {
     public void setStage(final Stage stage) {
         this.stage = stage;
         //TEMP TODO
-        manager = new AppManagerImpl(new File("/Users/gg_mbpro/Desktop/London 2019/IMG_5532.png")); 
         initComponents();
     }
     /**
-     * This method must be called in order to effectively save the image.
-     * @param manager the input manager.
+     * This function sets the app manager (controller). It must be called in order to avoid future errors.
+     * @param manager the input manager
      */
     public void setManager(final AppManager manager) {
         this.manager = manager;

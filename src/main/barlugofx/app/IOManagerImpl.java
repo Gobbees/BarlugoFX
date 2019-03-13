@@ -35,7 +35,7 @@ public final class IOManagerImpl implements IOManager {
 
     @Override
     public void exportImage(final Image image, final File file, final Format format) throws IOException {
-        ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), "tif", file);
+        ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), format.toOutputForm(), file);
     }
 
     @Override
