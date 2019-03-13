@@ -44,7 +44,8 @@ public final class Vibrance extends ImageToolImpl {
             for (int j = 0; j < hsb[0].length; j++) {
                 float brightness = COL.getRed(pixels[i][j]) + COL.getBlue(pixels[i][j]) + COL.getGreen(pixels[i][j]);
                 brightness = brightness / 3;
-                final int maxColor = Integer.max(COL.getRed(pixels[i][j]), Integer.max(COL.getBlue(pixels[i][j]), COL.getGreen(pixels[i][j])));
+                final int maxColor = Integer.max(COL.getRed(pixels[i][j]),
+                        Integer.max(COL.getBlue(pixels[i][j]), COL.getGreen(pixels[i][j])));
                 hsb[i][j][1] = truncateSum(hsb[i][j][1], (maxColor - brightness) * increment);
             }
         }

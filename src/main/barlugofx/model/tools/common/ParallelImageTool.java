@@ -7,7 +7,7 @@ import java.awt.Point;
  * necessary.
  *
  */
-public interface ParallelImageTool extends ImageTool{
+public interface ParallelImageTool extends ImageTool {
     /**
      * This method perform this filter into the given matrix pixels, assuming that each integer represents a pixel.
      * Note that the matrix should contain the rectangle formed by the two points, begin and end.
