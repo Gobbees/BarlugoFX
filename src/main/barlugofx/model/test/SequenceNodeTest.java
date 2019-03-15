@@ -66,19 +66,19 @@ public final class SequenceNodeTest {
     @Test
     public void testNullValues() {
         try {
-            final SequenceNode node = new SequenceNodeImpl(null, DEFAULT_TOOL, DEFAULT_IMAGE);
+            new SequenceNodeImpl(null, DEFAULT_TOOL, DEFAULT_IMAGE);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         try {
-            final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, null);
+            new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, null);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         try {
-            final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, null, DEFAULT_IMAGE);
+            new SequenceNodeImpl(DEFAULT_NAME, null, DEFAULT_IMAGE);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);

@@ -57,7 +57,7 @@ public enum Format {
      * @return the list of all possible input formats
      */
     public static List<String> getAllPossibleInputs() {
-        List<String> output = new ArrayList<>();
+        final List<String> output = new ArrayList<>();
         output.addAll(PNG.possibleInputs);
         output.addAll(JPEG.possibleInputs);
         output.addAll(GIF.possibleInputs);

@@ -20,12 +20,11 @@ public final class BarlugoFX extends Application {
     }
     @Override
     public void start(final Stage stage) {
-        //initialize
+        //initialize....
         try {
             new WelcomeView();
         } catch (Exception e) {
-            //TODO log
-            //TODO single interface for errors
+            //add log
             e.printStackTrace();
             final Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");

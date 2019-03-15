@@ -3,18 +3,23 @@ package barlugofx.model.tools;
 import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
-import barlugofx.model.imagetools.ColorManipulator;
+import barlugofx.model.imagetools.ColorManipulatorUtils;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- *  The white balance class implements one of the simpliest auto-balancing algorithm used by gimp. It works discarding pixel colors at
- *  each end of the Red, Green and Blue histograms which are used by only 0.05% of the pixels in the image
- *  and stretches the remaining range as much as possible.
- *  The value in input must be a float greater than 0. For optimal result we suggest values around 0.3-0.7;
- *  @see <a href="https://docs.gimp.org/2.8/en/gimp-layer-white-balance.html">GIMP documentation</a>
+ * The white balance class implements one of the simpliest auto-balancing
+ * algorithm used by gimp. It works discarding pixel colors at each end of the
+ * Red, Green and Blue histograms which are used by only 0.05% of the pixels in
+ * the image and stretches the remaining range as much as possible. The value in
+ * input must be a float greater than 0. For optimal result we suggest values
+ * around 0.3-0.7;
+ * 
+ * @see <a href=
+ *      "https://docs.gimp.org/2.8/en/gimp-layer-white-balance.html">GIMP
+ *      documentation</a>
  */
 public final class WhiteBalance extends ImageToolImpl {
     private static final double MINVALUE = 0;
@@ -24,8 +29,10 @@ public final class WhiteBalance extends ImageToolImpl {
     private WhiteBalance() {
         super();
     }
+
     /**
      * Creates a new WhiteBalance filter.
+     * 
      * @return the instantieted whitebalance filter
      */
     public static WhiteBalance createWhiteBalance() {
@@ -34,20 +41,21 @@ public final class WhiteBalance extends ImageToolImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
-        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE, DEFAULT);
+        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE,
+                DEFAULT);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final int[] pixelsAsArray = Arrays.stream(pixels).flatMapToInt(x -> Arrays.stream(x)).toArray();
-        final int[] newRed = whiteBalanceRGB(rgbValues(x -> ColorManipulator.getRed(x), pixelsAsArray), value);
-        final int[] newGreen = whiteBalanceRGB(rgbValues(x -> ColorManipulator.getGreen(x), pixelsAsArray), value);
-        final int[] newBlue = whiteBalanceRGB(rgbValues(x -> ColorManipulator.getBlue(x), pixelsAsArray), value);
+        final int[] newRed = whiteBalanceRGB(rgbValues(x -> ColorManipulatorUtils.getRed(x), pixelsAsArray), value);
+        final int[] newGreen = whiteBalanceRGB(rgbValues(x -> ColorManipulatorUtils.getGreen(x), pixelsAsArray), value);
+        final int[] newBlue = whiteBalanceRGB(rgbValues(x -> ColorManipulatorUtils.getBlue(x), pixelsAsArray), value);
 
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = ColorManipulator.setRed(newPixels[i][j], newRed[i * pixels[0].length + j]);
-                newPixels[i][j] = ColorManipulator.setGreen(newPixels[i][j], newGreen[i * pixels[0].length + j]);
-                newPixels[i][j] = ColorManipulator.setBlue(newPixels[i][j], newBlue[i * pixels[0].length + j]);
+                newPixels[i][j] = ColorManipulatorUtils.setRed(newPixels[i][j], newRed[i * pixels[0].length + j]);
+                newPixels[i][j] = ColorManipulatorUtils.setGreen(newPixels[i][j], newGreen[i * pixels[0].length + j]);
+                newPixels[i][j] = ColorManipulatorUtils.setBlue(newPixels[i][j], newBlue[i * pixels[0].length + j]);
             }
         }
         return ImageImpl.buildFromPixels(newPixels);

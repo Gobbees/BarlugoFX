@@ -24,7 +24,7 @@ public final class IOManagerImpl implements IOManager {
     @Override
     public Image loadImageFromFile(final File file) throws IOException {
         inputFileName = file.getName();
-        inputFileName = inputFileName.substring(0, inputFileName.indexOf("."));
+        inputFileName = inputFileName.substring(0, inputFileName.indexOf('.'));
         return ImageImpl.buildFromBufferedImage(ImageIO.read(file));
     }
 
@@ -40,13 +40,13 @@ public final class IOManagerImpl implements IOManager {
 
     @Override
     public void exportJPEGWithQuality(final Image image, final File file, final float quality) throws IOException {
-      ImageWriter writer = ImageIO.getImageWritersByFormatName(Format.JPEG.toOutputForm()).next();
-      ImageWriteParam iwp = writer.getDefaultWriteParam();
+      final ImageWriter writer = ImageIO.getImageWritersByFormatName(Format.JPEG.toOutputForm()).next();
+      final ImageWriteParam iwp = writer.getDefaultWriteParam();
       iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
       iwp.setCompressionQuality(quality);
-      FileImageOutputStream output = new FileImageOutputStream(file);
+      final FileImageOutputStream output = new FileImageOutputStream(file);
       writer.setOutput(output);
-      IIOImage outputImage = new IIOImage(ImageUtils.convertImageToBufferedImageWithoutAlpha(image), null, null);
+      final IIOImage outputImage = new IIOImage(ImageUtils.convertImageToBufferedImageWithoutAlpha(image), null, null);
       writer.write(null, outputImage, iwp);
       writer.dispose();
     }

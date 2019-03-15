@@ -1,4 +1,4 @@
-package barlugofx.model.parallelHandler;
+package barlugofx.model.parallelhandler;
 
 import java.awt.Point;
 import java.util.Collection;

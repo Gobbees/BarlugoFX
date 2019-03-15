@@ -5,7 +5,7 @@ package barlugofx.model.imagetools;
  * need for each pixel a constructor. The logic used is the same.
  *
  */
-public final class ColorManipulator {
+public final class ColorManipulatorUtils {
     private static final int CORRECTOR = 0x000000FF;
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
@@ -18,7 +18,7 @@ public final class ColorManipulator {
     private static final int MAX_CAP = 255;
     private static final int MIN_CAP = 0;
 
-    private ColorManipulator() {
+    private ColorManipulatorUtils() {
 
     }
 

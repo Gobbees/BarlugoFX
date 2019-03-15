@@ -12,6 +12,10 @@ import java.util.Set;
  *
  */
 public final class ImageImpl implements Image {
+    //hascode vars
+    private static final int HASHCODEFIRST = 1231;
+    private static final int HASHCODESECOND = 1237;
+
     private static final int CORRECTOR = 0xFF;
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
@@ -42,7 +46,7 @@ public final class ImageImpl implements Image {
         width = pixels[0].length;
         height = pixels.length;
         hasAlphaChannel = true;
-        this.pixels = pixels;
+        this.pixels = Arrays.copyOf(pixels, pixels.length);
     }
 
     /**
@@ -123,8 +127,6 @@ public final class ImageImpl implements Image {
         return result;
     }
 
-    private static final int HASHCODEFIRST = 1231;
-    private static final int HASHCODESECOND = 1237;
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -157,10 +159,7 @@ public final class ImageImpl implements Image {
         if (!Arrays.deepEquals(pixels, other.pixels)) {
             return false;
         }
-        if (width != other.width) {
-            return false;
-        }
-        return true;
+        return width == other.width;
     }
 
 

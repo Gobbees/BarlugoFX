@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
-import barlugofx.model.parallelHandler.ParallelFilterExecutor;
+import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
@@ -32,7 +32,7 @@ public class ParallelTest {
     @Test
     public void testBrightness() {
         Image target = null, output1, output2;
-        final String text =  "BRIGHTNESS";
+        final String text = "BRIGHTNESS";
         try {
             target = buildImage();
         } catch (final Exception e) {
@@ -52,7 +52,7 @@ public class ParallelTest {
         Assert.assertTrue(equalMatrix(output1.getImageRGBvalues(), output2.getImageRGBvalues()));
     }
 
-    private boolean equalMatrix(final int[][] first, final int[][] second) {
+    private boolean equalMatrix(final int[][] first, final int[]... second) {
         for (int i = 0; i < first.length; i++) {
             for (int j = 0; j < first[0].length; j++) {
                 if (first[i][j] != second[i][j]) {
@@ -64,7 +64,7 @@ public class ParallelTest {
     }
 
     private Image buildImage() throws IOException {
-        final File file  = new File("/home/matteo/Desktop/Prova.jpg");
+        final File file = new File("/Users/gg_mbpro/Downloads/Prova.jpg");
         final BufferedImage image = ImageIO.read(file);
         return ImageImpl.buildFromBufferedImage(image);
     }

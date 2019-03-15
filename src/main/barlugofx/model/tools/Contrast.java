@@ -1,6 +1,6 @@
 package barlugofx.model.tools;
 
-import barlugofx.model.imagetools.ColorManipulator;
+import barlugofx.model.imagetools.ColorManipulatorUtils;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
@@ -38,12 +38,12 @@ public final class Contrast extends ImageToolImpl {
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
-                newPixels[i][j] = ColorManipulator.setBlue(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (ColorManipulator.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = ColorManipulator.setGreen(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (ColorManipulator.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
-                newPixels[i][j] = ColorManipulator.setRed(newPixels[i][j],
-                        (int) (contrastCorrectionFactor * (ColorManipulator.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = ColorManipulatorUtils.setBlue(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (ColorManipulatorUtils.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = ColorManipulatorUtils.setGreen(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (ColorManipulatorUtils.getGreen(pixels[i][j]) - TRANSLATION) + TRANSLATION));
+                newPixels[i][j] = ColorManipulatorUtils.setRed(newPixels[i][j],
+                        (int) (contrastCorrectionFactor * (ColorManipulatorUtils.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
             }
         }
         return ImageImpl.buildFromPixels(newPixels);
