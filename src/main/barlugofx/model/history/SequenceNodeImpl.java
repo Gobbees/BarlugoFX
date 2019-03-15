@@ -53,7 +53,6 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
         return this.enabled;
     }
 
@@ -78,8 +77,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public String getNodeName() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.nodeName;
     }
 
     /* (non-Javadoc)
@@ -87,8 +85,10 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public void setNodeName(final String name) {
-        // TODO Auto-generated method stub
-
+        if (name == null || name.length() == 0) {
+            // TODO throw IllegalArgumentException
+        }
+        this.nodeName = name;
     }
 
     /* (non-Javadoc)
@@ -96,8 +96,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public ImageTool getTool() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.tool;
     }
 
 }
