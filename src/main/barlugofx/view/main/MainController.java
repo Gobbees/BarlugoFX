@@ -199,6 +199,7 @@ public final class MainController implements ViewController {
     public void setManager(final AppManager manager) {
         this.manager = manager;
         updateImage();
+        setEventListeners();
     }
     private void updateImage() {
         Platform.runLater(() -> {
@@ -245,7 +246,6 @@ public final class MainController implements ViewController {
         addComponentProperties(tfBWR, slBWR, BWR);
         addComponentProperties(tfBWG, slBWG, BWG);
         addComponentProperties(tfBWB, slBWB, BWB);
-        setEventListeners();
     }
 
     private void addComponentProperties(final JFXTextField tfield, final JFXSlider slider, final Tool tool) {
@@ -275,6 +275,12 @@ public final class MainController implements ViewController {
     }
 
     private void setEventListeners() {
+        try {
+            checkManager();
+        } catch (IllegalStateException e) {
+            //TODO LOG
+            e.printStackTrace();
+        }
         tfExposure.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER) && toolStatus.get(EXPOSURE).getSecond() && Integer.parseInt(tfExposure.getText()) != toolStatus.get(EXPOSURE).getFirst().intValue()) {
                 toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
@@ -407,9 +413,14 @@ public final class MainController implements ViewController {
         });
     }
     private void addKeyboardShortcuts() {
-
-      KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
-      Runnable rn = () -> export();
+      //CTRL + E shortcut
+      final KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
+      final Runnable rn = () -> export();
       scene.getAccelerators().put(kc,  rn);
+    }
+    private void checkManager() throws IllegalStateException {
+        if (manager == null) {
+            throw new IllegalStateException("The manager is null");
+        }
     }
 }

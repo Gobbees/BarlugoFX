@@ -105,8 +105,8 @@ public final class ExportController implements ViewController {
         hboxQuality.setVisible(false);
     }
     private void initComponents() {
-        double width = stage.getScene().getWidth();
-        double height = stage.getScene().getHeight();
+        final double width = stage.getScene().getWidth();
+        final double height = stage.getScene().getHeight();
 
         btnPNG.setMinWidth(width * BTN_WIDTH_MULTIPLIER);
         btnPNG.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
@@ -120,31 +120,43 @@ public final class ExportController implements ViewController {
         sliderQuality.setPrefWidth(width * SLIDER_WIDTH_MULTIPLIER);
     }
     private void exportImage(final Format format) {
-        File file = getFileFromDialog(format);
+        final File file = getFileFromDialog(format);
         if (file != null) {
             try {
+                checkManager();
                 manager.exportImage(file, format);
-            } catch (IOException | NullPointerException e) {
+            } catch (IOException | IllegalStateException e) {
                 // TODO log
                 e.printStackTrace();
             }
         }
     }
     private void exportImageJPEG(final float quality) {
-        File file = getFileFromDialog(JPEG);
+        final File file = getFileFromDialog(JPEG);
         if (file != null) {
             try {
+                checkManager();
                 manager.exportImage(file, quality);
-            } catch (IOException e) {
+            } catch (IOException | IllegalStateException e) {
                 // TODO log
                 e.printStackTrace();
             }
         }
     }
     private File getFileFromDialog(final Format format) {
-        FileChooser fc = new FileChooser();
-        fc.setInitialFileName(manager.getInputFileName() + format.toExtension());
+        final FileChooser fc = new FileChooser();
+        try {
+            checkManager();
+            fc.setInitialFileName(manager.getInputFileName() + format.toExtension());
+        } catch (IllegalStateException e) {
+            //TODO log
+            e.printStackTrace();
+        }
         return fc.showSaveDialog(stage);
     }
-
+    private void checkManager() throws IllegalStateException {
+        if (manager == null) {
+            throw new IllegalStateException("The manager is null");
+        }
+    }
 }
