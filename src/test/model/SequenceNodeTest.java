@@ -1,4 +1,4 @@
-package barlugofx.model.test;
+package model;
 
 import org.junit.Assert;
 import org.junit.Test;

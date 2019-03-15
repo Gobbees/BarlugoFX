@@ -1,4 +1,4 @@
-package barlugofx.model.test;
+package model;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -66,8 +66,7 @@ public final class HistoryTest {
         try {
             hist.addTool(new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.fail("I can't add two filter with the same name");
-        }
-        catch (final IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         hist.addTool(new SequenceNodeImpl("CASA", DEFAULT_TOOL, DEFAULT_IMAGE));
