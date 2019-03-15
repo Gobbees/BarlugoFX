@@ -6,23 +6,31 @@ package barlugofx.model.history;
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParametersName;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
  *
  */
 public class HistoryImpl implements History {
-    private List<SequenceNode> tools;
+    private static final int TOOL_LIMIT = 16;
+    private ArrayList<SequenceNode> nodes = new ArrayList<SequenceNode>();
+    private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
 
     /* (non-Javadoc)
      * @see barlugofx.model.history.History#addFilter(barlugofx.model.history.SequenceNode)
      */
     @Override
     public void addTool(final SequenceNode node) {
-        // TODO Auto-generated method stub
-
+        if (node == null) {
+            // TODO throw
+        }
+        if (this.nodes.size() < 16) {
+            this.nodes.add(node);
+            this.nameMap.put(node.getNodeName(), this.nodes.size());
+        }
     }
 
     /* (non-Javadoc)
@@ -30,8 +38,11 @@ public class HistoryImpl implements History {
      */
     @Override
     public void deleteTool(final int index) {
-        // TODO Auto-generated method stub
-
+        if (index < 0 || index > this.nodes.size()) {
+            // throw
+        }
+        this.nameMap.remove(this.nodes.get(index).getNodeName());
+        this.nodes.remove(index);
     }
 
     /* (non-Javadoc)
@@ -39,8 +50,10 @@ public class HistoryImpl implements History {
      */
     @Override
     public void disableTool(final int index) {
-        // TODO Auto-generated method stub
-
+        if (index < 0 || index > this.nodes.size()) {
+            // throw
+        }
+        this.nodes.get(index).disable();
     }
 
     /* (non-Javadoc)
@@ -48,8 +61,10 @@ public class HistoryImpl implements History {
      */
     @Override
     public void enableTool(final int index) {
-        // TODO Auto-generated method stub
-
+        if (index < 0 || index > this.nodes.size()) {
+            // TODO throw
+        }
+        this.nodes.get(index).enable();
     }
 
     /* (non-Javadoc)
@@ -57,8 +72,7 @@ public class HistoryImpl implements History {
      */
     @Override
     public int findByName(final String toolName) {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.nameMap.get(toolName);
     }
 
     /* (non-Javadoc)
@@ -66,8 +80,11 @@ public class HistoryImpl implements History {
      */
     @Override
     public void editTool(final int index, final SequenceNode node) {
-        // TODO Auto-generated method stub
-
+        if (index < 0 || index > this.nodes.size()) {
+            // TODO throw
+        }
+        this.nodes.remove(index);
+        this.nodes.add(index, node);
     }
 
     /* (non-Javadoc)
@@ -75,8 +92,10 @@ public class HistoryImpl implements History {
      */
     @Override
     public Optional<Parameter<? extends Number>> getValue(final int index, final ParametersName name) {
-        // TODO Auto-generated method stub
-        return null;
+        if (index < 0 || index > this.nodes.size()) {
+            // TODO throw
+        }
+        return this.nodes.get(index).getTool().getParameter(name);
     }
 
     @Override
@@ -85,8 +104,7 @@ public class HistoryImpl implements History {
      * @return true if you can add another tool, false otherwise.
      */
     public boolean canAdd() {
-        // TODO
-        return false;
+        return (this.nodes.size() < HistoryImpl.TOOL_LIMIT);
     }
 
     /**
@@ -95,14 +113,18 @@ public class HistoryImpl implements History {
      */
     @Override
     public int getLimit() {
-        // TODO
-        return 42;
+        return HistoryImpl.TOOL_LIMIT;
     }
 
+    /**
+     * 
+     */
     @Override
-    public boolean isToolEnabled(int index) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isToolEnabled(final int index) {
+        if (index < 0 || index > this.nodes.size()) {
+            // TODO throw
+        }
+        return this.nodes.get(index).isEnabled();
     }
 
 }
