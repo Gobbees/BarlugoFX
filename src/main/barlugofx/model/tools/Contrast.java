@@ -1,9 +1,12 @@
 package barlugofx.model.tools;
 
+import java.awt.Point;
+
 import barlugofx.model.imagetools.ColorManipulatorUtils;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -12,7 +15,7 @@ import barlugofx.model.tools.common.ParametersName;
  *
  *
  */
-public final class Contrast extends ImageToolImpl {
+public final class Contrast extends ImageToolImpl implements ParallelizableImageTool {
     private static final double MAXVALUE = 255;
     private static final int TRANSLATION = 128;
     private static final int DEFAULT_VALUE = 0;
@@ -30,11 +33,17 @@ public final class Contrast extends ImageToolImpl {
 
     @Override
     public Image applyFilter(final Image toApply) {
+        final int[][] pixels = toApply.getImageRGBvalues();
+        final int[][] newPixels = new int[pixels.length][pixels[0].length];
+        executeFilter(pixels, newPixels, new Point(0,0), new Point(toApply.getWidth(), toApply.getHeight()));
+        return ImageImpl.buildFromPixels(newPixels);
+    }
+
+    @Override
+    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
         final int value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         final double contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE)
                 / (MAXVALUE * (MAXVALUE + 4 - value));
-        final int[][] pixels = toApply.getImageRGBvalues();
-        final int[][] newPixels = new int[pixels.length][pixels[0].length];
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
@@ -46,12 +55,10 @@ public final class Contrast extends ImageToolImpl {
                         (int) (contrastCorrectionFactor * (ColorManipulatorUtils.getRed(pixels[i][j]) - TRANSLATION) + TRANSLATION));
             }
         }
-        return ImageImpl.buildFromPixels(newPixels);
     }
 
     @Override
     protected boolean isAccepted(final ParametersName name) {
         return name == ParametersName.CONTRAST;
     }
-
 }

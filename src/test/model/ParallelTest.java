@@ -13,6 +13,7 @@ import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.Brightness;
+import barlugofx.model.tools.Contrast;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParametersName;
@@ -34,6 +35,13 @@ public class ParallelTest {
         final ParallelizableImageTool brightness = Brightness.createBrightness();
         brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(1));
         testTool(brightness, "BRIGHTNESS");
+    }
+
+    @Test
+    public void testContrast() {
+        final ParallelizableImageTool contrast = Contrast.createContrast();
+        contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<>(1));
+        testTool(contrast, "CONTRAST");
     }
 
     private void testTool(final ParallelizableImageTool tool, final String text) {
