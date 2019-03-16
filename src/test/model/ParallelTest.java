@@ -88,13 +88,13 @@ public class ParallelTest {
     }
 
     private Image buildImage() throws IOException {
-        final File file = new File("/home/matteo/Desktop/Prova.jpg");
+        final File file = new File("/Users/gg_mbpro/Downloads/Prova.jpg");
         final BufferedImage image = ImageIO.read(file);
         return ImageImpl.buildFromBufferedImage(image);
     }
 
     private void printExecutionTime(final long time, final String test, final boolean paralized) {
-        final String header = paralized ? "PARALIZED" : "NOT PARALIZED";
+        final String header = paralized ? "PARALLEL" : "NOT PARALLEL";
         System.out.println(header + " " + test + ": " + time);
     }
 }
