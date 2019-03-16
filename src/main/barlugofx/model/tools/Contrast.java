@@ -37,6 +37,7 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
     public Image applyFilter(final Image toApply) {
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
+        inizializeFilter();
         executeFilter(pixels, newPixels, new Point(0, 0), new Point(toApply.getWidth(), toApply.getHeight()));
         return ImageImpl.buildFromPixels(newPixels);
     }
