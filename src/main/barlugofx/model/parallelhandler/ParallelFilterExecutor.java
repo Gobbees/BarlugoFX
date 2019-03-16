@@ -47,11 +47,10 @@ public final class ParallelFilterExecutor {
      */
     public static boolean shouldYouParallelize(final Image target) {
         /*
-         * In una deployed application, questa funzione deve essere riscritta. In questo
-         * caso il threshold selezionato e' molto grossolano e puo' essere decisamente
-         * migliorato.
+         * In una deployed application, questa funzione deve essere riscritta facendo opportuni studi sul tempo di esecuzione.
+         * Deve comunque essere logicamente presente pertanto ho deciso di lasciarla.
          */
-        return (long) target.getHeight() * target.getWidth() > THRESHOLD;
+        return true;
     }
 
     /**

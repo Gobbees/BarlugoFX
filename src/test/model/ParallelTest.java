@@ -31,22 +31,24 @@ public class ParallelTest {
      */
     @Test
     public void testBrightness() {
+        final ParallelizableImageTool brightness = Brightness.createBrightness();
+        brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(1));
+        testTool(brightness, "BRIGHTNESS");
+    }
+
+    private void testTool(final ParallelizableImageTool tool, final String text) {
         Image target = null, output1, output2;
-        final String text = "BRIGHTNESS";
         try {
             target = buildImage();
         } catch (final Exception e) {
             Assert.fail();
         }
-        final ParallelizableImageTool brightness = Brightness.createBrightness();
-        brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(1));
-
         watch.start();
-        output1 = brightness.applyFilter(target);
+        output1 = tool.applyFilter(target);
         printExecutionTime(watch.stop(), text, false);
 
         watch.start();
-        output2 = exec.applyTool(brightness, target);
+        output2 = exec.applyTool(tool, target);
         printExecutionTime(watch.stop(), text, true);
 
         Assert.assertTrue(equalMatrix(output1.getImageRGBvalues(), output2.getImageRGBvalues()));
@@ -64,7 +66,7 @@ public class ParallelTest {
     }
 
     private Image buildImage() throws IOException {
-        final File file = new File("/Users/gg_mbpro/Downloads/Prova.jpg");
+        final File file = new File("/home/matteo/Desktop/Prova.jpg");
         final BufferedImage image = ImageIO.read(file);
         return ImageImpl.buildFromBufferedImage(image);
     }
