@@ -18,7 +18,6 @@ import barlugofx.utils.MutablePair;
  * if the paralization is actually worth it. In your system, you should have only one instance of this class.
  */
 public final class ParallelFilterExecutor {
-    private static final long THRESHOLD = 4000000L;
     private final int nThreads;
     private final ExecutorService exec;
 
@@ -60,6 +59,7 @@ public final class ParallelFilterExecutor {
      * @return the image in which the tool has been applied.
      */
     public Image applyTool(final ParallelizableImageTool tool, final Image target) {
+        tool.inizializeFilter();
         final int[][] pixels = target.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final CountDownLatch latch = new CountDownLatch(nThreads);

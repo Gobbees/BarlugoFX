@@ -20,6 +20,8 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
     private static final int TRANSLATION = 128;
     private static final int DEFAULT_VALUE = 0;
 
+    private int value = DEFAULT_VALUE;
+    private double contrastCorrectionFactor;
     private Contrast() {
         super();
     }
@@ -35,15 +37,12 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
     public Image applyFilter(final Image toApply) {
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
-        executeFilter(pixels, newPixels, new Point(0,0), new Point(toApply.getWidth(), toApply.getHeight()));
+        executeFilter(pixels, newPixels, new Point(0, 0), new Point(toApply.getWidth(), toApply.getHeight()));
         return ImageImpl.buildFromPixels(newPixels);
     }
 
     @Override
     public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
-        final int value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
-        final double contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE)
-                / (MAXVALUE * (MAXVALUE + 4 - value));
         for (int i = 0; i < pixels.length; i++) {
             for (int j = 0; j < pixels[0].length; j++) {
                 newPixels[i][j] = pixels[i][j];
@@ -56,6 +55,13 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
             }
         }
     }
+
+    @Override
+    public void inizializeFilter() {
+        value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
+        contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE) / (MAXVALUE * (MAXVALUE + 4 - value));
+    }
+
 
     @Override
     protected boolean isAccepted(final ParametersName name) {

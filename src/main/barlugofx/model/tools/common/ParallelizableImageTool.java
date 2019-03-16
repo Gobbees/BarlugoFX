@@ -19,4 +19,10 @@ public interface ParallelizableImageTool extends ImageTool {
      * @throws IndexOutOfBoundsException if either x, y of the two points are not into the matrix.
      */
     void executeFilter(int[][] pixels, int[][] newPixels, Point begin, Point end);
+
+    /**
+     * This method perform set up the filter so that it can be parallel executed.
+     */
+    void inizializeFilter();
+
 }

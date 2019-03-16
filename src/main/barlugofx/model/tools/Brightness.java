@@ -18,6 +18,8 @@ import barlugofx.model.tools.common.ParametersName;
 public final class Brightness extends ImageToolImpl implements ParallelizableImageTool {
     private static final double MAXVALUE = 255;
     private static final int DEFAULT_VALUE = 0;
+    private int value = DEFAULT_VALUE;
+
     private Brightness() {
         super();
     }
@@ -38,8 +40,12 @@ public final class Brightness extends ImageToolImpl implements ParallelizableIma
     }
 
     @Override
+    public void inizializeFilter() {
+        value  = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
+    }
+
+    @Override
     public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
-        final int value = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];

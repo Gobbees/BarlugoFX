@@ -14,7 +14,7 @@ public class SequenceNodeImpl implements SequenceNode {
     private Image startImage;
     private boolean enabled;
     private String nodeName;
-    private ImageTool tool;
+    private final ImageTool tool;
 
     /**
      * Some javadoc to write.
@@ -22,9 +22,9 @@ public class SequenceNodeImpl implements SequenceNode {
      * @param tool b.
      * @param startImage c.
      */
-    public SequenceNodeImpl(final String nodeName, final ImageTool tool, final Image startImage){
+    public SequenceNodeImpl(final String nodeName, final ImageTool tool, final Image startImage) {
         this.startImage = startImage;
-        this.enabled = true;
+        enabled = true;
         this.nodeName = nodeName;
         this.tool = tool;
     }
@@ -34,7 +34,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public Image getStartImage() {
-        return this.startImage;
+        return startImage;
     }
 
     /* (non-Javadoc)
@@ -53,7 +53,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     /**
@@ -61,7 +61,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public void enable() {
-        this.enabled = true;
+        enabled = true;
     }
 
     /**
@@ -69,7 +69,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public void disable() {
-        this.enabled = false;
+        enabled = false;
     }
 
     /* (non-Javadoc)
@@ -77,7 +77,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public String getNodeName() {
-        return this.nodeName;
+        return nodeName;
     }
 
     /* (non-Javadoc)
@@ -88,7 +88,7 @@ public class SequenceNodeImpl implements SequenceNode {
         if (name == null || name.length() == 0) {
             // TODO throw IllegalArgumentException
         }
-        this.nodeName = name;
+        nodeName = name;
     }
 
     /* (non-Javadoc)
@@ -96,7 +96,7 @@ public class SequenceNodeImpl implements SequenceNode {
      */
     @Override
     public ImageTool getTool() {
-        return this.tool;
+        return tool;
     }
 
 }

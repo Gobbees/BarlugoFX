@@ -12,6 +12,7 @@ import org.junit.Test;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
+import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
 import barlugofx.model.tools.common.ParallelizableImageTool;
@@ -36,12 +37,25 @@ public class ParallelTest {
         brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(1));
         testTool(brightness, "BRIGHTNESS");
     }
-
+    /**
+     * Testing contrast.
+     */
     @Test
     public void testContrast() {
         final ParallelizableImageTool contrast = Contrast.createContrast();
         contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<>(1));
         testTool(contrast, "CONTRAST");
+    }
+
+    /**
+     * Testing black and white.
+     */
+    @Test
+    public void testBlackAndWait() {
+        final ParallelizableImageTool bew = BlackAndWhite.createBlackAndWhite();
+        bew.addParameter(ParametersName.WBLUE, new ParameterImpl<>(0.9));
+        bew.addParameter(ParametersName.WRED, new ParameterImpl<>(1.2));
+        testTool(bew, "Black and White");
     }
 
     private void testTool(final ParallelizableImageTool tool, final String text) {
