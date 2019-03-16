@@ -221,7 +221,7 @@
                                                         <AnchorPane fx:id="apaneVibrance" minHeight="70" style="-fx-border-width: 0 0 0 0">
                                                             <children>
                                                                 <Label text="Vibrance" id="toolabel" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5" />
-                                                                <JFXSlider fx:id="slVibrance" id="hueslider" min="-100" max="100" value="0"
+                                                                <JFXSlider fx:id="slVibrance" id="vibranceslider" min="-100" max="100" value="0"
                                                                     AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
                                                                     AnchorPane.rightAnchor="10" />
                                                                 <JFXTextField fx:id="tfVibrance" text="0"

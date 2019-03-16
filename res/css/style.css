@@ -160,9 +160,15 @@
     -fx-background-color: linear-gradient(to right, violet, #5affd0);
 }
 #hueslider > .track {
-    -fx-background-color: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red);
+    -fx-background-color: linear-gradient(to right, transparent, green , blue , violet, transparent, green,  blue, violet, transparent);
 }
 #hueslider > .colored-track {
+    -fx-background-color: transparent;
+}
+#vibranceslider > .track {
+    -fx-background-color: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red);
+}
+#vibranceslider > .colored-track {
     -fx-background-color: transparent;
 }
 #redslider > .track {
