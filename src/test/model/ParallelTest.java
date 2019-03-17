@@ -15,6 +15,8 @@ import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
+import barlugofx.model.tools.HSBModifier;
+import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParametersName;
@@ -58,8 +60,29 @@ public class ParallelTest {
         testTool(bew, "Black and White");
     }
 
+    /**
+     * Testing HSB.
+     */
+    @Test
+    public void testHSB() {
+        final ParallelizableImageTool bew = HSBModifier.createHSB();
+        bew.addParameter(ParametersName.HUE, new ParameterImpl<>(0.9f));
+        bew.addParameter(ParametersName.SATURATION, new ParameterImpl<>(0.8f));
+        bew.addParameter(ParametersName.EXPOSURE, new ParameterImpl<>(0.8f));
+        testTool(bew, "HUE SAT EXPOSURE");
+    }
+
+    @Test
+    public void testVibrance() {
+        final ParallelizableImageTool bew = Vibrance.createVibrance();
+        bew.addParameter(ParametersName.VIBRANCE_INCREMENT, new ParameterImpl<>(0.9f));
+        testTool(bew, "VIBRANCE");
+    }
+
     private void testTool(final ParallelizableImageTool tool, final String text) {
-        Image target = null, output1, output2;
+        Image target = null;
+        Image output1 = null;
+        Image output2;
         try {
             target = buildImage();
         } catch (final Exception e) {
@@ -88,7 +111,7 @@ public class ParallelTest {
     }
 
     private Image buildImage() throws IOException {
-        final File file = new File("/Users/gg_mbpro/Downloads/Prova.jpg");
+        final File file = new File("/home/matteo/Desktop/Prova3.jpg");
         final BufferedImage image = ImageIO.read(file);
         return ImageImpl.buildFromBufferedImage(image);
     }
