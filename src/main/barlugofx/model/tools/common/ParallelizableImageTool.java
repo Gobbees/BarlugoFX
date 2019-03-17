@@ -2,6 +2,9 @@ package barlugofx.model.tools.common;
 
 import java.awt.Point;
 
+import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageImpl;
+
 /**
  * This interface add a new method to the tool that allows the possibility of parallel computing if
  * necessary.
@@ -25,4 +28,13 @@ public interface ParallelizableImageTool extends ImageTool {
      */
     void inizializeFilter();
 
+    /* In this way I don't have to write again each time the basic applyFilter. */
+    @Override
+    default Image applyFilter(final Image toApply) {
+        final int[][] pixels = toApply.getImageRGBvalues();
+        final int[][] newPixels = new int[pixels.length][pixels[0].length];
+        inizializeFilter();
+        executeFilter(pixels, newPixels, new Point(0, 0), new Point(toApply.getWidth(), toApply.getHeight()));
+        return ImageImpl.buildFromPixels(newPixels);
+    }
 }

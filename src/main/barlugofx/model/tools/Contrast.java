@@ -3,8 +3,6 @@ package barlugofx.model.tools;
 import java.awt.Point;
 
 import barlugofx.model.imagetools.ColorManipulatorUtils;
-import barlugofx.model.imagetools.Image;
-import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
@@ -31,15 +29,6 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
      */
     public static Contrast createContrast() {
         return new Contrast();
-    }
-
-    @Override
-    public Image applyFilter(final Image toApply) {
-        final int[][] pixels = toApply.getImageRGBvalues();
-        final int[][] newPixels = new int[pixels.length][pixels[0].length];
-        inizializeFilter();
-        executeFilter(pixels, newPixels, new Point(0, 0), new Point(toApply.getWidth(), toApply.getHeight()));
-        return ImageImpl.buildFromPixels(newPixels);
     }
 
     @Override
