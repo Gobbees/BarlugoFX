@@ -1,6 +1,7 @@
 package barlugofx.model.imagetools;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
@@ -66,36 +67,49 @@ public final class ImageUtils {
     }
 
     /**
-     * This method convert a matrix of pixels written as RGB into an equivalent matrix of float value ins HSB, with H value being the
-     * [i][j][0],  S value [i][j][1] and B value [i][j][2].This functions uses the static method RGBtoHSB of java.awt.Color .
+     * This method convert a matrix of pixels written as RGB into an equivalent
+     * matrix of float value ins HSB, with H value being the [i][j][0], S value
+     * [i][j][1] and B value [i][j][2].This functions uses the static method
+     * RGBtoHSB of java.awt.Color .
+     *
      * @param pixels the matrix to convert
+     * @param begin  the point from which start the conversion.
+     * @param end    the point at which stop the conversion.
      * @return the converted float matrix.
      */
-    public static float[][][] rgbToHsb(final int[]... pixels) {
-        final float[][][] result = new float[pixels.length][pixels[0].length][3];
-        for (int i = 0; i < pixels.length; i++) {
-            for (int j = 0; j < pixels[0].length; j++) {
+    public static float[][][] rgbToHsb(final Point begin, final Point end, final int[]... pixels) {
+        final float[][][] result = new float[end.y - begin.y][end.x - begin.x][3];
+        for (int i = begin.y; i < end.y; i++) {
+            for (int j = begin.x; j < end.x; j++) {
                 Color.RGBtoHSB(ColorManipulatorUtils.getRed(pixels[i][j]), ColorManipulatorUtils.getGreen(pixels[i][j]),
-                        ColorManipulatorUtils.getBlue(pixels[i][j]), result[i][j]);
+                        ColorManipulatorUtils.getBlue(pixels[i][j]), result[i - begin.y][j - begin.x]);
             }
         }
         return result;
     }
+
     /**
-     * This method converts hsb values into a matrix of rgb pixels. The hsv values has to be passed as a 3-D float array, in which the
-     * [i][j][0] value corresponds to Hue, the [i][j][1] to Saturation and the [i][j][2]  to Brightness. Alpha value is taken from old pixels.
+     * This method converts hsb values into a matrix of rgb pixels. The hsv values
+     * has to be passed as a 3-D float array, in which the [i][j][0] value
+     * corresponds to Hue, the [i][j][1] to Saturation and the [i][j][2] to
+     * Brightness. Alpha value is taken from old pixels.
+     *
      * @param pixelsHSB the float 3-D array that we need to convert.
      * @param oldPixels the oldvalues from which take the alpha.
-     * @return the converted pixels matrix
+     * @param begin     the point from which start the conversion.
+     * @param pixels    the matrix in which save the new values.
      */
-    public static int[][] hsbToRgb(final int[][] oldPixels, final float[][]... pixelsHSB) {
-        final int[][] pixels = new int[pixelsHSB.length][pixelsHSB[0].length];
-        for (int i = 0; i < pixels.length; i++) {
-            for (int j = 0; j < pixels[0].length; j++) {
-                pixels[i][j] = Color.HSBtoRGB(pixelsHSB[i][j][0], pixelsHSB[i][j][1], pixelsHSB[i][j][2]);
-                pixels[i][j] = ColorManipulatorUtils.setAlpha(pixels[i][j], ColorManipulatorUtils.getAlpha(oldPixels[i][j]));
+    public static void hsbToRgb(final int[][] oldPixels, final int[][] pixels, final Point begin, final float[][]... pixelsHSB) {
+        int iPixels;
+        int jPixels;
+        for (int i = 0; i < pixelsHSB.length; i++) {
+            iPixels = i + begin.y;
+            for (int j = 0; j < pixelsHSB[0].length; j++) {
+                jPixels = j + begin.x;
+                pixels[iPixels][jPixels] = Color.HSBtoRGB(pixelsHSB[i][j][0], pixelsHSB[i][j][1], pixelsHSB[i][j][2]);
+                pixels[iPixels][jPixels] = ColorManipulatorUtils.setAlpha(pixels[iPixels][jPixels],
+                        ColorManipulatorUtils.getAlpha(oldPixels[iPixels][jPixels]));
             }
         }
-        return pixels;
     }
 }
