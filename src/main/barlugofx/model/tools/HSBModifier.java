@@ -1,13 +1,13 @@
 package barlugofx.model.tools;
 
+import java.awt.Point;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imagetools.Image;
-import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -17,31 +17,31 @@ import barlugofx.model.tools.common.ParametersName;
  * resulting in more efficient changes.
  *
  */
-public final class HSBModifier extends ImageToolImpl {
+public final class HSBModifier extends ImageToolImpl implements ParallelizableImageTool{
     private static final int MAX = 1;
     private static final int MIN = -1;
     private static final float DEFAULT_VALUE = 0f;
     private static final Set<ParametersName> ACCEPTED = new HashSet<>(
             Arrays.asList(ParametersName.EXPOSURE, ParametersName.HUE, ParametersName.SATURATION));
 
+    private float hue = DEFAULT_VALUE;
+    private float saturation = DEFAULT_VALUE;
+    private float exposure = DEFAULT_VALUE;
+
     private HSBModifier() {
         super();
     }
     /**
      * Creates a new HSBModifier.
-     * @return the instantieted modifier.
+     * @return the instantiated modifier.
      */
     public static HSBModifier createHSB() {
         return new HSBModifier();
     }
 
     @Override
-    public Image applyFilter(final Image toApply) {
-        final float hue = super.getValueFromParameter(ParametersName.HUE, MIN, MAX, DEFAULT_VALUE);
-        final float saturation = getValueFromParameter(ParametersName.SATURATION, MIN, MAX, DEFAULT_VALUE);
-        final float exposure = getValueFromParameter(ParametersName.EXPOSURE, MIN, MAX, DEFAULT_VALUE);
-
-        final float[][][] hsv = ImageUtils.rgbToHsb(toApply.getImageRGBvalues());
+    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+        final float[][][] hsv = ImageUtils.rgbToHsb(begin, end, pixels);
         for (int i = 0; i < hsv.length; i++) {
             for (int j = 0; j < hsv[0].length; j++) {
                 hsv[i][j][0] = hue == 0 ? hsv[i][j][0] : hsv[i][j][0] + hue; //truncate qui non e' necessario
@@ -49,7 +49,14 @@ public final class HSBModifier extends ImageToolImpl {
                 hsv[i][j][2] = exposure == 0 ? hsv[i][j][2] : truncateSum(hsv[i][j][2], exposure);
             }
         }
-        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(toApply.getImageRGBvalues(), hsv));
+        ImageUtils.hsbToRgb(pixels, newPixels, begin, hsv);
+    }
+
+    @Override
+    public void inizializeFilter() {
+        hue = super.getValueFromParameter(ParametersName.HUE, MIN, MAX, DEFAULT_VALUE);
+        saturation = getValueFromParameter(ParametersName.SATURATION, MIN, MAX, DEFAULT_VALUE);
+        exposure = getValueFromParameter(ParametersName.EXPOSURE, MIN, MAX, DEFAULT_VALUE);
     }
 
     private float truncateSum(final float hsv, final float hue) {
@@ -69,5 +76,6 @@ public final class HSBModifier extends ImageToolImpl {
     protected boolean isAccepted(final ParametersName name) {
         return ACCEPTED.contains(name);
     }
+
 
 }
