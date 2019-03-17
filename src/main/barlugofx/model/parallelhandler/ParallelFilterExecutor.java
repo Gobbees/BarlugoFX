@@ -18,7 +18,7 @@ import barlugofx.utils.MutablePair;
  * if the paralization is actually worth it. In your system, you should have only one instance of this class.
  */
 public final class ParallelFilterExecutor {
-    private final int nThreads;
+    private final int nSubtask;
     private final ExecutorService exec;
 
 
@@ -27,8 +27,8 @@ public final class ParallelFilterExecutor {
     }
 
     private ParallelFilterExecutor() {
-        nThreads = Runtime.getRuntime().availableProcessors() + 1;
-        exec = Executors.newFixedThreadPool(nThreads);
+        nSubtask = Runtime.getRuntime().availableProcessors() - 1; //Purely empirical.
+        exec = Executors.newCachedThreadPool();
     }
 
     /**
@@ -62,7 +62,7 @@ public final class ParallelFilterExecutor {
         tool.inizializeFilter();
         final int[][] pixels = target.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
-        final CountDownLatch latch = new CountDownLatch(nThreads);
+        final CountDownLatch latch = new CountDownLatch(nSubtask);
         divideImage(target).stream().forEach(pair -> {
             exec.execute(() -> {
                 tool.executeFilter(pixels, newPixels, pair.getFirst(), pair.getSecond());
@@ -81,12 +81,12 @@ public final class ParallelFilterExecutor {
     private Collection<MutablePair<Point, Point>> divideImage(final Image target) {
         final int width = target.getWidth();
         final int height = target.getHeight();
-        final int bandWidth = width / nThreads;
+        final int bandWidth = width / nSubtask;
 
         final Collection<MutablePair<Point, Point>> dividedImage = new LinkedList<>();
 
         int currPixel = 0;
-        for (int i = 0; i < nThreads - 1; i++) {
+        for (int i = 0; i < nSubtask - 1; i++) {
             final Point begin = new Point(currPixel, 0);
             currPixel += bandWidth;
             final Point end = new Point(currPixel, height);
