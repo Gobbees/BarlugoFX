@@ -47,8 +47,8 @@ public final class BlackAndWhite extends ImageToolImpl implements Parallelizable
 
     @Override
     public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
-        for (int i = 0; i < newPixels.length; i++) {
-            for (int j = 0; j < newPixels[0].length; j++) {
+        for (int i = begin.y; i < end.y; i++) {
+            for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];
                 final int newValue = (int) (redFactor * ColorManipulatorUtils.getRed(pixels[i][j])
                         + greenFactor * ColorManipulatorUtils.getGreen(pixels[i][j])

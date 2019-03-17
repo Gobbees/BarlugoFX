@@ -33,8 +33,8 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
 
     @Override
     public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
-        for (int i = 0; i < pixels.length; i++) {
-            for (int j = 0; j < pixels[0].length; j++) {
+        for (int i = begin.y; i < end.y; i++) {
+            for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];
                 newPixels[i][j] = ColorManipulatorUtils.setBlue(newPixels[i][j],
                         (int) (contrastCorrectionFactor * (ColorManipulatorUtils.getBlue(pixels[i][j]) - TRANSLATION) + TRANSLATION));
