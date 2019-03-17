@@ -1,10 +1,11 @@
 package barlugofx.model.tools;
 
+import java.awt.Point;
+
 import barlugofx.model.imagetools.ColorManipulatorUtils;
-import barlugofx.model.imagetools.Image;
-import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
@@ -15,11 +16,13 @@ import barlugofx.model.tools.common.ParametersName;
  * one parameter: VIBRANCE_INCREMENT which specify the value to add. Must be a
  * float between -1 and 1.
  */
-public final class Vibrance extends ImageToolImpl {
+public final class Vibrance extends ImageToolImpl implements ParallelizableImageTool {
     private static final float MIN_INCREMENT = -1;
     private static final float MAX_INCREMENT = 1;
     private static final float MAX_SATURATION = 1;
     private static final float DEFAULT_VALUE = 0;
+
+    private float increment;
 
     private Vibrance() {
         super();
@@ -27,31 +30,38 @@ public final class Vibrance extends ImageToolImpl {
 
     /**
      * Creates a new Vibrance element.
-     * 
+     *
      * @return the instantieted vibrance element.
      */
     public static Vibrance createVibrance() {
         return new Vibrance();
     }
 
-    @Override
-    public Image applyFilter(final Image toApply) {
-        final float increment = super.getValueFromParameter(ParametersName.VIBRANCE_INCREMENT, MIN_INCREMENT,
-                MAX_INCREMENT, DEFAULT_VALUE) / 100;
 
-        final int[][] pixels = toApply.getImageRGBvalues();
-        final float[][][] hsb = ImageUtils.rgbToHsb(toApply.getImageRGBvalues());
+    @Override
+    public void inizializeFilter() {
+        increment = super.getValueFromParameter(ParametersName.VIBRANCE_INCREMENT, MIN_INCREMENT,
+                MAX_INCREMENT, DEFAULT_VALUE) / 100;
+    }
+
+    @Override
+    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+        final float[][][] hsb = ImageUtils.rgbToHsb(begin, end, pixels);
+        int iPixels;
+        int jPixels;
         for (int i = 0; i < hsb.length; i++) {
+            iPixels = i + begin.y;
             for (int j = 0; j < hsb[0].length; j++) {
-                float brightness = ColorManipulatorUtils.getRed(pixels[i][j])
-                        + ColorManipulatorUtils.getBlue(pixels[i][j]) + ColorManipulatorUtils.getGreen(pixels[i][j]);
+                jPixels = j + begin.x;
+                float brightness = ColorManipulatorUtils.getRed(pixels[iPixels][jPixels])
+                        + ColorManipulatorUtils.getBlue(pixels[iPixels][jPixels]) + ColorManipulatorUtils.getGreen(pixels[iPixels][jPixels]);
                 brightness = brightness / 3;
-                final int maxColor = Integer.max(ColorManipulatorUtils.getRed(pixels[i][j]), Integer.max(
-                        ColorManipulatorUtils.getBlue(pixels[i][j]), ColorManipulatorUtils.getGreen(pixels[i][j])));
+                final int maxColor = Integer.max(ColorManipulatorUtils.getRed(pixels[iPixels][jPixels]), Integer.max(
+                        ColorManipulatorUtils.getBlue(pixels[iPixels][jPixels]), ColorManipulatorUtils.getGreen(pixels[iPixels][jPixels])));
                 hsb[i][j][1] = truncateSum(hsb[i][j][1], (maxColor - brightness) * increment);
             }
         }
-        return ImageImpl.buildFromPixels(ImageUtils.hsbToRgb(toApply.getImageRGBvalues(), hsb));
+        ImageUtils.hsbToRgb(pixels, newPixels, begin, hsb);
     }
 
     private float truncateSum(final float saturation, final float toAdd) {
