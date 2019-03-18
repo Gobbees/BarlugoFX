@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import barlugofx.model.imagetools.Image;
+import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
@@ -13,6 +14,8 @@ import barlugofx.model.tools.HSBModifier;
 import barlugofx.model.tools.SelectiveRGBChanger;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.WhiteBalance;
+import barlugofx.model.tools.common.ImageTool;
+import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParametersName;
 import barlugofx.utils.Format;
@@ -30,16 +33,18 @@ public final class AppManagerImpl implements AppManager {
 
     private Image image;
     //tools
-    private final HSBModifier hsb;
-    private final Contrast contrast;
-    private final Brightness brightness;
-    private final WhiteBalance wb;
-    private final SelectiveRGBChanger srgb;
-    private final BlackAndWhite bw;
+    private final ParallelizableImageTool hsb;
+    private final ParallelizableImageTool contrast;
+    private final ParallelizableImageTool brightness;
+    private final ImageTool wb;
+    private final ParallelizableImageTool srgb;
+    private final ParallelizableImageTool bw;
     //private final Cropper cropper;
     //private final Rotator rotator;
-    private final Vibrance vibrance;
+    private final ParallelizableImageTool vibrance;
     private final IOManager fileManager;
+    private final ParallelFilterExecutor executor;
+    private final boolean parallel;
     /**
      * The constructor of the class. It takes the input file chosen by the user and initiates all the elements
      * @param file the input file
@@ -57,6 +62,8 @@ public final class AppManagerImpl implements AppManager {
         //cropper = Cropper.createCropper();
         //rotator = Rotator.createRotator();
         vibrance = Vibrance.createVibrance();
+        executor = ParallelFilterExecutor.executor();
+        parallel = ParallelFilterExecutor.shouldYouParallelize(image);
     }
     @Override
     public Image getImage() {
@@ -70,28 +77,39 @@ public final class AppManagerImpl implements AppManager {
     @Override
     public void setExposure(final int value) {
         //TODO HISTORY
-        hsb.addParameter(ParametersName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
-        image = hsb.applyFilter(image);
-        hsb.removeParameter(ParametersName.EXPOSURE);
+       hsb.addParameter(ParametersName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
+       if (parallel) {
+           image = executor.applyTool(hsb, image);
+       } else {
+           image = hsb.applyFilter(image);
+       }
+       hsb.removeParameter(ParametersName.EXPOSURE);
     }
 
     @Override
     public void setContrast(final int value) {
         contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<Integer>(value));
-        image = contrast.applyFilter(image);
+        if (parallel) {
+            image = executor.applyTool(contrast, image);
+        } else {
+            image = contrast.applyFilter(image);
+        }
         contrast.removeParameter(ParametersName.CONTRAST);
     }
 
     @Override
     public void setBrightness(final int value) {
         brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<Integer>(value));
-        image = brightness.applyFilter(image);
+        if (parallel) {
+            image = executor.applyTool(brightness, image);
+        } else {
+            image = brightness.applyFilter(image);
+        }
         brightness.removeParameter(ParametersName.BRIGHTNESS);
     }
 
     @Override
     public void setWB(final int value) {
-        System.out.println("WB: " + (value * WB_MULTIPLIER));
         wb.addParameter(ParametersName.WHITEBALANCE, new ParameterImpl<Float>(value * WB_MULTIPLIER));
         image = wb.applyFilter(image);
         wb.removeParameter(ParametersName.WHITEBALANCE);
@@ -99,24 +117,34 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setSaturation(final int value) {
-        System.out.println("Saturation: " + (value * HSB_MULTIPLIER));
         hsb.addParameter(ParametersName.SATURATION, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
-        image = hsb.applyFilter(image);
+        if (parallel) {
+            image = executor.applyTool(hsb, image);
+        } else {
+            image = hsb.applyFilter(image);
+        }
         hsb.removeParameter(ParametersName.SATURATION);
     }
 
     @Override
     public void setHue(final int value) {
-        //TODO set hue slider colors after that the history will be finished
         hsb.addParameter(ParametersName.HUE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
-        image = hsb.applyFilter(image);
+        if (parallel) {
+            image = executor.applyTool(hsb, image);
+        } else {
+            image = hsb.applyFilter(image);
+        }
         hsb.removeParameter(ParametersName.HUE);
     }
 
     @Override
     public void setVibrance(final int value) {
         vibrance.addParameter(ParametersName.VIBRANCE_INCREMENT, new ParameterImpl<Float>(value * VIBRANCE_MULTIPLIER));
-        image = vibrance.applyFilter(image);
+        if (parallel) {
+            image = executor.applyTool(vibrance, image);
+        } else {
+            image = vibrance.applyFilter(image);
+        }
         vibrance.removeParameter(ParametersName.VIBRANCE_INCREMENT);
     }
 
@@ -126,7 +154,11 @@ public final class AppManagerImpl implements AppManager {
         srgb.addParameter(ParametersName.RED, new ParameterImpl<Integer>(r));
         srgb.addParameter(ParametersName.GREEN, new ParameterImpl<Integer>(g));
         srgb.addParameter(ParametersName.BLUE, new ParameterImpl<Integer>(b));
-        image = srgb.applyFilter(image);
+        if (parallel) {
+            image = executor.applyTool(srgb, image);
+        } else {
+            image = srgb.applyFilter(image);
+        }
         srgb.removeParameter(ParametersName.RED);
         srgb.removeParameter(ParametersName.GREEN);
         srgb.removeParameter(ParametersName.BLUE);
@@ -136,7 +168,11 @@ public final class AppManagerImpl implements AppManager {
     public void setBW(final double r, final double g, final double b) {
         bw.addParameter(ParametersName.WRED, new ParameterImpl<Double>(r * BW_MULTIPLIER + BW_SHIFTER));
         bw.addParameter(ParametersName.WGREEN, new ParameterImpl<Double>(g * BW_MULTIPLIER + BW_SHIFTER));
-        image = bw.applyFilter(image);
+        if (parallel) {
+            image = executor.applyTool(bw, image);
+        } else {
+            image = bw.applyFilter(image);
+        }
         bw.removeParameter(ParametersName.WRED);
         bw.removeParameter(ParametersName.WGREEN);
         bw.removeParameter(ParametersName.WBLUE);
