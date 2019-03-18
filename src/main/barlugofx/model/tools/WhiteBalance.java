@@ -16,7 +16,7 @@ import barlugofx.model.tools.common.ParametersName;
  * the image and stretches the remaining range as much as possible. The value in
  * input must be a float greater than 0. For optimal result we suggest values
  * around 0.3-0.7;
- * 
+ *
  * @see <a href=
  *      "https://docs.gimp.org/2.8/en/gimp-layer-white-balance.html">GIMP
  *      documentation</a>
@@ -32,7 +32,7 @@ public final class WhiteBalance extends ImageToolImpl {
 
     /**
      * Creates a new WhiteBalance filter.
-     * 
+     *
      * @return the instantieted whitebalance filter
      */
     public static WhiteBalance createWhiteBalance() {
@@ -72,8 +72,7 @@ public final class WhiteBalance extends ImageToolImpl {
     private int[] whiteBalanceRGB(final int[] array, final double percentile) {
         final int[] copy = new int[array.length];
         System.arraycopy(array, 0, copy, 0, array.length);
-        Arrays.sort(copy);
-
+        Arrays.sort(copy); //in teoria si puo' fare in O(N) visto che i valori sono compresi fra 0 e 255 (counting sort)
         final double lowPercentile = percentile(copy, percentile);
         final double highPercentile = percentile(copy, 100.0 - percentile);
         if (highPercentile == lowPercentile) {
