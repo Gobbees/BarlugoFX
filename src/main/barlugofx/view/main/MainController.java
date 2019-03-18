@@ -167,6 +167,7 @@ public final class MainController implements ViewController {
     @FXML
     private JFXButton btnBWApply;
     private Scene scene;
+    private Stage st;
     private AppManager manager;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
     /**
@@ -177,7 +178,6 @@ public final class MainController implements ViewController {
     }
     @Override
     public void setStage(final Stage stage) {
-        final Stage st;
         st = stage;
         this.scene = st.getScene();
         initComponentSize();
@@ -415,8 +415,11 @@ public final class MainController implements ViewController {
     private void addKeyboardShortcuts() {
       //CTRL + E shortcut
       final KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
-      final Runnable rn = () -> export();
-      scene.getAccelerators().put(kc,  rn);
+      final Runnable export = () -> export();
+      final KeyCombination kc2 = new KeyCharacterCombination("f", KeyCombination.CONTROL_DOWN);
+      final Runnable full = () -> st.setFullScreen(true);
+      scene.getAccelerators().put(kc,  export);
+      scene.getAccelerators().put(kc2,  full);
     }
     private void checkManager() throws IllegalStateException {
         if (manager == null) {
