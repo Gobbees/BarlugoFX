@@ -16,6 +16,7 @@ import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
 import barlugofx.model.tools.HSBModifier;
+import barlugofx.model.tools.SelectiveRGBChanger;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
@@ -79,6 +80,14 @@ public class ParallelTest {
         testTool(bew, "VIBRANCE");
     }
 
+    @Test
+    public void testRgb() {
+        final ParallelizableImageTool bew = SelectiveRGBChanger.createSelective();
+        bew.addParameter(ParametersName.RED, new ParameterImpl<>(120));
+        bew.addParameter(ParametersName.BLUE, new ParameterImpl<>(-120));
+        testTool(bew, "SELECTIVE RGB");
+    }
+
     private void testTool(final ParallelizableImageTool tool, final String text) {
         Image target = null;
         Image output1 = null;
@@ -111,7 +120,7 @@ public class ParallelTest {
     }
 
     private Image buildImage() throws IOException {
-        final File file = new File("/home/matteo/Desktop/Prova3.jpg");
+        final File file = new File("C:\\Users\\matteo.fiordarancio\\Desktop\\prova.jpg");
         final BufferedImage image = ImageIO.read(file);
         return ImageImpl.buildFromBufferedImage(image);
     }
