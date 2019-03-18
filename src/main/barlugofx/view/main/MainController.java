@@ -212,6 +212,7 @@ public final class MainController implements ViewController {
         scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
+        spaneMain.setDividerPosition(0, spaneRightColumn.getWidth());
         iviewImage.setFitWidth(scpaneImage.getWidth());
         iviewImage.setFitHeight(scpaneImage.getHeight());
     }

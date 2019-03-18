@@ -55,9 +55,6 @@ public class MainView extends AbstractView<MainController> {
             //this is performed after the animation finish because if not the view is closed too strongly.
             final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, Toolkit.getDefaultToolkit().getScreenSize());
             stageTimeline.setOnFinished(timelineEvent -> {
-                if (System.getProperty("os.name").contains("WINDOWS")) {
-                    this.getStage().setFullScreen(true);
-                }
                 final FadeTransition mainIn = AnimationUtils.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
                 mainIn.play();
                 this.getStage().setScene(this.getScene());
@@ -65,6 +62,7 @@ public class MainView extends AbstractView<MainController> {
                 Platform.runLater(() -> {
                     this.getController().setStage(this.getStage());
                     this.getController().setManager(manager);
+                    this.getStage().setFullScreen(true);
                 });
             });
             stageTimeline.play();
