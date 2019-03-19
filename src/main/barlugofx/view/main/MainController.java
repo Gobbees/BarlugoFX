@@ -16,6 +16,7 @@ import static barlugofx.view.main.Tool.WHITEBALANCE;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
@@ -169,11 +170,13 @@ public final class MainController implements ViewController {
     private Scene scene;
     private Stage st;
     private AppManager manager;
+    private Optional<ExportView> exportView;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
     /**
      * The constructor of the class. It is public because FXML obligates to do so.
      */
     public MainController() {
+        exportView = Optional.empty();
         toolStatus = new HashMap<>();
     }
     @Override
@@ -190,7 +193,9 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void export() {
-        new ExportView(manager);
+        if(!exportView.isPresent()) {
+            exportView = Optional.of(new ExportView(manager));
+        }
     }
     /**
      * This function sets the app manager (controller). It must be called in order to avoid future errors.
@@ -412,15 +417,20 @@ public final class MainController implements ViewController {
                 updateImage();
             }
         });
+
+        st.setOnCloseRequest(ev -> {
+            if (exportView.isPresent()) {
+                exportView.get().closeStage();
+            }
+        });
     }
     private void addKeyboardShortcuts() {
-      //CTRL + E shortcut
-      final KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
-      final Runnable export = () -> export();
-      final KeyCombination kc2 = new KeyCharacterCombination("f", KeyCombination.CONTROL_DOWN);
-      final Runnable full = () -> st.setFullScreen(true);
-      scene.getAccelerators().put(kc,  export);
-      scene.getAccelerators().put(kc2,  full);
+      KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
+      Runnable runnable = () -> export();
+      scene.getAccelerators().put(kc,  runnable);
+      kc = new KeyCharacterCombination("f", KeyCombination.CONTROL_DOWN);
+      runnable = () -> st.setFullScreen(true);
+      scene.getAccelerators().put(kc,  runnable);
     }
     private void checkManager() throws IllegalStateException {
         if (manager == null) {

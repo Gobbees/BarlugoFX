@@ -92,8 +92,11 @@
 								<MenuItem mnemonicParsing="false" text="Zoom +"/>
 								<MenuItem mnemonicParsing="false" text="Zoom -"/>
 								<SeparatorMenuItem />
-								<MenuItem mnemonicParsing="false"
-									text="Toggle full screen" />
+								<MenuItem mnemonicParsing="false" text="Toggle full screen">
+								    <accelerator>
+                                        <KeyCodeCombination code="f" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
+                                    </accelerator>
+                                </MenuItem>
 								<MenuItem mnemonicParsing="false" text="Minimize" />
 							</items>
 						</Menu>

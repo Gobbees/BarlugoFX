@@ -62,7 +62,6 @@ public class MainView extends AbstractView<MainController> {
                 Platform.runLater(() -> {
                     this.getController().setStage(this.getStage());
                     this.getController().setManager(manager);
-                    this.getStage().setFullScreen(true);
                 });
             });
             stageTimeline.play();

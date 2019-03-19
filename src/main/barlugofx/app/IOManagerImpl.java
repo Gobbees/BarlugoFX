@@ -2,6 +2,9 @@ package barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -20,6 +23,13 @@ import barlugofx.utils.Format;
  */
 public final class IOManagerImpl implements IOManager {
     private String inputFileName;
+    private final ExecutorService executor;
+    /**
+     * Class constructor.
+     */
+    public IOManagerImpl() {
+        executor = Executors.newSingleThreadExecutor();
+    }
 
     @Override
     public Image loadImageFromFile(final File file) throws IOException {
@@ -35,19 +45,27 @@ public final class IOManagerImpl implements IOManager {
 
     @Override
     public void exportImage(final Image image, final File file, final Format format) throws IOException {
-        ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), format.toOutputForm(), file);
+        if (executor.submit(() -> ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), format.toOutputForm(), file)) == null) {
+            throw new IOException();
+        }
     }
 
     @Override
     public void exportJPEGWithQuality(final Image image, final File file, final float quality) throws IOException {
-      final ImageWriter writer = ImageIO.getImageWritersByFormatName(Format.JPEG.toOutputForm()).next();
-      final ImageWriteParam iwp = writer.getDefaultWriteParam();
-      iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-      iwp.setCompressionQuality(quality);
-      final FileImageOutputStream output = new FileImageOutputStream(file);
-      writer.setOutput(output);
-      final IIOImage outputImage = new IIOImage(ImageUtils.convertImageToBufferedImageWithoutAlpha(image), null, null);
-      writer.write(null, outputImage, iwp);
-      writer.dispose();
+        final ImageWriter writer = ImageIO.getImageWritersByFormatName(Format.JPEG.toOutputForm()).next();
+        final ImageWriteParam iwp = writer.getDefaultWriteParam();
+        iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        iwp.setCompressionQuality(quality);
+        final FileImageOutputStream output = new FileImageOutputStream(file);
+        writer.setOutput(output);
+        final IIOImage outputImage = new IIOImage(ImageUtils.convertImageToBufferedImageWithoutAlpha(image), null, null);
+        final Callable<Boolean> saveOperation = () -> { 
+            writer.write(null, outputImage, iwp);
+            writer.dispose();
+            return true;
+        };
+        if (executor.submit(() -> saveOperation) == null) {
+            throw new IOException();
+        }
     }
 }

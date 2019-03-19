@@ -34,5 +34,11 @@ public class ExportView extends AbstractView<ExportController> {
         this.getStage().centerOnScreen();
         this.getStage().show();
     }
+    /**
+     * This function closes the opened stage.
+     */
+    public void closeStage() {
+        this.getStage().close();
+    }
 
 }
