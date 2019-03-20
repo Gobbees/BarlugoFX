@@ -27,9 +27,11 @@ import barlugofx.utils.Timer;
  * Using Junit to test all filter.
  *
  */
-public class ParallelTest {
+public final class ParallelTest {
     private final ParallelFilterExecutor exec = ParallelFilterExecutor.executor();
     private final Timer watch = new Timer();
+    private static final float FLOAT_DEFAULT_VALUE = 0.9f;
+    private static final int INT_DEFAULT_VALUE = 120;
 
     /**
      * Testing brightness.
@@ -56,8 +58,8 @@ public class ParallelTest {
     @Test
     public void testBlackAndWait() {
         final ParallelizableImageTool bew = BlackAndWhite.createBlackAndWhite();
-        bew.addParameter(ParametersName.WBLUE, new ParameterImpl<>(0.9));
-        bew.addParameter(ParametersName.WRED, new ParameterImpl<>(1.2));
+        bew.addParameter(ParametersName.WBLUE, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+        bew.addParameter(ParametersName.WRED, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
         testTool(bew, "Black and White");
     }
 
@@ -67,24 +69,30 @@ public class ParallelTest {
     @Test
     public void testHSB() {
         final ParallelizableImageTool bew = HSBModifier.createHSB();
-        bew.addParameter(ParametersName.HUE, new ParameterImpl<>(0.9f));
-        bew.addParameter(ParametersName.SATURATION, new ParameterImpl<>(0.8f));
-        bew.addParameter(ParametersName.EXPOSURE, new ParameterImpl<>(0.8f));
+        bew.addParameter(ParametersName.HUE, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+        bew.addParameter(ParametersName.SATURATION, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+        bew.addParameter(ParametersName.EXPOSURE, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
         testTool(bew, "HUE SAT EXPOSURE");
     }
 
+    /**
+     * Testing Vibrance.
+     */
     @Test
     public void testVibrance() {
         final ParallelizableImageTool bew = Vibrance.createVibrance();
-        bew.addParameter(ParametersName.VIBRANCE_INCREMENT, new ParameterImpl<>(0.9f));
+        bew.addParameter(ParametersName.VIBRANCE_INCREMENT, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
         testTool(bew, "VIBRANCE");
     }
 
+    /**
+     * Testing Selective RGB.
+     */
     @Test
     public void testRgb() {
         final ParallelizableImageTool bew = SelectiveRGBChanger.createSelective();
-        bew.addParameter(ParametersName.RED, new ParameterImpl<>(120));
-        bew.addParameter(ParametersName.BLUE, new ParameterImpl<>(-120));
+        bew.addParameter(ParametersName.RED, new ParameterImpl<>(INT_DEFAULT_VALUE));
+        bew.addParameter(ParametersName.BLUE, new ParameterImpl<>(INT_DEFAULT_VALUE));
         testTool(bew, "SELECTIVE RGB");
     }
 
@@ -120,7 +128,7 @@ public class ParallelTest {
     }
 
     private Image buildImage() throws IOException {
-        final File file = new File("C:\\Users\\matteo.fiordarancio\\Desktop\\prova.jpg");
+        final File file = new File("/Users/gg_mbpro/Downloads/Prova.jpg");
         final BufferedImage image = ImageIO.read(file);
         return ImageImpl.buildFromBufferedImage(image);
     }
