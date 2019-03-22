@@ -28,6 +28,7 @@ import barlugofx.utils.MutablePair;
 import barlugofx.view.InputOutOfBoundException;
 import barlugofx.view.ViewController;
 import barlugofx.view.export.ExportView;
+import barlugofx.view.preset.PresetView;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -196,6 +197,13 @@ public final class MainController implements ViewController {
         if(!exportView.isPresent()) {
             exportView = Optional.of(new ExportView(manager));
         }
+    }
+    /**
+     * Preset event triggered.
+     */
+    @FXML
+    public void preset() {
+        new PresetView(manager);
     }
     /**
      * This function sets the app manager (controller). It must be called in order to avoid future errors.

@@ -38,7 +38,6 @@
     -fx-font-family: "Inconsolata Regular";
 }
 
-
 /*PANES*/
 .anchor-pane {
     -fx-background-color: #333130;
@@ -214,4 +213,52 @@
 }
 .text-flow > Text{
     -fx-fill: #5affd0;
+}
+.spinner {
+    -fx-prompt-text-fill: black;
+    -fx-text-fill: black;
+    -fx-background-color: none;
+	-fx-initial-delay: 1ms;
+	-fx-repeat-delay: 1ms;
+    -fx-padding: 0 0 3 0;   
+}
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: transparent;
+}
+
+.spinner .increment-arrow-button .increment-arrow,
+.spinner .decrement-arrow-button .decrement-arrow {
+    -fx-background-color: #5affd0;
+    -fx-font-size: 25px;
+}
+
+.spinner .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #5affd0;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #bdbdbd;
+}
+.jfx-check-box {
+     -jfx-checked-color: #5affd0;
+     -jfx-unchecked-color: #bdbdbd;
+}
+.jfx-check-box .mark{
+     -fx-border-color: black;
+}
+#ver-box {
+    -fx-background-color: #333130;
+}
+#hor-box {
+    -fx-background-color: #333130;
+}
+#preset-checkbox {
+    -fx-text-fill: #5affd0;
+    -fx-font-size: 20;
+    -fx-font-family: "Inconsolata Regular";
+}
+#preset-label {
+    -fx-text-fill: #5affd0;
+    -fx-font-size: 20;
+    -fx-font-family: "Inconsolata Regular";
 }

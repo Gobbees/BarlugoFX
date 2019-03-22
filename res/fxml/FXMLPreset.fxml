@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import java.lang.Integer?>
+<?import javafx.scene.control.CheckBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.1"
+	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
+	fx:controller="barlugofx.view.preset.PresetController" id="border-pane">
+	<top>
+		<VBox>
+			<Separator fx:id="verticSep" orientation="vertical"
+				visible="false" />
+			<Label text=" Choose the filters you want to save:"
+				id="generalabel" />
+			<Separator fx:id="verticSep" orientation="vertical"
+				visible="false" />
+			<Separator fx:id="horizSep" orientation="horizontal"
+				visible="true" />
+		</VBox>
+	</top>
+	<center>
+		<VBox id="ver-box">
+			<children>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox>
+								<JFXCheckBox fx:id="chkExposure" 
+								text="Exposure:     " id="preset-checkbox" />
+								<Spinner fx:id="spnExposure">
+									<valueFactory>
+										<SpinnerValueFactory.IntegerSpinnerValueFactory
+											min="-100" max="100" initialValue="0" />
+									</valueFactory>
+								</Spinner>
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox>
+								<JFXCheckBox fx:id="chkContrast" 
+									text="Contrast:     " id="preset-checkbox" />
+								<Spinner fx:id="spnContrast">
+									<valueFactory>
+										<SpinnerValueFactory.IntegerSpinnerValueFactory
+											min="-100" max="100" initialValue="0" />
+									</valueFactory>
+								</Spinner>
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox>
+								<JFXCheckBox fx:id="chkBrightness"
+									text="Brightness:   " id="preset-checkbox" />
+								<Spinner fx:id="spnBrightness">
+									<valueFactory>
+										<SpinnerValueFactory.IntegerSpinnerValueFactory
+											min="-100" max="100" initialValue="0" />
+									</valueFactory>
+								</Spinner>
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox>
+								<JFXCheckBox fx:id="chkWbalance"
+									text="White balance:" id="preset-checkbox" />
+								<Spinner fx:id="spnWbalance">
+									<valueFactory>
+										<SpinnerValueFactory.IntegerSpinnerValueFactory
+											min="0" max="100" initialValue="0" />
+									</valueFactory>
+								</Spinner>
+
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox>
+								<JFXCheckBox fx:id="chkSaturation"
+									text="Saturation:   " id="preset-checkbox" />
+								<Spinner fx:id="spnSaturation">
+									<valueFactory>
+										<SpinnerValueFactory.IntegerSpinnerValueFactory
+											min="-100" max="100" initialValue="0" />
+									</valueFactory>
+								</Spinner>
+
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox>
+								<JFXCheckBox fx:id="chkHue" text="Hue:          "
+									id="preset-checkbox" />
+								<Spinner fx:id="spnHue">
+									<valueFactory>
+										<SpinnerValueFactory.IntegerSpinnerValueFactory
+											min="-100" max="100" initialValue="0" />
+									</valueFactory>
+								</Spinner>
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox>
+								<JFXCheckBox fx:id="chkVibrance"
+									text="Vibrance:     " id="preset-checkbox" />
+								<Spinner fx:id="spnVibrance">
+									<valueFactory>
+										<SpinnerValueFactory.IntegerSpinnerValueFactory
+											min="-100" max="100" initialValue="0" />
+									</valueFactory>
+								</Spinner>
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<JFXCheckBox fx:id="chkColors"
+								text="Selective colors:" id="preset-checkbox" />
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox fx:id="hbxColors">
+								<VBox>
+									<Label text="R" id="preset-label" />
+									<Spinner fx:id="spnColR">
+										<valueFactory>
+											<SpinnerValueFactory.IntegerSpinnerValueFactory
+												min="-255" max="255" initialValue="0" />
+										</valueFactory>
+									</Spinner>
+								</VBox>
+								<VBox>
+									<Label text="G" id="preset-label" />
+									<Spinner fx:id="spnColG">
+										<valueFactory>
+											<SpinnerValueFactory.IntegerSpinnerValueFactory
+												min="-255" max="255" initialValue="0" />
+										</valueFactory>
+									</Spinner>
+								</VBox>
+								<VBox>
+									<Label text="B" id="preset-label" />
+									<Spinner fx:id="spnColB">
+										<valueFactory>
+											<SpinnerValueFactory.IntegerSpinnerValueFactory
+												min="-255" max="255" initialValue="0" />
+										</valueFactory>
+									</Spinner>
+								</VBox>
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+				<HBox id="hor-box">
+					<children>
+						<Separator fx:id="leftSep" orientation="horizontal"
+							visible="false" />
+						<VBox>
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<JFXCheckBox fx:id="chkBlkWht" text="Black n white:"
+								id="preset-checkbox" />
+							<Separator fx:id="verticSep" orientation="vertical"
+								visible="false" />
+							<HBox fx:id="hbxBlkWht">
+								<VBox>
+									<Label text="R" id="preset-label" />
+									<Spinner fx:id="spnBlkR">
+										<valueFactory>
+											<SpinnerValueFactory.IntegerSpinnerValueFactory
+												min="-255" max="255" initialValue="0" />
+										</valueFactory>
+									</Spinner>
+								</VBox>
+								<VBox>
+									<Label text="G" id="preset-label" />
+									<Spinner fx:id="spnBlkG">
+										<valueFactory>
+											<SpinnerValueFactory.IntegerSpinnerValueFactory
+												min="-255" max="255" initialValue="0" />
+										</valueFactory>
+									</Spinner>
+								</VBox>
+								<VBox>
+									<Label text="B" id="preset-label" />
+									<Spinner fx:id="spnBlkB">
+										<valueFactory>
+											<SpinnerValueFactory.IntegerSpinnerValueFactory
+												min="-255" max="255" initialValue="0" />
+										</valueFactory>
+									</Spinner>
+								</VBox>
+							</HBox>
+						</VBox>
+					</children>
+				</HBox>
+			</children>
+		</VBox>
+	</center>
+	<bottom>
+		<HBox>
+			<children>
+				<JFXButton fx:id="btnSave" text="Save"
+					mnemonicParsing="false" onAction="#save" />
+				<JFXButton fx:id="btnCancel" text="Cancel"
+					mnemonicParsing="false" onAction="#cancel" />
+			</children>
+		</HBox>
+	</bottom>
+</BorderPane>
