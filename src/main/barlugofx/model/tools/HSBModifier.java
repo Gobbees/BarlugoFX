@@ -17,7 +17,7 @@ import barlugofx.model.tools.common.ParametersName;
  * resulting in more efficient changes.
  *
  */
-public final class HSBModifier extends ImageToolImpl implements ParallelizableImageTool{
+public final class HSBModifier extends ImageToolImpl implements ParallelizableImageTool {
     private static final int MAX = 1;
     private static final int MIN = -1;
     private static final float DEFAULT_VALUE = 0f;
