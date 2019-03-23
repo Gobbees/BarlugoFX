@@ -13,12 +13,12 @@ import barlugofx.model.tools.common.ParametersName;
 
 /**
  * This class allows an Image to be Rotated. It accepts one parameter, ANGLE,
- * which must be an integer between -360 and +360.
+ * which must be an integer between -180 and +180.
  *
  */
 public final class Rotator extends ImageToolImpl {
-    private static final int MAX = 360;
-    private static final int DEFAULT = 0;
+    private static final int MAX = 180;
+    private static final double DEFAULT = 0.0;
 
     private Rotator() {
         super();
@@ -41,7 +41,7 @@ public final class Rotator extends ImageToolImpl {
      */
     @Override
     public Image applyFilter(final Image toApply) {
-        final int degreesToRotate = super.getValueFromParameter(ParametersName.ANGLE, -MAX, MAX, DEFAULT);
+        final double degreesToRotate = super.getValueFromParameter(ParametersName.ANGLE, -MAX, MAX, DEFAULT);
         final BufferedImage src = ImageUtils.convertImageToBufferedImageWithAlpha(toApply);
         int width = src.getWidth();
         int height = src.getHeight();
