@@ -3,8 +3,10 @@ package barlugofx.app;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -44,14 +46,12 @@ public final class IOManagerImpl implements IOManager {
     }
 
     @Override
-    public void exportImage(final Image image, final File file, final Format format) throws IOException {
-        if (executor.submit(() -> ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), format.toOutputForm(), file)) == null) {
-            throw new IOException();
-        }
+    public void exportImage(final Image image, final File file, final Format format) throws IOException, InterruptedException, ExecutionException {
+        assignTaskToExecutor(() -> ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), format.toOutputForm(), file));
     }
 
     @Override
-    public void exportJPEGWithQuality(final Image image, final File file, final float quality) throws IOException {
+    public void exportJPEGWithQuality(final Image image, final File file, final float quality) throws IOException, InterruptedException, ExecutionException {
         final ImageWriter writer = ImageIO.getImageWritersByFormatName(Format.JPEG.toOutputForm()).next();
         final ImageWriteParam iwp = writer.getDefaultWriteParam();
         iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
@@ -59,12 +59,17 @@ public final class IOManagerImpl implements IOManager {
         final FileImageOutputStream output = new FileImageOutputStream(file);
         writer.setOutput(output);
         final IIOImage outputImage = new IIOImage(ImageUtils.convertImageToBufferedImageWithoutAlpha(image), null, null);
-        final Callable<Boolean> saveOperation = () -> { 
+        assignTaskToExecutor(() -> { 
             writer.write(null, outputImage, iwp);
             writer.dispose();
             return true;
-        };
-        if (executor.submit(() -> saveOperation) == null) {
+        });
+    }
+    private void assignTaskToExecutor(final Callable<?> callable) throws IOException, InterruptedException, ExecutionException {
+        final Future<?> future = executor.submit(callable);
+        try {
+            future.get();
+        } catch (ExecutionException e) {
             throw new IOException();
         }
     }

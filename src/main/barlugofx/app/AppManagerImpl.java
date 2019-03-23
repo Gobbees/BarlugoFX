@@ -2,15 +2,15 @@ package barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
-//import barlugofx.model.tools.Cropper;
 import barlugofx.model.tools.HSBModifier;
-//import barlugofx.model.tools.Rotator;
+import barlugofx.model.tools.Rotator;
 import barlugofx.model.tools.SelectiveRGBChanger;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.WhiteBalance;
@@ -40,7 +40,7 @@ public final class AppManagerImpl implements AppManager {
     private final ParallelizableImageTool srgb;
     private final ParallelizableImageTool bw;
     //private final Cropper cropper;
-    //private final Rotator rotator;
+    private final ImageTool rotator;
     private final ParallelizableImageTool vibrance;
     private final IOManager fileManager;
     private final ParallelFilterExecutor executor;
@@ -60,7 +60,7 @@ public final class AppManagerImpl implements AppManager {
         srgb = SelectiveRGBChanger.createSelective();
         bw = BlackAndWhite.createBlackAndWhite();
         //cropper = Cropper.createCropper();
-        //rotator = Rotator.createRotator();
+        rotator = Rotator.createRotator();
         vibrance = Vibrance.createVibrance();
         executor = ParallelFilterExecutor.executor();
         parallel = ParallelFilterExecutor.shouldYouParallelize(image);
@@ -76,7 +76,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setExposure(final int value) {
-        //TODO HISTORY
        hsb.addParameter(ParametersName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
        if (parallel) {
            image = executor.applyTool(hsb, image);
@@ -179,15 +178,20 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void exportImage(final File file, final Format format) throws IOException {
+    public void exportImage(final File file, final Format format) throws IOException, InterruptedException, ExecutionException {
         fileManager.exportImage(image, file, format);
     }
 
     @Override
-    public void exportImage(final File file, final float quality) throws IOException {
+    public void exportImage(final File file, final float quality) throws IOException, InterruptedException, ExecutionException {
         fileManager.exportJPEGWithQuality(image, file, quality);
+    }
+    @Override
+    public void rotate(final int angle) {
+       rotator.addParameter(ParametersName.ANGLE, new ParameterImpl<Integer>(angle));
+       image = rotator.applyFilter(image);
+       rotator.removeParameter(ParametersName.ANGLE);
     }
 
     //TODO history
-    //TODO
 }

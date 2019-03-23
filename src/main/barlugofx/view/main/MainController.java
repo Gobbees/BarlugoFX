@@ -31,8 +31,12 @@ import barlugofx.view.export.ExportView;
 import barlugofx.view.preset.PresetView;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
@@ -41,9 +45,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
@@ -67,9 +76,9 @@ public final class MainController implements ViewController {
     @FXML
     private SplitPane spaneMain;
     @FXML
-    private ScrollPane scpaneImage;
+    private BorderPane paneImage;
     @FXML
-    private BorderPane bpaneImage;
+    private AnchorPane apaneImage;
     @FXML
     private ImageView iviewImage;
     @FXML
@@ -168,6 +177,8 @@ public final class MainController implements ViewController {
     private JFXTextField tfBWB;
     @FXML
     private JFXButton btnBWApply;
+    private double initX;   //TODO TEMP
+    private double initY;
     private Scene scene;
     private Stage st;
     private AppManager manager;
@@ -194,9 +205,46 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void export() {
-        if(!exportView.isPresent()) {
-            exportView = Optional.of(new ExportView(manager));
+        if (exportView.isPresent()) {
+            exportView.get().closeStage();
         }
+        exportView = Optional.of(new ExportView(manager));
+    }
+    /**
+     * Rotate event triggered.
+     */
+    @FXML
+    public void rotate() { //TODO remove listeners on released, REFACTORING, IMPROVE CODE QUALITY
+        scene.setCursor(Cursor.HAND);
+        double maxX = iviewImage.getFitWidth();
+        double maxY = iviewImage.getFitHeight();
+        apaneImage.setOnMousePressed(e -> {
+            System.out.println(e.getX() + " " + e.getY());
+            initX = e.getX();
+            initY = e.getY();
+            e.consume();
+        });
+        apaneImage.setOnMouseDragged(e -> {
+            apaneImage.getChildren().clear();
+            if (e.getX() < maxX && e.getY() < maxY && e.getY() > 0) {
+                Line line = new Line(initX, initY, e.getX(), e.getY());
+                line.setFill(null);
+                line.setStroke(Color.WHITE);
+                line.setStrokeWidth(3);
+                apaneImage.getChildren().add(line);
+            }
+        });
+        apaneImage.setOnMouseReleased(e -> {
+            Line l = ((Line) apaneImage.getChildren().get(0));
+            System.out.println(l.getEndX() + " " +  l.getEndY());
+            double m = (l.getEndY() - l.getStartY()) / (l.getEndX() - l.getStartX());
+            double theta = l.getEndY() > l.getStartY() ? Math.atan(-m) : Math.atan(m);
+            theta *= 180 / Math.PI;
+            manager.rotate((int) theta);
+            updateImage();
+            apaneImage.getChildren().clear();
+            scene.setCursor(Cursor.DEFAULT);
+        });
     }
     /**
      * Preset event triggered.
@@ -217,17 +265,22 @@ public final class MainController implements ViewController {
     private void updateImage() {
         Platform.runLater(() -> {
             iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+            System.out.println(iviewImage.getFitWidth() + " " + iviewImage.getFitHeight());
+            iviewImage.setFitWidth(paneImage.getWidth());
+            iviewImage.setFitHeight(paneImage.getHeight());
         });
     }
     //this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
+        tflowLogo.setVisible(true);
         scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setDividerPosition(0, spaneRightColumn.getWidth());
-        iviewImage.setFitWidth(scpaneImage.getWidth());
-        iviewImage.setFitHeight(scpaneImage.getHeight());
+        iviewImage.setFitWidth(paneImage.getWidth());
+        iviewImage.setFitHeight(paneImage.getHeight());
+        spaneMain.setMaxWidth(scene.getWidth());
     }
     private void initToolStatus() {
         toolStatus.put(EXPOSURE, new MutablePair<>(slExposure.getValue(), true));
@@ -425,7 +478,13 @@ public final class MainController implements ViewController {
                 updateImage();
             }
         });
-
+        //set imageView width according to the divider position
+        spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
+            if (spaneMain.getWidth() * nv.doubleValue() + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth() - 2) { //TODO -2 because a bug permits the resize over the maxwidth of 2 pixels
+                iviewImage.setFitWidth((int) (spaneMain.getWidth() * nv.doubleValue()));
+            }
+        });
+        //stage closing
         st.setOnCloseRequest(ev -> {
             if (exportView.isPresent()) {
                 exportView.get().closeStage();

@@ -2,6 +2,7 @@ package barlugofx.view.export;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
@@ -125,7 +126,7 @@ public final class ExportController implements ViewController {
             try {
                 checkManager();
                 manager.exportImage(file, format);
-            } catch (IOException | IllegalStateException e) {
+            } catch (IOException | InterruptedException | ExecutionException e) {
                 // TODO log
                 e.printStackTrace();
             }
@@ -137,7 +138,7 @@ public final class ExportController implements ViewController {
             try {
                 checkManager();
                 manager.exportImage(file, quality);
-            } catch (IOException | IllegalStateException e) {
+            } catch (IOException | InterruptedException | ExecutionException e) {
                 // TODO log
                 e.printStackTrace();
             }

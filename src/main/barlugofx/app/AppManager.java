@@ -2,6 +2,7 @@ package barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.utils.Format;
@@ -70,19 +71,28 @@ public interface AppManager {
      * @param b the blue input value
      */
     void setBW(double r, double g, double b);
+    /**
+     * Rotates the image by requested angle.
+     * @param angle the requested angle
+     */
+    void rotate(int angle);
 
     /**
      * Exports the image in the requested file and format.
      * @param file the output file
      * @param format the output format
-     * @throws IOException if the operation fails
+     * @throws IOException if the operation fails caused by an I/O error
+     * @throws InterruptedException if the operation has been interrupted unexpectedly
+     * @throws ExecutionException if the operation has been interrupted unexpectedly
      */
-    void exportImage(File file, Format format) throws IOException;
+    void exportImage(File file, Format format) throws IOException, InterruptedException, ExecutionException;
     /**
      * Export the image in the JPEG format with the requested quality.
      * @param file the output file
      * @param quality the requested quality
-     * @throws IOException if the operation fails
+     * @throws IOException if the operation fails caused by an I/O error
+     * @throws InterruptedException if the operation has been interrupted unexpectedly
+     * @throws ExecutionException if the operation has been interrupted unexpectedly
      */
-    void exportImage(File file, float quality) throws IOException;
+    void exportImage(File file, float quality) throws IOException, InterruptedException, ExecutionException;
 }

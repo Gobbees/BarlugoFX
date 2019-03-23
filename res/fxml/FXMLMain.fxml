@@ -30,6 +30,7 @@
 <?import javafx.scene.text.Text?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.StackPane?>
 
 <BorderPane fx:id="bpaneMain"
 	xmlns="http://javafx.com/javafx/8.0.1"
@@ -86,8 +87,12 @@
 							<items>
 								<!-- TODO -->
 								<MenuItem mnemonicParsing="false" text="Crop" />
-								<MenuItem mnemonicParsing="false" text="Rotate +90" />
-								<MenuItem mnemonicParsing="false" text="Rotate -90" />
+								<MenuItem mnemonicParsing="false" text="Rotate" onAction="#rotate">
+								    <accelerator>
+                                        <KeyCodeCombination code="r" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
+                                    </accelerator>
+                                </MenuItem>
+								<MenuItem mnemonicParsing="true" text="Undo"/>
 								<MenuItem mnemonicParsing="false" text="Apply .bps preset" />
 							</items>
 						</Menu>
@@ -113,7 +118,7 @@
 						</Menu>
 					</menus>
 				</MenuBar>
-				<TextFlow fx:id="tflowLogo" AnchorPane.rightAnchor="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" styleClass="text-flow">
+				<TextFlow fx:id="tflowLogo" visible="false" AnchorPane.rightAnchor="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" styleClass="text-flow">
 				    <Text  text="BARLUGO" style="-fx-font-family: 'Ostrich Sans Medium'"/>
 				    <Text  text="FX" style="-fx-font-family: 'Ostrich Sans Heavy'"/>
 				</TextFlow>
@@ -125,20 +130,16 @@
 	<center>
 		<SplitPane fx:id="spaneMain" dividerPositions="0.8" style="-fx-border-width: 1 0 0 0">
 	       <items>
-		      <BorderPane fx:id="bpaneImage">
-			     <center>
-				    <ScrollPane fx:id="scpaneImage" fitToWidth="true" fitToHeight="true">
-					   <content>
-						  <BorderPane>
-							<center>
-								<ImageView fx:id="iviewImage" preserveRatio="true" />
-							</center>
-					      </BorderPane>
-					   </content>
-				    </ScrollPane>
-                </center>
-		      </BorderPane>
-					
+			    <BorderPane fx:id="paneImage">
+				   <center>
+				     <StackPane>
+					    <children>
+						    <ImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="true"/>
+						    <AnchorPane fx:id="apaneImage"/>
+					    </children>
+				    </StackPane>
+				   </center>
+			    </BorderPane>
 
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL" style="-fx-border-width: 0 0 0 0">
 					<items>

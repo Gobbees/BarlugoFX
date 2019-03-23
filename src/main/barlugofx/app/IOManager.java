@@ -2,6 +2,7 @@ package barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.utils.Format;
@@ -28,15 +29,20 @@ public interface IOManager {
      * @param image the image to be saved
      * @param file the output file
      * @param format the output format
-     * @throws IOException if the operation fails
+     * @throws IOException if the operation fails caused by an I/O error
+     * @throws InterruptedException if the operation has been interrupted unexpectedly
+     * @throws ExecutionException if the operation has been interrupted unexpectedly
      */
-    void exportImage(Image image, File file, Format format) throws IOException;
+    void exportImage(Image image, File file, Format format) throws IOException, InterruptedException, ExecutionException;
     /**
-     * Saves the image in the output file with the JPEG format and the requested quality.
+     * Saves the image in the output file 
+     * with the JPEG format and the requested quality.
      * @param image the image to be saved
      * @param file the output file
      * @param quality the requested quality
-     * @throws IOException if the operation fails
+     * @throws IOException if the operation fails caused by an I/O error
+     * @throws InterruptedException if the operation has been interrupted unexpectedly
+     * @throws ExecutionException if the operation has been interrupted unexpectedly
      */
-    void exportJPEGWithQuality(Image image, File file, float quality) throws IOException;
+    void exportJPEGWithQuality(Image image, File file, float quality) throws IOException, InterruptedException, ExecutionException;
 }
