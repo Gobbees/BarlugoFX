@@ -7,6 +7,7 @@ import barlugofx.view.ViewController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -21,7 +22,13 @@ public final class PresetController implements ViewController {
     private static final double SPN_HEIGHT_MULTIPLIER = 0.01;
     private static final double SEP_HEIGHT_MULTIPLIER = 0.02;
     private static final double SEP_WIDTH_MULTIPLIER = 0.01;
-    @FXML
+    private static final int MIN_ZERO = 0;
+    private static final int MIN_RGB = -255;
+    private static final int MIN_HUNDRED = -100;
+    private static final int MAX_HUNDRED = 100;
+    private static final int MAX_RGB = 255;
+    private static final int STEP = 1;
+    @FXML 
     private JFXButton btnSave;
     @FXML
     private JFXButton btnCancel;
@@ -142,6 +149,33 @@ public final class PresetController implements ViewController {
         spnVibrance.disableProperty().bind(chkVibrance.selectedProperty());
         hbxColors.disableProperty().bind(chkColors.selectedProperty());
         hbxBlkWht.disableProperty().bind(chkBlkWht.selectedProperty());
+        //
+        spnExposure.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnContrast.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnBrightness.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnWbalance.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnSaturation.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnHue.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnVibrance.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnColR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnColG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnColB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnBlkR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnBlkG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnBlkB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        IntegerStringConverter.createFor(spnExposure);
+        IntegerStringConverter.createFor(spnContrast);
+        IntegerStringConverter.createFor(spnBrightness);
+        IntegerStringConverter.createFor(spnWbalance);
+        IntegerStringConverter.createFor(spnSaturation);
+        IntegerStringConverter.createFor(spnHue);
+        IntegerStringConverter.createFor(spnVibrance);
+        IntegerStringConverter.createFor(spnColR);
+        IntegerStringConverter.createFor(spnColG);
+        IntegerStringConverter.createFor(spnColB);
+        IntegerStringConverter.createFor(spnBlkR);
+        IntegerStringConverter.createFor(spnBlkG);
+        IntegerStringConverter.createFor(spnBlkB);
     }
     /**
      * Save selected filters and values on bps file.

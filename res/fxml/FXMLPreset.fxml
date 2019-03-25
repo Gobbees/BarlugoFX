@@ -45,12 +45,7 @@
 							<HBox>
 								<JFXCheckBox fx:id="chkExposure" 
 								text="Exposure:     " id="preset-checkbox" />
-								<Spinner fx:id="spnExposure">
-									<valueFactory>
-										<SpinnerValueFactory.IntegerSpinnerValueFactory
-											min="-100" max="100" initialValue="0" />
-									</valueFactory>
-								</Spinner>
+								<Spinner fx:id="spnExposure" editable="true" />
 							</HBox>
 						</VBox>
 					</children>
@@ -65,12 +60,7 @@
 							<HBox>
 								<JFXCheckBox fx:id="chkContrast" 
 									text="Contrast:     " id="preset-checkbox" />
-								<Spinner fx:id="spnContrast">
-									<valueFactory>
-										<SpinnerValueFactory.IntegerSpinnerValueFactory
-											min="-100" max="100" initialValue="0" />
-									</valueFactory>
-								</Spinner>
+								<Spinner fx:id="spnContrast" editable="true" />
 							</HBox>
 						</VBox>
 					</children>
@@ -85,12 +75,7 @@
 							<HBox>
 								<JFXCheckBox fx:id="chkBrightness"
 									text="Brightness:   " id="preset-checkbox" />
-								<Spinner fx:id="spnBrightness">
-									<valueFactory>
-										<SpinnerValueFactory.IntegerSpinnerValueFactory
-											min="-100" max="100" initialValue="0" />
-									</valueFactory>
-								</Spinner>
+								<Spinner fx:id="spnBrightness" editable="true"/>
 							</HBox>
 						</VBox>
 					</children>
@@ -105,13 +90,7 @@
 							<HBox>
 								<JFXCheckBox fx:id="chkWbalance"
 									text="White balance:" id="preset-checkbox" />
-								<Spinner fx:id="spnWbalance">
-									<valueFactory>
-										<SpinnerValueFactory.IntegerSpinnerValueFactory
-											min="0" max="100" initialValue="0" />
-									</valueFactory>
-								</Spinner>
-
+								<Spinner fx:id="spnWbalance" editable="true" />
 							</HBox>
 						</VBox>
 					</children>
@@ -126,13 +105,7 @@
 							<HBox>
 								<JFXCheckBox fx:id="chkSaturation"
 									text="Saturation:   " id="preset-checkbox" />
-								<Spinner fx:id="spnSaturation">
-									<valueFactory>
-										<SpinnerValueFactory.IntegerSpinnerValueFactory
-											min="-100" max="100" initialValue="0" />
-									</valueFactory>
-								</Spinner>
-
+								<Spinner fx:id="spnSaturation" editable="true" />
 							</HBox>
 						</VBox>
 					</children>
@@ -147,12 +120,7 @@
 							<HBox>
 								<JFXCheckBox fx:id="chkHue" text="Hue:          "
 									id="preset-checkbox" />
-								<Spinner fx:id="spnHue">
-									<valueFactory>
-										<SpinnerValueFactory.IntegerSpinnerValueFactory
-											min="-100" max="100" initialValue="0" />
-									</valueFactory>
-								</Spinner>
+								<Spinner fx:id="spnHue" editable="true" />
 							</HBox>
 						</VBox>
 					</children>
@@ -167,12 +135,7 @@
 							<HBox>
 								<JFXCheckBox fx:id="chkVibrance"
 									text="Vibrance:     " id="preset-checkbox" />
-								<Spinner fx:id="spnVibrance">
-									<valueFactory>
-										<SpinnerValueFactory.IntegerSpinnerValueFactory
-											min="-100" max="100" initialValue="0" />
-									</valueFactory>
-								</Spinner>
+								<Spinner fx:id="spnVibrance" editable="true" />
 							</HBox>
 						</VBox>
 					</children>
@@ -191,30 +154,15 @@
 							<HBox fx:id="hbxColors">
 								<VBox>
 									<Label text="R" id="preset-label" />
-									<Spinner fx:id="spnColR">
-										<valueFactory>
-											<SpinnerValueFactory.IntegerSpinnerValueFactory
-												min="-255" max="255" initialValue="0" />
-										</valueFactory>
-									</Spinner>
+									<Spinner fx:id="spnColR" editable="true" />
 								</VBox>
 								<VBox>
 									<Label text="G" id="preset-label" />
-									<Spinner fx:id="spnColG">
-										<valueFactory>
-											<SpinnerValueFactory.IntegerSpinnerValueFactory
-												min="-255" max="255" initialValue="0" />
-										</valueFactory>
-									</Spinner>
+									<Spinner fx:id="spnColG" editable="true" />
 								</VBox>
 								<VBox>
 									<Label text="B" id="preset-label" />
-									<Spinner fx:id="spnColB">
-										<valueFactory>
-											<SpinnerValueFactory.IntegerSpinnerValueFactory
-												min="-255" max="255" initialValue="0" />
-										</valueFactory>
-									</Spinner>
+									<Spinner fx:id="spnColB" editable="true" />
 								</VBox>
 							</HBox>
 						</VBox>
@@ -234,30 +182,15 @@
 							<HBox fx:id="hbxBlkWht">
 								<VBox>
 									<Label text="R" id="preset-label" />
-									<Spinner fx:id="spnBlkR">
-										<valueFactory>
-											<SpinnerValueFactory.IntegerSpinnerValueFactory
-												min="-255" max="255" initialValue="0" />
-										</valueFactory>
-									</Spinner>
+									<Spinner fx:id="spnBlkR" editable="true" />
 								</VBox>
 								<VBox>
 									<Label text="G" id="preset-label" />
-									<Spinner fx:id="spnBlkG">
-										<valueFactory>
-											<SpinnerValueFactory.IntegerSpinnerValueFactory
-												min="-255" max="255" initialValue="0" />
-										</valueFactory>
-									</Spinner>
+									<Spinner fx:id="spnBlkG" editable="true" />
 								</VBox>
 								<VBox>
 									<Label text="B" id="preset-label" />
-									<Spinner fx:id="spnBlkB">
-										<valueFactory>
-											<SpinnerValueFactory.IntegerSpinnerValueFactory
-												min="-255" max="255" initialValue="0" />
-										</valueFactory>
-									</Spinner>
+									<Spinner fx:id="spnBlkB" editable="true" />
 								</VBox>
 							</HBox>
 						</VBox>
