@@ -8,8 +8,9 @@ import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- * A contrast class that allows to change an image contrast. It only accepts one parameter, Contrast, which must be between
- * -255 and 255. Eventual other value will result in an {@link IllegalStateException}.
+ * This class allows changes of an {@link Image} contrast. It only accepts one
+ * parameter, Contrast, which must be between -255 and 255. Eventual other value
+ * will result in an {@link IllegalStateException}.
  *
  *
  */
@@ -32,7 +33,7 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
     }
 
     @Override
-    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+    public void executeTool(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];
@@ -47,7 +48,7 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
     }
 
     @Override
-    public void inizializeFilter() {
+    public void inizializeTool() {
         value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE) / (MAXVALUE * (MAXVALUE + 4 - value));
     }

@@ -12,9 +12,10 @@ import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- * This class allows an Image to be Rotated. It accepts one parameter, ANGLE,
+ * This class allows an {@link Image} to be Rotated. It accepts one parameter, ANGLE,
  * which must be an integer between -180 and +180.
  *
+ *  Eventual other value will result in an {@link IllegalStateException}.
  */
 public final class Rotator extends ImageToolImpl {
     private static final int MAX = 180;

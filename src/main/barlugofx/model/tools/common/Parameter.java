@@ -2,11 +2,12 @@ package barlugofx.model.tools.common;
 
 /**
  *
- * A simple interface that allows a class to wrap an element.
+ * A simple wrapper for any possible parameter of the tools.
  *
  * @param <T> they object type.
  */
 public interface Parameter<T extends Number> {
+    //This modeling was inspired by Danilo Pianini.
 
     /**
      * Gets the value contained in Parameter.

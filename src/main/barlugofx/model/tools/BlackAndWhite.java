@@ -12,11 +12,13 @@ import barlugofx.model.tools.common.ParametersName;
 
 /**
  * This class models a black and white filter which accepts up to three
- * parameter, which are WRED, WBLUE, WGREEN. This parameters are double and
- * their standard value is 1. The value must be equal of greater than 0. For
- * general use, we higly suggest using numbers that are between 0.8-1.2. The
+ * parameter, WRED, WBLUE, WGREEN. This parameters are double and
+ * their standard value is 1. The value must be equal or greater than 0. For
+ * general use, it's suggested using numbers that are between 0.8-1.2. The
  * higher the value, the more the channel selected will count on the black and
  * white image.
+ *
+ * Eventual other value or parameters will result in an {@link IllegalStateException}.
  *
  */
 public final class BlackAndWhite extends ImageToolImpl implements ParallelizableImageTool {
@@ -46,7 +48,7 @@ public final class BlackAndWhite extends ImageToolImpl implements Parallelizable
     }
 
     @Override
-    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+    public void executeTool(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];
@@ -61,7 +63,7 @@ public final class BlackAndWhite extends ImageToolImpl implements Parallelizable
     }
 
     @Override
-    public void inizializeFilter() {
+    public void inizializeTool() {
         redFactor = super.getValueFromParameter(ParametersName.WRED, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)
                 * RED_MULTIPLIER;
         greenFactor = super.getValueFromParameter(ParametersName.WGREEN, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)

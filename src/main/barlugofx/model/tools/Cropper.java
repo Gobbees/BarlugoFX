@@ -10,11 +10,13 @@ import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- * This allow the crop of an image. It needs 4 parameter X1, X2, Y1,Y2, representing the beginning coordinates (inclusive) and the end
- * coordinates (exclusive) of the crop.
+ * This class performs the cropping of an {@link Image}. It needs 4 parameter X1, X2, Y1,Y2,
+ * representing the beginning coordinates (inclusive) and the end coordinates
+ * (exclusive) of the crop.
  *
- * X1 must be less than X2 and >= 0. Same goes for Y1 and Y2.
- * X2 and Y2 must be less than the image width and height respectively.
+ * X1 must be less than X2 and >= 0. Same goes for Y1 and Y2. X2 and Y2 must be
+ * less than the image width and height respectively.
+ *
  */
 public final class Cropper extends ImageToolImpl {
 

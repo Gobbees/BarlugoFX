@@ -11,8 +11,8 @@ import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- *  This class allows to change selectively the 3 channels of red green blue. It accepts up to three parameters: RED, which is an int from
- *  -255 to 255, BLUE, wich is an int with the same restrictions, and GREEN, which again is an int from -255 to 255.
+ * This class allows to change selectively the 3 channels of red green blue in an {@link Image}. It
+ * accepts up to three parameters: RED, GREEN and BLUE, which are an ints from -255 to 255.
  *
  */
 public final class SelectiveRGBChanger extends ImageToolImpl implements ParallelizableImageTool {
@@ -37,7 +37,7 @@ public final class SelectiveRGBChanger extends ImageToolImpl implements Parallel
     }
 
     @Override
-    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+    public void executeTool(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];
@@ -49,7 +49,7 @@ public final class SelectiveRGBChanger extends ImageToolImpl implements Parallel
     }
 
     @Override
-    public void inizializeFilter() {
+    public void inizializeTool() {
         red = getValueFromParameter(ParametersName.RED, -MAX, MAX, DEFAULT);
         green = getValueFromParameter(ParametersName.GREEN, -MAX, MAX, DEFAULT);
         blue = getValueFromParameter(ParametersName.BLUE, -MAX, MAX, DEFAULT);

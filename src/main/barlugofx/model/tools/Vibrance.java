@@ -11,10 +11,12 @@ import barlugofx.model.tools.common.ParametersName;
 /**
  * The vibrance class implements a filter similar to saturation with the only
  * difference that the increment in saturation is applied considering, for each
- * pixel, is brightest color in relation to the average. In this way, parts of
+ * pixel, its brightest color in relation to the average. In this way, parts of
  * the image already saturated will not encounter great differences. It accepts
  * one parameter: VIBRANCE_INCREMENT which specify the value to add. Must be a
  * float between -1 and 1.
+ *
+ * Eventual other value will result in an {@link IllegalStateException}.
  */
 public final class Vibrance extends ImageToolImpl implements ParallelizableImageTool {
     private static final float MIN_INCREMENT = -1;
@@ -39,13 +41,13 @@ public final class Vibrance extends ImageToolImpl implements ParallelizableImage
 
 
     @Override
-    public void inizializeFilter() {
+    public void inizializeTool() {
         increment = super.getValueFromParameter(ParametersName.VIBRANCE_INCREMENT, MIN_INCREMENT,
                 MAX_INCREMENT, DEFAULT_VALUE) / 100;
     }
 
     @Override
-    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+    public void executeTool(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 float[] hsb = new float[3];

@@ -5,13 +5,13 @@ import java.util.Optional;
 import barlugofx.model.imagetools.Image;
 
 /**
- * This interface represents a possible filter that can be applied to an image.
+ * This interface models any tool or modification that can be applied to an {@link Image}.
  *
  */
 public interface ImageTool {
 
     /**
-     * Applies the filter to toApply and returns the result in a new Image.
+     * Applies the tool to toApply and returns the result in a new Image.
      * @param toApply the image to which apply the filter
      * @return the edited image.
      * @throws IllegalStateException if there are not the necessary valid parameters or the parameter is not of the proper type.
@@ -23,7 +23,7 @@ public interface ImageTool {
      * @param name the name of the parameter.
      * @param value the value of the parameter.
      * @throws IllegalArgumentException if the name is not appropriate for the filter or the parameter is already present.
-     * Please check on filter docs that your are passing the right argument.
+     * Please check on each filter documentation that your are passing the right argument.
      */
     void addParameter(ParametersName name, Parameter<? extends Number> value);
 

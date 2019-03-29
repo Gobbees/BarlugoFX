@@ -15,7 +15,9 @@ import barlugofx.utils.MutablePair;
 /**
  * This class allows the usage of the image tools in a parallel way. The number of thread to instantiate is automatically chosen.
  * Notice that your should always call the function @see ParallelFilterExecutor#shouldYouParallelize() to check
- * if the paralization is actually worth it. In your system, you should have only one instance of this class.
+ * if the parallelization is actually worth it.
+ *
+ * Only one instance of this class is allowed.
  */
 public final class ParallelFilterExecutor {
     private final int nSubtask;
@@ -33,14 +35,14 @@ public final class ParallelFilterExecutor {
 
     /**
      * This function returns the ParallelFilterExecutor instance to which append the work to do.
-     * @return the instanciated Executor.
+     * @return the instantiated Executor.
      */
     public static ParallelFilterExecutor executor() {
         return LazyInizialization.SINGLETON;
     }
 
     /**
-     * This function returns true  if the Image is big enough that is worth parallelize, false otherwise.
+     * This function returns true if the {@link ParallelFilterExecutor} is worth to be used on the given Image.
      * @param target the Image to check.
      * @return a boolean, true or false
      */
@@ -53,19 +55,19 @@ public final class ParallelFilterExecutor {
     }
 
     /**
-     * Given a ParallelizableImageTool, this function apply it to the target image in a parallel way.
+     * Given a ParallelizableImageTool, this function applies it to the target image in a parallel way.
      * @param tool the tool to apply to the image
      * @param target the image to update
-     * @return the image in which the tool has been applied.
+     * @return the resulting image in which the filter has been applied
      */
     public Image applyTool(final ParallelizableImageTool tool, final Image target) {
-        tool.inizializeFilter();
+        tool.inizializeTool();
         final int[][] pixels = target.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final CountDownLatch latch = new CountDownLatch(nSubtask);
         divideImage(target).stream().forEach(pair -> {
             exec.execute(() -> {
-                tool.executeFilter(pixels, newPixels, pair.getFirst(), pair.getSecond());
+                tool.executeTool(pixels, newPixels, pair.getFirst(), pair.getSecond());
                 latch.countDown();
             });
         });

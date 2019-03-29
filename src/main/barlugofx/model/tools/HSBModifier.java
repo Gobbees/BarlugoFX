@@ -12,11 +12,14 @@ import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- * This class handles the change of an image involving Hue, Saturation and Exposure (Brightness in HSB). This class accepts up
- * to three parameter: HUE, which must be a positive float number between -1 and 1, Saturation, which must be a float number between -1 and 1, and Exposure,
- * a float number between -1 and 1. By receiving more than one parameter, this class permits multiple changes to HSV limiting conversions,
- * resulting in more efficient changes.
+ * This class handles the change of an {@link Image} involving Hue, Saturation and
+ * Exposure (Brightness in HSB). This class accepts up to three parameter: HUE,
+ * which must be a positive float number between -1 and 1, Saturation, which
+ * must be a float number between -1 and 1, and Exposure, a float number between
+ * -1 and 1. By receiving more than one parameter, this class allows multiple
+ * changes to HSV limiting conversions, resulting in more efficient changes.
  *
+ * Eventual other value will result in an {@link IllegalStateException}.
  */
 public final class HSBModifier extends ImageToolImpl implements ParallelizableImageTool {
     private static final int MAX = 1;
@@ -41,7 +44,7 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
     }
 
     @Override
-    public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
+    public void executeTool(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 float[] hsv = new float[3];
@@ -56,7 +59,7 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
     }
 
     @Override
-    public void inizializeFilter() {
+    public void inizializeTool() {
         hue = super.getValueFromParameter(ParametersName.HUE, MIN, MAX, DEFAULT_VALUE);
         saturation = getValueFromParameter(ParametersName.SATURATION, MIN, MAX, DEFAULT_VALUE);
         exposure = getValueFromParameter(ParametersName.EXPOSURE, MIN, MAX, DEFAULT_VALUE);

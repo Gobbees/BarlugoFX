@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 /**
- * This class contains a series of utilites specific for Image class and that can be changed anytime.
+ * This class contains a series of utilities specific for Image class and that can be changed any time.
  *
  */
 public final class ImageUtils {
@@ -20,7 +20,7 @@ public final class ImageUtils {
     /**
      * Converts a matrix of pixels to a bufferedImage of TYPE 4BYTE ABGR.
      * NOTE that if you then want to print this image using something like ImageIo.write, this function will work only with
-     * file format supporting an alpha channel, like png.
+     * file format supporting an alpha channel, like .png .
      * @param input the image from which obtaining the bufferedImage.
      * @return the BufferedImage.
      */
@@ -70,13 +70,14 @@ public final class ImageUtils {
      * This method convert a matrix of pixels written as RGB into an equivalent
      * matrix of float value ins HSB, with H value being the [i][j][0], S value
      * [i][j][1] and B value [i][j][2].This functions uses the static method
-     * RGBtoHSB of java.awt.Color .
+     * RGBtoHSB.
      *
      * @param pixels the matrix to convert
      * @param begin  the point from which start the conversion.
      * @param end    the point at which stop the conversion.
      * @return the converted float matrix.
-     * @deprecated with big images it's better to instantiate the single pixel.
+     * @see Color
+     * @deprecated it's always better if you have to then get back to RGB to use one float at a time.
      */
     @Deprecated
     public static float[][][] rgbToHsb(final Point begin, final Point end, final int[]... pixels) {
@@ -91,16 +92,17 @@ public final class ImageUtils {
     }
 
     /**
-     * This method converts hsb values into a matrix of rgb pixels. The hsv values
+     * This method converts HSB values into a matrix of RGB pixels. The HSV values
      * has to be passed as a 3-D float array, in which the [i][j][0] value
      * corresponds to Hue, the [i][j][1] to Saturation and the [i][j][2] to
      * Brightness. Alpha value is taken from old pixels.
      *
      * @param pixelsHSB the float 3-D array that we need to convert.
-     * @param oldPixels the oldvalues from which take the alpha.
+     * @param oldPixels the old values from which take the alpha.
      * @param begin     the point from which start the conversion.
      * @param pixels    the matrix in which save the new values.
-     * @deprecated with big images it's better to instantiate the single pixel.
+     * @see Color
+     * @deprecated it's always better if you have to then get back to RGB to use one float at a time.
      */
     @Deprecated
     public static void hsbToRgb(final int[][] oldPixels, final int[][] pixels, final Point begin, final float[][]... pixelsHSB) {

@@ -1,7 +1,8 @@
 package barlugofx.model.tools.common;
 
 /**
- * This enum contains the possible parameters a filter can have. Note that each filter have a specific parameter that accepts.
+ * This enum contains the possible parameters a tool can have. Note that each tool have a specific parameter that accepts.
+ * You should look on each tool documentation in order to find what parameters are necessary.
  *
  */
 public enum ParametersName {
