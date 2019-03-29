@@ -16,7 +16,12 @@ public final class BarlugoFX extends Application {
      * @param args : input parameters
      */
     public static void main(final String... args) {
-        launch(args);
+        try {
+            launch(args);
+        } catch (Error heapThrowable) {
+            //TODO
+            heapThrowable.printStackTrace();
+        }
     }
     @Override
     public void start(final Stage stage) {
