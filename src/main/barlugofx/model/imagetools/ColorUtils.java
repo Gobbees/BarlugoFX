@@ -1,6 +1,5 @@
 package barlugofx.model.imagetools;
 
-import java.awt.Color;
 
 /**
  * A faster implementation of the one used by java.awt.color since it does not
