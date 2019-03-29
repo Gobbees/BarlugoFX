@@ -30,24 +30,15 @@ public final class ExportController implements ViewController {
     private static final double SLIDER_WIDTH_MULTIPLIER = 0.2;
     private static final double VERT_SEPARATOR_MULTIPLIER = 0.2;
     private static final double HORIZ_SEPARATOR_MULTIPLIER = 0.1;
-    @FXML
-    private HBox vboxMain;
-    @FXML
-    private JFXButton btnPNG;
-    @FXML
-    private JFXButton btnJPEG;
-    @FXML
-    private JFXButton btnGIF;
-    @FXML
-    private HBox hboxQuality;
-    @FXML
-    private JFXSlider sliderQuality;
-    @FXML
-    private Separator horizDistance;
-    @FXML
-    private Separator verticDistanceTop;
-    @FXML
-    private Separator verticDistanceBottom;
+    @FXML private HBox vboxMain;
+    @FXML private JFXButton btnPNG;
+    @FXML private JFXButton btnJPEG;
+    @FXML private JFXButton btnGIF;
+    @FXML private HBox hboxQuality;
+    @FXML private JFXSlider sliderQuality;
+    @FXML private Separator horizDistance;
+    @FXML private Separator verticDistanceTop;
+    @FXML private Separator verticDistanceBottom;
     private Stage stage;
     private AppManager manager;
 
