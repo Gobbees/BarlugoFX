@@ -1,5 +1,16 @@
 package barlugofx.view.preset;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import barlugofx.app.AppManager;
@@ -9,6 +20,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -28,6 +40,8 @@ public final class PresetController implements ViewController {
     private static final int MAX_HUNDRED = 100;
     private static final int MAX_RGB = 255;
     private static final int STEP = 1;
+    private static final int SUBSTRING_INDEX_NAME = 3;
+    private static final int SUBSTRING_INDEX_EXTENSION = 4;
     @FXML 
     private JFXButton btnSave;
     @FXML
@@ -86,9 +100,9 @@ public final class PresetController implements ViewController {
     private HBox hbxColors;
     @FXML
     private HBox hbxBlkWht;
-
     private Stage stage;
     private AppManager manager;
+    private Map<JFXCheckBox, List<Spinner<Integer>>> components;
     @Override
     public void setStage(final Stage stage) {
         this.stage = stage;
@@ -176,18 +190,95 @@ public final class PresetController implements ViewController {
         IntegerStringConverter.createFor(spnBlkR);
         IntegerStringConverter.createFor(spnBlkG);
         IntegerStringConverter.createFor(spnBlkB);
+        //
+        components = new LinkedHashMap<>();
+        components.put(chkExposure, Arrays.asList(spnExposure));
+        components.put(chkContrast, Arrays.asList(spnContrast));
+        components.put(chkBrightness, Arrays.asList(spnBrightness));
+        components.put(chkWbalance, Arrays.asList(spnWbalance));
+        components.put(chkSaturation, Arrays.asList(spnSaturation));
+        components.put(chkHue, Arrays.asList(spnHue));
+        components.put(chkVibrance, Arrays.asList(spnVibrance));
+        components.put(chkColors, Arrays.asList(spnColR, spnColG, spnColB));
+        components.put(chkBlkWht, Arrays.asList(spnBlkR, spnBlkG, spnBlkB));
     }
     /**
-     * Save selected filters and values on bps file.
+     *  * Save selected filters and values on bps file.
+     *
      */
-    @FXML
-    public void save() {
-    }
-    /**
-     * Close the preset gui.
-     */
-    @FXML
-    public void cancel() {
-    this.stage.close();
+	@FXML
+	public void save() {
+		final List<List<Spinner<Integer>>> valuesToSave = new ArrayList<>();
+		for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry: components.entrySet()) {
+			if (entry.getKey().isSelected()) {
+				valuesToSave.add(entry.getValue());
+				//UPDATE VALORI!!!
+			}
+		} 
+		if (valuesToSave.isEmpty()) {
+			System.out.println("Select at least one filter to save!");
+			return; 
+		}
+		final Properties filters = new Properties();
+		String filterName;
+		final String colBal = "ColR";
+		final String blkWht = "BlkR";
+		final List<Spinner<Integer>> savingList = valuesToSave.stream().flatMap(x -> x.stream()).collect(Collectors.toList());
+		savingList.forEach(x -> System.out.println(x));
+		for (int i = 0; i < savingList.size(); i++) {
+			filterName = savingList.get(i).getId().substring(SUBSTRING_INDEX_NAME);
+			filters.setProperty(filterName, savingList.get(i).getValue().toString());
+			if (filterName.equals(colBal) || filterName.equals(blkWht)) {
+				filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
+				filters.setProperty(filterName, savingList.get(i).getValue().toString());
+				filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
+				filters.setProperty(filterName, savingList.get(i).getValue().toString());
+			}
+		}
+        final File file = getFileFromDialog();
+        if (file != null) {
+            try {
+                checkManager();
+                manager.savePreset(filters, file);
+            } catch (IOException | InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+	}
+	
+	/**
+	 * Close the preset gui.
+	 */
+	@FXML
+	public void cancel() {
+		this.stage.close();
+	}
+	/*private void setToNearestLimit(final Spinner<Integer> spn) {
+        final IntegerSpinnerValueFactory s = (IntegerSpinnerValueFactory) spnBrightness.getValueFactory();
+        final int m = s.getMax();
+        //
+		if (spn.getValue() > m) {
+			System.out.println("p");
+		}
+	}*/
+	private File getFileFromDialog() {
+		final FileChooser choose = new FileChooser();
+		choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("BarlugoFX preset(.bps)", "*.bps"));
+		choose.setInitialFileName("New Preset" + ".bps");
+		File f = choose.showSaveDialog(stage);
+		try {
+			checkManager();
+			if (!f.getName().substring(f.getName().length() - SUBSTRING_INDEX_EXTENSION).equals(".bps")) {
+				f = new File(f.getAbsolutePath() + ".bps");
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
+		return f;
+	}
+    private void checkManager() throws IllegalStateException {
+        if (manager == null) {
+            throw new IllegalStateException("The manager is null");
+        }
     }
 }

@@ -2,6 +2,7 @@ package barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
@@ -95,4 +96,13 @@ public interface AppManager {
      * @throws ExecutionException if the operation has been interrupted unexpectedly
      */
     void exportImage(File file, float quality) throws IOException, InterruptedException, ExecutionException;
+    /**
+     * Save the selected filters in the requested file.
+     * @param filters the filters to be saved
+     * @param file the output file
+     * @throws IOException if the operation fails caused by an I/O error
+     * @throws InterruptedException if the operation has been interrupted unexpectedly
+     * @throws ExecutionException if the operation has been interrupted unexpectedly
+     */
+    void savePreset(Properties filters, File file) throws IOException, InterruptedException, ExecutionException;
 }

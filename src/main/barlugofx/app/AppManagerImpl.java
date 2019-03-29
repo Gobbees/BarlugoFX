@@ -2,6 +2,7 @@ package barlugofx.app;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
@@ -192,6 +193,9 @@ public final class AppManagerImpl implements AppManager {
        image = rotator.applyFilter(image);
        rotator.removeParameter(ParametersName.ANGLE);
     }
-
+	@Override
+	public void savePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
+		fileManager.writePreset(filters, file);
+	}
     //TODO history
 }

@@ -1,7 +1,11 @@
 package barlugofx.app;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -64,13 +68,28 @@ public final class IOManagerImpl implements IOManager {
             writer.dispose();
             return true;
         });
-    }
-    private void assignTaskToExecutor(final Callable<?> callable) throws IOException, InterruptedException, ExecutionException {
-        final Future<?> future = executor.submit(callable);
-        try {
-            future.get();
-        } catch (ExecutionException e) {
-            throw new IOException();
-        }
-    }
+	}
+
+	@Override
+	public void writePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
+		final OutputStream output = new FileOutputStream(file);
+		try {
+			filters.store(output, "Preset properties");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			output.close();
+		}
+	}
+
+	private void assignTaskToExecutor(final Callable<?> callable)
+			throws IOException, InterruptedException, ExecutionException {
+		final Future<?> future = executor.submit(callable);
+		try {
+			future.get();
+		} catch (ExecutionException e) {
+			throw new IOException();
+		}
+	}
+
 }
