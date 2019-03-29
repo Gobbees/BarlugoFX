@@ -76,7 +76,9 @@ public final class ImageUtils {
      * @param begin  the point from which start the conversion.
      * @param end    the point at which stop the conversion.
      * @return the converted float matrix.
+     * @deprecated with big images it's better to instantiate the single pixel.
      */
+    @Deprecated
     public static float[][][] rgbToHsb(final Point begin, final Point end, final int[]... pixels) {
         final float[][][] result = new float[end.y - begin.y][end.x - begin.x][3];
         for (int i = begin.y; i < end.y; i++) {
@@ -98,7 +100,9 @@ public final class ImageUtils {
      * @param oldPixels the oldvalues from which take the alpha.
      * @param begin     the point from which start the conversion.
      * @param pixels    the matrix in which save the new values.
+     * @deprecated with big images it's better to instantiate the single pixel.
      */
+    @Deprecated
     public static void hsbToRgb(final int[][] oldPixels, final int[][] pixels, final Point begin, final float[][]... pixelsHSB) {
         int iPixels;
         int jPixels;
