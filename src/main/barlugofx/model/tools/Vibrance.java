@@ -3,7 +3,7 @@ package barlugofx.model.tools;
 import java.awt.Color;
 import java.awt.Point;
 
-import barlugofx.model.imagetools.ColorManipulatorUtils;
+import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
@@ -49,9 +49,9 @@ public final class Vibrance extends ImageToolImpl implements ParallelizableImage
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 float[] hsb = new float[3];
-                final int red = ColorManipulatorUtils.getRed(pixels[i][j]);
-                final int green = ColorManipulatorUtils.getGreen(pixels[i][j]);
-                final int blue = ColorManipulatorUtils.getBlue(pixels[i][j]);
+                final int red = ColorUtils.getRed(pixels[i][j]);
+                final int green = ColorUtils.getGreen(pixels[i][j]);
+                final int blue = ColorUtils.getBlue(pixels[i][j]);
                 final float brightness = (red + green + blue) / 3;
                 final int maxColor = Integer.max(green, Integer.max(red, blue));
                 hsb = Color.RGBtoHSB(red, green, blue, hsb);

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imagetools.ColorManipulatorUtils;
+import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
@@ -45,8 +45,8 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 float[] hsv = new float[3];
-                hsv = Color.RGBtoHSB(ColorManipulatorUtils.getRed(pixels[i][j]), ColorManipulatorUtils.getGreen(pixels[i][j]),
-                        ColorManipulatorUtils.getGreen(pixels[i][j]), hsv);
+                hsv = Color.RGBtoHSB(ColorUtils.getRed(pixels[i][j]), ColorUtils.getGreen(pixels[i][j]),
+                        ColorUtils.getGreen(pixels[i][j]), hsv);
                 hsv[0] = hue == 0 ? hsv[0] : hsv[0] + hue; //truncate qui non e' necessario
                 hsv[1] = saturation == 0 ? hsv[1] : truncateSum(hsv[1], saturation);
                 hsv[2] = exposure == 0 ? hsv[2] : truncateSum(hsv[2], exposure);

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imagetools.ColorManipulatorUtils;
+import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
@@ -50,12 +50,12 @@ public final class BlackAndWhite extends ImageToolImpl implements Parallelizable
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
                 newPixels[i][j] = pixels[i][j];
-                final int newValue = (int) (redFactor * ColorManipulatorUtils.getRed(pixels[i][j])
-                        + greenFactor * ColorManipulatorUtils.getGreen(pixels[i][j])
-                        + blueFactor * ColorManipulatorUtils.getBlue(pixels[i][j]));
-                newPixels[i][j] = ColorManipulatorUtils.setRed(newPixels[i][j], newValue);
-                newPixels[i][j] = ColorManipulatorUtils.setGreen(newPixels[i][j], newValue);
-                newPixels[i][j] = ColorManipulatorUtils.setBlue(newPixels[i][j], newValue);
+                final int newValue = (int) (redFactor * ColorUtils.getRed(pixels[i][j])
+                        + greenFactor * ColorUtils.getGreen(pixels[i][j])
+                        + blueFactor * ColorUtils.getBlue(pixels[i][j]));
+                newPixels[i][j] = ColorUtils.setRed(newPixels[i][j], newValue);
+                newPixels[i][j] = ColorUtils.setGreen(newPixels[i][j], newValue);
+                newPixels[i][j] = ColorUtils.setBlue(newPixels[i][j], newValue);
             }
         }
     }

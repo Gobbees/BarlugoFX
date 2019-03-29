@@ -83,8 +83,8 @@ public final class ImageUtils {
         final float[][][] result = new float[end.y - begin.y][end.x - begin.x][3];
         for (int i = begin.y; i < end.y; i++) {
             for (int j = begin.x; j < end.x; j++) {
-                Color.RGBtoHSB(ColorManipulatorUtils.getRed(pixels[i][j]), ColorManipulatorUtils.getGreen(pixels[i][j]),
-                        ColorManipulatorUtils.getBlue(pixels[i][j]), result[i - begin.y][j - begin.x]);
+                Color.RGBtoHSB(ColorUtils.getRed(pixels[i][j]), ColorUtils.getGreen(pixels[i][j]),
+                        ColorUtils.getBlue(pixels[i][j]), result[i - begin.y][j - begin.x]);
             }
         }
         return result;
@@ -111,8 +111,8 @@ public final class ImageUtils {
             for (int j = 0; j < pixelsHSB[0].length; j++) {
                 jPixels = j + begin.x;
                 pixels[iPixels][jPixels] = Color.HSBtoRGB(pixelsHSB[i][j][0], pixelsHSB[i][j][1], pixelsHSB[i][j][2]);
-                pixels[iPixels][jPixels] = ColorManipulatorUtils.setAlpha(pixels[iPixels][jPixels],
-                        ColorManipulatorUtils.getAlpha(oldPixels[iPixels][jPixels]));
+                pixels[iPixels][jPixels] = ColorUtils.setAlpha(pixels[iPixels][jPixels],
+                        ColorUtils.getAlpha(oldPixels[iPixels][jPixels]));
             }
         }
     }
