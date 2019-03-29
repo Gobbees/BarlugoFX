@@ -12,7 +12,7 @@ import java.util.Set;
  *
  */
 public final class ImageImpl implements Image {
-    //hascode vars
+    //hashcode vars
     private static final int HASHCODEFIRST = 1231;
     private static final int HASHCODESECOND = 1237;
 
@@ -20,10 +20,10 @@ public final class ImageImpl implements Image {
     private static final int REDSHIFT = 16;
     private static final int GREENSHIFT = 8;
     private static final int ALPHASHIFT = 24;
-    private static final int ALPHAVALUE = 0xFF000000; // If the alpha channel is not present, this means that the alpha
-    // is 255, in a 32 bit
-    // integer, this means that the first 8 are at 1, which is exactly the number
-    // above
+    private static final int ALPHAVALUE = 0xFF000000;
+    // If the alpha channel is not present, this means that the alpha is 255, in a
+    // 32 bit integer, this means that the first 8 bit are at 1, which is exactly the
+    // number above
 
     private final int width;
     private final int height;
@@ -50,9 +50,9 @@ public final class ImageImpl implements Image {
     }
 
     /**
-     * Static factory method for building an Image.
+     * Static factory method for building an Image given a bufferdImage.
      *
-     * @param image the bufferedImage to startWith.
+     * @param image the bufferedImage from which building the image.
      * @return a new builded image.
      */
     public static Image buildFromBufferedImage(final BufferedImage image) {
@@ -64,8 +64,9 @@ public final class ImageImpl implements Image {
     }
 
     /**
-     * Builds an image starting from its matrix of pixels. Note that any successive modification on the pixels will result in a modification
-     * of the image.
+     * Builds an image starting from its matrix of pixels. Note that any successive
+     * modification on the pixels will result in a modification of the image.
+     *
      * @param pixels the matrix from which we build on
      * @return a new Image
      */
