@@ -1,11 +1,12 @@
 package barlugofx.model.tools;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import barlugofx.model.imagetools.ImageUtils;
+import barlugofx.model.imagetools.ColorManipulatorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
@@ -41,15 +42,17 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
 
     @Override
     public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
-        final float[][][] hsv = ImageUtils.rgbToHsb(begin, end, pixels);
-        for (int i = 0; i < hsv.length; i++) {
-            for (int j = 0; j < hsv[0].length; j++) {
-                hsv[i][j][0] = hue == 0 ? hsv[i][j][0] : hsv[i][j][0] + hue; //truncate qui non e' necessario
-                hsv[i][j][1] = saturation == 0 ? hsv[i][j][1] : truncateSum(hsv[i][j][1], saturation);
-                hsv[i][j][2] = exposure == 0 ? hsv[i][j][2] : truncateSum(hsv[i][j][2], exposure);
+        for (int i = begin.y; i < end.y; i++) {
+            for (int j = begin.x; j < end.x; j++) {
+                float[] hsv = new float[3];
+                hsv = Color.RGBtoHSB(ColorManipulatorUtils.getRed(pixels[i][j]), ColorManipulatorUtils.getGreen(pixels[i][j]),
+                        ColorManipulatorUtils.getGreen(pixels[i][j]), hsv);
+                hsv[0] = hue == 0 ? hsv[0] : hsv[0] + hue; //truncate qui non e' necessario
+                hsv[1] = saturation == 0 ? hsv[1] : truncateSum(hsv[1], saturation);
+                hsv[2] = exposure == 0 ? hsv[2] : truncateSum(hsv[2], exposure);
+                newPixels[i][j] = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
             }
         }
-        ImageUtils.hsbToRgb(pixels, newPixels, begin, hsv);
     }
 
     @Override
