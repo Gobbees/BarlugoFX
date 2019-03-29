@@ -187,8 +187,8 @@ public final class AppManagerImpl implements AppManager {
         fileManager.exportJPEGWithQuality(image, file, quality);
     }
     @Override
-    public void rotate(final int angle) {
-       rotator.addParameter(ParametersName.ANGLE, new ParameterImpl<Integer>(angle));
+    public void rotate(final double angle) {
+       rotator.addParameter(ParametersName.ANGLE, new ParameterImpl<Double>(angle));
        image = rotator.applyFilter(image);
        rotator.removeParameter(ParametersName.ANGLE);
     }

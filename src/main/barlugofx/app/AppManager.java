@@ -75,7 +75,7 @@ public interface AppManager {
      * Rotates the image by requested angle.
      * @param angle the requested angle
      */
-    void rotate(int angle);
+    void rotate(double angle);
 
     /**
      * Exports the image in the requested file and format.
