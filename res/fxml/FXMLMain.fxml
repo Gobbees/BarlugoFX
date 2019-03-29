@@ -86,13 +86,16 @@
 						<Menu mnemonicParsing="false" text="Tools">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="Crop" />
+								<MenuItem mnemonicParsing="false" text="Crop" onAction="#crop">
+								    <accelerator>
+                                        <KeyCodeCombination code="c" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
+                                    </accelerator>
+								</MenuItem>
 								<MenuItem mnemonicParsing="false" text="Rotate" onAction="#rotate">
 								    <accelerator>
                                         <KeyCodeCombination code="r" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
                                     </accelerator>
                                 </MenuItem>
-								<MenuItem mnemonicParsing="true" text="Undo"/>
 								<MenuItem mnemonicParsing="false" text="Apply .bps preset" />
 							</items>
 						</Menu>
@@ -143,9 +146,9 @@
 
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL" style="-fx-border-width: 0 0 0 0">
 					<items>
-						<ScrollPane fx:id="scpaneAdjs" >
+						<ScrollPane fitToWidth="true">
 							<content>
-								<VBox fx:id="vboxAdjs">
+								<VBox>
 									<children>
 									
 								       <TitledPane fx:id="tpaneLights" text="Lights" id="firstitlepane" style="-fx-border-width: 0 0 0 0">
