@@ -2,28 +2,29 @@ package barlugofx.model.imagetools;
 
 /**
  *
- * This class is a wrapper that expose only the necessary information about the image we need.
+ * The Image interface represents graphical images.
  *
  */
 public interface Image {
+
     /**
-     * A method returning the RGB value for each pixel of an image.
+     * This method allows to edit the underlying matrix of pixels in the image.
      * Note that the image is assumed (like it is commonly do) as a matrix containing a byte alpha (if present), a byte for blue,
      * a byte for green and a byte for red.
      * If the order is modified than any operation done on the matrix could retrieve unexpected result.
-     * @return a matrix width*height containing all the pixels.
+     * @return a matrix height * width containing all the pixels, where each int represents one pixel.
      */
     int[][] getImageRGBvalues();
 
     /**
-     * Return the width of the image.
-     * @return width.
+     * The width of the image.
+     * @return width the width of the image
      */
     int getWidth();
 
     /**
      * Return the height of the image.
-     * @return height.
+     * @return height the height of the image.
      */
     int getHeight();
 
