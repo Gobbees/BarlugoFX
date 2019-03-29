@@ -31,6 +31,7 @@ public final class ParallelTest {
     private final ParallelFilterExecutor exec = ParallelFilterExecutor.executor();
     private final Timer watch = new Timer();
     private static final float FLOAT_DEFAULT_VALUE = 0.9f;
+    private static final double DOUBLE_DEFAULT_VALUE = 0.9f;
     private static final int INT_DEFAULT_VALUE = 120;
 
     /**
@@ -58,8 +59,8 @@ public final class ParallelTest {
     @Test
     public void testBlackAndWait() {
         final ParallelizableImageTool bew = BlackAndWhite.createBlackAndWhite();
-        bew.addParameter(ParametersName.WBLUE, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
-        bew.addParameter(ParametersName.WRED, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+        bew.addParameter(ParametersName.WBLUE, new ParameterImpl<>(DOUBLE_DEFAULT_VALUE));
+        bew.addParameter(ParametersName.WRED, new ParameterImpl<>(DOUBLE_DEFAULT_VALUE));
         testTool(bew, "Black and White");
     }
 
@@ -128,7 +129,7 @@ public final class ParallelTest {
     }
 
     private Image buildImage() throws IOException {
-        final File file = new File("/Users/gg_mbpro/Downloads/Prova.jpg");
+        final File file = new File("/home/matteo/Desktop/Prova.jpg");
         final BufferedImage image = ImageIO.read(file);
         return ImageImpl.buildFromBufferedImage(image);
     }
