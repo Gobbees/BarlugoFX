@@ -1,9 +1,9 @@
 package barlugofx.model.tools;
 
+import java.awt.Color;
 import java.awt.Point;
 
 import barlugofx.model.imagetools.ColorManipulatorUtils;
-import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
@@ -46,22 +46,19 @@ public final class Vibrance extends ImageToolImpl implements ParallelizableImage
 
     @Override
     public void executeFilter(final int[][] pixels, final int[][] newPixels, final Point begin, final Point end) {
-        final float[][][] hsb = ImageUtils.rgbToHsb(begin, end, pixels);
-        int iPixels;
-        int jPixels;
-        for (int i = 0; i < hsb.length; i++) {
-            iPixels = i + begin.y;
-            for (int j = 0; j < hsb[0].length; j++) {
-                jPixels = j + begin.x;
-                float brightness = ColorManipulatorUtils.getRed(pixels[iPixels][jPixels])
-                        + ColorManipulatorUtils.getBlue(pixels[iPixels][jPixels]) + ColorManipulatorUtils.getGreen(pixels[iPixels][jPixels]);
-                brightness = brightness / 3;
-                final int maxColor = Integer.max(ColorManipulatorUtils.getRed(pixels[iPixels][jPixels]), Integer.max(
-                        ColorManipulatorUtils.getBlue(pixels[iPixels][jPixels]), ColorManipulatorUtils.getGreen(pixels[iPixels][jPixels])));
-                hsb[i][j][1] = truncateSum(hsb[i][j][1], (maxColor - brightness) * increment);
+        for (int i = begin.y; i < end.y; i++) {
+            for (int j = begin.x; j < end.x; j++) {
+                float[] hsb = new float[3];
+                final int red = ColorManipulatorUtils.getRed(pixels[i][j]);
+                final int green = ColorManipulatorUtils.getGreen(pixels[i][j]);
+                final int blue = ColorManipulatorUtils.getBlue(pixels[i][j]);
+                final float brightness = (red + green + blue) / 3;
+                final int maxColor = Integer.max(green, Integer.max(red, blue));
+                hsb = Color.RGBtoHSB(red, green, blue, hsb);
+                hsb[1] = truncateSum(hsb[1], (maxColor - brightness) * increment);
+                newPixels[i][j] = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
             }
         }
-        ImageUtils.hsbToRgb(pixels, newPixels, begin, hsb);
     }
 
     private float truncateSum(final float saturation, final float toAdd) {
