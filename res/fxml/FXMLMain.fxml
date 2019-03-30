@@ -32,12 +32,12 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane fx:id="bpaneMain"
+<BorderPane 
 	xmlns="http://javafx.com/javafx/8.0.1"
 	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
 	fx:controller="barlugofx.view.main.MainController">
 	<top>
-		<AnchorPane fx:id="apaneMenuBar" styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
+		<AnchorPane styleClass="anchor-pane" style="-fx-border-width: 0 0 0 0">
 			<children>
 				<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER" AnchorPane.bottomAnchor="0.0">
 					<menus>
