@@ -64,123 +64,60 @@ public final class MainController implements ViewController {
     //private constant fields
     private static final double RIGHT_COLUMN_MIN_MULTIPLIER = 0.15;
     private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.5;
-    //TODO avoid nullpointer on manager calls.
-    @FXML
-    private BorderPane bpaneMain;
-    @FXML
-    private AnchorPane apaneMenuBar;
-    @FXML
-    private MenuBar menuBar;
-    @FXML
-    private TextFlow tflowLogo;
-    @FXML
-    private SplitPane spaneMain;
-    @FXML
-    private BorderPane paneImage;
-    @FXML
-    private AnchorPane apaneImage;
-    @FXML
-    private ImageView iviewImage;
-    @FXML
-    private SplitPane spaneRightColumn;
-    @FXML
-    private ScrollPane scpaneAdjs;
-    @FXML
-    private VBox vboxAdjs;
-    @FXML
-    private TitledPane tpaneLights;
-    @FXML
-    private AnchorPane apaneExposure;
-    @FXML
-    private JFXSlider slExposure;
-    @FXML
-    private JFXTextField tfExposure;
-    @FXML
-    private AnchorPane apaneContrast;
-    @FXML
-    private JFXSlider slContrast;
-    @FXML
-    private JFXTextField tfContrast;
-    @FXML
-    private AnchorPane apaneBrightness;
-    @FXML
-    private JFXSlider slBrightness;
-    @FXML
-    private JFXTextField tfBrightness;
-    @FXML
-    private TitledPane tpaneColours;
-    @FXML
-    private AnchorPane apaneWhitebalance;
-    @FXML
-    private JFXSlider slWhitebalance;
-    @FXML
-    private JFXTextField tfWhitebalance;
-    @FXML
-    private AnchorPane apaneSaturation;
-    @FXML
-    private JFXSlider slSaturation;
-    @FXML
-    private JFXTextField tfSaturation;
-    @FXML
-    private AnchorPane apaneHue;
-    @FXML
-    private JFXSlider slHue;
-    @FXML
-    private JFXTextField tfHue;
-    @FXML
-    private AnchorPane apaneVibrance;
-    @FXML
-    private JFXSlider slVibrance;
-    @FXML
-    private JFXTextField tfVibrance;
-    @FXML
-    private TitledPane tpaneSC;
-    @FXML
-    private AnchorPane apaneSCR;
-    @FXML
-    private JFXSlider slSCR;
-    @FXML
-    private JFXTextField tfSCR;
-    @FXML
-    private AnchorPane apaneSCG;
-    @FXML
-    private JFXSlider slSCG;
-    @FXML
-    private JFXTextField tfSCG;
-    @FXML
-    private AnchorPane apaneSCB;
-    @FXML
-    private JFXSlider slSCB;
-    @FXML
-    private JFXTextField tfSCB;
-    @FXML
-    private JFXButton btnSCApply;
-    @FXML
-    private TitledPane tpaneBW;
-    @FXML
-    private AnchorPane apaneBWR;
-    @FXML
-    private JFXSlider slBWR;
-    @FXML
-    private JFXTextField tfBWR;
-    @FXML
-    private AnchorPane apaneBWG;
-    @FXML
-    private JFXSlider slBWG;
-    @FXML
-    private JFXTextField tfBWG;
-    @FXML
-    private AnchorPane apaneBWB;
-    @FXML
-    private JFXSlider slBWB;
-    @FXML
-    private JFXTextField tfBWB;
-    @FXML
-    private JFXButton btnBWApply;
-    private double initX;   //TODO TEMP
-    private double initY;
+    @FXML private MenuBar menuBar;
+    @FXML private TextFlow tflowLogo;
+    @FXML private SplitPane spaneMain;
+    @FXML private BorderPane paneImage;
+    @FXML private AnchorPane apaneImage;
+    @FXML private ImageView iviewImage;
+    @FXML private SplitPane spaneRightColumn;
+    @FXML private TitledPane tpaneLights;
+    @FXML private AnchorPane apaneExposure;
+    @FXML private JFXSlider slExposure;
+    @FXML private JFXTextField tfExposure;
+    @FXML private AnchorPane apaneContrast;
+    @FXML private JFXSlider slContrast;
+    @FXML private JFXTextField tfContrast;
+    @FXML private AnchorPane apaneBrightness;
+    @FXML private JFXSlider slBrightness;
+    @FXML private JFXTextField tfBrightness;
+    @FXML private TitledPane tpaneColours;
+    @FXML private AnchorPane apaneWhitebalance;
+    @FXML private JFXSlider slWhitebalance;
+    @FXML private JFXTextField tfWhitebalance;
+    @FXML private AnchorPane apaneSaturation;
+    @FXML private JFXSlider slSaturation;
+    @FXML private JFXTextField tfSaturation;
+    @FXML private AnchorPane apaneHue;
+    @FXML private JFXSlider slHue;
+    @FXML private JFXTextField tfHue;
+    @FXML private AnchorPane apaneVibrance;
+    @FXML private JFXSlider slVibrance;
+    @FXML private JFXTextField tfVibrance;
+    @FXML private TitledPane tpaneSC;
+    @FXML private AnchorPane apaneSCR;
+    @FXML private JFXSlider slSCR;
+    @FXML private JFXTextField tfSCR;
+    @FXML private AnchorPane apaneSCG;
+    @FXML private JFXSlider slSCG;
+    @FXML private JFXTextField tfSCG;
+    @FXML private AnchorPane apaneSCB;
+    @FXML private JFXSlider slSCB;
+    @FXML private JFXTextField tfSCB;
+    @FXML private JFXButton btnSCApply;
+    @FXML private TitledPane tpaneBW;
+    @FXML private AnchorPane apaneBWR;
+    @FXML private JFXSlider slBWR;
+    @FXML private JFXTextField tfBWR;
+    @FXML private AnchorPane apaneBWG;
+    @FXML private JFXSlider slBWG;
+    @FXML private JFXTextField tfBWG;
+    @FXML private AnchorPane apaneBWB;
+    @FXML private JFXSlider slBWB;
+    @FXML private JFXTextField tfBWB;
+    @FXML private JFXButton btnBWApply;
     private Scene scene;
-    private Stage st;
+    private Stage stage;
     private AppManager manager;
     private Optional<ExportView> exportView;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
@@ -193,12 +130,27 @@ public final class MainController implements ViewController {
     }
     @Override
     public void setStage(final Stage stage) {
-        st = stage;
-        this.scene = st.getScene();
+        this.stage = stage;
+        this.scene = stage.getScene();
         initComponentSize();
         initToolStatus();
         addListeners();
         addKeyboardShortcuts();
+        //stage closing
+        stage.setOnCloseRequest(ev -> {
+            if (exportView.isPresent()) {
+                exportView.get().closeStage();
+            }
+        });
+    }
+    /**
+     * This function sets the app manager (controller). It must be called in order to avoid future errors.
+     * @param manager the input manager
+     */
+    public void setManager(final AppManager manager) {
+        this.manager = manager;
+        updateImage();
+        setEventListeners();
     }
     /**
      * Export event triggered.
@@ -214,37 +166,15 @@ public final class MainController implements ViewController {
      * Rotate event triggered.
      */
     @FXML
-    public void rotate() { //TODO remove listeners on released, REFACTORING, IMPROVE CODE QUALITY
+    public void rotate() {
         scene.setCursor(Cursor.HAND);
-        double maxX = iviewImage.getFitWidth();
-        double maxY = iviewImage.getFitHeight();
-        apaneImage.setOnMousePressed(e -> {
-            System.out.println(e.getX() + " " + e.getY());
-            initX = e.getX();
-            initY = e.getY();
+        final EventHandler<MouseEvent> mPressed = e -> {
+            apaneImage.getChildren().clear();
+            triggeredRotate(e.getX(), e.getY());
             e.consume();
-        });
-        apaneImage.setOnMouseDragged(e -> {
-            apaneImage.getChildren().clear();
-            if (e.getX() < maxX && e.getY() < maxY && e.getY() > 0) {
-                Line line = new Line(initX, initY, e.getX(), e.getY());
-                line.setFill(null);
-                line.setStroke(Color.WHITE);
-                line.setStrokeWidth(3);
-                apaneImage.getChildren().add(line);
-            }
-        });
-        apaneImage.setOnMouseReleased(e -> {
-            Line l = ((Line) apaneImage.getChildren().get(0));
-            System.out.println(l.getEndX() + " " +  l.getEndY());
-            double m = (l.getEndY() - l.getStartY()) / (l.getEndX() - l.getStartX());
-            double theta = l.getEndY() > l.getStartY() ? Math.atan(-m) : Math.atan(m);
-            theta *= 180 / Math.PI;
-            manager.rotate((int) theta);
-            updateImage();
-            apaneImage.getChildren().clear();
-            scene.setCursor(Cursor.DEFAULT);
-        });
+            apaneImage.setOnMousePressed(null);
+        };
+        apaneImage.setOnMousePressed(mPressed);
     }
     /**
      * Preset event triggered.
@@ -254,32 +184,25 @@ public final class MainController implements ViewController {
         new PresetView(manager);
     }
     /**
-     * This function sets the app manager (controller). It must be called in order to avoid future errors.
-     * @param manager the input manager
+     * Crop event triggered.
      */
-    public void setManager(final AppManager manager) {
-        this.manager = manager;
-        updateImage();
-        setEventListeners();
+    @FXML
+    public void crop() {
+
     }
+
     private void updateImage() {
-        Platform.runLater(() -> {
-            iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
-            System.out.println(iviewImage.getFitWidth() + " " + iviewImage.getFitHeight());
-            iviewImage.setFitWidth(paneImage.getWidth());
-            iviewImage.setFitHeight(paneImage.getHeight());
-        });
+        iviewImage.setFitWidth(paneImage.getWidth());
+        iviewImage.setFitHeight(paneImage.getHeight());
+        iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
     }
     //this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
         tflowLogo.setVisible(true);
-        scpaneAdjs.setFitToWidth(true);
         spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setDividerPosition(0, spaneRightColumn.getWidth());
-        iviewImage.setFitWidth(paneImage.getWidth());
-        iviewImage.setFitHeight(paneImage.getHeight());
         spaneMain.setMaxWidth(scene.getWidth());
     }
     private void initToolStatus() {
@@ -484,24 +407,57 @@ public final class MainController implements ViewController {
                 iviewImage.setFitWidth((int) (spaneMain.getWidth() * nv.doubleValue()));
             }
         });
-        //stage closing
-        st.setOnCloseRequest(ev -> {
-            if (exportView.isPresent()) {
-                exportView.get().closeStage();
-            }
-        });
     }
     private void addKeyboardShortcuts() {
       KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
       Runnable runnable = () -> export();
       scene.getAccelerators().put(kc,  runnable);
       kc = new KeyCharacterCombination("f", KeyCombination.CONTROL_DOWN);
-      runnable = () -> st.setFullScreen(true);
+      runnable = () -> stage.setFullScreen(true);
       scene.getAccelerators().put(kc,  runnable);
     }
     private void checkManager() throws IllegalStateException {
         if (manager == null) {
             throw new IllegalStateException("The manager is null");
         }
+    }
+    private void triggeredRotate(final double initX, final double initY) {
+        double maxX = iviewImage.getFitWidth();
+        double maxY = iviewImage.getFitHeight();
+        final EventHandler<MouseEvent> mDragged = e -> {
+            apaneImage.getChildren().clear();
+            if (e.getX() < maxX && e.getY() < maxY && e.getY() > 0) {
+                Line line = new Line(initX, initY, e.getX(), e.getY());
+                line.setFill(Color.WHEAT);
+                line.setStroke(Color.WHITE);
+                line.setStrokeWidth(3);
+                apaneImage.getChildren().add(line);
+            }
+        };
+        apaneImage.setOnMouseDragged(mDragged);
+        final EventHandler<MouseEvent> mReleased = e -> {
+            scene.setCursor(Cursor.WAIT);
+            Line l = ((Line) apaneImage.getChildren().get(0));
+            apaneImage.getChildren().clear();
+            double m;
+            if (l.getEndY() < l.getStartY()) {
+                m = Math.abs(l.getEndY() - l.getStartY()) / (l.getEndX() - l.getStartX());
+            } else if (l.getEndX() < l.getStartX()) {
+                m = (l.getEndY() - l.getStartY()) / Math.abs(l.getEndX() - l.getStartX());
+            } else {
+                m = -(l.getEndY() - l.getStartY()) / (l.getEndX() - l.getStartX());
+            }
+            final double theta = Math.atan(m) * (180 / Math.PI);
+            new Thread(() -> {
+                manager.rotate(theta);
+                Platform.runLater(() -> {
+                    updateImage();
+                    scene.setCursor(Cursor.DEFAULT);
+                    apaneImage.setOnMouseDragged(null);
+                    apaneImage.setOnMouseReleased(null);
+                });
+            }).start();
+        };
+        apaneImage.setOnMouseReleased(mReleased);
     }
 }
