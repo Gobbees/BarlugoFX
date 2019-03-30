@@ -1,7 +1,6 @@
 package barlugofx.app;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -68,7 +67,7 @@ public final class IOManagerImpl implements IOManager {
             writer.dispose();
             return true;
         });
-	}
+    }
 
 	@Override
 	public void writePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {

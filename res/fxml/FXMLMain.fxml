@@ -146,7 +146,7 @@
 
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL" style="-fx-border-width: 0 0 0 0">
 					<items>
-						<ScrollPane fitToWidth="true">
+						<ScrollPane fitToWidth="true" styleClass="edge-to-edge">
 							<content>
 								<VBox>
 									<children>

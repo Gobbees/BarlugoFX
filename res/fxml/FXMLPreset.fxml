@@ -16,6 +16,7 @@
 <?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <?import java.lang.Integer?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ScrollPane?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.1"
 	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
@@ -33,171 +34,175 @@
 		</VBox>
 	</top>
 	<center>
-		<VBox id="ver-box">
-			<children>
-				<HBox id="hor-box">
+		<ScrollPane styleClass="edge-to-edge">
+			<content>
+				<VBox id="ver-box">
 					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox>
-								<JFXCheckBox fx:id="chkExposure" 
-								text="Exposure:     " id="preset-checkbox" />
-								<Spinner fx:id="spnExposure" editable="true" />
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox>
-								<JFXCheckBox fx:id="chkContrast" 
-									text="Contrast:     " id="preset-checkbox" />
-								<Spinner fx:id="spnContrast" editable="true" />
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox>
-								<JFXCheckBox fx:id="chkBrightness"
-									text="Brightness:   " id="preset-checkbox" />
-								<Spinner fx:id="spnBrightness" editable="true"/>
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox>
-								<JFXCheckBox fx:id="chkWbalance"
-									text="White balance:" id="preset-checkbox" />
-								<Spinner fx:id="spnWbalance" editable="true" />
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox>
-								<JFXCheckBox fx:id="chkSaturation"
-									text="Saturation:   " id="preset-checkbox" />
-								<Spinner fx:id="spnSaturation" editable="true" />
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox>
-								<JFXCheckBox fx:id="chkHue" text="Hue:          "
-									id="preset-checkbox" />
-								<Spinner fx:id="spnHue" editable="true" />
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox>
-								<JFXCheckBox fx:id="chkVibrance"
-									text="Vibrance:     " id="preset-checkbox" />
-								<Spinner fx:id="spnVibrance" editable="true" />
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<JFXCheckBox fx:id="chkColors"
-								text="Selective colors:" id="preset-checkbox" />
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox fx:id="hbxColors">
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
 								<VBox>
-									<Label text="R" id="preset-label" />
-									<Spinner fx:id="spnColR" editable="true" />
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox>
+										<JFXCheckBox fx:id="chkExposure"
+											text="Exposure:     " id="preset-checkbox" />
+										<Spinner fx:id="spnExposure" editable="true" />
+									</HBox>
 								</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
 								<VBox>
-									<Label text="G" id="preset-label" />
-									<Spinner fx:id="spnColG" editable="true" />
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox>
+										<JFXCheckBox fx:id="chkContrast"
+											text="Contrast:     " id="preset-checkbox" />
+										<Spinner fx:id="spnContrast" editable="true" />
+									</HBox>
 								</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
 								<VBox>
-									<Label text="B" id="preset-label" />
-									<Spinner fx:id="spnColB" editable="true" />
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox>
+										<JFXCheckBox fx:id="chkBrightness"
+											text="Brightness:   " id="preset-checkbox" />
+										<Spinner fx:id="spnBrightness" editable="true" />
+									</HBox>
 								</VBox>
-							</HBox>
-						</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
+								<VBox>
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox>
+										<JFXCheckBox fx:id="chkWbalance"
+											text="White balance:" id="preset-checkbox" />
+										<Spinner fx:id="spnWbalance" editable="true" />
+									</HBox>
+								</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
+								<VBox>
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox>
+										<JFXCheckBox fx:id="chkSaturation"
+											text="Saturation:   " id="preset-checkbox" />
+										<Spinner fx:id="spnSaturation" editable="true" />
+									</HBox>
+								</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
+								<VBox>
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox>
+										<JFXCheckBox fx:id="chkHue" text="Hue:          "
+											id="preset-checkbox" />
+										<Spinner fx:id="spnHue" editable="true" />
+									</HBox>
+								</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
+								<VBox>
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox>
+										<JFXCheckBox fx:id="chkVibrance"
+											text="Vibrance:     " id="preset-checkbox" />
+										<Spinner fx:id="spnVibrance" editable="true" />
+									</HBox>
+								</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
+								<VBox>
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<JFXCheckBox fx:id="chkColors"
+										text="Selective colors:" id="preset-checkbox" />
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox fx:id="hbxColors">
+										<VBox>
+											<Label text="R" id="preset-label" />
+											<Spinner fx:id="spnColR" editable="true" />
+										</VBox>
+										<VBox>
+											<Label text="G" id="preset-label" />
+											<Spinner fx:id="spnColG" editable="true" />
+										</VBox>
+										<VBox>
+											<Label text="B" id="preset-label" />
+											<Spinner fx:id="spnColB" editable="true" />
+										</VBox>
+									</HBox>
+								</VBox>
+							</children>
+						</HBox>
+						<HBox id="hor-box">
+							<children>
+								<Separator fx:id="leftSep" orientation="horizontal"
+									visible="false" />
+								<VBox>
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<JFXCheckBox fx:id="chkBlkWht"
+										text="Black n white:" id="preset-checkbox" />
+									<Separator fx:id="verticSep" orientation="vertical"
+										visible="false" />
+									<HBox fx:id="hbxBlkWht">
+										<VBox>
+											<Label text="R" id="preset-label" />
+											<Spinner fx:id="spnBlkR" editable="true" />
+										</VBox>
+										<VBox>
+											<Label text="G" id="preset-label" />
+											<Spinner fx:id="spnBlkG" editable="true" />
+										</VBox>
+										<VBox>
+											<Label text="B" id="preset-label" />
+											<Spinner fx:id="spnBlkB" editable="true" />
+										</VBox>
+									</HBox>
+								</VBox>
+							</children>
+						</HBox>
 					</children>
-				</HBox>
-				<HBox id="hor-box">
-					<children>
-						<Separator fx:id="leftSep" orientation="horizontal"
-							visible="false" />
-						<VBox>
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<JFXCheckBox fx:id="chkBlkWht" text="Black n white:"
-								id="preset-checkbox" />
-							<Separator fx:id="verticSep" orientation="vertical"
-								visible="false" />
-							<HBox fx:id="hbxBlkWht">
-								<VBox>
-									<Label text="R" id="preset-label" />
-									<Spinner fx:id="spnBlkR" editable="true" />
-								</VBox>
-								<VBox>
-									<Label text="G" id="preset-label" />
-									<Spinner fx:id="spnBlkG" editable="true" />
-								</VBox>
-								<VBox>
-									<Label text="B" id="preset-label" />
-									<Spinner fx:id="spnBlkB" editable="true" />
-								</VBox>
-							</HBox>
-						</VBox>
-					</children>
-				</HBox>
-			</children>
-		</VBox>
+				</VBox>
+			</content>
+		</ScrollPane>
 	</center>
 	<bottom>
 		<HBox>

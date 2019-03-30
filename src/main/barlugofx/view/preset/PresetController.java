@@ -13,9 +13,12 @@ import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+
 import barlugofx.app.AppManager;
 import barlugofx.view.ViewController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
@@ -24,8 +27,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * This class manages the view events. IMPORTANT: set the app manager with setManager() function.
- * Creating a PresetController object is useless and it probably will cause some sort of exception.
+ * This class manages the view events. IMPORTANT: set the app manager with
+ * setManager() function. Creating a PresetController object is useless and it
+ * probably will cause some sort of exception.
  */
 public final class PresetController implements ViewController {
     private static final double BTN_WIDTH_MULTIPLIER = 0.5;
@@ -42,7 +46,7 @@ public final class PresetController implements ViewController {
     private static final int STEP = 1;
     private static final int SUBSTRING_INDEX_NAME = 3;
     private static final int SUBSTRING_INDEX_EXTENSION = 4;
-    @FXML 
+    @FXML
     private JFXButton btnSave;
     @FXML
     private JFXButton btnCancel;
@@ -103,13 +107,17 @@ public final class PresetController implements ViewController {
     private Stage stage;
     private AppManager manager;
     private Map<JFXCheckBox, List<Spinner<Integer>>> components;
+
     @Override
     public void setStage(final Stage stage) {
         this.stage = stage;
         initComponents();
-        }
+    }
+
     /**
-     * This function sets the app manager (controller). It must be called in order to avoid future errors.
+     * This function sets the app manager (controller). It must be called in order
+     * to avoid future errors.
+     * 
      * @param manager the input manager
      */
     public void setManager(final AppManager manager) {
@@ -202,39 +210,46 @@ public final class PresetController implements ViewController {
         components.put(chkColors, Arrays.asList(spnColR, spnColG, spnColB));
         components.put(chkBlkWht, Arrays.asList(spnBlkR, spnBlkG, spnBlkB));
     }
+
     /**
-     *  * Save selected filters and values on bps file.
+     * * Save selected filters and values on bps file.
      *
      */
-	@FXML
-	public void save() {
-		final List<List<Spinner<Integer>>> valuesToSave = new ArrayList<>();
-		for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry: components.entrySet()) {
-			if (entry.getKey().isSelected()) {
-				valuesToSave.add(entry.getValue());
-				//UPDATE VALORI!!!
-			}
-		} 
-		if (valuesToSave.isEmpty()) {
-			System.out.println("Select at least one filter to save!");
-			return; 
-		}
-		final Properties filters = new Properties();
-		String filterName;
-		final String colBal = "ColR";
-		final String blkWht = "BlkR";
-		final List<Spinner<Integer>> savingList = valuesToSave.stream().flatMap(x -> x.stream()).collect(Collectors.toList());
-		savingList.forEach(x -> System.out.println(x));
-		for (int i = 0; i < savingList.size(); i++) {
-			filterName = savingList.get(i).getId().substring(SUBSTRING_INDEX_NAME);
-			filters.setProperty(filterName, savingList.get(i).getValue().toString());
-			if (filterName.equals(colBal) || filterName.equals(blkWht)) {
-				filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
-				filters.setProperty(filterName, savingList.get(i).getValue().toString());
-				filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
-				filters.setProperty(filterName, savingList.get(i).getValue().toString());
-			}
-		}
+    @FXML
+    public void save() {
+        final List<List<Spinner<Integer>>> valuesToSave = new ArrayList<>();
+        for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry : components.entrySet()) {
+            if (entry.getKey().isSelected()) {
+                valuesToSave.add(entry.getValue());
+                // UPDATE VALORI!!!
+            }
+        }
+        if (valuesToSave.isEmpty()) {
+            //System.out.println("Select at least one filter to save!");
+            final Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Select at least one filter to save!");
+            alert.showAndWait();
+            return;
+        }
+        final Properties filters = new Properties();
+        String filterName;
+        final String colBal = "ColR";
+        final String blkWht = "BlkR";
+        final List<Spinner<Integer>> savingList = valuesToSave.stream().flatMap(x -> x.stream())
+                .collect(Collectors.toList());
+        savingList.forEach(x -> System.out.println(x));
+        for (int i = 0; i < savingList.size(); i++) {
+            filterName = savingList.get(i).getId().substring(SUBSTRING_INDEX_NAME);
+            filters.setProperty(filterName, savingList.get(i).getValue().toString());
+            if (filterName.equals(colBal) || filterName.equals(blkWht)) {
+                filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
+                filters.setProperty(filterName, savingList.get(i).getValue().toString());
+                filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
+                filters.setProperty(filterName, savingList.get(i).getValue().toString());
+            }
+        }
         final File file = getFileFromDialog();
         if (file != null) {
             try {
@@ -244,38 +259,38 @@ public final class PresetController implements ViewController {
                 e.printStackTrace();
             }
         }
-	}
-	
-	/**
-	 * Close the preset gui.
-	 */
-	@FXML
-	public void cancel() {
-		this.stage.close();
-	}
-	/*private void setToNearestLimit(final Spinner<Integer> spn) {
-        final IntegerSpinnerValueFactory s = (IntegerSpinnerValueFactory) spnBrightness.getValueFactory();
-        final int m = s.getMax();
-        //
-		if (spn.getValue() > m) {
-			System.out.println("p");
-		}
-	}*/
-	private File getFileFromDialog() {
-		final FileChooser choose = new FileChooser();
-		choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("BarlugoFX preset(.bps)", "*.bps"));
-		choose.setInitialFileName("New Preset" + ".bps");
-		File f = choose.showSaveDialog(stage);
-		try {
-			checkManager();
-			if (!f.getName().substring(f.getName().length() - SUBSTRING_INDEX_EXTENSION).equals(".bps")) {
-				f = new File(f.getAbsolutePath() + ".bps");
-			}
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		}
-		return f;
-	}
+    }
+
+    /**
+     * Close the preset gui.
+     */
+    @FXML
+    public void cancel() {
+        this.stage.close();
+    }
+
+    /*
+     * private void setToNearestLimit(final Spinner<Integer> spn) { final
+     * IntegerSpinnerValueFactory s = (IntegerSpinnerValueFactory)
+     * spnBrightness.getValueFactory(); final int m = s.getMax(); // if
+     * (spn.getValue() > m) { System.out.println("p"); } }
+     */
+    private File getFileFromDialog() {
+        final FileChooser choose = new FileChooser();
+        choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("BarlugoFX preset(.bps)", "*.bps"));
+        choose.setInitialFileName("New Preset" + ".bps");
+        File f = choose.showSaveDialog(stage);
+        try {
+            checkManager();
+            if (!f.getName().substring(f.getName().length() - SUBSTRING_INDEX_EXTENSION).equals(".bps")) {
+                f = new File(f.getAbsolutePath() + ".bps");
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
     private void checkManager() throws IllegalStateException {
         if (manager == null) {
             throw new IllegalStateException("The manager is null");
