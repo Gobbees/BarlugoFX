@@ -53,7 +53,8 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
                 hsv[0] = hue == 0 ? hsv[0] : hsv[0] + hue; //truncate qui non e' necessario
                 hsv[1] = saturation == 0 ? hsv[1] : truncateSum(hsv[1], saturation);
                 hsv[2] = exposure == 0 ? hsv[2] : truncateSum(hsv[2], exposure);
-                newPixels[i][j] = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
+				newPixels[i][j] = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
+				newPixels[i][j] = ColorUtils.setAlpha(newPixels[i][j], ColorUtils.getAlpha(pixels[i][j]));
             }
         }
     }
