@@ -10,6 +10,7 @@ import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
+import barlugofx.model.tools.Cropper;
 import barlugofx.model.tools.HSBModifier;
 import barlugofx.model.tools.Rotator;
 import barlugofx.model.tools.SelectiveRGBChanger;
@@ -33,14 +34,14 @@ public final class AppManagerImpl implements AppManager {
     private static final float BW_SHIFTER = 0.8f;
 
     private Image image;
-    //tools
+    //Tools
     private final ParallelizableImageTool hsb;
     private final ParallelizableImageTool contrast;
     private final ParallelizableImageTool brightness;
     private final ImageTool wb;
     private final ParallelizableImageTool srgb;
     private final ParallelizableImageTool bw;
-    //private final Cropper cropper;
+    private final ImageTool cropper;
     private final ImageTool rotator;
     private final ParallelizableImageTool vibrance;
     private final IOManager fileManager;
@@ -60,7 +61,7 @@ public final class AppManagerImpl implements AppManager {
         wb = WhiteBalance.createWhiteBalance();
         srgb = SelectiveRGBChanger.createSelective();
         bw = BlackAndWhite.createBlackAndWhite();
-        //cropper = Cropper.createCropper();
+        cropper = Cropper.createCropper();
         rotator = Rotator.createRotator();
         vibrance = Vibrance.createVibrance();
         executor = ParallelFilterExecutor.executor();
@@ -193,9 +194,21 @@ public final class AppManagerImpl implements AppManager {
        image = rotator.applyFilter(image);
        rotator.removeParameter(ParametersName.ANGLE);
     }
-	@Override
-	public void savePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
-		fileManager.writePreset(filters, file);
-	}
+    @Override
+    public void crop(final int x1, final int y1, final int x2, final int y2) {
+        cropper.addParameter(ParametersName.X1, new ParameterImpl<Integer>(x1));
+        cropper.addParameter(ParametersName.X2, new ParameterImpl<Integer>(x2));
+        cropper.addParameter(ParametersName.Y1, new ParameterImpl<Integer>(y1));
+        cropper.addParameter(ParametersName.Y2, new ParameterImpl<Integer>(y2));
+        image = cropper.applyFilter(image);
+        cropper.removeParameter(ParametersName.X1);
+        cropper.removeParameter(ParametersName.X2);
+        cropper.removeParameter(ParametersName.Y1);
+        cropper.removeParameter(ParametersName.Y2);
+    }
+    @Override
+    public void savePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
+        fileManager.writePreset(filters, file);
+    }
     //TODO history
 }

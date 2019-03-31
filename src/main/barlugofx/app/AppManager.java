@@ -77,7 +77,14 @@ public interface AppManager {
      * @param angle the requested angle
      */
     void rotate(double angle);
-
+    /**
+     * Crops the image based on coordinates.
+     * @param x1 the topleft x coordinate
+     * @param y1 the topleft y coordinate
+     * @param x2 the bottomright x coordinate
+     * @param y2 the bottomright y coordinate
+     */
+    void crop(int x1, int y1, int x2, int y2);
     /**
      * Exports the image in the requested file and format.
      * @param file the output file
