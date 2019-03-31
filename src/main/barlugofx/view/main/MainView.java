@@ -58,18 +58,16 @@ public class MainView extends AbstractView<MainController> {
                 //this is performed after the animation finish because if not the view is closed too strongly.
                 final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, Toolkit.getDefaultToolkit().getScreenSize());
                 stageTimeline.setOnFinished(timelineEvent -> {
-                    final FadeTransition mainIn = AnimationUtils.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());
                     this.getStage().setScene(this.getScene());
                     Platform.runLater(() -> {
-                    mainIn.play();
-                    //calls the controller setStage function after the scene set because I need the components sizes on the screen, and they are initialized only with the new scene set
-                    this.getController().setStage(this.getStage());
-                    this.getController().setManager(manager);
+                        //calls the controller setStage function after the scene set because I need the components sizes on the screen, 
+                        //and they are initialized only with the new scene set
+                        this.getController().setStage(this.getStage());
+                        this.getController().setManager(manager);
                     });
                 });
                 Platform.runLater(() -> { 
                     stageTimeline.play();
-                    this.getStage().show();
                 });
             });
             Platform.runLater(() -> loadingOut.play());
