@@ -22,7 +22,6 @@ public class LoadingView extends AbstractView<LoadingController> {
      */
     public LoadingView(final Stage stage) {
         super("BarlugoFX", "file:res/img/logo.png", stage, new Dimension((int) stage.getScene().getWidth(), (int) stage.getScene().getHeight()));
-        this.getStage().setResizable(false);
         try {
             this.loadFXML("file:res/fxml/FXMLLoading.fxml");
         } catch (IOException e) {

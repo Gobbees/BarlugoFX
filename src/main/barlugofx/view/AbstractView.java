@@ -30,7 +30,7 @@ public abstract class AbstractView<T extends ViewController> {
      * @param dim scene dimension
      */
     public AbstractView(final String stageName, final String iconPath, final Stage stage, final Dimension dim) {
-        this.sceneDims = dim;
+    	this.sceneDims = dim;
         this.stage = stage;
         this.stage.setTitle(stageName);
         this.stage.getIcons().add(new Image(iconPath));
