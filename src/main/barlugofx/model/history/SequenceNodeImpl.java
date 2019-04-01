@@ -23,6 +23,15 @@ public class SequenceNodeImpl implements SequenceNode {
      * @param startImage c.
      */
     public SequenceNodeImpl(final String nodeName, final ImageTool tool, final Image startImage) {
+        if (nodeName == null) {
+            throw new java.lang.IllegalArgumentException("Name reference is null");
+        }
+        if (tool == null) {
+            throw new java.lang.IllegalArgumentException("Tool reference is null");
+        }
+        if (startImage == null) {
+            throw new java.lang.IllegalArgumentException("startImage reference is null");
+        }
         this.startImage = startImage;
         enabled = true;
         this.nodeName = nodeName;
@@ -43,7 +52,7 @@ public class SequenceNodeImpl implements SequenceNode {
     @Override
     public void setStartImage(final Image startImage) {
         if (startImage == null) {
-            // TODO throw IllegalArgumentException
+            throw new java.lang.IllegalArgumentException("Image null reference");
         }
         this.startImage = startImage;
     }
@@ -86,7 +95,7 @@ public class SequenceNodeImpl implements SequenceNode {
     @Override
     public void setNodeName(final String name) {
         if (name == null || name.length() == 0) {
-            // TODO throw IllegalArgumentException
+            throw new java.lang.IllegalArgumentException("nodeName is either null or empty");
         }
         nodeName = name;
     }

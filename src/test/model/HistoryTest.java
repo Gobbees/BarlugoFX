@@ -3,6 +3,7 @@ package model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import barlugofx.model.history.ToolLimitReachedException;
 import barlugofx.model.history.History;
 import barlugofx.model.history.HistoryImpl;
 import barlugofx.model.history.SequenceNode;
@@ -61,17 +62,42 @@ public final class HistoryTest {
      */
     @Test
     public void testWorking() {
-        final History hist = new HistoryImpl();
-        hist.addTool(new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+        final HistoryImpl hist = new HistoryImpl();
+        try {
+            hist.addTool(new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+            Assert.assertTrue(true);
+        } catch (final IllegalArgumentException e) {
+            Assert.fail("I should be able to add the tool");
+        } catch (final Exception e) {
+            Assert.fail("I should be able to add the tool.");
+        }
+
         try {
             hist.addTool(new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.fail("I can't add two filter with the same name");
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
+        } catch (final Exception e) {
+            Assert.assertTrue(true);
         }
-        hist.addTool(new SequenceNodeImpl("CASA", DEFAULT_TOOL, DEFAULT_IMAGE));
+
+        try {
+            hist.addTool(new SequenceNodeImpl("CASA", DEFAULT_TOOL, DEFAULT_IMAGE));
+            Assert.assertTrue(true);
+        } catch (final ToolLimitReachedException e) {
+            Assert.fail("I should be able to add the tool.");
+        } catch (final IllegalArgumentException e) {
+            Assert.fail("I should be able to add the tool.");
+        }
         Assert.assertTrue(hist.findByName(DEFAULT_NAME) == 0);
+
+        // debuggg
+        System.out.println(hist.nodeNamesToString());
+
         hist.deleteTool(0);
+
+        System.out.println(hist.nodeNamesToString());
+
         Assert.assertTrue(hist.findByName(DEFAULT_NAME) == -1);
         Assert.assertTrue(hist.findByName("CASA") == 0);
         hist.disableTool(0);
@@ -86,7 +112,12 @@ public final class HistoryTest {
         Assert.assertTrue(hist.isToolEnabled(0));
 
         DEFAULT_TOOL.addParameter(ParametersName.WRED, new ParameterImpl<>(10));
-        hist.addTool(new SequenceNodeImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
+        try {
+            hist.addTool(new SequenceNodeImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
+            Assert.assertTrue(true);
+        } catch (final ToolLimitReachedException e) {
+            Assert.fail("I should be able to add the tool.");
+        }
         Assert.assertTrue(hist.getValue(1, ParametersName.WRED).isPresent());
         Assert.assertFalse(hist.getValue(1, ParametersName.ANGLE).isPresent());
         try {
@@ -104,8 +135,12 @@ public final class HistoryTest {
     public void testEncapsulation() {
         final History hist = new HistoryImpl();
         final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        hist.addTool(node);
+        try {
+            hist.addTool(node);
+        } catch (final ToolLimitReachedException e) {
+            Assert.fail("I should be able to add tool.");
+        }
         node.setNodeName("CASSARO"); //modifiche fuori dalla sequence non devono riflettersi sulla History.
-        Assert.assertFalse(hist.findByName("CASSARO") == 0);
+        Assert.assertTrue(hist.findByName("CASSARO") == -1);
     }
 }

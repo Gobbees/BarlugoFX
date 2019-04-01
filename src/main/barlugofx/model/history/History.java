@@ -16,8 +16,10 @@ public interface History {
      * 
      * @param node
      * Sequence node you want to add.
+     * @throws ToolLimitReachedException
+     * when you try to add a tool and the history is already full.
      */
-    void addTool(SequenceNode node);
+    void addTool(SequenceNode node) throws ToolLimitReachedException;
 
     /**
      * 

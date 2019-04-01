@@ -23,14 +23,19 @@ public class HistoryImpl implements History {
      * @see barlugofx.model.history.History#addFilter(barlugofx.model.history.SequenceNode)
      */
     @Override
-    public void addTool(final SequenceNode node) {
+    public void addTool(final SequenceNode node) throws ToolLimitReachedException {
         if (node == null) {
-            // TODO throw
+            throw new java.lang.IllegalArgumentException("Node reference is null");
         }
-        if (this.nodes.size() < 16) {
-            this.nodes.add(node);
-            this.nameMap.put(node.getNodeName(), this.nodes.size());
+        if (this.nameMap.containsKey(node.getNodeName())) {
+            throw new java.lang.IllegalArgumentException("Node name is already in use");
         }
+        if (this.nodes.size() >= HistoryImpl.TOOL_LIMIT) {
+            throw new ToolLimitReachedException("History is full, can't add any more tools");
+        }
+
+        this.nameMap.put(node.getNodeName(), this.nodes.size());
+        this.nodes.add(node);
     }
 
     /* (non-Javadoc)
@@ -38,11 +43,15 @@ public class HistoryImpl implements History {
      */
     @Override
     public void deleteTool(final int index) {
-        if (index < 0 || index > this.nodes.size()) {
-            // throw
+        if (index < 0 || index >= this.nodes.size()) {
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
         this.nameMap.remove(this.nodes.get(index).getNodeName());
         this.nodes.remove(index);
+        // updating indexes into the map
+        for (int i = 0; i < this.nodes.size(); i++) {
+            this.nameMap.replace(this.nodes.get(i).getNodeName(), i);
+        }
     }
 
     /* (non-Javadoc)
@@ -50,8 +59,8 @@ public class HistoryImpl implements History {
      */
     @Override
     public void disableTool(final int index) {
-        if (index < 0 || index > this.nodes.size()) {
-            // throw
+        if (index < 0 || index >= this.nodes.size()) {
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
         this.nodes.get(index).disable();
     }
@@ -61,8 +70,8 @@ public class HistoryImpl implements History {
      */
     @Override
     public void enableTool(final int index) {
-        if (index < 0 || index > this.nodes.size()) {
-            // TODO throw
+        if (index < 0 || index >= this.nodes.size()) {
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
         this.nodes.get(index).enable();
     }
@@ -72,7 +81,11 @@ public class HistoryImpl implements History {
      */
     @Override
     public int findByName(final String toolName) {
-        return this.nameMap.get(toolName);
+        Integer index = this.nameMap.get(toolName);
+        if (index == null) {
+            return -1;
+        }
+        return (int) index;
     }
 
     /* (non-Javadoc)
@@ -80,11 +93,15 @@ public class HistoryImpl implements History {
      */
     @Override
     public void editTool(final int index, final SequenceNode node) {
-        if (index < 0 || index > this.nodes.size()) {
-            // TODO throw
+        if (index < 0 || index >= this.nodes.size()) {
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
-        this.nodes.remove(index);
+        if (node == null) {
+            throw new java.lang.IllegalArgumentException("node reference is null");
+        }
+        this.deleteTool(index);
         this.nodes.add(index, node);
+        this.nameMap.put(node.getNodeName(), index);
     }
 
     /* (non-Javadoc)
@@ -92,8 +109,11 @@ public class HistoryImpl implements History {
      */
     @Override
     public Optional<Parameter<? extends Number>> getValue(final int index, final ParametersName name) {
-        if (index < 0 || index > this.nodes.size()) {
-            // TODO throw
+        if (index < 0 || index >= this.nodes.size()) {
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+        }
+        if (name == null) {
+            throw new java.lang.IllegalArgumentException("name reference is null");
         }
         return this.nodes.get(index).getTool().getParameter(name);
     }
@@ -121,10 +141,21 @@ public class HistoryImpl implements History {
      */
     @Override
     public boolean isToolEnabled(final int index) {
-        if (index < 0 || index > this.nodes.size()) {
-            // TODO throw
+        if (index < 0 || index >= this.nodes.size()) {
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
         return this.nodes.get(index).isEnabled();
     }
 
+    /**
+     * 
+     * @return string representation of nodes array
+     */
+    public String nodeNamesToString() {
+        String res = "";
+        for (int i = 0; i < this.nodes.size(); i++) {
+            res = res + "[" + i + "]" + this.nodes.get(i).getNodeName() + ",";
+        }
+        return res;
+    }
 }
