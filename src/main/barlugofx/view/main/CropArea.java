@@ -52,7 +52,7 @@ public class CropArea {
         topLeft = createPoint(startX, startY, Cursor.NW_RESIZE);
         topRight = createPoint(startX + width, startY, Cursor.NE_RESIZE);
         bottomLeft = createPoint(startX, startY + height, Cursor.SW_RESIZE);
-        bottomRight = createPoint(startX + height, startY + width, Cursor.SE_RESIZE);
+        bottomRight = createPoint(startX + width, startY + height, Cursor.SE_RESIZE);
         //mid points init
         midTop = createPoint(startX + width / 2, startY, Cursor.N_RESIZE);
         midRight = createPoint(startX + width, startY + height / 2, Cursor.E_RESIZE);
