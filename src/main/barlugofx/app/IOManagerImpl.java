@@ -69,26 +69,26 @@ public final class IOManagerImpl implements IOManager {
         });
     }
 
-	@Override
-	public void writePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
-		final OutputStream output = new FileOutputStream(file);
-		try {
-			filters.store(output, "Preset properties");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			output.close();
-		}
-	}
+    @Override
+    public void writePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
+        final OutputStream output = new FileOutputStream(file);
+        try {
+            filters.store(output, "Preset properties");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            output.close();
+        }
+    }
 
-	private void assignTaskToExecutor(final Callable<?> callable)
-			throws IOException, InterruptedException, ExecutionException {
-		final Future<?> future = executor.submit(callable);
-		try {
-			future.get();
-		} catch (ExecutionException e) {
-			throw new IOException();
-		}
-	}
+    private void assignTaskToExecutor(final Callable<?> callable)
+            throws IOException, InterruptedException, ExecutionException {
+        final Future<?> future = executor.submit(callable);
+        try {
+            future.get();
+        } catch (ExecutionException e) {
+            throw new IOException();
+        }
+    }
 
 }

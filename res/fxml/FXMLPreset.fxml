@@ -154,7 +154,7 @@
 										text="Selective colors:" id="preset-checkbox" />
 									<Separator fx:id="verticSep" orientation="vertical"
 										visible="false" />
-									<HBox fx:id="hbxColors">
+									<HBox>
 										<VBox>
 											<Label text="R" id="preset-label" />
 											<Spinner fx:id="spnColR" editable="true" />
@@ -182,7 +182,7 @@
 										text="Black n white:" id="preset-checkbox" />
 									<Separator fx:id="verticSep" orientation="vertical"
 										visible="false" />
-									<HBox fx:id="hbxBlkWht">
+									<HBox>
 										<VBox>
 											<Label text="R" id="preset-label" />
 											<Spinner fx:id="spnBlkR" editable="true" />

@@ -16,13 +16,14 @@ import com.jfoenix.controls.JFXCheckBox;
 
 import barlugofx.app.AppManager;
 import barlugofx.view.ViewController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -31,7 +32,7 @@ import javafx.stage.Stage;
  * setManager() function. Creating a PresetController object is useless and it
  * probably will cause some sort of exception.
  */
-public final class PresetController implements ViewController {
+public final class PresetController implements ViewController, EventHandler<ActionEvent> {
     private static final double BTN_WIDTH_MULTIPLIER = 0.5;
     private static final double BTN_HEIGHT_MULTIPLIER = 0.1;
     private static final double SPN_WIDTH_MULTIPLIER = 0.22;
@@ -46,64 +47,33 @@ public final class PresetController implements ViewController {
     private static final int STEP = 1;
     private static final int SUBSTRING_INDEX_NAME = 3;
     private static final int SUBSTRING_INDEX_EXTENSION = 4;
-    @FXML
-    private JFXButton btnSave;
-    @FXML
-    private JFXButton btnCancel;
-    @FXML
-    private Separator horizSep;
-    @FXML
-    private Separator verticSep;
-    @FXML
-    private Separator leftSep;
-    @FXML
-    private Spinner<Integer> spnExposure;
-    @FXML
-    private Spinner<Integer> spnContrast;
-    @FXML
-    private Spinner<Integer> spnBrightness;
-    @FXML
-    private Spinner<Integer> spnWbalance;
-    @FXML
-    private Spinner<Integer> spnSaturation;
-    @FXML
-    private Spinner<Integer> spnHue;
-    @FXML
-    private Spinner<Integer> spnVibrance;
-    @FXML
-    private JFXCheckBox chkExposure;
-    @FXML
-    private JFXCheckBox chkContrast;
-    @FXML
-    private JFXCheckBox chkBrightness;
-    @FXML
-    private JFXCheckBox chkWbalance;
-    @FXML
-    private JFXCheckBox chkSaturation;
-    @FXML
-    private JFXCheckBox chkHue;
-    @FXML
-    private JFXCheckBox chkVibrance;
-    @FXML
-    private JFXCheckBox chkColors;
-    @FXML
-    private JFXCheckBox chkBlkWht;
-    @FXML
-    private Spinner<Integer> spnColR;
-    @FXML
-    private Spinner<Integer> spnColG;
-    @FXML
-    private Spinner<Integer> spnColB;
-    @FXML
-    private Spinner<Integer> spnBlkR;
-    @FXML
-    private Spinner<Integer> spnBlkG;
-    @FXML
-    private Spinner<Integer> spnBlkB;
-    @FXML
-    private HBox hbxColors;
-    @FXML
-    private HBox hbxBlkWht;
+    @FXML private JFXButton btnSave;
+    @FXML private JFXButton btnCancel;
+    @FXML private Separator horizSep;
+    @FXML private Separator verticSep;
+    @FXML private Separator leftSep;
+    @FXML private Spinner<Integer> spnExposure;
+    @FXML private Spinner<Integer> spnContrast;
+    @FXML private Spinner<Integer> spnBrightness;
+    @FXML private Spinner<Integer> spnWbalance;
+    @FXML private Spinner<Integer> spnSaturation;
+    @FXML private Spinner<Integer> spnHue;
+    @FXML private Spinner<Integer> spnVibrance;
+    @FXML private Spinner<Integer> spnColR;
+    @FXML private Spinner<Integer> spnColG;
+    @FXML private Spinner<Integer> spnColB;
+    @FXML private Spinner<Integer> spnBlkR;
+    @FXML private Spinner<Integer> spnBlkG;
+    @FXML private Spinner<Integer> spnBlkB;
+    @FXML private JFXCheckBox chkExposure;
+    @FXML private JFXCheckBox chkContrast;
+    @FXML private JFXCheckBox chkBrightness;
+    @FXML private JFXCheckBox chkWbalance;
+    @FXML private JFXCheckBox chkSaturation;
+    @FXML private JFXCheckBox chkHue;
+    @FXML private JFXCheckBox chkVibrance;
+    @FXML private JFXCheckBox chkColors;
+    @FXML private JFXCheckBox chkBlkWht;
     private Stage stage;
     private AppManager manager;
     private Map<JFXCheckBox, List<Spinner<Integer>>> components;
@@ -161,17 +131,7 @@ public final class PresetController implements ViewController {
         horizSep.setMinWidth(width);
         verticSep.setMinHeight(height * SEP_HEIGHT_MULTIPLIER);
         leftSep.setMinWidth(width * SEP_WIDTH_MULTIPLIER);
-        //
-        spnExposure.disableProperty().bind(chkExposure.selectedProperty());
-        spnContrast.disableProperty().bind(chkContrast.selectedProperty());
-        spnBrightness.disableProperty().bind(chkBrightness.selectedProperty());
-        spnWbalance.disableProperty().bind(chkWbalance.selectedProperty());
-        spnSaturation.disableProperty().bind(chkSaturation.selectedProperty());
-        spnHue.disableProperty().bind(chkHue.selectedProperty());
-        spnVibrance.disableProperty().bind(chkVibrance.selectedProperty());
-        hbxColors.disableProperty().bind(chkColors.selectedProperty());
-        hbxBlkWht.disableProperty().bind(chkBlkWht.selectedProperty());
-        //
+
         spnExposure.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnContrast.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnBrightness.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
@@ -198,7 +158,7 @@ public final class PresetController implements ViewController {
         IntegerStringConverter.createFor(spnBlkR);
         IntegerStringConverter.createFor(spnBlkG);
         IntegerStringConverter.createFor(spnBlkB);
-        //
+
         components = new LinkedHashMap<>();
         components.put(chkExposure, Arrays.asList(spnExposure));
         components.put(chkContrast, Arrays.asList(spnContrast));
@@ -209,9 +169,60 @@ public final class PresetController implements ViewController {
         components.put(chkVibrance, Arrays.asList(spnVibrance));
         components.put(chkColors, Arrays.asList(spnColR, spnColG, spnColB));
         components.put(chkBlkWht, Arrays.asList(spnBlkR, spnBlkG, spnBlkB));
+
+        for (final JFXCheckBox entry : components.keySet()) {
+            entry.setOnAction(this);
+        }
+        /*
+         * This adds a listener to every spinner.focusedProperty() that will update the value when the focus is lost
+         * we have to do this because in JavaFX8 spinners won't update value automatically
+         */
+        for (final List<Spinner<Integer>> entry : components.values()) {
+            for (final Spinner<Integer> e : entry) {
+                e.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (!newValue) {
+                        e.increment(0); //won't change value, but will commit editor
+                      }
+                    });
+            }
+        }
+    }
+    @Override
+    public void handle(final ActionEvent event) {
+        final JFXCheckBox checkBox = (JFXCheckBox) event.getSource();
+        final List<Spinner<Integer>> list = spinnersCheck(checkBox);
+        if (checkBox.isSelected()) {
+            for (final Spinner<Integer> spinner : list) {
+                System.out.println(spinner.getValue());
+                spinner.setDisable(true);
+            }
+        } else {
+            for (final Spinner<Integer> spinner : list) {
+                spinner.setDisable(false);
+            }
+        }
     }
 
     /**
+     * Iterate over the entire components map to find the spinners 
+     * associated with the selected checkbox.
+     * @param checkbox the checkbox that fired the event
+     * @return a list of all spinners that correspond to the selected checkbox
+     */
+    private List<Spinner<Integer>> spinnersCheck(final JFXCheckBox checkBox) {
+
+        final List<List<Spinner<Integer>>> spinners = new ArrayList<>();
+        for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry : components.entrySet()) {
+            if (entry.getKey().equals(checkBox)) {
+                spinners.add(entry.getValue());
+            }
+        }
+        return spinners.stream().flatMap(x -> x.stream())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 
      * * Save selected filters and values on bps file.
      *
      */
@@ -221,18 +232,13 @@ public final class PresetController implements ViewController {
         for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry : components.entrySet()) {
             if (entry.getKey().isSelected()) {
                 valuesToSave.add(entry.getValue());
-                // UPDATE VALORI!!!
             }
         }
         if (valuesToSave.isEmpty()) {
-            //System.out.println("Select at least one filter to save!");
-            final Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Select at least one filter to save!");
-            alert.showAndWait();
+            showErrorMessage();
             return;
         }
+
         final Properties filters = new Properties();
         String filterName;
         final String colBal = "ColR";
@@ -240,6 +246,7 @@ public final class PresetController implements ViewController {
         final List<Spinner<Integer>> savingList = valuesToSave.stream().flatMap(x -> x.stream())
                 .collect(Collectors.toList());
         savingList.forEach(x -> System.out.println(x));
+
         for (int i = 0; i < savingList.size(); i++) {
             filterName = savingList.get(i).getId().substring(SUBSTRING_INDEX_NAME);
             filters.setProperty(filterName, savingList.get(i).getValue().toString());
@@ -254,6 +261,7 @@ public final class PresetController implements ViewController {
         if (file != null) {
             try {
                 checkManager();
+                checkExtension(file);
                 manager.savePreset(filters, file);
             } catch (IOException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
@@ -269,31 +277,32 @@ public final class PresetController implements ViewController {
         this.stage.close();
     }
 
-    /*
-     * private void setToNearestLimit(final Spinner<Integer> spn) { final
-     * IntegerSpinnerValueFactory s = (IntegerSpinnerValueFactory)
-     * spnBrightness.getValueFactory(); final int m = s.getMax(); // if
-     * (spn.getValue() > m) { System.out.println("p"); } }
-     */
     private File getFileFromDialog() {
         final FileChooser choose = new FileChooser();
         choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("BarlugoFX preset(.bps)", "*.bps"));
         choose.setInitialFileName("New Preset" + ".bps");
-        File f = choose.showSaveDialog(stage);
-        try {
-            checkManager();
-            if (!f.getName().substring(f.getName().length() - SUBSTRING_INDEX_EXTENSION).equals(".bps")) {
-                f = new File(f.getAbsolutePath() + ".bps");
-            }
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
+        return choose.showSaveDialog(stage);
+    }
+
+    private File checkExtension(final File f) {
+        File file = f;
+        if (!f.getName().substring(f.getName().length() - SUBSTRING_INDEX_EXTENSION).equals(".bps")) {
+            file = new File(f.getAbsolutePath() + ".bps");
         }
-        return f;
+        return file;
     }
 
     private void checkManager() throws IllegalStateException {
         if (manager == null) {
             throw new IllegalStateException("The manager is null");
         }
+    }
+
+    private void showErrorMessage() {
+        final Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("Select at least one filter to save!");
+        alert.showAndWait();
     }
 }
