@@ -42,7 +42,7 @@ public class CropArea {
      * @param startX the start X coordinate (of the top left corner)
      * @param startY the start Y coordinate (of the top left corner)
      */
-    public CropArea(final int width, final int height, final int startX, final int startY) {
+    public CropArea(final double width, final double height, final double startX, final double startY) {
         //rectangle init
         rectangle = new Rectangle(startX, startY, width, height);
         rectangle.setStroke(Color.WHITE);
@@ -240,12 +240,12 @@ public class CropArea {
         pane.getChildren().remove(midBottom);
         pane.getChildren().remove(midLeft);
     }
-    private static Circle createPoint(final int x, final int y, final Cursor cursor) {
+    private static Circle createPoint(final double x, final double y, final Cursor cursor) {
         final Circle c = new Circle(x, y, CIRCLE_WIDTH, Color.WHITE);
         c.setCursor(cursor);
         return c;
     }
-    private static Line createLine(final int x1, final int y1, final int x2, final int y2) {
+    private static Line createLine(final double x1, final double y1, final double x2, final double y2) {
         Line l = new Line(x1, y1, x2, y2);
         l.setStroke(Color.WHITE);
         l.setStrokeWidth(LINE_WIDTH);
