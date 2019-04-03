@@ -203,7 +203,7 @@ public final class CropArea implements ComplexNode {
                 rectangle.getX() + rectangle.getWidth(), rectangle.getY() + (2 * rectangle.getHeight()) / 3);
     }
     @Override
-    public void addInPane(final Pane pane) {
+    public void addToPane(final Pane pane) {
         pane.getChildren().add(rectangle);
         pane.getChildren().add(vertOne);
         pane.getChildren().add(vertTwo);

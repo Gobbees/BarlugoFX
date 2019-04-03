@@ -10,7 +10,7 @@ public interface ComplexNode {
      * Adds all the components of the ComplexNode to pane.
      * @param pane the input pane
      */
-    void addInPane(Pane pane);
+    void addToPane(Pane pane);
     /**
      * Removes all the components of the ComplexNode from pane.
      * @param pane the input pane
