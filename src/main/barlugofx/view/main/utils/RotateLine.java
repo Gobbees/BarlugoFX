@@ -40,14 +40,14 @@ public final class RotateLine implements ComplexNode {
      * Returns the starting point.
      * @return the start point
      */
-    public Circle getStart() {
+    public Circle getStartPoint() {
         return start;
     }
     /**
      * Returns the ending point.
      * @return the end point
      */
-    public Circle getEnd() {
+    public Circle getEndPoint() {
         return end;
     }
     @Override
