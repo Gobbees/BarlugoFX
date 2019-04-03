@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
  * A component that generates a draggable, resizable CropArea.
  * It creates a rectangle with the two thirds photography rule scheme and all the draggable points.
  */
-public class CropArea {
+public final class CropArea implements ComplexNode {
     //constant sizes
     private static final int RECTANGLE_WIDTH = 2;
     private static final int CIRCLE_WIDTH = 4;
@@ -45,7 +45,7 @@ public class CropArea {
     public CropArea(final double width, final double height, final double startX, final double startY) {
         //rectangle init
         rectangle = new Rectangle(startX, startY, width, height);
-        rectangle.setStroke(Color.WHITE);
+        rectangle.setStroke(Color.BLACK);
         rectangle.setFill(Color.TRANSPARENT);
         rectangle.setStrokeWidth(RECTANGLE_WIDTH);
         //corners init
@@ -202,10 +202,7 @@ public class CropArea {
         setLinePosition(horiTwo, rectangle.getX(), rectangle.getY() + (2 * rectangle.getHeight()) / 3, 
                 rectangle.getX() + rectangle.getWidth(), rectangle.getY() + (2 * rectangle.getHeight()) / 3);
     }
-    /**
-     * Adds the CropArea to the pane.
-     * @param pane the pane
-     */
+    @Override
     public void addInPane(final Pane pane) {
         pane.getChildren().add(rectangle);
         pane.getChildren().add(vertOne);
@@ -221,10 +218,7 @@ public class CropArea {
         pane.getChildren().add(midBottom);
         pane.getChildren().add(midLeft);
     }
-    /**
-     * Removes the CropArea from the pane.
-     * @param pane the pane
-     */
+    @Override
     public void removeFromPane(final Pane pane) {
         pane.getChildren().remove(rectangle);
         pane.getChildren().remove(vertOne);
@@ -241,7 +235,9 @@ public class CropArea {
         pane.getChildren().remove(midLeft);
     }
     private static Circle createPoint(final double x, final double y, final Cursor cursor) {
-        final Circle c = new Circle(x, y, CIRCLE_WIDTH, Color.WHITE);
+        final Circle c = new Circle(x, y, CIRCLE_WIDTH);
+        c.setStroke(Color.WHITE);
+        c.setFill(Color.BLACK);
         c.setCursor(cursor);
         return c;
     }
