@@ -56,7 +56,7 @@ public class MainView extends AbstractView<MainController> {
                     this.getStage().setResizable(true);
                 });
                 //this is performed after the animation finish because if not the view is closed too strongly.
-                final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
+                final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
                 stageTimeline.setOnFinished(timelineEvent -> { 
                     this.getStage().setMaximized(true);
                     this.getStage().setScene(this.getScene());
