@@ -178,9 +178,6 @@ public final class MainController implements ViewController {
     private AppManager manager;
     private Optional<ExportView> exportView;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
-    // start coordinates of an event (crop or rotate)
-    private double startX;
-    private double startY;
     // real displayed image sizes
     private double realWidth;
     private double realHeight;
@@ -232,7 +229,8 @@ public final class MainController implements ViewController {
      * 
      */
     @FXML
-    public void newPhoto() { //TODO reset history and all components
+    public void newPhoto() { //TODO reset history and all components 
+        //TODO discard changes
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
         final File file = fc.showOpenDialog(stage);
@@ -263,15 +261,16 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void rotate() {
-        //TODO Clear pane
         //TODO improve esc. write func to clean listeners
+        apaneImage.getChildren().clear();
+        final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         final AtomicReference<RotateLine> rotateLine = new AtomicReference<>();
         apaneImage.getChildren().clear();
         scene.setCursor(Cursor.HAND);
         final EventHandler<MouseEvent> mPressed = e -> {
             apaneImage.getChildren().clear();
-            startX = e.getX();
-            startY = e.getY();
+            startX.set(e.getX());
+            startY.set(e.getY());
             e.consume();
             apaneImage.setOnMousePressed(null);
         };
@@ -281,7 +280,7 @@ public final class MainController implements ViewController {
             if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - realWidth) / 2 && e.getX() >= (apaneImage.getWidth() - realWidth) / 2 
                     && e.getY() <= apaneImage.getHeight() - (apaneImage.getWidth() - realHeight) / 2
                     && e.getY() >= (apaneImage.getHeight() - realHeight) / 2) {
-                rotateLine.set(new RotateLine(startX, startY, e.getX(), e.getY()));
+                rotateLine.set(new RotateLine(startX.get(), startY.get(), e.getX(), e.getY()));
                 rotateLine.get().addToPane(apaneImage);
             }
             e.consume();
@@ -294,19 +293,19 @@ public final class MainController implements ViewController {
                 scene.setCursor(Cursor.DEFAULT);
                 return;
             }
-            startX = rotateLine.get().getStartPoint().getCenterX();
-            startY = rotateLine.get().getStartPoint().getCenterY();
+            startX.set(rotateLine.get().getStartPoint().getCenterX());
+            startY.set(rotateLine.get().getStartPoint().getCenterY());
             final double endX = rotateLine.get().getEndPoint().getCenterX();
             final double endY = rotateLine.get().getEndPoint().getCenterY();
             scene.setCursor(Cursor.WAIT);
             rotateLine.get().removeFromPane(apaneImage);
             double m;
-            if (endY < startY) {
-                m = Math.abs(endY - startY) / (endX - startX);
-            } else if (endX < startX) {
-                m = (endY - startY) / Math.abs(endX - startX);
+            if (endY < startY.get()) {
+                m = Math.abs(endY - startY.get()) / (endX - startX.get());
+            } else if (endX < startX.get()) {
+                m = (endY - startY.get()) / Math.abs(endX - startX.get());
             } else {
-                m = -(endY - startY) / (endX - startX);
+                m = -(endY - startY.get()) / (endX - startX.get());
             }
             final double theta = Math.atan(m) * (180 / Math.PI);
             runNewThread("Rotator", () -> {
@@ -335,25 +334,26 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void crop() {
+        final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         //TODO manage crop after resize
         apaneImage.getChildren().clear();
         final CropArea cropper = new CropArea(realWidth / 2, realHeight / 2, apaneImage.getWidth() / 2 - realWidth / 4,
                 apaneImage.getHeight() / 2 - realHeight / 4);
         cropper.addToPane(apaneImage);
         cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_PRESSED, e -> {
-            startX = e.getX();
-            startY = e.getY();
+            startX.set(e.getX());
+            startY.set(e.getY());
         });
         cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_DRAGGED, e -> { // TODO test
-            if (cropper.getRectangle().getX() + e.getX() - startX > (apaneImage.getWidth() - realWidth) / 2
+            if (cropper.getRectangle().getX() + e.getX() - startX.get() > (apaneImage.getWidth() - realWidth) / 2
                     && cropper.getRectangle().getX() + cropper.getRectangle().getWidth() + e.getX()
-                            - startX < apaneImage.getWidth() - (apaneImage.getWidth() - realWidth) / 2
-                    && cropper.getRectangle().getY() + e.getY() - startY > (apaneImage.getHeight() - realHeight) / 2
+                            - startX.get() < apaneImage.getWidth() - (apaneImage.getWidth() - realWidth) / 2
+                    && cropper.getRectangle().getY() + e.getY() - startY.get() > (apaneImage.getHeight() - realHeight) / 2
                     && cropper.getRectangle().getY() + cropper.getRectangle().getHeight() + e.getY()
-                            - startY < apaneImage.getHeight() - (apaneImage.getHeight() - realHeight) / 2) {
-                cropper.drag(startX, startY, e.getX(), e.getY());
-                startX = e.getX();
-                startY = e.getY();
+                            - startY.get() < apaneImage.getHeight() - (apaneImage.getHeight() - realHeight) / 2) {
+                cropper.drag(startX.get(), startY.get(), e.getX(), e.getY());
+                startX.set(e.getX());
+                startY.set(e.getY());
             }
             e.consume();
         });
@@ -621,9 +621,8 @@ public final class MainController implements ViewController {
         });
         // set imageView width according to the divider position
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
-            System.out.println(stage.getWidth() + " " + scene.getWidth());
             if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth()) { 
-                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2);
+                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2); //TODO
                 updateRealDimension();
             }
         });
