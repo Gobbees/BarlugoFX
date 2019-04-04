@@ -202,9 +202,9 @@ public final class MainController implements ViewController {
             if (exportView.isPresent()) {
                 exportView.get().closeStage();
             }
+            //TODO presetview same as export
         });
     }
-
     /**
      * This function sets the app manager (controller). It must be called in order
      * to avoid future errors.
@@ -215,6 +215,14 @@ public final class MainController implements ViewController {
         this.manager = manager;
         updateImage();
         setEventListeners();
+    }
+    /**
+     * Resizes all the components relating to the new sizes.
+     * @param width the new width
+     * @param height the new height
+     */
+    public void resizeComponents(final double width, final double height) {
+        System.out.println(width + " " + height);
     }
 
     /**
@@ -233,6 +241,8 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void rotate() {
+        //TODO Clear pane
+        //TODO improve esc. write func to clean listeners
         final AtomicReference<RotateLine> rotateLine = new AtomicReference<>();
         apaneImage.getChildren().clear();
         scene.setCursor(Cursor.HAND);
@@ -303,7 +313,8 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void crop() {
-        // tpaneLights.
+        //TODO manage crop after resize
+        apaneImage.getChildren().clear();
         final CropArea cropper = new CropArea(realWidth / 2, realHeight / 2, apaneImage.getWidth() / 2 - realWidth / 4,
                 apaneImage.getHeight() / 2 - realHeight / 4);
         cropper.addToPane(apaneImage);
@@ -386,6 +397,20 @@ public final class MainController implements ViewController {
         new PresetView(manager);
     }
     /**
+     * Toggle full screen event triggered.
+     */
+    @FXML
+    public void toggleFullScreen() {
+        stage.setFullScreen(true);
+    }
+    /**
+     * Minimize event triggered.
+     */
+    @FXML
+    public void toggleMinimize() {
+        stage.setIconified(true);
+    }
+    /**
      * About clicked.
      */
     @FXML
@@ -397,10 +422,9 @@ public final class MainController implements ViewController {
             e.printStackTrace();
         }
     }
-
+    //updates the image and the real sizes
     private void updateImage() {
-        iviewImage.setImage(
-                SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+        iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
         iviewImage.setFitWidth(apaneImage.getWidth());
         iviewImage.setFitHeight(spaneMain.getHeight());
         double aspectRatio = iviewImage.getImage().getWidth() / iviewImage.getImage().getHeight();
@@ -479,7 +503,9 @@ public final class MainController implements ViewController {
             }
         });
     }
-
+    //TODO refactoring with new thread.
+    //TODO set cursor
+    //TODO new threads
     private void setEventListeners() {
         try {
             checkManager();
@@ -635,19 +661,19 @@ public final class MainController implements ViewController {
         });
         // set imageView width according to the divider position
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
-            if (spaneMain.getWidth() * nv.doubleValue() + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth()
-                    - 2) { // TODO -2 because a bug permits the resize over the maxwidth of 2 pixels
-                iviewImage.setFitWidth((int) (spaneMain.getWidth() * nv.doubleValue()));
+            //System.out.println(stage.getWidth() + " " + scene.getWidth());
+            if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth()) { 
+                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()));
+                //TODO realwidth and realheight
             }
         });
     }
-
     private void addKeyboardShortcuts() {
         KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
         Runnable runnable = () -> export();
         scene.getAccelerators().put(kc, runnable);
         kc = new KeyCharacterCombination("f", KeyCombination.CONTROL_DOWN);
-        runnable = () -> stage.setFullScreen(true);
+        runnable = () -> toggleFullScreen();
         scene.getAccelerators().put(kc, runnable);
     }
     private void checkManager() throws IllegalStateException {

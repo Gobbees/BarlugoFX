@@ -105,18 +105,17 @@
 								<MenuItem mnemonicParsing="false" text="Zoom +"/>
 								<MenuItem mnemonicParsing="false" text="Zoom -"/>
 								<SeparatorMenuItem />
-								<MenuItem mnemonicParsing="false" text="Toggle full screen">
+								<MenuItem mnemonicParsing="false" text="Toggle full screen" onAction="#toggleFullScreen">
 								    <accelerator>
                                         <KeyCodeCombination code="f" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
                                     </accelerator>
                                 </MenuItem>
-								<MenuItem mnemonicParsing="false" text="Minimize" />
+								<MenuItem mnemonicParsing="false" text="Minimize" onAction="#toggleMinimize"/>
 							</items>
 						</Menu>
-						<Menu mnemonicParsing="false" text="Help">
+						<Menu mnemonicParsing="false" text="Info">
 							<items>
-								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="About" />
+								<MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
 							</items>
 						</Menu>
 					</menus>
