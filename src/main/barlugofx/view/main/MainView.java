@@ -65,8 +65,8 @@ public class MainView extends AbstractView<MainController> {
                         //and they are initialized only with the new scene set
                         this.getController().setStage(this.getStage());
                         this.getController().setManager(manager);
-                        this.getScene().widthProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(newVal.intValue(), this.getScene().heightProperty().get()));
-                        this.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(this.getScene().widthProperty().get(), newVal.intValue()));
+                        this.getScene().widthProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(newVal.doubleValue(), this.getScene().heightProperty().get()));
+                        this.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(this.getScene().widthProperty().get(), newVal.doubleValue()));
                     });
                 });
                 Platform.runLater(() -> {

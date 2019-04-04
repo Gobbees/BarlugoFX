@@ -29,8 +29,8 @@ public class WelcomeView extends AbstractView<WelcomeController> {
         this.getController().setStage(this.getStage());
         this.getController().resizeComponents((int) this.getScene().widthProperty().get(), (int) this.getScene().heightProperty().get());
         //add resize listeners
-        this.getScene().widthProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(newVal.intValue(), (int) this.getScene().heightProperty().get()));
-        this.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents((int) this.getScene().widthProperty().get(), newVal.intValue()));
+        this.getScene().widthProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(newVal.doubleValue(), this.getScene().heightProperty().get()));
+        this.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(this.getScene().widthProperty().get(), newVal.doubleValue()));
         //add scene to the stage and show
         this.getStage().centerOnScreen();
         this.getStage().setScene(this.getScene());
