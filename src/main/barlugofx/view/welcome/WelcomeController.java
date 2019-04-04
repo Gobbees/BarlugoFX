@@ -58,7 +58,7 @@ public final class WelcomeController implements ViewController {
      * @param width the new width
      * @param height the new height
      */
-    public void resizeComponents(final int width, final int height) {
+    public void resizeComponents(final double width, final double height) {
         btnImage.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
         btnImage.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
         btnProject.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
