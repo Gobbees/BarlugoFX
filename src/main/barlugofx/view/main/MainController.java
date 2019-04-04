@@ -16,6 +16,7 @@ import static barlugofx.view.main.Tool.VIBRANCE;
 import static barlugofx.view.main.Tool.WHITEBALANCE;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,14 +25,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.swing.JTextField;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
 import barlugofx.app.AppManager;
 import barlugofx.model.imagetools.ImageUtils;
+import barlugofx.utils.Format;
 import barlugofx.utils.MutablePair;
 import barlugofx.view.InputOutOfBoundException;
 import barlugofx.view.ViewController;
@@ -44,7 +44,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
@@ -57,7 +56,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * This class manages the view events. IMPORTANT: set the app manager with
@@ -227,7 +228,25 @@ public final class MainController implements ViewController {
     public void resizeComponents(final double width, final double height) {
         System.out.println(width + " " + height);
     }
-
+    /**
+     * 
+     */
+    @FXML
+    public void newPhoto() { //TODO reset history and all components
+        final FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
+        final File file = fc.showOpenDialog(stage);
+        if (file != null) {
+            runNewThread("New photo", createCompleteRunnable(() -> {
+                try {
+                    manager.setImage(file);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }));
+        }
+    }
     /**
      * Export event triggered.
      */
@@ -338,11 +357,11 @@ public final class MainController implements ViewController {
             }
             e.consume();
         });
-        cropper.addEvent(cropper.getTopLeftPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
+        cropper.addEvent(cropper.getTopLeftPoint(), MouseEvent.MOUSE_DRAGGED, e -> { //TODO control sizes
             cropper.resize(e.getX(), e.getY(), cropper.getBottomRightPoint().getCenterX(),
                     cropper.getBottomRightPoint().getCenterY());
         });
-        cropper.addEvent(cropper.getTopRightPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
+        cropper.addEvent(cropper.getTopRightPoint(), MouseEvent.MOUSE_DRAGGED, e -> { 
             cropper.resize(cropper.getTopLeftPoint().getCenterX(), e.getY(), e.getX(),
                     cropper.getBottomRightPoint().getCenterY());
         });
@@ -430,9 +449,7 @@ public final class MainController implements ViewController {
         iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
         iviewImage.setFitWidth(apaneImage.getWidth());
         iviewImage.setFitHeight(spaneMain.getHeight());
-        double aspectRatio = iviewImage.getImage().getWidth() / iviewImage.getImage().getHeight();
-        realWidth = (int) Math.min(iviewImage.getFitWidth(), iviewImage.getFitHeight() * aspectRatio);
-        realHeight = (int) Math.min(iviewImage.getFitHeight(), iviewImage.getFitWidth() / aspectRatio);
+        updateRealDimension();
     }
 
     // this function initializes all the components sizes in relation to the screen
@@ -506,9 +523,6 @@ public final class MainController implements ViewController {
             }
         });
     }
-    //TODO refactoring with new thread.
-    //TODO set cursor
-    //TODO new threads
     private void setEventListeners() {
         try {
             checkManager();
@@ -579,7 +593,6 @@ public final class MainController implements ViewController {
             toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
             manager.setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
         }));
-
         btnSCApply.setOnMouseClicked(ev -> {
             if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()
                     && ((int) slSCR.getValue() != toolStatus.get(SCR).getFirst().intValue()
@@ -593,7 +606,6 @@ public final class MainController implements ViewController {
                 }));
             }
         });
-
         btnBWApply.setOnMouseClicked(ev -> {
             if (toolStatus.get(BWR).getSecond() && toolStatus.get(BWG).getSecond() && toolStatus.get(BWB).getSecond()
                     && (int) slBWR.getValue() != toolStatus.get(BWR).getFirst().intValue()
@@ -609,12 +621,17 @@ public final class MainController implements ViewController {
         });
         // set imageView width according to the divider position
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
-            //System.out.println(stage.getWidth() + " " + scene.getWidth());
+            System.out.println(stage.getWidth() + " " + scene.getWidth());
             if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth()) { 
-                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()));
-                //TODO realwidth and realheight
+                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2);
+                updateRealDimension();
             }
         });
+    }
+    private void updateRealDimension() {
+        double aspectRatio = iviewImage.getImage().getWidth() / iviewImage.getImage().getHeight();
+        realWidth = (int) Math.min(iviewImage.getFitWidth(), iviewImage.getFitHeight() * aspectRatio);
+        realHeight = (int) Math.min(iviewImage.getFitHeight(), iviewImage.getFitWidth() / aspectRatio);
     }
     private void addKeyListener(final JFXTextField node, final KeyCode kc, final Tool tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {

@@ -19,6 +19,12 @@ public interface AppManager {
      */
     Image getImage();
     /**
+     * Sets the new file as image.
+     * @param file the input file
+     * @throws IOException if the file opening fails
+     */
+    void setImage(File file) throws IOException;
+    /**
      * Returns the input file name.
      * @return the file name
      */

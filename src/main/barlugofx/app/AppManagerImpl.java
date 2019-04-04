@@ -54,7 +54,7 @@ public final class AppManagerImpl implements AppManager {
      */
     public AppManagerImpl(final File file) throws IOException {
         fileManager = new IOManagerImpl();
-        image = fileManager.loadImageFromFile(file);
+        setImage(file);
         hsb = HSBModifier.createHSB();
         contrast = Contrast.createContrast();
         brightness = Brightness.createBrightness();
@@ -70,6 +70,10 @@ public final class AppManagerImpl implements AppManager {
     @Override
     public Image getImage() {
         return image;
+    }
+    @Override
+    public void setImage(final File file) throws IOException {  //TODO reset history and all components
+        image = fileManager.loadImageFromFile(file);
     }
     @Override
     public String getInputFileName() {
