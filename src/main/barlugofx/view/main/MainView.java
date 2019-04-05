@@ -68,11 +68,11 @@ public class MainView extends AbstractView<MainController> {
                     Platform.runLater(() -> {
                         //calls the controller setStage function after the scene set because I need the components sizes on the screen, 
                         //and they are initialized only with the new scene set
+                        System.out.println("before setStage: " + stage.getWidth() + " " + stage.getHeight());
                         this.getController().setStage(this.getStage());
                         this.getController().setManager(manager);
                         this.getScene().widthProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(newVal.doubleValue(), this.getScene().heightProperty().get()));
                         this.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(this.getScene().widthProperty().get(), newVal.doubleValue()));
-                        System.out.println("In run-later func " + stage.getWidth() + " " + stage.getHeight());
                     });
                 });
                 Platform.runLater(() -> {
