@@ -1,4 +1,4 @@
-package barlugofx.view.main.utils;
+package barlugofx.view.main.components.tools;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
