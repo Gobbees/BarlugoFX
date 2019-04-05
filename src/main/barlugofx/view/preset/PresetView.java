@@ -34,4 +34,8 @@ public class PresetView extends AbstractView<PresetController> {
         this.getStage().centerOnScreen();
         this.getStage().show();
     }
+    
+    public void closeStage() {
+        this.getStage().close();
+    }
 }

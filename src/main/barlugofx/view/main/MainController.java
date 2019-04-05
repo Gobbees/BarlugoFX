@@ -177,6 +177,7 @@ public final class MainController implements ViewController {
     private Stage stage;
     private AppManager manager;
     private Optional<ExportView> exportView;
+    private Optional<PresetView> presetView;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
     // real displayed image sizes
     private double realWidth;
@@ -187,6 +188,7 @@ public final class MainController implements ViewController {
      */
     public MainController() {
         exportView = Optional.empty();
+        presetView = Optional.empty();
         toolStatus = new HashMap<>();
     }
 
@@ -202,6 +204,9 @@ public final class MainController implements ViewController {
         stage.setOnCloseRequest(ev -> {
             if (exportView.isPresent()) {
                 exportView.get().closeStage();
+            }
+            if (presetView.isPresent()) {
+                presetView.get().closeStage();
             }
             //TODO presetview same as export
         });
@@ -222,7 +227,7 @@ public final class MainController implements ViewController {
      * @param width the new width
      * @param height the new height
      */
-    public void resizeComponents(final double width, final double height) {
+    public void resizeComponents(final double width, final double height) { //TODO
         System.out.println(width + " " + height);
     }
     /**
@@ -399,8 +404,7 @@ public final class MainController implements ViewController {
                 final int x2 = (int) ((cropper.getRectangle().getX() + cropper.getRectangle().getWidth()
                         - (iviewImage.getFitWidth() - realWidth) / 2) * iviewImage.getImage().getWidth() / realWidth);
                 final int y2 = (int) ((cropper.getRectangle().getY() + cropper.getRectangle().getHeight()
-                        - (iviewImage.getFitHeight() - realHeight) / 2) * iviewImage.getImage().getHeight()
-                        / realHeight);
+                        - (iviewImage.getFitHeight() - realHeight) / 2) * iviewImage.getImage().getHeight() / realHeight);
                 runNewThread("Cropper", () -> {
                     manager.crop(x1, y1, x2, y2);
                     Platform.runLater(() -> {
@@ -416,7 +420,10 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void preset() {
-        new PresetView(manager);
+        if (presetView.isPresent()) {
+            presetView.get().closeStage();
+        }
+        presetView = Optional.of(new PresetView(manager));
     }
     /**
      * Toggle full screen event triggered.

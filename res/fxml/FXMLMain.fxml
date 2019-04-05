@@ -61,11 +61,6 @@
 										<KeyCodeCombination code="s" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
-								<MenuItem mnemonicParsing="false" text="Save as bps preset" onAction="#preset">
-									<accelerator>
-										<KeyCodeCombination code="h" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
 								<MenuItem mnemonicParsing="false" text="Export" onAction="#export">
 									<accelerator>
 										<KeyCodeCombination code="e" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -94,6 +89,12 @@
 								<MenuItem mnemonicParsing="false" text="Rotate" onAction="#rotate">
 								    <accelerator>
                                         <KeyCodeCombination code="r" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
+                                    </accelerator>
+                                </MenuItem>
+                                <SeparatorMenuItem />
+                                <MenuItem mnemonicParsing="false" text="Save bps preset" onAction="#preset">
+                                    <accelerator>
+                                        <KeyCodeCombination code="h" control="DOWN" alt="UP" meta="UP" shift="UP" shortcut="UP" />
                                     </accelerator>
                                 </MenuItem>
 								<MenuItem mnemonicParsing="false" text="Apply .bps preset" />
