@@ -50,18 +50,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-
 /**
  * This class manages the view events. IMPORTANT: set the app manager with
  * setManager() function. Creating a MainController object is useless and it
@@ -71,6 +70,8 @@ public final class MainController implements ViewController {
     // private constant fields
     private static final double RIGHT_COLUMN_MIN_MULTIPLIER = 0.15;
     private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.5;
+    private static final double MIN_ZOOM_RATIO = 1.0d;
+    private static final double MAX_ZOOM_RATIO = 10d;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -82,7 +83,7 @@ public final class MainController implements ViewController {
     @FXML
     private AnchorPane apaneImage;
     @FXML
-    private ImageView iviewImage;
+    private ZoomableImageView iviewImage;
     @FXML
     private SplitPane spaneRightColumn;
     @FXML
@@ -196,7 +197,6 @@ public final class MainController implements ViewController {
 
     @Override
     public void setStage(final Stage stage) {
-        System.out.println("In setStage: " + stage.getWidth() + " " + stage.getHeight());
         this.stage = stage;
         this.scene = stage.getScene();
         initComponentSize();
@@ -211,7 +211,6 @@ public final class MainController implements ViewController {
             if (presetView.isPresent()) {
                 presetView.get().closeStage();
             }
-            //TODO presetview same as export
         });
     }
     /**
@@ -224,6 +223,14 @@ public final class MainController implements ViewController {
         this.manager = manager;
         updateImage();
         setEventListeners();
+        //TODO temp
+        scene.addEventHandler(ScrollEvent.ANY, (e) -> {
+            if (iviewImage.getZoomRatio() > MIN_ZOOM_RATIO && e.getDeltaY() > 0) {
+                iviewImage.zoom(ZoomDirection.ZOOM_OUT, e.getSceneX(), e.getSceneY());
+            } else if (iviewImage.getZoomRatio() < MAX_ZOOM_RATIO && e.getDeltaY() < 0) {
+                iviewImage.zoom(ZoomDirection.ZOOM_IN, e.getSceneX(), e.getSceneY());
+            }
+        });
     }
     /**
      * Resizes all the components relating to the new sizes.
@@ -342,6 +349,7 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void crop() {
+        //iviewImage.setZoomToValue(MIN_ZOOM_RATIO);
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         //TODO manage crop after resize
         apaneImage.getChildren().clear();

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Label?>
@@ -31,6 +30,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.StackPane?>
+<?import barlugofx.view.main.components.zoompane.ZoomableImageView?>
 
 <BorderPane 
 	xmlns="http://javafx.com/javafx/8.0.1"
@@ -137,7 +137,7 @@
 				   <center>
 				     <StackPane>
 					    <children>
-						    <ImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="true"/>
+						    <ZoomableImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="true"/>
 						    <AnchorPane fx:id="apaneImage"/>
 					    </children>
 				    </StackPane>
