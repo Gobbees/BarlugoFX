@@ -196,6 +196,7 @@ public final class MainController implements ViewController {
     public void setStage(final Stage stage) {
         this.stage = stage;
         this.scene = stage.getScene();
+        System.out.println("In setStage: " + stage.getWidth() + " " + stage.getHeight());
         initComponentSize();
         initToolStatus();
         addListeners();
