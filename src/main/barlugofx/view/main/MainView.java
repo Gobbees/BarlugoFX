@@ -30,7 +30,7 @@ public class MainView extends AbstractView<MainController> {
      * @throws IOException
      */
     public MainView(final Stage stage, final File file) {
-        super("BarlugoFX", "file:res/img/logo.png", stage, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
+        super("", "file:res/img/logo.png", stage, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
                             (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight())));
         final LoadingView t = new LoadingView(stage);
         try {
@@ -59,6 +59,7 @@ public class MainView extends AbstractView<MainController> {
                 final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
                 stageTimeline.setOnFinished(timelineEvent -> { 
                     this.getStage().setMaximized(true);
+                    this.getStage().setTitle(manager.getInputFileName());
                     this.getStage().setScene(this.getScene());
                     Platform.runLater(() -> {
                         //calls the controller setStage function after the scene set because I need the components sizes on the screen, 
