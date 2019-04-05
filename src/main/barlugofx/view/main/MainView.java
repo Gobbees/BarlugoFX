@@ -32,7 +32,9 @@ public class MainView extends AbstractView<MainController> {
     public MainView(final Stage stage, final File file) {
         super("", "file:res/img/logo.png", stage, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
                             (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight())));
+        System.out.println("Screen Size: " + Toolkit.getDefaultToolkit().getScreenSize());
         final LoadingView t = new LoadingView(stage);
+        System.out.println("After Loading view loaded " + stage.getWidth() + " " + stage.getHeight());
         try {
             this.loadFXML("file:res/fxml/FXMLMain.fxml");
         } catch (IOException e) {
@@ -52,12 +54,14 @@ public class MainView extends AbstractView<MainController> {
             final FadeTransition loadingOut = t.getFadeOutTransition();
             loadingOut.setOnFinished(fadeOutEvent -> {
                 Platform.runLater(() -> {
+                    System.out.println("Before resizing animation " + stage.getWidth() + " " + stage.getHeight());
                     this.getStage().setScene(null);
                     this.getStage().setResizable(true);
                 });
                 //this is performed after the animation finish because if not the view is closed too strongly.
                 final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
-                stageTimeline.setOnFinished(timelineEvent -> { 
+                stageTimeline.setOnFinished(timelineEvent -> {
+                    System.out.println("After resizing " + stage.getWidth() + " " + stage.getHeight());
                     this.getStage().setMaximized(true);
                     this.getStage().setTitle(manager.getInputFileName());
                     this.getStage().setScene(this.getScene());
@@ -68,6 +72,7 @@ public class MainView extends AbstractView<MainController> {
                         this.getController().setManager(manager);
                         this.getScene().widthProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(newVal.doubleValue(), this.getScene().heightProperty().get()));
                         this.getScene().heightProperty().addListener((obs, oldVal, newVal) -> this.getController().resizeComponents(this.getScene().widthProperty().get(), newVal.doubleValue()));
+                        System.out.println("In run-later func " + stage.getWidth() + " " + stage.getHeight());
                     });
                 });
                 Platform.runLater(() -> {
