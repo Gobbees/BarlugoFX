@@ -10,7 +10,7 @@ import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- * The white balance class implements one of the simpliest auto-balancing
+ * The white balance class implements one of the simplest auto-balancing
  * algorithm used by gimp. It works discarding pixel colors at each end of the
  * Red, Green and Blue histograms which are used by only 0.05% of the pixels in
  * the image and stretches the remaining range as much as possible. The value in
@@ -33,7 +33,7 @@ public final class WhiteBalance extends ImageToolImpl {
     /**
      * Creates a new WhiteBalance filter.
      *
-     * @return the instantieted whitebalance filter
+     * @return the instantiated whitebalance filter
      */
     public static WhiteBalance createWhiteBalance() {
         return new WhiteBalance();
