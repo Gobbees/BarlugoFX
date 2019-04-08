@@ -159,7 +159,6 @@
 
 	<!-- TODO -->
 	<center>
-<<<<<<< refs/remotes/origin/develop
 		<SplitPane fx:id="spaneMain" dividerPositions="0.8" style="-fx-border-width: 1 0 0 0">
 	       <items>
 			    <BorderPane fx:id="paneImage">
@@ -172,7 +171,6 @@
 				    </StackPane>
 				   </center>
 			    </BorderPane>
-=======
 		<SplitPane fx:id="spaneMain" dividerPositions="0.8"
 			style="-fx-border-width: 1 0 0 0">
 			<items>
@@ -187,8 +185,6 @@
 						</StackPane>
 					</center>
 				</BorderPane>
->>>>>>> Added empty applyPreset method and changed some names in the appManager
-
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL"
 					style="-fx-border-width: 0 0 0 0">
 					<items>
