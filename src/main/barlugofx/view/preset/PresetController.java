@@ -55,7 +55,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
     @FXML private Spinner<Integer> spnExposure;
     @FXML private Spinner<Integer> spnContrast;
     @FXML private Spinner<Integer> spnBrightness;
-    @FXML private Spinner<Integer> spnWbalance;
+    @FXML private Spinner<Integer> spnWhiteBalance;
     @FXML private Spinner<Integer> spnSaturation;
     @FXML private Spinner<Integer> spnHue;
     @FXML private Spinner<Integer> spnVibrance;
@@ -68,7 +68,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
     @FXML private JFXCheckBox chkExposure;
     @FXML private JFXCheckBox chkContrast;
     @FXML private JFXCheckBox chkBrightness;
-    @FXML private JFXCheckBox chkWbalance;
+    @FXML private JFXCheckBox chkWhiteBalance;
     @FXML private JFXCheckBox chkSaturation;
     @FXML private JFXCheckBox chkHue;
     @FXML private JFXCheckBox chkVibrance;
@@ -95,47 +95,12 @@ public final class PresetController implements ViewController, EventHandler<Acti
     }
 
     private void initComponents() {
-        final double width = stage.getScene().getWidth();
-        final double height = stage.getScene().getHeight();
-
-        btnSave.setMinWidth(width * BTN_WIDTH_MULTIPLIER);
-        btnSave.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
-        btnCancel.setMinWidth(width * BTN_WIDTH_MULTIPLIER);
-        btnCancel.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
-        spnExposure.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnExposure.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnContrast.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnContrast.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBrightness.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnBrightness.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnWbalance.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnWbalance.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnSaturation.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnSaturation.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnHue.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnHue.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnVibrance.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnVibrance.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnColR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnColR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnColG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnColG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnColB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnColB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnBlkR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnBlkG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnBlkB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        horizSep.setMinWidth(width);
-        verticSep.setMinHeight(height * SEP_HEIGHT_MULTIPLIER);
-        leftSep.setMinWidth(width * SEP_WIDTH_MULTIPLIER);
+        resizeComponents();
 
         spnExposure.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnContrast.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnBrightness.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnWbalance.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnWhiteBalance.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
         spnSaturation.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnHue.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnVibrance.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
@@ -145,47 +110,20 @@ public final class PresetController implements ViewController, EventHandler<Acti
         spnBlkR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
         spnBlkG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
         spnBlkB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        IntegerStringConverter.createFor(spnExposure);
-        IntegerStringConverter.createFor(spnContrast);
-        IntegerStringConverter.createFor(spnBrightness);
-        IntegerStringConverter.createFor(spnWbalance);
-        IntegerStringConverter.createFor(spnSaturation);
-        IntegerStringConverter.createFor(spnHue);
-        IntegerStringConverter.createFor(spnVibrance);
-        IntegerStringConverter.createFor(spnColR);
-        IntegerStringConverter.createFor(spnColG);
-        IntegerStringConverter.createFor(spnColB);
-        IntegerStringConverter.createFor(spnBlkR);
-        IntegerStringConverter.createFor(spnBlkG);
-        IntegerStringConverter.createFor(spnBlkB);
 
         components = new LinkedHashMap<>();
         components.put(chkExposure, Arrays.asList(spnExposure));
         components.put(chkContrast, Arrays.asList(spnContrast));
         components.put(chkBrightness, Arrays.asList(spnBrightness));
-        components.put(chkWbalance, Arrays.asList(spnWbalance));
+        components.put(chkWhiteBalance, Arrays.asList(spnWhiteBalance));
         components.put(chkSaturation, Arrays.asList(spnSaturation));
         components.put(chkHue, Arrays.asList(spnHue));
         components.put(chkVibrance, Arrays.asList(spnVibrance));
         components.put(chkColors, Arrays.asList(spnColR, spnColG, spnColB));
         components.put(chkBlkWht, Arrays.asList(spnBlkR, spnBlkG, spnBlkB));
 
-        for (final JFXCheckBox entry : components.keySet()) {
-            entry.setOnAction(this);
-        }
-        /*
-         * This adds a listener to every spinner.focusedProperty() that will update the value when the focus is lost
-         * we have to do this because in JavaFX8 spinners won't update value automatically
-         */
-        for (final List<Spinner<Integer>> entry : components.values()) {
-            for (final Spinner<Integer> e : entry) {
-                e.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                    if (!newValue) {
-                        e.increment(0); //won't change value, but will commit editor
-                      }
-                    });
-            }
-        }
+        addListeners();
+
     }
     @Override
     public void handle(final ActionEvent event) {
@@ -193,6 +131,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
         final List<Spinner<Integer>> list = spinnersCheck(checkBox);
         if (checkBox.isSelected()) {
             for (final Spinner<Integer> spinner : list) {
+                ///TODO cancellare println
                 System.out.println(spinner.getValue());
                 spinner.setDisable(true);
             }
@@ -243,19 +182,24 @@ public final class PresetController implements ViewController, EventHandler<Acti
         String filterName;
         final String colBal = "ColR";
         final String blkWht = "BlkR";
+        String value;
         final List<Spinner<Integer>> savingList = valuesToSave.stream().flatMap(x -> x.stream())
                 .collect(Collectors.toList());
         savingList.forEach(x -> System.out.println(x));
 
         for (int i = 0; i < savingList.size(); i++) {
             filterName = savingList.get(i).getId().substring(SUBSTRING_INDEX_NAME);
-            filters.setProperty(filterName, savingList.get(i).getValue().toString());
-            if (filterName.equals(colBal) || filterName.equals(blkWht)) {
-                filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
-                filters.setProperty(filterName, savingList.get(i).getValue().toString());
-                filterName = savingList.get(++i).getId().substring(SUBSTRING_INDEX_NAME);
-                filters.setProperty(filterName, savingList.get(i).getValue().toString());
+            value = savingList.get(i).getValue().toString();
+            if (filterName.equals(colBal)) {
+                filterName = "SelectiveColors";
+                value = value + "," + savingList.get(++i).getValue().toString() 
+                        + "," + savingList.get(++i).getValue().toString();
+            } else if (filterName.equals(blkWht)) {
+                filterName = "BlackAndWhite";
+                value = value + "," + savingList.get(++i).getValue().toString() 
+                        + "," + savingList.get(++i).getValue().toString();
             }
+            filters.setProperty(filterName, value);
         }
         final File file = getFileFromDialog();
         if (file != null) {
@@ -266,6 +210,12 @@ public final class PresetController implements ViewController, EventHandler<Acti
             } catch (IOException | InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
+            final Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Saved");
+            alert.setHeaderText(null);
+            alert.setContentText("The preset was successfully saved!");
+            alert.showAndWait();
+            this.stage.close();
         }
     }
 
@@ -284,6 +234,11 @@ public final class PresetController implements ViewController, EventHandler<Acti
         return choose.showSaveDialog(stage);
     }
 
+    /**
+     * Checks if the name file has the correct extension.
+     * @param f the file to check the extension
+     * @return a file with the correct extension
+     */
     private File checkExtension(final File f) {
         File file = f;
         if (!f.getName().substring(f.getName().length() - SUBSTRING_INDEX_EXTENSION).equals(".bps")) {
@@ -304,5 +259,63 @@ public final class PresetController implements ViewController, EventHandler<Acti
         alert.setHeaderText(null);
         alert.setContentText("Select at least one filter to save!");
         alert.showAndWait();
+    }
+    private void resizeComponents() {
+        final double width = stage.getScene().getWidth();
+        final double height = stage.getScene().getHeight();
+
+        btnSave.setMinWidth(width * BTN_WIDTH_MULTIPLIER);
+        btnSave.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
+        btnCancel.setMinWidth(width * BTN_WIDTH_MULTIPLIER);
+        btnCancel.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
+        spnExposure.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnExposure.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnContrast.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnContrast.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnBrightness.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBrightness.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnWhiteBalance.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnWhiteBalance.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnSaturation.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnSaturation.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnHue.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnHue.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnVibrance.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnVibrance.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnColR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnColR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnColG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnColG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnColB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnColB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnBlkR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnBlkG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnBlkB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        horizSep.setMinWidth(width);
+        verticSep.setMinHeight(height * SEP_HEIGHT_MULTIPLIER);
+        leftSep.setMinWidth(width * SEP_WIDTH_MULTIPLIER);
+    }
+
+    private void addListeners() {
+        for (final JFXCheckBox entry : components.keySet()) {
+            entry.setOnAction(this);
+        }
+        /*
+         * This adds a listener to every spinner.focusedProperty() that will update the value when the focus is lost
+         * we have to do this because in JavaFX8 spinners won't update value automatically
+         */
+        for (final List<Spinner<Integer>> entry : components.values()) {
+            for (final Spinner<Integer> e : entry) {
+                IntegerStringConverter.createFor(e);
+                e.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (!newValue) {
+                        e.increment(0); //won't change value, but will commit editor
+                      }
+                    });
+            }
+        }
     }
 }

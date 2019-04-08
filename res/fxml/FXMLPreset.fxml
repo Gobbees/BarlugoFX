@@ -91,9 +91,9 @@
 									<Separator fx:id="verticSep" orientation="vertical"
 										visible="false" />
 									<HBox>
-										<JFXCheckBox fx:id="chkWbalance"
+										<JFXCheckBox fx:id="chkWhiteBalance"
 											text="White balance:" id="preset-checkbox" />
-										<Spinner fx:id="spnWbalance" editable="true" />
+										<Spinner fx:id="spnWhiteBalance" editable="true" />
 									</HBox>
 								</VBox>
 							</children>
