@@ -114,7 +114,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setWB(final int value) {
+    public void setWhiteBalance(final int value) {
         wb.addParameter(ParametersName.WHITEBALANCE, new ParameterImpl<Float>(value * WB_MULTIPLIER));
         image = wb.applyFilter(image);
         wb.removeParameter(ParametersName.WHITEBALANCE);
@@ -154,7 +154,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setSC(final int r, final int g, final int b) {
+    public void setSelectiveColors(final int r, final int g, final int b) {
         //TODO make it possible to change only one of these.
         srgb.addParameter(ParametersName.RED, new ParameterImpl<Integer>(r));
         srgb.addParameter(ParametersName.GREEN, new ParameterImpl<Integer>(g));
@@ -170,7 +170,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setBW(final double r, final double g, final double b) {
+    public void setBlackAndWhite(final double r, final double g, final double b) {
         bw.addParameter(ParametersName.WRED, new ParameterImpl<Double>(r * BW_MULTIPLIER + BW_SHIFTER));
         bw.addParameter(ParametersName.WGREEN, new ParameterImpl<Double>(g * BW_MULTIPLIER + BW_SHIFTER));
         if (parallel) {
@@ -213,6 +213,10 @@ public final class AppManagerImpl implements AppManager {
     @Override
     public void savePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
         fileManager.writePreset(filters, file);
+    }
+    @Override
+    public void applyPreset(final File file) {
+        return;
     }
     //TODO history
 }

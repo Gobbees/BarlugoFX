@@ -55,4 +55,9 @@ public interface IOManager {
      * @throws ExecutionException if the operation has been interrupted unexpectedly
      */
     void writePreset(Properties filters, File file) throws IOException, InterruptedException, ExecutionException;
+    /**
+     * Applies the filters in the file to the image.
+     * @param file the input preset file where filters are saved
+     */
+    void applyPreset(File file);
 }

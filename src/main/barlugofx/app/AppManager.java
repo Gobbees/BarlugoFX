@@ -46,9 +46,9 @@ public interface AppManager {
     void setBrightness(int value);
     /**
      * Sets the white balance to value and computes the new image.
-     * @param value the wb input value
+     * @param value the white balance input value
      */
-    void setWB(int value);
+    void setWhiteBalance(int value);
     /**
      * Sets the saturation to value and computes the new image.
      * @param value the saturation input value
@@ -65,19 +65,19 @@ public interface AppManager {
      */
     void setVibrance(int value);
     /**
-     * Sets the selective colour regulation to r,g,b and computes the new image.
+     * Sets the selective color regulation to r,g,b and computes the new image.
      * @param r the red input value
      * @param g the green input value
      * @param b the blue input value
      */
-    void setSC(int r, int g, int b);
+    void setSelectiveColors(int r, int g, int b);
     /**
      * Sets the black n white regulation to r,g,b and computes the new image.
      * @param r the red input value
      * @param g the green input value
      * @param b the blue input value
      */
-    void setBW(double r, double g, double b);
+    void setBlackAndWhite(double r, double g, double b);
     /**
      * Rotates the image by requested angle.
      * @param angle the requested angle
@@ -118,4 +118,10 @@ public interface AppManager {
      * @throws ExecutionException if the operation has been interrupted unexpectedly
      */
     void savePreset(Properties filters, File file) throws IOException, InterruptedException, ExecutionException;
+
+    /**
+     * Applies the selected preset to the image.
+     * @param file the input preset file where filters are saved
+     */
+    void applyPreset(File file);
 }

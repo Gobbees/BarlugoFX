@@ -91,4 +91,9 @@ public final class IOManagerImpl implements IOManager {
         }
     }
 
+    @Override
+    public void applyPreset(final File file) {
+        return;
+    }
+
 }
