@@ -171,20 +171,6 @@
 				    </StackPane>
 				   </center>
 			    </BorderPane>
-		<SplitPane fx:id="spaneMain" dividerPositions="0.8"
-			style="-fx-border-width: 1 0 0 0">
-			<items>
-				<BorderPane fx:id="paneImage">
-					<center>
-						<StackPane>
-							<children>
-								<ImageView fx:id="iviewImage" pickOnBounds="true"
-									preserveRatio="true" />
-								<AnchorPane fx:id="apaneImage" />
-							</children>
-						</StackPane>
-					</center>
-				</BorderPane>
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL"
 					style="-fx-border-width: 0 0 0 0">
 					<items>
