@@ -17,19 +17,32 @@ import static barlugofx.view.main.Tool.WHITEBALANCE;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
 import barlugofx.app.AppManager;
+import barlugofx.app.AppManagerImpl;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.Format;
 import barlugofx.utils.MutablePair;
@@ -435,6 +448,50 @@ public final class MainController implements ViewController {
             presetView.get().closeStage();
         }
         presetView = Optional.of(new PresetView(manager));
+    }
+    /**
+     * Apply preset event triggered.
+     */
+    @FXML
+    public void openPreset() {
+        final FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new ExtensionFilter("Select a .bps preset", "*.bps"));
+        fc.setTitle("Select a .bps preset");
+        final File input = fc.showOpenDialog(stage);
+        final Properties properties = new Properties();
+        String filterName = "";
+        int value;
+        int[] values;
+        final Class<?>[] paramTypes = {int.class, int.class, int.class};
+        Method m;
+        try {
+            final FileInputStream fStream = new FileInputStream(input);
+            properties.load(fStream);
+            fStream.close();
+
+
+            final Enumeration<?> e = properties.propertyNames();
+            while (e.hasMoreElements()) {
+                filterName = (String) e.nextElement();
+                if (filterName.equals("SelectiveColors") || filterName.equals("BlackAndWhite")) {
+                    values = Arrays.asList(properties.getProperty(filterName).split(",")).stream().mapToInt(Integer::parseInt).toArray();
+                    m = manager.getClass().getDeclaredMethod("set" + filterName, paramTypes);
+                    m.invoke(manager, values[0], values[1], values[2]);
+                } else {
+                    value = Integer.parseInt(properties.getProperty(filterName));
+                    m = manager.getClass().getDeclaredMethod("set" + filterName, paramTypes[0]);
+                    m.invoke(manager, value);
+                }
+            }
+            updateImage();
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+            System.out.println("vaccamado");
+        } catch (InvocationTargetException | NoSuchMethodException | SecurityException | IOException | IllegalAccessException | IllegalArgumentException e) {
+            e.printStackTrace();
+            e.getCause();
+            System.out.println("porcodio");
+        }
     }
     /**
      * Toggle full screen event triggered.
