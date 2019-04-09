@@ -154,8 +154,26 @@ public class HistoryImpl implements History {
     public String nodeNamesToString() {
         String res = "";
         for (int i = 0; i < this.nodes.size(); i++) {
-            res = res + "[" + i + "]" + this.nodes.get(i).getNodeName() + ",";
+            res = res + "(" + i + ")" + this.nodes.get(i).getNodeName();
+            if (i < this.nodes.size() - 1) {
+                res += ",";
+            }
         }
+        return res;
+    }
+
+    /**
+     * @return string representation of History Object
+     */
+    @Override
+    public String toString() {
+        String res = "History{size="
+                + this.nodes.size()
+                + ",maxSize="
+                + HistoryImpl.TOOL_LIMIT
+                + ",nodes=["
+                + this.nodeNamesToString()
+                + "]}";
         return res;
     }
 }
