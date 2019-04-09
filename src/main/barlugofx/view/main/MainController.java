@@ -578,11 +578,11 @@ public final class MainController implements ViewController {
         //wb
         addKeyListener(tfWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
-            manager.setWB(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+            manager.setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
         }));
         addKeyListener(slWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
-            manager.setWB(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+            manager.setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
         }));
         //saturation
         addKeyListener(tfSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
@@ -620,7 +620,7 @@ public final class MainController implements ViewController {
                     toolStatus.get(SCR).setFirst((int) slSCR.getValue());
                     toolStatus.get(SCG).setFirst((int) slSCG.getValue());
                     toolStatus.get(SCB).setFirst((int) slSCB.getValue());
-                    manager.setSC(toolStatus.get(SCR).getFirst().intValue(), toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
+                    manager.setSelectiveColors(toolStatus.get(SCR).getFirst().intValue(), toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
                 }));
             }
         });
@@ -633,7 +633,7 @@ public final class MainController implements ViewController {
                     toolStatus.get(BWR).setFirst((int) slBWR.getValue());
                     toolStatus.get(BWG).setFirst((int) slBWG.getValue());
                     toolStatus.get(BWB).setFirst((int) slBWB.getValue());
-                    manager.setBW(toolStatus.get(BWR).getFirst().intValue(), toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
+                    manager.setBlackAndWhite(toolStatus.get(BWR).getFirst().intValue(), toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
                 }));
             }
         });
