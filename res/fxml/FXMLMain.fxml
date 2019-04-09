@@ -32,7 +32,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import barlugofx.view.main.components.zoompane.ZoomableImageView?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.1"
+<BorderPane fx:id="paneGeneral"
+	xmlns="http://javafx.com/javafx/8.0.1"
 	xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/style.css"
 	fx:controller="barlugofx.view.main.MainController">
 	<top>
@@ -113,7 +114,7 @@
 									</accelerator>
 								</MenuItem>
 								<MenuItem mnemonicParsing="false"
-									text="Apply .bps preset" onAction="#openPreset">
+									text="Apply .bps preset">
 									<accelerator>
 										<KeyCodeCombination code="a" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -124,8 +125,18 @@
 						<Menu mnemonicParsing="false" text="View">
 							<items>
 								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="Zoom +" />
-								<MenuItem mnemonicParsing="false" text="Zoom -" />
+								<MenuItem mnemonicParsing="false" text="Zoom +" onAction="#zoomIn">
+								    <accelerator>
+                                        <KeyCodeCombination code="i" control="DOWN" 
+                                            alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
+                                    </accelerator>
+                                </MenuItem>
+								<MenuItem mnemonicParsing="false" text="Zoom -" onAction="#zoomOut">
+								    <accelerator>
+                                        <KeyCodeCombination code="o" control="DOWN"
+                                            alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
+                                    </accelerator>
+								</MenuItem>
 								<SeparatorMenuItem />
 								<MenuItem mnemonicParsing="false"
 									text="Toggle full screen" onAction="#toggleFullScreen">

@@ -1,7 +1,7 @@
 package barlugofx.view.main;
 
 /**
- * This enumeration contains all the supported tool names.
+ * This enumeration contains all the supported tool names (view side).
  */
 enum Tool {
     EXPOSURE,

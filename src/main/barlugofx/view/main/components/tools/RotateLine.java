@@ -69,7 +69,7 @@ public final class RotateLine implements ComplexNode {
         return c;
     }
     private static Line createLine(final double x1, final double y1, final double x2, final double y2) {
-        Line l = new Line(x1, y1, x2, y2);
+        final Line l = new Line(x1, y1, x2, y2);
         l.setStroke(Color.WHITE);
         l.setStrokeWidth(LINE_WIDTH);
         return l;
