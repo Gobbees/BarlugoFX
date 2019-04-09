@@ -143,4 +143,33 @@ public final class HistoryTest {
         node.setNodeName("CASSARO"); //modifiche fuori dalla sequence non devono riflettersi sulla History.
         Assert.assertTrue(hist.findByName("CASSARO") == -1);
     }
+
+    /**
+     * Test to see the output of toString() and nodeNamesToString().
+     */
+    @Test
+    public void testToString() {
+        final HistoryImpl h = new HistoryImpl();
+        final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
+        final SequenceNode node1 = new SequenceNodeImpl("giovanni", DEFAULT_TOOL, DEFAULT_IMAGE);
+        final SequenceNode node2 = new SequenceNodeImpl("barlughi", DEFAULT_TOOL, DEFAULT_IMAGE);
+        try {
+            h.addTool(node);
+        } catch (ToolLimitReachedException e) {
+            Assert.fail("I should be able to add the tool");
+        }
+        try {
+            h.addTool(node1);
+        } catch (ToolLimitReachedException e) {
+            Assert.fail("I should be able to add the tool");
+        }
+        try {
+            h.addTool(node2);
+        } catch (ToolLimitReachedException e) {
+            Assert.fail("I should be able to add the tool");
+        }
+        System.out.println(h.toString());
+        System.out.println(h.nodeNamesToString());
+        Assert.assertTrue(true);
+    }
 }
