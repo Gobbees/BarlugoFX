@@ -19,30 +19,24 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
 import barlugofx.app.AppManager;
-import barlugofx.app.AppManagerImpl;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.Format;
 import barlugofx.utils.MutablePair;
@@ -67,7 +61,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.TextFlow;
@@ -83,8 +76,11 @@ public final class MainController implements ViewController {
     // private constant fields
     private static final double RIGHT_COLUMN_MIN_MULTIPLIER = 0.15;
     private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.5;
-    private static final double MIN_ZOOM_RATIO = 1.0d;
+    private static final double MIN_ZOOM_RATIO = 0.5d;
+    private static final double DEFAULT_ZOOM_RATIO = 1d;
     private static final double MAX_ZOOM_RATIO = 10d;
+    @FXML
+    private BorderPane paneGeneral;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -235,23 +231,28 @@ public final class MainController implements ViewController {
     public void setManager(final AppManager manager) {
         this.manager = manager;
         updateImage();
+        enableZoom();
         setEventListeners();
-        //TODO temp
-        scene.addEventHandler(ScrollEvent.ANY, (e) -> {
-            if (iviewImage.getZoomRatio() > MIN_ZOOM_RATIO && e.getDeltaY() > 0) {
-                iviewImage.zoom(ZoomDirection.ZOOM_OUT, e.getSceneX(), e.getSceneY());
-            } else if (iviewImage.getZoomRatio() < MAX_ZOOM_RATIO && e.getDeltaY() < 0) {
-                iviewImage.zoom(ZoomDirection.ZOOM_IN, e.getSceneX(), e.getSceneY());
-            }
-        });
     }
     /**
      * Resizes all the components relating to the new sizes.
      * @param width the new width
      * @param height the new height
      */
-    public void resizeComponents(final double width, final double height) { //TODO
-        System.out.println(width + " " + height);
+    public void resizeComponents(final double width, final double height) { //TODO throw exception if stage is null, ACTUALLY FINISH ME
+        //System.out.println(width + " " + height);
+        spaneMain.setPrefHeight(height - menuBar.getHeight());
+        menuBar.setPrefWidth(width);
+        spaneMain.setPrefWidth(width);
+        paneGeneral.setMinWidth(width);
+        paneGeneral.setMaxWidth(width);
+        paneGeneral.setPrefWidth(width);
+        System.out.println(spaneMain.getPrefWidth() + " " + spaneMain.getPrefHeight());
+        System.out.println(paneImage.getPrefWidth() + " X " + paneImage.getPrefHeight());
+        iviewImage.setFitWidth(apaneImage.getWidth());
+        iviewImage.setFitHeight(spaneMain.getHeight());
+        spaneRightColumn.setPrefWidth(width * spaneMain.getDividers().get(0).getPosition());
+        //spaneMain.setDividerPosition(0, spaneRightColumn.getPrefHeight() / width);
     }
     /**
      * 
@@ -267,7 +268,6 @@ public final class MainController implements ViewController {
                 try {
                     manager.setImage(file);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }));
@@ -283,37 +283,17 @@ public final class MainController implements ViewController {
         }
         exportView = Optional.of(new ExportView(manager));
     }
-
     /**
      * Rotate event triggered.
      */
     @FXML
     public void rotate() {
-        //TODO improve esc. write func to clean listeners
-        apaneImage.getChildren().clear();
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         final AtomicReference<RotateLine> rotateLine = new AtomicReference<>();
+        disableZoom();
+        resizeToDefault();
         apaneImage.getChildren().clear();
-        scene.setCursor(Cursor.HAND);
-        final EventHandler<MouseEvent> mPressed = e -> {
-            apaneImage.getChildren().clear();
-            startX.set(e.getX());
-            startY.set(e.getY());
-            e.consume();
-            apaneImage.setOnMousePressed(null);
-        };
-        apaneImage.setOnMousePressed(mPressed);
-        final EventHandler<MouseEvent> mDragged = e -> {
-            apaneImage.getChildren().clear();
-            if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - realWidth) / 2 && e.getX() >= (apaneImage.getWidth() - realWidth) / 2 
-                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getWidth() - realHeight) / 2
-                    && e.getY() >= (apaneImage.getHeight() - realHeight) / 2) {
-                rotateLine.set(new RotateLine(startX.get(), startY.get(), e.getX(), e.getY()));
-                rotateLine.get().addToPane(apaneImage);
-            }
-            e.consume();
-        };
-        apaneImage.setOnMouseDragged(mDragged);
+        apaneImage.setCursor(Cursor.HAND);
         final EventHandler<MouseEvent> mReleased = e -> {
             if (rotateLine.get() == null) {
                 apaneImage.setOnMouseDragged(null);
@@ -325,7 +305,7 @@ public final class MainController implements ViewController {
             startY.set(rotateLine.get().getStartPoint().getCenterY());
             final double endX = rotateLine.get().getEndPoint().getCenterX();
             final double endY = rotateLine.get().getEndPoint().getCenterY();
-            scene.setCursor(Cursor.WAIT);
+            apaneImage.setCursor(Cursor.WAIT);
             rotateLine.get().removeFromPane(apaneImage);
             double m;
             if (endY < startY.get()) {
@@ -340,20 +320,43 @@ public final class MainController implements ViewController {
                 manager.rotate(theta);
                 Platform.runLater(() -> {
                     updateImage();
-                    scene.setCursor(Cursor.DEFAULT);
+                    apaneImage.setCursor(Cursor.DEFAULT);
                     apaneImage.setOnMouseDragged(null);
                     apaneImage.setOnMouseReleased(null);
+                    enableZoom();
                 });
             });
         };
-        apaneImage.setOnMouseReleased(mReleased);
+        final EventHandler<MouseEvent> mDragged = e -> {
+            apaneImage.getChildren().clear();
+            if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - realWidth) / 2 && e.getX() >= (apaneImage.getWidth() - realWidth) / 2 
+                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getWidth() - realHeight) / 2
+                    && e.getY() >= (apaneImage.getHeight() - realHeight) / 2) {
+                rotateLine.set(new RotateLine(startX.get(), startY.get(), e.getX(), e.getY()));
+                rotateLine.get().addToPane(apaneImage);
+                apaneImage.setOnMouseReleased(mReleased);
+            }
+            e.consume();
+        };
+        final EventHandler<MouseEvent> mPressed = e -> {
+            apaneImage.getChildren().clear();
+            startX.set(e.getX());
+            startY.set(e.getY());
+            e.consume();
+            apaneImage.setOnMousePressed(null);
+            apaneImage.setOnMouseDragged(mDragged);
+        };
+        apaneImage.setOnMousePressed(mPressed);
         scene.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ESCAPE)) {
-                apaneImage.getChildren().clear();
-                scene.setCursor(Cursor.DEFAULT);
+                if (rotateLine.get() != null) {
+                    rotateLine.get().removeFromPane(apaneImage);
+                }
+                apaneImage.setOnMousePressed(mPressed);
                 apaneImage.setOnMouseDragged(null);
                 apaneImage.setOnMouseReleased(null);
                 scene.setOnKeyPressed(null);
+                enableZoom();
             }
         });
     }
@@ -362,7 +365,8 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void crop() {
-        //iviewImage.setZoomToValue(MIN_ZOOM_RATIO);
+        disableZoom();
+        resizeToDefault();
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         //TODO manage crop after resize
         apaneImage.getChildren().clear();
@@ -418,7 +422,6 @@ public final class MainController implements ViewController {
             cropper.resize(e.getX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(),
                     cropper.getBottomRightPoint().getCenterY());
         });
-        // TODO change scene with other shit
         scene.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
                 final int x1 = (int) ((cropper.getRectangle().getX() - (iviewImage.getFitWidth() - realWidth) / 2)
@@ -434,8 +437,18 @@ public final class MainController implements ViewController {
                     Platform.runLater(() -> {
                         updateImage();
                         cropper.removeFromPane(apaneImage);
+                        apaneImage.setOnMouseDragged(null);
+                        apaneImage.setOnMouseReleased(null);
+                        scene.setOnKeyPressed(null);
+                        enableZoom();
                     });
                 });
+            } else if (ke.getCode().equals(KeyCode.ESCAPE)) {
+                cropper.removeFromPane(apaneImage);
+                apaneImage.setOnMouseDragged(null);
+                apaneImage.setOnMouseReleased(null);
+                scene.setOnKeyPressed(null);
+                enableZoom();
             }
         });
     }
@@ -489,9 +502,23 @@ public final class MainController implements ViewController {
             System.out.println("vaccamado");
         } catch (InvocationTargetException | NoSuchMethodException | SecurityException | IOException | IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();
-            e.getCause();
+            //e.getCause(); //it generates a pmd warning
             System.out.println("porcodio");
         }
+    }
+    /**
+     * Zoom in event triggered.
+     */
+    @FXML
+    public void zoomIn() {
+        iviewImage.zoom(ZoomDirection.ZOOM_IN, realWidth / 2, realHeight / 2);
+    }
+    /**
+     * Zoom out event triggered.
+     */
+    @FXML
+    public void zoomOut() {
+        iviewImage.zoom(ZoomDirection.ZOOM_OUT, realWidth / 2, realHeight / 2);
     }
     /**
      * Toggle full screen event triggered.
@@ -525,6 +552,44 @@ public final class MainController implements ViewController {
         iviewImage.setFitWidth(apaneImage.getWidth());
         iviewImage.setFitHeight(spaneMain.getHeight());
         updateRealDimension();
+    }
+    //zoom and pane activation
+    private void enableZoom() { //TODO update realWidth height
+        apaneImage.setCursor(Cursor.OPEN_HAND);
+        apaneImage.setOnScroll(e -> {
+            if (iviewImage.getZoomRatio() > MIN_ZOOM_RATIO && e.getDeltaY() > 0) {
+                iviewImage.zoom(ZoomDirection.ZOOM_OUT, e.getSceneX(), e.getSceneY());
+            } else if (iviewImage.getZoomRatio() < MAX_ZOOM_RATIO && e.getDeltaY() < 0) {
+                iviewImage.zoom(ZoomDirection.ZOOM_IN, e.getSceneX(), e.getSceneY());
+            }
+        });
+        apaneImage.setOnMousePressed(e -> {
+            apaneImage.setCursor(Cursor.CLOSED_HAND);
+            iviewImage.initDrag(e.getX(), e.getY());
+        });
+        apaneImage.setOnMouseDragged(e -> {
+            iviewImage.drag(e.getX(), e.getY());
+        });
+        apaneImage.setOnMouseReleased(e -> {
+            apaneImage.setCursor(Cursor.OPEN_HAND);
+        });
+        apaneImage.setOnMouseClicked(e -> { //TODO Tutorial
+            if (e.getClickCount() == 2) {
+                resizeToDefault();
+            }
+        });
+    }
+    private void disableZoom() {
+        apaneImage.setOnScroll(null);
+        apaneImage.setOnMousePressed(null);
+        apaneImage.setOnMouseDragged(null);
+        apaneImage.setOnMouseReleased(null);
+        apaneImage.setCursor(Cursor.DEFAULT);
+    }
+    private void resizeToDefault() { //TODO update realWidth height
+        iviewImage.setZoomToValue(DEFAULT_ZOOM_RATIO);
+        iviewImage.setTranslateX(0);
+        iviewImage.setTranslateY(0);
     }
 
     // this function initializes all the components sizes in relation to the screen
@@ -703,7 +768,7 @@ public final class MainController implements ViewController {
         });
     }
     private void updateRealDimension() {
-        double aspectRatio = iviewImage.getImage().getWidth() / iviewImage.getImage().getHeight();
+        final double aspectRatio = iviewImage.getImage().getWidth() / iviewImage.getImage().getHeight();
         realWidth = (int) Math.min(iviewImage.getFitWidth(), iviewImage.getFitHeight() * aspectRatio);
         realHeight = (int) Math.min(iviewImage.getFitHeight(), iviewImage.getFitWidth() / aspectRatio);
     }
