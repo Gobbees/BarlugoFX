@@ -12,12 +12,13 @@ import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParametersName;
 
 /**
- * This class handles the change of an {@link Image} involving Hue, Saturation and
- * Exposure (Brightness in HSB). This class accepts up to three parameter: HUE,
- * which must be a positive float number between -1 and 1, Saturation, which
- * must be a float number between -1 and 1, and Exposure, a float number between
- * -1 and 1. By receiving more than one parameter, this class allows multiple
- * changes to HSV limiting conversions, resulting in more efficient changes.
+ * This class handles the change of an {@link Image} involving Hue, Saturation
+ * and Exposure (Brightness in HSB). This class accepts up to three parameter:
+ * HUE, which must be a positive float number between -1 and 1, Saturation,
+ * which must be a float number between -1 and 1, and Exposure, a float number
+ * between -1 and 1. By receiving more than one parameter, this class allows
+ * multiple changes to HSV limiting conversions, resulting in more efficient
+ * changes.
  *
  * Eventual other value will result in an {@link IllegalStateException}.
  */
@@ -35,8 +36,10 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
     private HSBModifier() {
         super();
     }
+
     /**
      * Creates a new HSBModifier.
+     *
      * @return the instantiated modifier.
      */
     public static HSBModifier createHSB() {
@@ -50,11 +53,11 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
                 float[] hsv = new float[3];
                 hsv = Color.RGBtoHSB(ColorUtils.getRed(pixels[i][j]), ColorUtils.getGreen(pixels[i][j]),
                         ColorUtils.getGreen(pixels[i][j]), hsv);
-                hsv[0] = hue == 0 ? hsv[0] : hsv[0] + hue; //truncate qui non e' necessario
+                hsv[0] = hue == 0 ? hsv[0] : hsv[0] + hue; // truncate qui non e' necessario
                 hsv[1] = saturation == 0 ? hsv[1] : truncateSum(hsv[1], saturation);
                 hsv[2] = exposure == 0 ? hsv[2] : truncateSum(hsv[2], exposure);
-				newPixels[i][j] = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
-				newPixels[i][j] = ColorUtils.setAlpha(newPixels[i][j], ColorUtils.getAlpha(pixels[i][j]));
+                newPixels[i][j] = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
+                newPixels[i][j] = ColorUtils.setAlpha(newPixels[i][j], ColorUtils.getAlpha(pixels[i][j]));
             }
         }
     }
@@ -83,6 +86,5 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
     protected boolean isAccepted(final ParametersName name) {
         return ACCEPTED.contains(name);
     }
-
 
 }

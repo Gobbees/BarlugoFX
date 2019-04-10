@@ -39,11 +39,10 @@ public final class Vibrance extends ImageToolImpl implements ParallelizableImage
         return new Vibrance();
     }
 
-
     @Override
     public void inizializeTool() {
-        increment = super.getValueFromParameter(ParametersName.VIBRANCE_INCREMENT, MIN_INCREMENT,
-                MAX_INCREMENT, DEFAULT_VALUE) / 100;
+        increment = super.getValueFromParameter(ParametersName.VIBRANCE_INCREMENT, MIN_INCREMENT, MAX_INCREMENT,
+                DEFAULT_VALUE) / 100;
     }
 
     @Override
@@ -59,7 +58,7 @@ public final class Vibrance extends ImageToolImpl implements ParallelizableImage
                 hsb = Color.RGBtoHSB(red, green, blue, hsb);
                 hsb[1] = truncateSum(hsb[1], (maxColor - brightness) * increment);
                 newPixels[i][j] = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
-            	newPixels[i][j] = ColorUtils.setAlpha(newPixels[i][j], ColorUtils.getAlpha(pixels[i][j]));
+                newPixels[i][j] = ColorUtils.setAlpha(newPixels[i][j], ColorUtils.getAlpha(pixels[i][j]));
             }
         }
     }
