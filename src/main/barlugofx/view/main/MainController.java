@@ -68,6 +68,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+
 /**
  * This class manages the view events. IMPORTANT: set the app manager with
  * setManager() function. Creating a MainController object is useless and it
@@ -223,9 +224,11 @@ public final class MainController implements ViewController {
             }
         });
     }
+
     /**
      * This function sets the app manager (controller). It must be called in order
      * to avoid future errors.
+     * 
      * @param manager the input manager
      */
     public void setManager(final AppManager manager) {
@@ -238,9 +241,11 @@ public final class MainController implements ViewController {
         enableZoom();
         setEventListeners();
     }
+
     /**
      * Resizes all the components relating to the new sizes.
-     * @param width the new width
+     * 
+     * @param width  the new width
      * @param height the new height
      */
     public void resizeComponents(final double width, final double height) {
@@ -254,12 +259,13 @@ public final class MainController implements ViewController {
         iviewImage.setFitWidth(apaneImage.getPrefWidth());
         iviewImage.setFitHeight(apaneImage.getPrefHeight());
     }
+
     /**
      * New photo event triggered.
      */
     @FXML
-    public void newPhoto() { //TODO reset history and all components 
-        //TODO discard changes
+    public void newPhoto() { // TODO reset history and all components
+        // TODO discard changes
         checkManager();
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
@@ -275,6 +281,7 @@ public final class MainController implements ViewController {
             }));
         }
     }
+
     /**
      * Export event triggered.
      */
@@ -285,6 +292,7 @@ public final class MainController implements ViewController {
         }
         exportView = Optional.of(new ExportView(manager));
     }
+
     /**
      * Rotate event triggered.
      */
@@ -332,7 +340,8 @@ public final class MainController implements ViewController {
         };
         final EventHandler<MouseEvent> mDragged = e -> {
             apaneImage.getChildren().clear();
-            if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2 && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2 
+            if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
                     && e.getY() <= apaneImage.getHeight() - (apaneImage.getWidth() - iviewImage.getRealHeight()) / 2
                     && e.getY() >= (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
                 rotateLine.set(new RotateLine(startX.get(), startY.get(), e.getX(), e.getY()));
@@ -363,6 +372,7 @@ public final class MainController implements ViewController {
             }
         });
     }
+
     /**
      * Crop event triggered.
      */
@@ -372,9 +382,10 @@ public final class MainController implements ViewController {
         disableZoom();
         resizeToDefault();
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
-        //TODO manage crop after resize
+        // TODO manage crop after resize
         apaneImage.getChildren().clear();
-        final CropArea cropper = new CropArea(iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2, apaneImage.getWidth() / 2 - iviewImage.getRealWidth() / 4,
+        final CropArea cropper = new CropArea(iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2,
+                apaneImage.getWidth() / 2 - iviewImage.getRealWidth() / 4,
                 apaneImage.getHeight() / 2 - iviewImage.getRealHeight() / 4);
         cropper.addToPane(apaneImage);
         cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_PRESSED, e -> {
@@ -382,60 +393,97 @@ public final class MainController implements ViewController {
             startY.set(e.getY());
         });
         cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_DRAGGED, e -> { // TODO test
-            if (cropper.getRectangle().getX() + e.getX() - startX.get() > (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+            if (cropper.getRectangle().getX() + e.getX()
+                    - startX.get() > (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
                     && cropper.getRectangle().getX() + cropper.getRectangle().getWidth() + e.getX()
-                            - startX.get() < apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
-                    && cropper.getRectangle().getY() + e.getY() - startY.get() > (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2
+                            - startX.get() < apaneImage.getWidth()
+                                    - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && cropper.getRectangle().getY() + e.getY()
+                            - startY.get() > (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2
                     && cropper.getRectangle().getY() + cropper.getRectangle().getHeight() + e.getY()
-                            - startY.get() < apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                            - startY.get() < apaneImage.getHeight()
+                                    - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
                 cropper.drag(startX.get(), startY.get(), e.getX(), e.getY());
                 startX.set(e.getX());
                 startY.set(e.getY());
             }
             e.consume();
         });
-        cropper.addEvent(cropper.getTopLeftPoint(), MouseEvent.MOUSE_DRAGGED, e -> { //TODO control sizes
-            cropper.resize(e.getX(), e.getY(), cropper.getBottomRightPoint().getCenterX(),
-                    cropper.getBottomRightPoint().getCenterY());
+        cropper.addEvent(cropper.getTopLeftPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
+            if (e.getX() <= cropper.getTopRightPoint().getCenterX() && e.getY() <= cropper.getBottomLeftPoint().getCenterY() 
+                    && e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getY() >= (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                cropper.resize(e.getX(), e.getY(), cropper.getBottomRightPoint().getCenterX(),
+                        cropper.getBottomRightPoint().getCenterY());
+            }
         });
-        cropper.addEvent(cropper.getTopRightPoint(), MouseEvent.MOUSE_DRAGGED, e -> { 
-            cropper.resize(cropper.getTopLeftPoint().getCenterX(), e.getY(), e.getX(),
-                    cropper.getBottomRightPoint().getCenterY());
+        cropper.addEvent(cropper.getTopRightPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
+            if (e.getX() >= cropper.getTopLeftPoint().getCenterX() && e.getY() <= cropper.getBottomRightPoint().getCenterY() 
+                    && e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getY() >= (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), e.getY(), e.getX(),
+                        cropper.getBottomRightPoint().getCenterY());
+            }
         });
         cropper.addEvent(cropper.getBottomLeftPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
-            cropper.resize(e.getX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(),
-                    e.getY());
+            if (e.getX() <= cropper.getBottomRightPoint().getCenterX() && e.getY() >= cropper.getTopLeftPoint().getCenterY() 
+                    && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                cropper.resize(e.getX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(),
+                        e.getY());
+            }
         });
         cropper.addEvent(cropper.getBottomRightPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
-            cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(),
-                    e.getY());
+            if (e.getX() >= cropper.getBottomLeftPoint().getCenterX() && e.getY() >= cropper.getTopRightPoint().getCenterY() 
+                    && e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(),
+                        e.getY());
+            }
         });
         cropper.addEvent(cropper.getMidTopPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
-            cropper.resize(cropper.getTopLeftPoint().getCenterX(), e.getY(), cropper.getBottomRightPoint().getCenterX(),
-                    cropper.getBottomRightPoint().getCenterY());
+            if (e.getY() <= cropper.getMidBottomPoint().getCenterY() 
+                    && e.getY() >= (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), e.getY(), cropper.getBottomRightPoint().getCenterX(),
+                        cropper.getBottomRightPoint().getCenterY());
+            }
         });
         cropper.addEvent(cropper.getMidRightPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
-            cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(),
-                    cropper.getBottomRightPoint().getCenterY());
+            if (e.getX() >= cropper.getMidLeftPoint().getCenterX()
+                    && e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2) {
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(),
+                        cropper.getBottomRightPoint().getCenterY());
+            }
         });
         cropper.addEvent(cropper.getMidBottomPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
-            cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(),
-                    cropper.getBottomRightPoint().getCenterX(), e.getY());
+            if (e.getY() >= cropper.getMidTopPoint().getCenterY() 
+                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(),
+                        cropper.getBottomRightPoint().getCenterX(), e.getY());
+            }
         });
         cropper.addEvent(cropper.getMidLeftPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
-            cropper.resize(e.getX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(),
-                    cropper.getBottomRightPoint().getCenterY());
+            if (e.getX() <= cropper.getMidRightPoint().getCenterX() 
+                    && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2) {
+                cropper.resize(e.getX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(),
+                        cropper.getBottomRightPoint().getCenterY());
+            }
         });
         scene.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
-                final int x1 = (int) ((cropper.getRectangle().getX() - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2)
-                        * iviewImage.getImage().getWidth() / iviewImage.getRealWidth());
-                final int y1 = (int) ((cropper.getRectangle().getY() - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
+                final int x1 = (int) ((cropper.getRectangle().getX()
+                        - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
+                        / iviewImage.getRealWidth());
+                final int y1 = (int) ((cropper.getRectangle().getY()
+                        - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
                         * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
                 final int x2 = (int) ((cropper.getRectangle().getX() + cropper.getRectangle().getWidth()
-                        - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth() / iviewImage.getRealWidth());
+                        - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
+                        / iviewImage.getRealWidth());
                 final int y2 = (int) ((cropper.getRectangle().getY() + cropper.getRectangle().getHeight()
-                        - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2) * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
+                        - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
+                        * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
                 runNewThread("Cropper", () -> {
                     manager.crop(x1, y1, x2, y2);
                     Platform.runLater(() -> {
@@ -456,6 +504,7 @@ public final class MainController implements ViewController {
             }
         });
     }
+
     /**
      * Preset event triggered.
      */
@@ -466,6 +515,7 @@ public final class MainController implements ViewController {
         }
         presetView = Optional.of(new PresetView(manager));
     }
+
     /**
      * Apply preset event triggered.
      */
@@ -480,7 +530,7 @@ public final class MainController implements ViewController {
         String filterName = "";
         int value;
         int[] values;
-        final Class<?>[] paramTypes = {int.class, int.class, int.class};
+        final Class<?>[] paramTypes = { int.class, int.class, int.class };
         Method m;
         try {
             final FileInputStream fStream = new FileInputStream(input);
@@ -490,7 +540,8 @@ public final class MainController implements ViewController {
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
                 if (filterName.equals("SelectiveColors") || filterName.equals("BlackAndWhite")) {
-                    values = Arrays.asList(properties.getProperty(filterName).split(",")).stream().mapToInt(Integer::parseInt).toArray();
+                    values = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
+                            .mapToInt(Integer::parseInt).toArray();
                     m = manager.getClass().getDeclaredMethod("set" + filterName, paramTypes);
                     m.invoke(manager, values[0], values[1], values[2]);
                 } else {
@@ -503,12 +554,14 @@ public final class MainController implements ViewController {
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             System.out.println("vaccamado");
-        } catch (InvocationTargetException | NoSuchMethodException | SecurityException | IOException | IllegalAccessException | IllegalArgumentException e) {
+        } catch (InvocationTargetException | NoSuchMethodException | SecurityException | IOException
+                | IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();
-            //e.getCause(); //it generates a pmd warning
+            // e.getCause(); //it generates a pmd warning
             System.out.println("porcodio");
         }
     }
+
     /**
      * Zoom in event triggered.
      */
@@ -516,6 +569,7 @@ public final class MainController implements ViewController {
     public void zoomIn() {
         iviewImage.zoom(ZoomDirection.ZOOM_IN, iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2);
     }
+
     /**
      * Zoom out event triggered.
      */
@@ -523,6 +577,7 @@ public final class MainController implements ViewController {
     public void zoomOut() {
         iviewImage.zoom(ZoomDirection.ZOOM_OUT, iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2);
     }
+
     /**
      * Toggle full screen event triggered.
      */
@@ -531,6 +586,7 @@ public final class MainController implements ViewController {
         checkStage();
         stage.setFullScreen(true);
     }
+
     /**
      * Minimize event triggered.
      */
@@ -539,6 +595,7 @@ public final class MainController implements ViewController {
         checkStage();
         stage.setIconified(true);
     }
+
     /**
      * About clicked.
      */
@@ -549,18 +606,21 @@ public final class MainController implements ViewController {
             throw new IOException();
         } catch (IOException | URISyntaxException e) {
             AbstractView.showErrorAlert(e.getMessage());
-            //TODO 
+            // TODO
             e.printStackTrace();
         }
     }
-    //updates the image and the real sizes
+
+    // updates the image and the real sizes
     private void updateImage() {
-        iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+        iviewImage.setImage(
+                SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
         iviewImage.setFitWidth(apaneImage.getWidth());
         iviewImage.setFitHeight(spaneMain.getHeight());
         iviewImage.updateRealSizes();
     }
-    //zoom and pane activation
+
+    // zoom and pane activation
     private void enableZoom() {
         apaneImage.setCursor(Cursor.OPEN_HAND);
         apaneImage.setOnScroll(e -> {
@@ -582,12 +642,13 @@ public final class MainController implements ViewController {
         apaneImage.setOnMouseReleased(e -> {
             apaneImage.setCursor(Cursor.OPEN_HAND);
         });
-        apaneImage.setOnMouseClicked(e -> { //TODO Tutorial
+        apaneImage.setOnMouseClicked(e -> { // TODO Tutorial
             if (e.getClickCount() == 2) {
                 resizeToDefault();
             }
         });
     }
+
     private void disableZoom() {
         apaneImage.setOnScroll(null);
         apaneImage.setOnMousePressed(null);
@@ -595,6 +656,7 @@ public final class MainController implements ViewController {
         apaneImage.setOnMouseReleased(null);
         apaneImage.setCursor(Cursor.DEFAULT);
     }
+
     private void resizeToDefault() {
         iviewImage.setZoomToValue(DEFAULT_ZOOM_RATIO);
         iviewImage.setTranslateX(0);
@@ -673,9 +735,10 @@ public final class MainController implements ViewController {
             }
         });
     }
+
     private void setEventListeners() {
         checkManager();
-        //exposure
+        // exposure
         addKeyListener(tfExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
             toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
             manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
@@ -684,7 +747,7 @@ public final class MainController implements ViewController {
             toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
             manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
         }));
-        //contrast
+        // contrast
         addKeyListener(tfContrast, KeyCode.ENTER, CONTRAST, createCompleteRunnable(() -> {
             toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
             manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
@@ -693,7 +756,7 @@ public final class MainController implements ViewController {
             toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
             manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
         }));
-        //brightness
+        // brightness
         addKeyListener(tfBrightness, KeyCode.ENTER, BRIGHTNESS, createCompleteRunnable(() -> {
             toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
             manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
@@ -702,7 +765,7 @@ public final class MainController implements ViewController {
             toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
             manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
         }));
-        //wb
+        // wb
         addKeyListener(tfWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
             manager.setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
@@ -711,7 +774,7 @@ public final class MainController implements ViewController {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
             manager.setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
         }));
-        //saturation
+        // saturation
         addKeyListener(tfSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
             toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
             manager.setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
@@ -720,7 +783,7 @@ public final class MainController implements ViewController {
             toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
             manager.setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
         }));
-        //hue
+        // hue
         addKeyListener(tfHue, KeyCode.ENTER, HUE, createCompleteRunnable(() -> {
             toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
             manager.setHue(toolStatus.get(HUE).getFirst().intValue());
@@ -729,7 +792,7 @@ public final class MainController implements ViewController {
             toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
             manager.setHue(toolStatus.get(HUE).getFirst().intValue());
         }));
-        //vibrance
+        // vibrance
         addKeyListener(tfVibrance, KeyCode.ENTER, VIBRANCE, createCompleteRunnable(() -> {
             toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
             manager.setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
@@ -747,7 +810,8 @@ public final class MainController implements ViewController {
                     toolStatus.get(SCR).setFirst((int) slSCR.getValue());
                     toolStatus.get(SCG).setFirst((int) slSCG.getValue());
                     toolStatus.get(SCB).setFirst((int) slSCB.getValue());
-                    manager.setSelectiveColors(toolStatus.get(SCR).getFirst().intValue(), toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
+                    manager.setSelectiveColors(toolStatus.get(SCR).getFirst().intValue(),
+                            toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
                 }));
             }
         });
@@ -760,26 +824,30 @@ public final class MainController implements ViewController {
                     toolStatus.get(BWR).setFirst((int) slBWR.getValue());
                     toolStatus.get(BWG).setFirst((int) slBWG.getValue());
                     toolStatus.get(BWB).setFirst((int) slBWB.getValue());
-                    manager.setBlackAndWhite(toolStatus.get(BWR).getFirst().intValue(), toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
+                    manager.setBlackAndWhite(toolStatus.get(BWR).getFirst().intValue(),
+                            toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
                 }));
             }
         });
         // set imageView width according to the divider position
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
-            if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth()) { 
-                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2); //TODO
+            if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain
+                    .getMaxWidth()) {
+                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2); // TODO
                 iviewImage.updateRealSizes();
             }
         });
     }
+
     private void addKeyListener(final JFXTextField node, final KeyCode kc, final Tool tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(kc) && toolStatus.get(tool).getSecond()
-                && Integer.parseInt(node.getText()) != toolStatus.get(tool).getFirst().intValue()) {
+                    && Integer.parseInt(node.getText()) != toolStatus.get(tool).getFirst().intValue()) {
                 runNewThread(tool.toString(), rn);
             }
         });
     }
+
     private void addKeyListener(final JFXSlider node, final KeyCode kc, final Tool tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(kc) && (int) node.getValue() != toolStatus.get(tool).getFirst().intValue()) {
@@ -787,16 +855,18 @@ public final class MainController implements ViewController {
             }
         });
     }
+
     private Runnable createCompleteRunnable(final Runnable rn) {
         return () -> {
             scene.setCursor(Cursor.WAIT);
-            rn.run(); //TODO ask if can be correct
+            rn.run(); // TODO ask if can be correct
             Platform.runLater(() -> {
                 updateImage();
                 scene.setCursor(Cursor.DEFAULT);
             });
-        }; 
+        };
     }
+
     private void addKeyboardShortcuts() {
         checkStage();
         KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
@@ -806,14 +876,17 @@ public final class MainController implements ViewController {
         runnable = () -> toggleFullScreen();
         scene.getAccelerators().put(kc, runnable);
     }
+
     private void runNewThread(final String threadName, final Runnable task) {
         new Thread(task, threadName).start();
     }
+
     private void checkManager() {
         if (manager == null) {
             throw new IllegalStateException("The manager is null");
         }
     }
+
     private void checkStage() {
         if (stage == null) {
             throw new IllegalStateException("The stage is null");
