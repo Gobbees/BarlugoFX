@@ -95,6 +95,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
     }
 
     private void initComponents() {
+
         resizeComponents();
 
         spnExposure.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
@@ -123,7 +124,6 @@ public final class PresetController implements ViewController, EventHandler<Acti
         components.put(chkBlkWht, Arrays.asList(spnBlkR, spnBlkG, spnBlkB));
 
         addListeners();
-
     }
     @Override
     public void handle(final ActionEvent event) {
@@ -300,12 +300,16 @@ public final class PresetController implements ViewController, EventHandler<Acti
     }
 
     private void addListeners() {
+        
+        /*
+         * Adds a listener to every checkbox.
+         */
         for (final JFXCheckBox entry : components.keySet()) {
             entry.setOnAction(this);
         }
         /*
          * This adds a listener to every spinner.focusedProperty() that will update the value when the focus is lost
-         * we have to do this because in JavaFX8 spinners won't update value automatically
+         * we have to do this because in JavaFX8 spinners won't update value automatically.
          */
         for (final List<Spinner<Integer>> entry : components.values()) {
             for (final Spinner<Integer> e : entry) {

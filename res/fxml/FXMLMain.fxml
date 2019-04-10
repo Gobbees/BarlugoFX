@@ -111,7 +111,7 @@
 									</accelerator>
 								</MenuItem>
 								<MenuItem mnemonicParsing="false"
-									text="Apply .bps preset" onAction="#openPreset">
+									text="Apply bps preset" onAction="#openPreset">
 									<accelerator>
 										<KeyCodeCombination code="a" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />

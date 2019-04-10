@@ -59,7 +59,7 @@ public class MainView extends AbstractView<MainController> {
                 //this is performed after the animation finish because if not the view is closed too strongly.
                 final Timeline stageTimeline = AnimationUtils.resizeToFullScreen(Duration.millis(ANIM_MILLIS), stage, ANIM_STEP, new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
                 stageTimeline.setOnFinished(timelineEvent -> {
-                    this.getStage().setMaximized(true);
+                    //this.getStage().setMaximized(true);
                     this.getStage().setTitle(manager.getInputFileName());
                     this.getStage().setMinWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * MIN_DIM_MULTIPLIER);
                     this.getStage().setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * MIN_DIM_MULTIPLIER);
