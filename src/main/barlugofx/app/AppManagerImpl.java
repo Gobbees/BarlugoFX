@@ -216,7 +216,7 @@ public final class AppManagerImpl implements AppManager {
     }
     @Override
     public void applyPreset(final File file) {
-        return;
+        //return;
     }
     //TODO history
 }
