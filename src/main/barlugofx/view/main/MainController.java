@@ -55,9 +55,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCombination;
@@ -527,6 +529,10 @@ public final class MainController implements ViewController {
         fc.getExtensionFilters().add(new ExtensionFilter("Select a .bps preset", "*.bps"));
         fc.setTitle("Select a .bps preset");
         final File input = fc.showOpenDialog(stage);
+        if (input == null) {
+            System.out.println("ciao");
+            return;
+        }
         final Properties properties = new Properties();
         String filterName = "";
         int value;
@@ -552,13 +558,13 @@ public final class MainController implements ViewController {
                 }
             }
             updateImage();
-        } catch (NumberFormatException ex) {
+        } catch (InvocationTargetException | IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
             ex.printStackTrace();
             System.out.println("vaccamado");
-        } catch (InvocationTargetException | NoSuchMethodException | SecurityException | IOException
-                | IllegalAccessException | IllegalArgumentException e) {
+            showErrorMessage();
+        } catch (NoSuchMethodException | SecurityException | IOException | IllegalAccessException e) {
             e.printStackTrace();
-            // e.getCause(); //it generates a pmd warning
             System.out.println("porcodio");
         }
     }
@@ -894,5 +900,12 @@ public final class MainController implements ViewController {
         if (stage == null) {
             throw new IllegalStateException("The stage is null");
         }
+    }
+    private void showErrorMessage() {
+        final Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("The selected file is corrupted!");
+        alert.showAndWait();
     }
 }
