@@ -385,7 +385,6 @@ public final class MainController implements ViewController {
         resizeToDefault();
         spaneRightColumn.setMaxWidth(spaneRightColumn.getWidth());
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
-        // TODO manage crop after resize
         apaneImage.getChildren().clear();
         final CropArea cropper = new CropArea(iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2,
                 apaneImage.getWidth() / 2 - iviewImage.getRealWidth() / 4,
@@ -395,17 +394,11 @@ public final class MainController implements ViewController {
             startX.set(e.getX());
             startY.set(e.getY());
         });
-        cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_DRAGGED, e -> { // TODO test
-            if (cropper.getRectangle().getX() + e.getX()
-                    - startX.get() > (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
-                    && cropper.getRectangle().getX() + cropper.getRectangle().getWidth() + e.getX()
-                            - startX.get() < apaneImage.getWidth()
-                                    - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
-                    && cropper.getRectangle().getY() + e.getY()
-                            - startY.get() > (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2
-                    && cropper.getRectangle().getY() + cropper.getRectangle().getHeight() + e.getY()
-                            - startY.get() < apaneImage.getHeight()
-                                    - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+        cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_DRAGGED, e -> {
+            if (cropper.getRectangle().getX() + e.getX() - startX.get() > (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && cropper.getRectangle().getX() + cropper.getRectangle().getWidth() + e.getX() - startX.get() < apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && cropper.getRectangle().getY() + e.getY() - startY.get() > (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2
+                    && cropper.getRectangle().getY() + cropper.getRectangle().getHeight() + e.getY() - startY.get() < apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
                 cropper.drag(startX.get(), startY.get(), e.getX(), e.getY());
                 startX.set(e.getX());
                 startY.set(e.getY());
@@ -441,52 +434,39 @@ public final class MainController implements ViewController {
             if (e.getX() >= cropper.getBottomLeftPoint().getCenterX() && e.getY() >= cropper.getTopRightPoint().getCenterY() 
                     && e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
                     && e.getY() <= apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
-                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(),
-                        e.getY());
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(), e.getY());
             }
         });
         cropper.addEvent(cropper.getMidTopPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
             if (e.getY() <= cropper.getMidBottomPoint().getCenterY() 
                     && e.getY() >= (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
-                cropper.resize(cropper.getTopLeftPoint().getCenterX(), e.getY(), cropper.getBottomRightPoint().getCenterX(),
-                        cropper.getBottomRightPoint().getCenterY());
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), e.getY(), cropper.getBottomRightPoint().getCenterX(), cropper.getBottomRightPoint().getCenterY());
             }
         });
         cropper.addEvent(cropper.getMidRightPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
             if (e.getX() >= cropper.getMidLeftPoint().getCenterX()
                     && e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2) {
-                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(),
-                        cropper.getBottomRightPoint().getCenterY());
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), e.getX(), cropper.getBottomRightPoint().getCenterY());
             }
         });
         cropper.addEvent(cropper.getMidBottomPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
             if (e.getY() >= cropper.getMidTopPoint().getCenterY() 
                     && e.getY() <= apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
-                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(),
-                        cropper.getBottomRightPoint().getCenterX(), e.getY());
+                cropper.resize(cropper.getTopLeftPoint().getCenterX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(), e.getY());
             }
         });
         cropper.addEvent(cropper.getMidLeftPoint(), MouseEvent.MOUSE_DRAGGED, e -> {
             if (e.getX() <= cropper.getMidRightPoint().getCenterX() 
                     && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2) {
-                cropper.resize(e.getX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(),
-                        cropper.getBottomRightPoint().getCenterY());
+                cropper.resize(e.getX(), cropper.getTopLeftPoint().getCenterY(), cropper.getBottomRightPoint().getCenterX(), cropper.getBottomRightPoint().getCenterY());
             }
         });
         scene.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
-                final int x1 = (int) ((cropper.getRectangle().getX()
-                        - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
-                        / iviewImage.getRealWidth());
-                final int y1 = (int) ((cropper.getRectangle().getY()
-                        - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
-                        * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
-                final int x2 = (int) ((cropper.getRectangle().getX() + cropper.getRectangle().getWidth()
-                        - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
-                        / iviewImage.getRealWidth());
-                final int y2 = (int) ((cropper.getRectangle().getY() + cropper.getRectangle().getHeight()
-                        - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
-                        * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
+                final int x1 = (int) ((cropper.getRectangle().getX() - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth() / iviewImage.getRealWidth());
+                final int y1 = (int) ((cropper.getRectangle().getY() - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2) * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
+                final int x2 = (int) ((cropper.getRectangle().getX() + cropper.getRectangle().getWidth() - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth() / iviewImage.getRealWidth());
+                final int y2 = (int) ((cropper.getRectangle().getY() + cropper.getRectangle().getHeight() - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2) * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
                 runNewThread("Cropper", () -> {
                     manager.crop(x1, y1, x2, y2);
                     Platform.runLater(() -> {
@@ -547,8 +527,7 @@ public final class MainController implements ViewController {
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
                 if (filterName.equals("SelectiveColors") || filterName.equals("BlackAndWhite")) {
-                    values = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
-                            .mapToInt(Integer::parseInt).toArray();
+                    values = Arrays.asList(properties.getProperty(filterName).split(",")).stream().mapToInt(Integer::parseInt).toArray();
                     m = manager.getClass().getDeclaredMethod("set" + filterName, paramTypes);
                     m.invoke(manager, values[0], values[1], values[2]);
                 } else {
@@ -613,15 +592,14 @@ public final class MainController implements ViewController {
             throw new IOException();
         } catch (IOException | URISyntaxException e) {
             AbstractView.showErrorAlert(e.getMessage());
-            // TODO
             e.printStackTrace();
         }
     }
 
     // updates the image and the real sizes
     private void updateImage() {
-        iviewImage.setImage(
-                SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+        iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+        //System.gc(); //it is necessary since I don't know why (testing with jvisualvm) the gc doesn't perform after this operation.
         iviewImage.setFitWidth(apaneImage.getWidth());
         iviewImage.setFitHeight(spaneMain.getHeight());
         iviewImage.updateRealSizes();
@@ -813,8 +791,8 @@ public final class MainController implements ViewController {
         btnSCApply.setOnMouseClicked(ev -> {
             if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()
                     && ((int) slSCR.getValue() != toolStatus.get(SCR).getFirst().intValue()
-                            || (int) slSCG.getValue() != toolStatus.get(SCG).getFirst().intValue()
-                            || (int) slSCB.getValue() != toolStatus.get(SCB).getFirst().intValue())) {
+                    || (int) slSCG.getValue() != toolStatus.get(SCG).getFirst().intValue()
+                    || (int) slSCB.getValue() != toolStatus.get(SCB).getFirst().intValue())) {
                 runNewThread("Selective Color", createCompleteRunnable(() -> {
                     toolStatus.get(SCR).setFirst((int) slSCR.getValue());
                     toolStatus.get(SCG).setFirst((int) slSCG.getValue());
@@ -840,9 +818,8 @@ public final class MainController implements ViewController {
         });
         // set imageView width according to the divider position
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
-            if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain
-                    .getMaxWidth()) {
-                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2); // TODO
+            if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth()) {
+                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2); //if not -2 the scene resizes (idk why)
                 iviewImage.updateRealSizes();
             }
         });
@@ -868,7 +845,7 @@ public final class MainController implements ViewController {
     private Runnable createCompleteRunnable(final Runnable rn) {
         return () -> {
             scene.setCursor(Cursor.WAIT);
-            rn.run(); // TODO ask if can be correct
+            rn.run();
             Platform.runLater(() -> {
                 updateImage();
                 scene.setCursor(Cursor.DEFAULT);
