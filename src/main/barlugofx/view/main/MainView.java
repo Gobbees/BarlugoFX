@@ -23,6 +23,7 @@ public class MainView extends AbstractView<MainController> {
     //private constant fields
     private static final double ANIM_MILLIS = 400.0;
     private static final double ANIM_STEP = 50.0;
+    private static final double MIN_DIM_MULTIPLIER = 0.5;
 
     /**
      * @param stage the input stage
@@ -60,6 +61,8 @@ public class MainView extends AbstractView<MainController> {
                 stageTimeline.setOnFinished(timelineEvent -> {
                     this.getStage().setMaximized(true);
                     this.getStage().setTitle(manager.getInputFileName());
+                    this.getStage().setMinWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * MIN_DIM_MULTIPLIER);
+                    this.getStage().setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * MIN_DIM_MULTIPLIER);
                     this.getStage().setScene(this.getScene());
                     Platform.runLater(() -> {
                         //calls the controller setStage function after the scene set because I need the components sizes on the screen, 
