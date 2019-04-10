@@ -90,16 +90,13 @@
 						</Menu>
 						<Menu mnemonicParsing="false" text="Tools">
 							<items>
-								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="Crop"
-									onAction="#crop">
+								<MenuItem mnemonicParsing="false" text="Crop" onAction="#crop">
 									<accelerator>
 										<KeyCodeCombination code="c" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
-								<MenuItem mnemonicParsing="false" text="Rotate"
-									onAction="#rotate">
+								<MenuItem mnemonicParsing="false" text="Rotate" onAction="#rotate">
 									<accelerator>
 										<KeyCodeCombination code="r" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -114,7 +111,7 @@
 									</accelerator>
 								</MenuItem>
 								<MenuItem mnemonicParsing="false"
-									text="Apply .bps preset">
+									text="Apply .bps preset" onAction="#openPreset">
 									<accelerator>
 										<KeyCodeCombination code="a" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -124,7 +121,6 @@
 						</Menu>
 						<Menu mnemonicParsing="false" text="View">
 							<items>
-								<!-- TODO -->
 								<MenuItem mnemonicParsing="false" text="Zoom +" onAction="#zoomIn">
 								    <accelerator>
                                         <KeyCodeCombination code="i" control="DOWN" 
@@ -167,8 +163,6 @@
 			</children>
 		</AnchorPane>
 	</top>
-
-	<!-- TODO -->
 	<center>
 		<SplitPane fx:id="spaneMain" dividerPositions="0.8" style="-fx-border-width: 1 0 0 0">
 	       <items>
@@ -420,7 +414,7 @@
 								</VBox>
 							</content>
 						</ScrollPane>
-						<ListView style="-fx-background-color:#333130" /> <!-- TODO Styling -->
+						<ListView style="-fx-background-color:#333130" /> <!-- TODO -->
 					</items>
 				</SplitPane>
 			</items>
