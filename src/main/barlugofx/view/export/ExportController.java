@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXSlider;
 
 import barlugofx.app.AppManager;
 import barlugofx.utils.Format;
+import barlugofx.view.AbstractView;
 import barlugofx.view.ViewController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Separator;
@@ -21,8 +22,9 @@ import static barlugofx.utils.Format.JPEG;
 import static barlugofx.utils.Format.GIF;
 
 /**
- * This class manages the view events. IMPORTANT: set the app manager with setManager() function.
- * Creating a ExportController object is useless and it probably will cause some sort of exception.
+ * This class manages the view events. IMPORTANT: set the app manager with
+ * setManager() function. Creating a ExportController object is useless and it
+ * probably will cause some sort of exception.
  */
 public final class ExportController implements ViewController {
     private static final double BTN_WIDTH_MULTIPLIER = 0.333;
@@ -30,31 +32,43 @@ public final class ExportController implements ViewController {
     private static final double SLIDER_WIDTH_MULTIPLIER = 0.2;
     private static final double VERT_SEPARATOR_MULTIPLIER = 0.2;
     private static final double HORIZ_SEPARATOR_MULTIPLIER = 0.1;
-    @FXML private HBox vboxMain;
-    @FXML private JFXButton btnPNG;
-    @FXML private JFXButton btnJPEG;
-    @FXML private JFXButton btnGIF;
-    @FXML private HBox hboxQuality;
-    @FXML private JFXSlider sliderQuality;
-    @FXML private Separator horizDistance;
-    @FXML private Separator verticDistanceTop;
-    @FXML private Separator verticDistanceBottom;
+    @FXML
+    private HBox vboxMain;
+    @FXML
+    private JFXButton btnPNG;
+    @FXML
+    private JFXButton btnJPEG;
+    @FXML
+    private JFXButton btnGIF;
+    @FXML
+    private HBox hboxQuality;
+    @FXML
+    private JFXSlider sliderQuality;
+    @FXML
+    private Separator horizDistance;
+    @FXML
+    private Separator verticDistanceTop;
+    @FXML
+    private Separator verticDistanceBottom;
     private Stage stage;
     private AppManager manager;
 
     @Override
     public void setStage(final Stage stage) {
         this.stage = stage;
-        //TEMP TODO
         initComponents();
     }
+
     /**
-     * This function sets the app manager (controller). It must be called in order to avoid future errors.
+     * This function sets the app manager (controller). It must be called in order
+     * to avoid future errors.
+     * 
      * @param manager the input manager
      */
     public void setManager(final AppManager manager) {
         this.manager = manager;
     }
+
     /**
      * PNG button clicked event.
      */
@@ -62,6 +76,7 @@ public final class ExportController implements ViewController {
     public void pngClicked() {
         exportImage(PNG);
     }
+
     /**
      * JPEG button clicked event.
      */
@@ -72,6 +87,7 @@ public final class ExportController implements ViewController {
         btnJPEG.setDisable(true);
         btnGIF.setDisable(true);
     }
+
     /**
      * GIF button clicked event.
      */
@@ -79,6 +95,7 @@ public final class ExportController implements ViewController {
     public void gifClicked() {
         exportImage(GIF);
     }
+
     /**
      * Export button clicked event.
      */
@@ -86,6 +103,7 @@ public final class ExportController implements ViewController {
     public void exportJPEG() {
         exportImageJPEG((float) sliderQuality.getValue() / 100);
     }
+
     /**
      * Undo button clicked event.
      */
@@ -96,6 +114,7 @@ public final class ExportController implements ViewController {
         btnGIF.setDisable(false);
         hboxQuality.setVisible(false);
     }
+
     private void initComponents() {
         final double width = stage.getScene().getWidth();
         final double height = stage.getScene().getHeight();
@@ -111,41 +130,50 @@ public final class ExportController implements ViewController {
         verticDistanceBottom.setPrefHeight(height * HORIZ_SEPARATOR_MULTIPLIER);
         sliderQuality.setPrefWidth(width * SLIDER_WIDTH_MULTIPLIER);
     }
+
     private void exportImage(final Format format) {
         final File file = getFileFromDialog(format);
         if (file != null) {
-            try {
-                checkManager();
-                manager.exportImage(file, format);
-            } catch (IOException | InterruptedException | ExecutionException e) {
-                // TODO log
-                e.printStackTrace();
-            }
+            checkManager();
+            new Thread(() -> {
+                try {
+                    manager.exportImage(file, format);
+                } catch (IOException | InterruptedException | ExecutionException e) {
+                    AbstractView.showErrorAlert(e.getMessage());
+                    e.printStackTrace();
+                }
+            }, "Saving").start();
         }
     }
+
     private void exportImageJPEG(final float quality) {
         final File file = getFileFromDialog(JPEG);
         if (file != null) {
-            try {
-                checkManager();
-                manager.exportImage(file, quality);
-            } catch (IOException | InterruptedException | ExecutionException e) {
-                // TODO log
-                e.printStackTrace();
-            }
+            checkManager();
+            new Thread(() -> {
+                try {
+                    manager.exportImage(file, quality);
+                } catch (IOException | InterruptedException | ExecutionException e) {
+                    AbstractView.showErrorAlert(e.getMessage());
+                    e.printStackTrace();
+                }
+            }, "Saving").start();
         }
     }
+
     private File getFileFromDialog(final Format format) {
         final FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(format.toString(), "*" + format.toExtension()));
         try {
             checkManager();
             fc.setInitialFileName(manager.getInputFileName() + format.toExtension());
         } catch (IllegalStateException e) {
-            //TODO log
+            AbstractView.showErrorAlert(e.getMessage());
             e.printStackTrace();
         }
         return fc.showSaveDialog(stage);
     }
+
     private void checkManager() throws IllegalStateException {
         if (manager == null) {
             throw new IllegalStateException("The manager is null");
