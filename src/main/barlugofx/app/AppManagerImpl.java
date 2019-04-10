@@ -19,7 +19,7 @@ import barlugofx.model.tools.WhiteBalance;
 import barlugofx.model.tools.common.ImageTool;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 import barlugofx.utils.Format;
 
 /**
@@ -82,105 +82,105 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setExposure(final int value) {
-       hsb.addParameter(ParametersName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
+       hsb.addParameter(ParameterName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
        if (parallel) {
            image = executor.applyTool(hsb, image);
        } else {
-           image = hsb.applyFilter(image);
+           image = hsb.applyTool(image);
        }
-       hsb.removeParameter(ParametersName.EXPOSURE);
+       hsb.removeParameter(ParameterName.EXPOSURE);
     }
 
     @Override
     public void setContrast(final int value) {
-        contrast.addParameter(ParametersName.CONTRAST, new ParameterImpl<Integer>(value));
+        contrast.addParameter(ParameterName.CONTRAST, new ParameterImpl<Integer>(value));
         if (parallel) {
             image = executor.applyTool(contrast, image);
         } else {
-            image = contrast.applyFilter(image);
+            image = contrast.applyTool(image);
         }
-        contrast.removeParameter(ParametersName.CONTRAST);
+        contrast.removeParameter(ParameterName.CONTRAST);
     }
 
     @Override
     public void setBrightness(final int value) {
-        brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<Integer>(value));
+        brightness.addParameter(ParameterName.BRIGHTNESS, new ParameterImpl<Integer>(value));
         if (parallel) {
             image = executor.applyTool(brightness, image);
         } else {
-            image = brightness.applyFilter(image);
+            image = brightness.applyTool(image);
         }
-        brightness.removeParameter(ParametersName.BRIGHTNESS);
+        brightness.removeParameter(ParameterName.BRIGHTNESS);
     }
 
     @Override
     public void setWhiteBalance(final int value) {
-        wb.addParameter(ParametersName.WHITEBALANCE, new ParameterImpl<Float>(value * WB_MULTIPLIER));
-        image = wb.applyFilter(image);
-        wb.removeParameter(ParametersName.WHITEBALANCE);
+        wb.addParameter(ParameterName.WHITEBALANCE, new ParameterImpl<Float>(value * WB_MULTIPLIER));
+        image = wb.applyTool(image);
+        wb.removeParameter(ParameterName.WHITEBALANCE);
     }
 
     @Override
     public void setSaturation(final int value) {
-        hsb.addParameter(ParametersName.SATURATION, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
+        hsb.addParameter(ParameterName.SATURATION, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         if (parallel) {
             image = executor.applyTool(hsb, image);
         } else {
-            image = hsb.applyFilter(image);
+            image = hsb.applyTool(image);
         }
-        hsb.removeParameter(ParametersName.SATURATION);
+        hsb.removeParameter(ParameterName.SATURATION);
     }
 
     @Override
     public void setHue(final int value) {
-        hsb.addParameter(ParametersName.HUE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
+        hsb.addParameter(ParameterName.HUE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         if (parallel) {
             image = executor.applyTool(hsb, image);
         } else {
-            image = hsb.applyFilter(image);
+            image = hsb.applyTool(image);
         }
-        hsb.removeParameter(ParametersName.HUE);
+        hsb.removeParameter(ParameterName.HUE);
     }
 
     @Override
     public void setVibrance(final int value) {
-        vibrance.addParameter(ParametersName.VIBRANCE_INCREMENT, new ParameterImpl<Float>(value * VIBRANCE_MULTIPLIER));
+        vibrance.addParameter(ParameterName.VIBRANCE_INCREMENT, new ParameterImpl<Float>(value * VIBRANCE_MULTIPLIER));
         if (parallel) {
             image = executor.applyTool(vibrance, image);
         } else {
-            image = vibrance.applyFilter(image);
+            image = vibrance.applyTool(image);
         }
-        vibrance.removeParameter(ParametersName.VIBRANCE_INCREMENT);
+        vibrance.removeParameter(ParameterName.VIBRANCE_INCREMENT);
     }
 
     @Override
     public void setSelectiveColors(final int r, final int g, final int b) {
         //TODO make it possible to change only one of these.
-        srgb.addParameter(ParametersName.RED, new ParameterImpl<Integer>(r));
-        srgb.addParameter(ParametersName.GREEN, new ParameterImpl<Integer>(g));
-        srgb.addParameter(ParametersName.BLUE, new ParameterImpl<Integer>(b));
+        srgb.addParameter(ParameterName.RED, new ParameterImpl<Integer>(r));
+        srgb.addParameter(ParameterName.GREEN, new ParameterImpl<Integer>(g));
+        srgb.addParameter(ParameterName.BLUE, new ParameterImpl<Integer>(b));
         if (parallel) {
             image = executor.applyTool(srgb, image);
         } else {
-            image = srgb.applyFilter(image);
+            image = srgb.applyTool(image);
         }
-        srgb.removeParameter(ParametersName.RED);
-        srgb.removeParameter(ParametersName.GREEN);
-        srgb.removeParameter(ParametersName.BLUE);
+        srgb.removeParameter(ParameterName.RED);
+        srgb.removeParameter(ParameterName.GREEN);
+        srgb.removeParameter(ParameterName.BLUE);
     }
 
     @Override
     public void setBlackAndWhite(final double r, final double g, final double b) {
-        bw.addParameter(ParametersName.WRED, new ParameterImpl<Double>(r * BW_MULTIPLIER + BW_SHIFTER));
-        bw.addParameter(ParametersName.WGREEN, new ParameterImpl<Double>(g * BW_MULTIPLIER + BW_SHIFTER));
+        bw.addParameter(ParameterName.WRED, new ParameterImpl<Double>(r * BW_MULTIPLIER + BW_SHIFTER));
+        bw.addParameter(ParameterName.WGREEN, new ParameterImpl<Double>(g * BW_MULTIPLIER + BW_SHIFTER));
         if (parallel) {
             image = executor.applyTool(bw, image);
         } else {
-            image = bw.applyFilter(image);
+            image = bw.applyTool(image);
         }
-        bw.removeParameter(ParametersName.WRED);
-        bw.removeParameter(ParametersName.WGREEN);
-        bw.removeParameter(ParametersName.WBLUE);
+        bw.removeParameter(ParameterName.WRED);
+        bw.removeParameter(ParameterName.WGREEN);
+        bw.removeParameter(ParameterName.WBLUE);
     }
 
     @Override
@@ -194,21 +194,21 @@ public final class AppManagerImpl implements AppManager {
     }
     @Override
     public void rotate(final double angle) {
-       rotator.addParameter(ParametersName.ANGLE, new ParameterImpl<Double>(angle));
-       image = rotator.applyFilter(image);
-       rotator.removeParameter(ParametersName.ANGLE);
+       rotator.addParameter(ParameterName.ANGLE, new ParameterImpl<Double>(angle));
+       image = rotator.applyTool(image);
+       rotator.removeParameter(ParameterName.ANGLE);
     }
     @Override
     public void crop(final int x1, final int y1, final int x2, final int y2) {
-        cropper.addParameter(ParametersName.X1, new ParameterImpl<Integer>(x1));
-        cropper.addParameter(ParametersName.X2, new ParameterImpl<Integer>(x2));
-        cropper.addParameter(ParametersName.Y1, new ParameterImpl<Integer>(y1));
-        cropper.addParameter(ParametersName.Y2, new ParameterImpl<Integer>(y2));
-        image = cropper.applyFilter(image);
-        cropper.removeParameter(ParametersName.X1);
-        cropper.removeParameter(ParametersName.X2);
-        cropper.removeParameter(ParametersName.Y1);
-        cropper.removeParameter(ParametersName.Y2);
+        cropper.addParameter(ParameterName.X1, new ParameterImpl<Integer>(x1));
+        cropper.addParameter(ParameterName.X2, new ParameterImpl<Integer>(x2));
+        cropper.addParameter(ParameterName.Y1, new ParameterImpl<Integer>(y1));
+        cropper.addParameter(ParameterName.Y2, new ParameterImpl<Integer>(y2));
+        image = cropper.applyTool(image);
+        cropper.removeParameter(ParameterName.X1);
+        cropper.removeParameter(ParameterName.X2);
+        cropper.removeParameter(ParameterName.Y1);
+        cropper.removeParameter(ParameterName.Y2);
     }
     @Override
     public void savePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {

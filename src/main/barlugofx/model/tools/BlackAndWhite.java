@@ -8,7 +8,7 @@ import java.util.Set;
 import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * This class models a black and white filter which accepts up to three
@@ -27,8 +27,8 @@ public final class BlackAndWhite extends ImageToolImpl implements Parallelizable
     private static final double RED_MULTIPLIER = 0.299;
     private static final double GREEN_MULTIPLIER = 0.587;
     private static final double BLUE_MULTIPLIER = 0.114;
-    private static final Set<ParametersName> ACCEPTED = new HashSet<>(
-            Arrays.asList(ParametersName.WRED, ParametersName.WGREEN, ParametersName.WBLUE));
+    private static final Set<ParameterName> ACCEPTED = new HashSet<>(
+            Arrays.asList(ParameterName.WRED, ParameterName.WGREEN, ParameterName.WBLUE));
 
     private double blueFactor = DEFAULT_VALUE;
     private double greenFactor = DEFAULT_VALUE;
@@ -64,16 +64,16 @@ public final class BlackAndWhite extends ImageToolImpl implements Parallelizable
 
     @Override
     public void inizializeTool() {
-        redFactor = super.getValueFromParameter(ParametersName.WRED, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)
+        redFactor = super.getValueFromParameter(ParameterName.WRED, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)
                 * RED_MULTIPLIER;
-        greenFactor = super.getValueFromParameter(ParametersName.WGREEN, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)
+        greenFactor = super.getValueFromParameter(ParameterName.WGREEN, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)
                 * GREEN_MULTIPLIER;
-        blueFactor = super.getValueFromParameter(ParametersName.WBLUE, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)
+        blueFactor = super.getValueFromParameter(ParameterName.WBLUE, MIN_VALUE, Double.MAX_VALUE, DEFAULT_VALUE)
                 * BLUE_MULTIPLIER;
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
+    protected boolean isAccepted(final ParameterName name) {
         return ACCEPTED.contains(name);
     }
 

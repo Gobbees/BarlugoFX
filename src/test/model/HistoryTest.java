@@ -13,7 +13,7 @@ import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.common.ImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * A simple class that test History.
@@ -111,17 +111,17 @@ public final class HistoryTest {
         Assert.assertTrue(hist.findByName("CASTA") == 0);
         Assert.assertTrue(hist.isToolEnabled(0));
 
-        DEFAULT_TOOL.addParameter(ParametersName.WRED, new ParameterImpl<>(10));
+        DEFAULT_TOOL.addParameter(ParameterName.WRED, new ParameterImpl<>(10));
         try {
             hist.addTool(new SequenceNodeImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
         } catch (final ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool.");
         }
-        Assert.assertTrue(hist.getValue(1, ParametersName.WRED).isPresent());
-        Assert.assertFalse(hist.getValue(1, ParametersName.ANGLE).isPresent());
+        Assert.assertTrue(hist.getValue(1, ParameterName.WRED).isPresent());
+        Assert.assertFalse(hist.getValue(1, ParameterName.ANGLE).isPresent());
         try {
-            hist.getValue(2, ParametersName.WRED);
+            hist.getValue(2, ParameterName.WRED);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);

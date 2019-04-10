@@ -13,7 +13,7 @@ import barlugofx.model.tools.HSBModifier;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.common.ImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * A Rapid TEST.
@@ -36,11 +36,11 @@ public final class TempTest {
         final ImageTool vibrance = Vibrance.createVibrance();
         final ImageTool hsbTrue = HSBModifier.createHSB();
         long time = System.nanoTime();
-        hsbTrue.addParameter(ParametersName.SATURATION, new ParameterImpl<>(PARAMETER));
-        vibrance.addParameter(ParametersName.VIBRANCE_INCREMENT, new ParameterImpl<>(PARAMETER));
-        final BufferedImage output = ImageUtils.convertImageToBufferedImageWithAlpha(hsbTrue.applyFilter(toWorkWith));
+        hsbTrue.addParameter(ParameterName.SATURATION, new ParameterImpl<>(PARAMETER));
+        vibrance.addParameter(ParameterName.VIBRANCE_INCREMENT, new ParameterImpl<>(PARAMETER));
+        final BufferedImage output = ImageUtils.convertImageToBufferedImageWithAlpha(hsbTrue.applyTool(toWorkWith));
 
-        final BufferedImage outputB = ImageUtils.convertImageToBufferedImageWithAlpha(vibrance.applyFilter(toWorkWith));
+        final BufferedImage outputB = ImageUtils.convertImageToBufferedImageWithAlpha(vibrance.applyTool(toWorkWith));
         time = System.nanoTime() - time;
         ImageIO.write(output, "png", new File("Insert Image path here."));
         ImageIO.write(outputB, "png", new File("Insert Image path here."));

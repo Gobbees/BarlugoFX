@@ -13,7 +13,7 @@ import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * A Rapid TEST.
@@ -34,10 +34,10 @@ public final class TempParallelTest {
         final BufferedImage image = ImageIO.read(file);
         final Image toWorkWith = ImageImpl.buildFromBufferedImage(image);
         final ParallelizableImageTool brightness = Brightness.createBrightness();
-        brightness.addParameter(ParametersName.BRIGHTNESS, new ParameterImpl<>(PARAMETER));
+        brightness.addParameter(ParameterName.BRIGHTNESS, new ParameterImpl<>(PARAMETER));
 
         long time1 = System.nanoTime();
-        final BufferedImage output = ImageUtils.convertImageToBufferedImageWithAlpha(brightness.applyFilter(toWorkWith));
+        final BufferedImage output = ImageUtils.convertImageToBufferedImageWithAlpha(brightness.applyTool(toWorkWith));
         time1 = System.nanoTime() - time1;
 
         final ParallelFilterExecutor exec = ParallelFilterExecutor.executor();

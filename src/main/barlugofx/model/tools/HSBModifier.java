@@ -9,7 +9,7 @@ import java.util.Set;
 import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * This class handles the change of an {@link Image} involving Hue, Saturation
@@ -26,8 +26,8 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
     private static final int MAX = 1;
     private static final int MIN = -1;
     private static final float DEFAULT_VALUE = 0f;
-    private static final Set<ParametersName> ACCEPTED = new HashSet<>(
-            Arrays.asList(ParametersName.EXPOSURE, ParametersName.HUE, ParametersName.SATURATION));
+    private static final Set<ParameterName> ACCEPTED = new HashSet<>(
+            Arrays.asList(ParameterName.EXPOSURE, ParameterName.HUE, ParameterName.SATURATION));
 
     private float hue = DEFAULT_VALUE;
     private float saturation = DEFAULT_VALUE;
@@ -64,9 +64,9 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
 
     @Override
     public void inizializeTool() {
-        hue = super.getValueFromParameter(ParametersName.HUE, MIN, MAX, DEFAULT_VALUE);
-        saturation = getValueFromParameter(ParametersName.SATURATION, MIN, MAX, DEFAULT_VALUE);
-        exposure = getValueFromParameter(ParametersName.EXPOSURE, MIN, MAX, DEFAULT_VALUE);
+        hue = super.getValueFromParameter(ParameterName.HUE, MIN, MAX, DEFAULT_VALUE);
+        saturation = getValueFromParameter(ParameterName.SATURATION, MIN, MAX, DEFAULT_VALUE);
+        exposure = getValueFromParameter(ParameterName.EXPOSURE, MIN, MAX, DEFAULT_VALUE);
     }
 
     private float truncateSum(final float hsv, final float hue) {
@@ -83,7 +83,7 @@ public final class HSBModifier extends ImageToolImpl implements ParallelizableIm
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
+    protected boolean isAccepted(final ParameterName name) {
         return ACCEPTED.contains(name);
     }
 

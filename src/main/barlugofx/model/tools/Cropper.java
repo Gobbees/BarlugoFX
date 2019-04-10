@@ -7,7 +7,7 @@ import java.util.Set;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * This class performs the cropping of an {@link Image}. It needs 4 parameter X1, X2, Y1,Y2,
@@ -24,8 +24,8 @@ public final class Cropper extends ImageToolImpl {
     private static final int MAX_VALUE_2 = 1;
     private static final int DEFAULT_VALUE_1 = 0;
 
-    private static final Set<ParametersName> ACCEPTED = new HashSet<>(
-            Arrays.asList(ParametersName.X1, ParametersName.X2, ParametersName.Y1, ParametersName.Y2));
+    private static final Set<ParameterName> ACCEPTED = new HashSet<>(
+            Arrays.asList(ParameterName.X1, ParameterName.X2, ParameterName.Y1, ParameterName.Y2));
 
     private Cropper() {
         super();
@@ -40,11 +40,11 @@ public final class Cropper extends ImageToolImpl {
     }
 
     @Override
-    public Image applyFilter(final Image toApply) {
-        final int x2 = super.getValueFromParameter(ParametersName.X2, MAX_VALUE_2, toApply.getWidth(), toApply.getWidth());
-        final int x1 = super.getValueFromParameter(ParametersName.X1, MIN_VALUE_1, x2, DEFAULT_VALUE_1);
-        final int y2 = super.getValueFromParameter(ParametersName.Y2, MAX_VALUE_2, toApply.getHeight(), toApply.getHeight());
-        final int y1 = super.getValueFromParameter(ParametersName.Y1, MIN_VALUE_1, y2, DEFAULT_VALUE_1);
+    public Image applyTool(final Image toApply) {
+        final int x2 = super.getValueFromParameter(ParameterName.X2, MAX_VALUE_2, toApply.getWidth(), toApply.getWidth());
+        final int x1 = super.getValueFromParameter(ParameterName.X1, MIN_VALUE_1, x2, DEFAULT_VALUE_1);
+        final int y2 = super.getValueFromParameter(ParameterName.Y2, MAX_VALUE_2, toApply.getHeight(), toApply.getHeight());
+        final int y1 = super.getValueFromParameter(ParameterName.Y1, MIN_VALUE_1, y2, DEFAULT_VALUE_1);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[y2 - y1][x2 - x1];
         for (int i = 0; i < newPixels.length; i++) {
@@ -56,7 +56,7 @@ public final class Cropper extends ImageToolImpl {
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
+    protected boolean isAccepted(final ParameterName name) {
         return ACCEPTED.contains(name);
     }
 

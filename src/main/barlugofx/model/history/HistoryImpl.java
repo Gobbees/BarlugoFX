@@ -4,7 +4,7 @@
 package barlugofx.model.history;
 
 import barlugofx.model.tools.common.Parameter;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 import java.util.Optional;
 import java.util.ArrayList;
@@ -108,7 +108,7 @@ public class HistoryImpl implements History {
      * @see barlugofx.model.history.History#getValue(java.lang.String)
      */
     @Override
-    public Optional<Parameter<? extends Number>> getValue(final int index, final ParametersName name) {
+    public Optional<Parameter<? extends Number>> getValue(final int index, final ParameterName name) {
         if (index < 0 || index >= this.nodes.size()) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }

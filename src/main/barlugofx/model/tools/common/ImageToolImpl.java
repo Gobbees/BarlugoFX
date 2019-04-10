@@ -9,16 +9,16 @@ import java.util.Optional;
  *
  */
 public abstract class ImageToolImpl implements ImageTool {
-    private final Map<ParametersName, Parameter<? extends Number>> parameters = new HashMap<>();
+    private final Map<ParameterName, Parameter<? extends Number>> parameters = new HashMap<>();
 
 
     @Override
-    public final Optional<Parameter<? extends Number>> getParameter(final ParametersName name) {
+    public final Optional<Parameter<? extends Number>> getParameter(final ParameterName name) {
         return Optional.ofNullable(parameters.get(name));
     }
 
     @Override
-    public final void addParameter(final ParametersName name, final Parameter<? extends Number> value) {
+    public final void addParameter(final ParameterName name, final Parameter<? extends Number> value) {
         if (!isAccepted(name)) {
             throw new IllegalArgumentException("Parameter " + name + " is not correct for " + this.getClass().getName());
         }
@@ -30,7 +30,7 @@ public abstract class ImageToolImpl implements ImageTool {
     }
 
     @Override
-    public final void removeParameter(final ParametersName name) {
+    public final void removeParameter(final ParameterName name) {
         if (parameters.containsKey(name)) {
             parameters.remove(name);
         }
@@ -41,7 +41,7 @@ public abstract class ImageToolImpl implements ImageTool {
      * @param name the parameter name to test.
      * @return true if valid.
      */
-    protected abstract boolean isAccepted(ParametersName name);
+    protected abstract boolean isAccepted(ParameterName name);
 
     /**
      * This function returns the value associated with the Parameter or the default value if the parameter is not present.
@@ -54,7 +54,7 @@ public abstract class ImageToolImpl implements ImageTool {
      * @throws IllegalArgumentException if the boundaries are not respected or if the parameter is not of the correct type.
      */
     @SuppressWarnings("unchecked")
-    protected <T extends Number> T getValueFromParameter(final ParametersName name, final double min, final double max, final T defaultVal) {
+    protected <T extends Number> T getValueFromParameter(final ParameterName name, final double min, final double max, final T defaultVal) {
         final Optional<Parameter<? extends Number>> param = getParameter(name);
         T result = defaultVal;
         final String className = result.getClass().getSimpleName();

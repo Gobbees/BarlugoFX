@@ -6,7 +6,7 @@ import java.awt.Point;
 import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * The vibrance class implements a filter similar to saturation with the only
@@ -41,7 +41,7 @@ public final class Vibrance extends ImageToolImpl implements ParallelizableImage
 
     @Override
     public void inizializeTool() {
-        increment = super.getValueFromParameter(ParametersName.VIBRANCE_INCREMENT, MIN_INCREMENT, MAX_INCREMENT,
+        increment = super.getValueFromParameter(ParameterName.VIBRANCE_INCREMENT, MIN_INCREMENT, MAX_INCREMENT,
                 DEFAULT_VALUE) / 100;
     }
 
@@ -77,8 +77,8 @@ public final class Vibrance extends ImageToolImpl implements ParallelizableImage
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
-        return ParametersName.VIBRANCE_INCREMENT == name;
+    protected boolean isAccepted(final ParameterName name) {
+        return ParameterName.VIBRANCE_INCREMENT == name;
     }
 
 }

@@ -7,7 +7,7 @@ import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.ImageToolImpl;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * The white balance class implements one of the simplest auto-balancing
@@ -40,8 +40,8 @@ public final class WhiteBalance extends ImageToolImpl {
     }
 
     @Override
-    public Image applyFilter(final Image toApply) {
-        final float value = super.getValueFromParameter(ParametersName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE,
+    public Image applyTool(final Image toApply) {
+        final float value = super.getValueFromParameter(ParameterName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE,
                 DEFAULT);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
@@ -101,8 +101,8 @@ public final class WhiteBalance extends ImageToolImpl {
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
-        return name == ParametersName.WHITEBALANCE;
+    protected boolean isAccepted(final ParameterName name) {
+        return name == ParameterName.WHITEBALANCE;
     }
 
 }

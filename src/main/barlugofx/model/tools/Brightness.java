@@ -5,7 +5,7 @@ import java.awt.Point;
 import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * This class allows changes of an {@link Image} brightness. It only accepts
@@ -32,7 +32,7 @@ public final class Brightness extends ImageToolImpl implements ParallelizableIma
 
     @Override
     public void inizializeTool() {
-        value  = super.getValueFromParameter(ParametersName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
+        value  = super.getValueFromParameter(ParameterName.BRIGHTNESS, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
     }
 
     @Override
@@ -48,7 +48,7 @@ public final class Brightness extends ImageToolImpl implements ParallelizableIma
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
-        return ParametersName.BRIGHTNESS == name;
+    protected boolean isAccepted(final ParameterName name) {
+        return ParameterName.BRIGHTNESS == name;
     }
 }

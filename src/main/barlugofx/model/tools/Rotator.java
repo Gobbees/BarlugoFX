@@ -9,7 +9,7 @@ import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * This class allows an {@link Image} to be Rotated. It accepts one parameter, ANGLE,
@@ -41,8 +41,8 @@ public final class Rotator extends ImageToolImpl {
      * Only minor adaptations has been done.
      */
     @Override
-    public Image applyFilter(final Image toApply) {
-        final double degreesToRotate = super.getValueFromParameter(ParametersName.ANGLE, -MAX, MAX, DEFAULT);
+    public Image applyTool(final Image toApply) {
+        final double degreesToRotate = super.getValueFromParameter(ParameterName.ANGLE, -MAX, MAX, DEFAULT);
         final BufferedImage src = ImageUtils.convertImageToBufferedImageWithAlpha(toApply);
         int width = src.getWidth();
         int height = src.getHeight();
@@ -91,8 +91,8 @@ public final class Rotator extends ImageToolImpl {
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
-        return name == ParametersName.ANGLE;
+    protected boolean isAccepted(final ParameterName name) {
+        return name == ParameterName.ANGLE;
     }
 
 }

@@ -3,7 +3,7 @@ package barlugofx.model.history;
 import java.util.Optional;
 
 import barlugofx.model.tools.common.Parameter;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * 
@@ -75,7 +75,7 @@ public interface History {
      * index of the tool of which you want the value.
      * @return value of the tool with name "name"
      */
-    Optional<Parameter<? extends Number>> getValue(int index, ParametersName name);
+    Optional<Parameter<? extends Number>> getValue(int index, ParameterName name);
 
     /**
      * 

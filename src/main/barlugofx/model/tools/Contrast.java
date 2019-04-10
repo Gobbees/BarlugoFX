@@ -5,7 +5,7 @@ import java.awt.Point;
 import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * This class allows changes of an {@link Image} contrast. It only accepts one
@@ -49,13 +49,13 @@ public final class Contrast extends ImageToolImpl implements ParallelizableImage
 
     @Override
     public void inizializeTool() {
-        value = super.getValueFromParameter(ParametersName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
+        value = super.getValueFromParameter(ParameterName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE) / (MAXVALUE * (MAXVALUE + 4 - value));
     }
 
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
-        return name == ParametersName.CONTRAST;
+    protected boolean isAccepted(final ParameterName name) {
+        return name == ParameterName.CONTRAST;
     }
 }

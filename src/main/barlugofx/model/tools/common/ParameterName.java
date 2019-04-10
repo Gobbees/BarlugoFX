@@ -5,7 +5,7 @@ package barlugofx.model.tools.common;
  * You should look on each tool documentation in order to find what parameters are necessary.
  *
  */
-public enum ParametersName {
+public enum ParameterName {
     /**
      * parameter for CONTRAST filter.
      */

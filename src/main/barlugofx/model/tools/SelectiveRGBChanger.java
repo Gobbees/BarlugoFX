@@ -8,7 +8,7 @@ import java.util.Set;
 import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.ImageToolImpl;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.model.tools.common.ParametersName;
+import barlugofx.model.tools.common.ParameterName;
 
 /**
  * This class allows to change selectively the 3 channels of red green blue in an {@link Image}. It
@@ -18,8 +18,8 @@ import barlugofx.model.tools.common.ParametersName;
 public final class SelectiveRGBChanger extends ImageToolImpl implements ParallelizableImageTool {
     private static final int MAX = 255;
     private static final int DEFAULT =  0;
-    private static final Set<ParametersName> ACCEPTED = new HashSet<>(
-            Arrays.asList(ParametersName.RED, ParametersName.GREEN, ParametersName.BLUE));
+    private static final Set<ParameterName> ACCEPTED = new HashSet<>(
+            Arrays.asList(ParameterName.RED, ParameterName.GREEN, ParameterName.BLUE));
 
     private int red;
     private int blue;
@@ -50,13 +50,13 @@ public final class SelectiveRGBChanger extends ImageToolImpl implements Parallel
 
     @Override
     public void inizializeTool() {
-        red = getValueFromParameter(ParametersName.RED, -MAX, MAX, DEFAULT);
-        green = getValueFromParameter(ParametersName.GREEN, -MAX, MAX, DEFAULT);
-        blue = getValueFromParameter(ParametersName.BLUE, -MAX, MAX, DEFAULT);
+        red = getValueFromParameter(ParameterName.RED, -MAX, MAX, DEFAULT);
+        green = getValueFromParameter(ParameterName.GREEN, -MAX, MAX, DEFAULT);
+        blue = getValueFromParameter(ParameterName.BLUE, -MAX, MAX, DEFAULT);
     }
 
     @Override
-    protected boolean isAccepted(final ParametersName name) {
+    protected boolean isAccepted(final ParameterName name) {
         return ACCEPTED.contains(name);
     }
 }

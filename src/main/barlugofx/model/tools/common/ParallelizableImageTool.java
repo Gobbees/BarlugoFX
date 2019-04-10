@@ -33,7 +33,7 @@ public interface ParallelizableImageTool extends ImageTool {
 
     /* In this way I don't have to write again each time the basic applyFilter. */
     @Override
-    default Image applyFilter(final Image toApply) {
+    default Image applyTool(final Image toApply) {
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         inizializeTool();

@@ -16,7 +16,7 @@ public interface ImageTool {
      * @return the edited image.
      * @throws IllegalStateException if there are not the necessary valid parameters or the parameter is not of the proper type.
      */
-    Image applyFilter(Image toApply);
+    Image applyTool(Image toApply);
 
     /**
      * Stores the parameter value and his name to be used by the filter.
@@ -25,7 +25,7 @@ public interface ImageTool {
      * @throws IllegalArgumentException if the name is not appropriate for the filter or the parameter is already present.
      * Please check on each filter documentation that your are passing the right argument.
      */
-    void addParameter(ParametersName name, Parameter<? extends Number> value);
+    void addParameter(ParameterName name, Parameter<? extends Number> value);
 
     /**
      * This function return (optionally) the parameter associated with the name.
@@ -33,11 +33,11 @@ public interface ImageTool {
      * @return the parameter
      *
      */
-    Optional<Parameter<? extends Number>> getParameter(ParametersName name);
+    Optional<Parameter<? extends Number>> getParameter(ParameterName name);
 
     /**
      * Remove the parameter value and his name from the filter.
      * @param name the name of the parameter to be removed.
      */
-    void removeParameter(ParametersName name);
+    void removeParameter(ParameterName name);
 }
