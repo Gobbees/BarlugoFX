@@ -11,10 +11,14 @@ public class ZoomableImageView extends ImageView {
     //it sets the zoom multiplier
     private static final double DELTA = 1.1;
     private final DoubleProperty zoomRatio;
+    //drag variables
     private double initDragX;
     private double initDragY; 
     private double initTranslateX;
     private double initTranslateY;
+    //real sizes
+    private double realWidth;
+    private double realHeight;
     /**
      * The class constructor. It initiates the zoom ratio to ratio.
      * @param ratio the initial zoom ratio
@@ -28,6 +32,8 @@ public class ZoomableImageView extends ImageView {
         initDragY = 0;
         initTranslateX = 0;
         initTranslateY = 0;
+        realWidth = this.getFitWidth();
+        realHeight = this.getFitHeight();
     }
     /**
      * The class constructor. It initiates the zoom ratio to 1.0.
@@ -43,7 +49,20 @@ public class ZoomableImageView extends ImageView {
     public double getZoomRatio() {
         return zoomRatio.get();
     }
-
+    /**
+     * Returns the real width occupied by the image.
+     * @return the real width
+     */
+    public double getRealWidth() {
+        return realWidth;
+    }
+    /**
+     * Returns the real height occupied by the image.
+     * @return the real height
+     */
+    public double getRealHeight() {
+        return realHeight;
+    }
     /**
      * Sets the zoom ratio.
      * @param ratio the zoom ratio
@@ -100,6 +119,15 @@ public class ZoomableImageView extends ImageView {
         this.setTranslateX(initTranslateX + x - initDragX);
         this.setTranslateY(initTranslateY + y - initDragY);
     }
+    /**
+     * Updates the real sizes.
+     */
+    public void updateRealSizes() {
+        final double aspectRatio = this.getImage().getWidth() / this.getImage().getHeight();
+        realWidth = Math.min(this.getFitWidth(), this.getFitHeight() * aspectRatio);
+        realHeight = Math.min(this.getFitHeight(), this.getFitWidth() / aspectRatio);
+    }
+    //effectively zooms the image.
     private void zoom(final double diff, final double eventX, final double eventY) {
         final double deltaX = eventX - (this.getBoundsInParent().getWidth() / 2 + this.getBoundsInParent().getMinX());
         final double deltaY = eventY - (this.getBoundsInParent().getHeight() / 2 + this.getBoundsInParent().getMinY());
