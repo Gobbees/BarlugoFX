@@ -238,7 +238,7 @@ public final class MainController implements ViewController {
         this.manager = manager;
         updateImage();
         iviewImage.updateRealSizes();
-        enableZoom();
+        enableZoomAndColumnResize();
         setEventListeners();
     }
 
@@ -301,7 +301,7 @@ public final class MainController implements ViewController {
         checkManager();
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         final AtomicReference<RotateLine> rotateLine = new AtomicReference<>();
-        disableZoom();
+        disableZoomAndColumnResize();
         resizeToDefault();
         apaneImage.getChildren().clear();
         apaneImage.setCursor(Cursor.HAND);
@@ -334,7 +334,7 @@ public final class MainController implements ViewController {
                     apaneImage.setCursor(Cursor.DEFAULT);
                     apaneImage.setOnMouseDragged(null);
                     apaneImage.setOnMouseReleased(null);
-                    enableZoom();
+                    enableZoomAndColumnResize();
                 });
             });
         };
@@ -368,7 +368,7 @@ public final class MainController implements ViewController {
                 apaneImage.setOnMouseDragged(null);
                 apaneImage.setOnMouseReleased(null);
                 scene.setOnKeyPressed(null);
-                enableZoom();
+                enableZoomAndColumnResize();
             }
         });
     }
@@ -379,8 +379,9 @@ public final class MainController implements ViewController {
     @FXML
     public void crop() {
         checkManager();
-        disableZoom();
+        disableZoomAndColumnResize();
         resizeToDefault();
+        spaneRightColumn.setMaxWidth(spaneRightColumn.getWidth());
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         // TODO manage crop after resize
         apaneImage.getChildren().clear();
@@ -492,7 +493,7 @@ public final class MainController implements ViewController {
                         apaneImage.setOnMouseDragged(null);
                         apaneImage.setOnMouseReleased(null);
                         scene.setOnKeyPressed(null);
-                        enableZoom();
+                        enableZoomAndColumnResize();
                     });
                 });
             } else if (ke.getCode().equals(KeyCode.ESCAPE)) {
@@ -500,7 +501,7 @@ public final class MainController implements ViewController {
                 apaneImage.setOnMouseDragged(null);
                 apaneImage.setOnMouseReleased(null);
                 scene.setOnKeyPressed(null);
-                enableZoom();
+                enableZoomAndColumnResize();
             }
         });
     }
@@ -621,7 +622,7 @@ public final class MainController implements ViewController {
     }
 
     // zoom and pane activation
-    private void enableZoom() {
+    private void enableZoomAndColumnResize() {
         apaneImage.setCursor(Cursor.OPEN_HAND);
         apaneImage.setOnScroll(e -> {
             if (iviewImage.getZoomRatio() > MIN_ZOOM_RATIO && e.getDeltaY() > 0) {
@@ -647,14 +648,16 @@ public final class MainController implements ViewController {
                 resizeToDefault();
             }
         });
+        spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
     }
 
-    private void disableZoom() {
+    private void disableZoomAndColumnResize() {
         apaneImage.setOnScroll(null);
         apaneImage.setOnMousePressed(null);
         apaneImage.setOnMouseDragged(null);
         apaneImage.setOnMouseReleased(null);
         apaneImage.setCursor(Cursor.DEFAULT);
+        spaneRightColumn.setMaxWidth(spaneRightColumn.getWidth());
     }
 
     private void resizeToDefault() {
