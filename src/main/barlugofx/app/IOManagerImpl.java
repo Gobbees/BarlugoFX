@@ -5,11 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -28,31 +24,26 @@ import barlugofx.utils.Format;
  */
 public final class IOManagerImpl implements IOManager {
     private String inputFileName;
-    private final ExecutorService executor;
     /**
      * Class constructor.
      */
     public IOManagerImpl() {
-        executor = Executors.newSingleThreadExecutor();
+        inputFileName = null;
     }
-
     @Override
     public Image loadImageFromFile(final File file) throws IOException {
         inputFileName = file.getName();
         inputFileName = inputFileName.substring(0, inputFileName.indexOf('.'));
         return ImageImpl.buildFromBufferedImage(ImageIO.read(file));
     }
-
     @Override
     public String getFileName() {
         return inputFileName;
     }
-
     @Override
     public void exportImage(final Image image, final File file, final Format format) throws IOException, InterruptedException, ExecutionException {
-        assignTaskToExecutor(() -> ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), format.toOutputForm(), file));
+        ImageIO.write(ImageUtils.convertImageToBufferedImageWithAlpha(image), format.toOutputForm(), file);
     }
-
     @Override
     public void exportJPEGWithQuality(final Image image, final File file, final float quality) throws IOException, InterruptedException, ExecutionException {
         final ImageWriter writer = ImageIO.getImageWritersByFormatName(Format.JPEG.toOutputForm()).next();
@@ -62,13 +53,9 @@ public final class IOManagerImpl implements IOManager {
         final FileImageOutputStream output = new FileImageOutputStream(file);
         writer.setOutput(output);
         final IIOImage outputImage = new IIOImage(ImageUtils.convertImageToBufferedImageWithoutAlpha(image), null, null);
-        assignTaskToExecutor(() -> { 
-            writer.write(null, outputImage, iwp);
-            writer.dispose();
-            return true;
-        });
+        writer.write(null, outputImage, iwp);
+        writer.dispose();
     }
-
     @Override
     public void writePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
         final OutputStream output = new FileOutputStream(file);
@@ -80,20 +67,9 @@ public final class IOManagerImpl implements IOManager {
             output.close();
         }
     }
-
-    private void assignTaskToExecutor(final Callable<?> callable)
-            throws IOException, InterruptedException, ExecutionException {
-        final Future<?> future = executor.submit(callable);
-        try {
-            future.get();
-        } catch (ExecutionException e) {
-            throw new IOException();
-        }
-    }
-
     @Override
     public void applyPreset(final File file) {
-        return;
+        //return;
     }
 
 }
