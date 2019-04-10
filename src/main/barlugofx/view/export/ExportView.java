@@ -24,8 +24,10 @@ public class ExportView extends AbstractView<ExportController> {
         try {
             this.loadFXML("file:res/fxml/FXMLExport.fxml");
         } catch (IOException e) {
-            //TODO log!!!!!!!!!!!!!!!!!!!!!
+            AbstractView.showErrorAlert(e.getMessage());
             e.printStackTrace();
+            //TODO log4j
+            return;
         }
         this.getStage().setResizable(false);
         this.getStage().setScene(this.getScene());

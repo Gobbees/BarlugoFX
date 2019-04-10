@@ -6,6 +6,8 @@ import java.net.URL;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -35,6 +37,15 @@ public abstract class AbstractView<T extends ViewController> {
         this.stage.setTitle(stageName);
         this.stage.getIcons().add(new Image(iconPath));
         this.fxml = new FXMLLoader();
+    }
+    /**
+     * Displays an error alert.
+     * @param message the alert message
+     */
+    public static void showErrorAlert(final String message) {
+        final Alert alert = new Alert(AlertType.ERROR);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     /**
      * Loads fxml file and initializes the scene and the view controller.

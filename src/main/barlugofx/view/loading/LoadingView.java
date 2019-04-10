@@ -25,8 +25,9 @@ public class LoadingView extends AbstractView<LoadingController> {
         try {
             this.loadFXML("file:res/fxml/FXMLLoading.fxml");
         } catch (IOException e) {
-            //log !!!!!
+            AbstractView.showErrorAlert(e.getMessage());
             e.printStackTrace();
+            return;
         }
         this.getController().setStage(this.getStage());
         final FadeTransition ft = AnimationUtils.fadeInTransition(Duration.millis(ANIM_MILLIS), this.getScene().getRoot());

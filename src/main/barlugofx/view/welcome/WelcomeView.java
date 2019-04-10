@@ -21,8 +21,10 @@ public class WelcomeView extends AbstractView<WelcomeController> {
         try {
             this.loadFXML("file:res/fxml/FXMLWelcome.fxml");
         } catch (IOException e) {
-            //TODO log!!!!!!!!!!!!!!!!!!!!!
+            AbstractView.showErrorAlert(e.getMessage());
             e.printStackTrace();
+            //TODO log4j
+            return;
         }
         this.getStage().setMinWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth() * MIN_DIM_MULTIPLIER);
         this.getStage().setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight() * MIN_DIM_MULTIPLIER);
