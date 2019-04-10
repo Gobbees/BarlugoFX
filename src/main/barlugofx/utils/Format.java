@@ -13,15 +13,15 @@ public enum Format {
     /**
      * PNG Format.
      */
-    PNG(".PNG", "png", "*.png", "*.PNG"),
+    PNG(".png", "png", "*.png", "*.PNG"),
     /**
      * JPEG Format.
      */
-    JPEG(".JPEG", "jpeg", "*.jpg", "*.JPG", "*.jpeg", "*.JPEG"),
+    JPEG(".jpeg", "jpeg", "*.jpg", "*.JPG", "*.jpeg", "*.JPEG"),
     /**
      * GIF Format.
      */
-    GIF(".GIF", "gif", "*.gif", "*.GIF");
+    GIF(".gif", "gif", "*.gif", "*.GIF");
     private final String extension;
     private final String outputForm;
     private final List<String> possibleInputs;
