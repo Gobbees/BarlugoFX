@@ -40,6 +40,7 @@ import barlugofx.app.AppManager;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.Format;
 import barlugofx.utils.MutablePair;
+import barlugofx.view.AbstractView;
 import barlugofx.view.InputOutOfBoundException;
 import barlugofx.view.ViewController;
 import barlugofx.view.export.ExportView;
@@ -75,7 +76,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public final class MainController implements ViewController {
     // private constant fields
     private static final double RIGHT_COLUMN_MIN_MULTIPLIER = 0.15;
-    private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.5;
+    private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.4;
     private static final double MIN_ZOOM_RATIO = 0.5d;
     private static final double DEFAULT_ZOOM_RATIO = 1d;
     private static final double MAX_ZOOM_RATIO = 10d;
@@ -191,9 +192,6 @@ public final class MainController implements ViewController {
     private Optional<ExportView> exportView;
     private Optional<PresetView> presetView;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
-    // real displayed image sizes
-    private double realWidth;
-    private double realHeight;
 
     /**
      * The constructor of the class. It is public because FXML obligates to do so.
@@ -206,6 +204,9 @@ public final class MainController implements ViewController {
 
     @Override
     public void setStage(final Stage stage) {
+        if (stage == null) {
+            throw new IllegalArgumentException("The stage must not be null");
+        }
         this.stage = stage;
         this.scene = stage.getScene();
         initComponentSize();
@@ -225,12 +226,15 @@ public final class MainController implements ViewController {
     /**
      * This function sets the app manager (controller). It must be called in order
      * to avoid future errors.
-     * 
      * @param manager the input manager
      */
     public void setManager(final AppManager manager) {
+        if (stage == null) {
+            throw new IllegalArgumentException("The manager must not be null");
+        }
         this.manager = manager;
         updateImage();
+        iviewImage.updateRealSizes();
         enableZoom();
         setEventListeners();
     }
@@ -239,27 +243,24 @@ public final class MainController implements ViewController {
      * @param width the new width
      * @param height the new height
      */
-    public void resizeComponents(final double width, final double height) { //TODO throw exception if stage is null, ACTUALLY FINISH ME
-        //System.out.println(width + " " + height);
-        spaneMain.setPrefHeight(height - menuBar.getHeight());
+    public void resizeComponents(final double width, final double height) {
+        checkStage();
+        paneGeneral.setPrefSize(width, height);
         menuBar.setPrefWidth(width);
         spaneMain.setPrefWidth(width);
-        paneGeneral.setMinWidth(width);
-        paneGeneral.setMaxWidth(width);
-        paneGeneral.setPrefWidth(width);
-        System.out.println(spaneMain.getPrefWidth() + " " + spaneMain.getPrefHeight());
-        System.out.println(paneImage.getPrefWidth() + " X " + paneImage.getPrefHeight());
-        iviewImage.setFitWidth(apaneImage.getWidth());
-        iviewImage.setFitHeight(spaneMain.getHeight());
-        spaneRightColumn.setPrefWidth(width * spaneMain.getDividers().get(0).getPosition());
-        //spaneMain.setDividerPosition(0, spaneRightColumn.getPrefHeight() / width);
+        spaneMain.setPrefHeight(height - menuBar.getHeight());
+        apaneImage.setPrefWidth(paneGeneral.getPrefWidth() - spaneRightColumn.getWidth());
+        apaneImage.setPrefHeight(spaneMain.getPrefHeight());
+        iviewImage.setFitWidth(apaneImage.getPrefWidth());
+        iviewImage.setFitHeight(apaneImage.getPrefHeight());
     }
     /**
-     * 
+     * New photo event triggered.
      */
     @FXML
     public void newPhoto() { //TODO reset history and all components 
         //TODO discard changes
+        checkManager();
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
         final File file = fc.showOpenDialog(stage);
@@ -268,6 +269,7 @@ public final class MainController implements ViewController {
                 try {
                     manager.setImage(file);
                 } catch (IOException e) {
+                    AbstractView.showErrorAlert(e.getMessage());
                     e.printStackTrace();
                 }
             }));
@@ -288,6 +290,7 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void rotate() {
+        checkManager();
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         final AtomicReference<RotateLine> rotateLine = new AtomicReference<>();
         disableZoom();
@@ -329,9 +332,9 @@ public final class MainController implements ViewController {
         };
         final EventHandler<MouseEvent> mDragged = e -> {
             apaneImage.getChildren().clear();
-            if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - realWidth) / 2 && e.getX() >= (apaneImage.getWidth() - realWidth) / 2 
-                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getWidth() - realHeight) / 2
-                    && e.getY() >= (apaneImage.getHeight() - realHeight) / 2) {
+            if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2 && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2 
+                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getWidth() - iviewImage.getRealHeight()) / 2
+                    && e.getY() >= (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
                 rotateLine.set(new RotateLine(startX.get(), startY.get(), e.getX(), e.getY()));
                 rotateLine.get().addToPane(apaneImage);
                 apaneImage.setOnMouseReleased(mReleased);
@@ -365,25 +368,26 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void crop() {
+        checkManager();
         disableZoom();
         resizeToDefault();
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         //TODO manage crop after resize
         apaneImage.getChildren().clear();
-        final CropArea cropper = new CropArea(realWidth / 2, realHeight / 2, apaneImage.getWidth() / 2 - realWidth / 4,
-                apaneImage.getHeight() / 2 - realHeight / 4);
+        final CropArea cropper = new CropArea(iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2, apaneImage.getWidth() / 2 - iviewImage.getRealWidth() / 4,
+                apaneImage.getHeight() / 2 - iviewImage.getRealHeight() / 4);
         cropper.addToPane(apaneImage);
         cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_PRESSED, e -> {
             startX.set(e.getX());
             startY.set(e.getY());
         });
         cropper.addEvent(cropper.getRectangle(), MouseEvent.MOUSE_DRAGGED, e -> { // TODO test
-            if (cropper.getRectangle().getX() + e.getX() - startX.get() > (apaneImage.getWidth() - realWidth) / 2
+            if (cropper.getRectangle().getX() + e.getX() - startX.get() > (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
                     && cropper.getRectangle().getX() + cropper.getRectangle().getWidth() + e.getX()
-                            - startX.get() < apaneImage.getWidth() - (apaneImage.getWidth() - realWidth) / 2
-                    && cropper.getRectangle().getY() + e.getY() - startY.get() > (apaneImage.getHeight() - realHeight) / 2
+                            - startX.get() < apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && cropper.getRectangle().getY() + e.getY() - startY.get() > (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2
                     && cropper.getRectangle().getY() + cropper.getRectangle().getHeight() + e.getY()
-                            - startY.get() < apaneImage.getHeight() - (apaneImage.getHeight() - realHeight) / 2) {
+                            - startY.get() < apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
                 cropper.drag(startX.get(), startY.get(), e.getX(), e.getY());
                 startX.set(e.getX());
                 startY.set(e.getY());
@@ -424,14 +428,14 @@ public final class MainController implements ViewController {
         });
         scene.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
-                final int x1 = (int) ((cropper.getRectangle().getX() - (iviewImage.getFitWidth() - realWidth) / 2)
-                        * iviewImage.getImage().getWidth() / realWidth);
-                final int y1 = (int) ((cropper.getRectangle().getY() - (iviewImage.getFitHeight() - realHeight) / 2)
-                        * iviewImage.getImage().getHeight() / realHeight);
+                final int x1 = (int) ((cropper.getRectangle().getX() - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2)
+                        * iviewImage.getImage().getWidth() / iviewImage.getRealWidth());
+                final int y1 = (int) ((cropper.getRectangle().getY() - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
+                        * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
                 final int x2 = (int) ((cropper.getRectangle().getX() + cropper.getRectangle().getWidth()
-                        - (iviewImage.getFitWidth() - realWidth) / 2) * iviewImage.getImage().getWidth() / realWidth);
+                        - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth() / iviewImage.getRealWidth());
                 final int y2 = (int) ((cropper.getRectangle().getY() + cropper.getRectangle().getHeight()
-                        - (iviewImage.getFitHeight() - realHeight) / 2) * iviewImage.getImage().getHeight() / realHeight);
+                        - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2) * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
                 runNewThread("Cropper", () -> {
                     manager.crop(x1, y1, x2, y2);
                     Platform.runLater(() -> {
@@ -467,6 +471,7 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void openPreset() {
+        checkManager();
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select a .bps preset", "*.bps"));
         fc.setTitle("Select a .bps preset");
@@ -481,8 +486,6 @@ public final class MainController implements ViewController {
             final FileInputStream fStream = new FileInputStream(input);
             properties.load(fStream);
             fStream.close();
-
-
             final Enumeration<?> e = properties.propertyNames();
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
@@ -511,20 +514,21 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void zoomIn() {
-        iviewImage.zoom(ZoomDirection.ZOOM_IN, realWidth / 2, realHeight / 2);
+        iviewImage.zoom(ZoomDirection.ZOOM_IN, iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2);
     }
     /**
      * Zoom out event triggered.
      */
     @FXML
     public void zoomOut() {
-        iviewImage.zoom(ZoomDirection.ZOOM_OUT, realWidth / 2, realHeight / 2);
+        iviewImage.zoom(ZoomDirection.ZOOM_OUT, iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2);
     }
     /**
      * Toggle full screen event triggered.
      */
     @FXML
     public void toggleFullScreen() {
+        checkStage();
         stage.setFullScreen(true);
     }
     /**
@@ -532,6 +536,7 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void toggleMinimize() {
+        checkStage();
         stage.setIconified(true);
     }
     /**
@@ -541,8 +546,10 @@ public final class MainController implements ViewController {
     public void about() {
         try {
             Desktop.getDesktop().browse(new URI("https://gobbees.github.io/BarlugoFX"));
+            throw new IOException();
         } catch (IOException | URISyntaxException e) {
-            // TODO Auto-generated catch block
+            AbstractView.showErrorAlert(e.getMessage());
+            //TODO 
             e.printStackTrace();
         }
     }
@@ -551,16 +558,18 @@ public final class MainController implements ViewController {
         iviewImage.setImage(SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
         iviewImage.setFitWidth(apaneImage.getWidth());
         iviewImage.setFitHeight(spaneMain.getHeight());
-        updateRealDimension();
+        iviewImage.updateRealSizes();
     }
     //zoom and pane activation
-    private void enableZoom() { //TODO update realWidth height
+    private void enableZoom() {
         apaneImage.setCursor(Cursor.OPEN_HAND);
         apaneImage.setOnScroll(e -> {
             if (iviewImage.getZoomRatio() > MIN_ZOOM_RATIO && e.getDeltaY() > 0) {
                 iviewImage.zoom(ZoomDirection.ZOOM_OUT, e.getSceneX(), e.getSceneY());
+                iviewImage.updateRealSizes();
             } else if (iviewImage.getZoomRatio() < MAX_ZOOM_RATIO && e.getDeltaY() < 0) {
                 iviewImage.zoom(ZoomDirection.ZOOM_IN, e.getSceneX(), e.getSceneY());
+                iviewImage.updateRealSizes();
             }
         });
         apaneImage.setOnMousePressed(e -> {
@@ -586,10 +595,11 @@ public final class MainController implements ViewController {
         apaneImage.setOnMouseReleased(null);
         apaneImage.setCursor(Cursor.DEFAULT);
     }
-    private void resizeToDefault() { //TODO update realWidth height
+    private void resizeToDefault() {
         iviewImage.setZoomToValue(DEFAULT_ZOOM_RATIO);
         iviewImage.setTranslateX(0);
         iviewImage.setTranslateY(0);
+        iviewImage.updateRealSizes();
     }
 
     // this function initializes all the components sizes in relation to the screen
@@ -664,12 +674,7 @@ public final class MainController implements ViewController {
         });
     }
     private void setEventListeners() {
-        try {
-            checkManager();
-        } catch (IllegalStateException e) {
-            // TODO LOG
-            e.printStackTrace();
-        }
+        checkManager();
         //exposure
         addKeyListener(tfExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
             toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
@@ -763,14 +768,9 @@ public final class MainController implements ViewController {
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
             if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain.getMaxWidth()) { 
                 iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2); //TODO
-                updateRealDimension();
+                iviewImage.updateRealSizes();
             }
         });
-    }
-    private void updateRealDimension() {
-        final double aspectRatio = iviewImage.getImage().getWidth() / iviewImage.getImage().getHeight();
-        realWidth = (int) Math.min(iviewImage.getFitWidth(), iviewImage.getFitHeight() * aspectRatio);
-        realHeight = (int) Math.min(iviewImage.getFitHeight(), iviewImage.getFitWidth() / aspectRatio);
     }
     private void addKeyListener(final JFXTextField node, final KeyCode kc, final Tool tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {
@@ -798,6 +798,7 @@ public final class MainController implements ViewController {
         }; 
     }
     private void addKeyboardShortcuts() {
+        checkStage();
         KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
         Runnable runnable = () -> export();
         scene.getAccelerators().put(kc, runnable);
@@ -805,12 +806,17 @@ public final class MainController implements ViewController {
         runnable = () -> toggleFullScreen();
         scene.getAccelerators().put(kc, runnable);
     }
-    private void checkManager() throws IllegalStateException {
+    private void runNewThread(final String threadName, final Runnable task) {
+        new Thread(task, threadName).start();
+    }
+    private void checkManager() {
         if (manager == null) {
             throw new IllegalStateException("The manager is null");
         }
     }
-    private void runNewThread(final String threadName, final Runnable task) {
-        new Thread(task, threadName).start();
+    private void checkStage() {
+        if (stage == null) {
+            throw new IllegalStateException("The stage is null");
+        }
     }
 }
