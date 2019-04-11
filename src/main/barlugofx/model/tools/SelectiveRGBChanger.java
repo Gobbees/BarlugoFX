@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import barlugofx.model.imagetools.ColorUtils;
-import barlugofx.model.tools.common.ImageToolAbstract;
+import barlugofx.model.tools.common.AbstractImageTool;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterName;
 
@@ -15,7 +15,7 @@ import barlugofx.model.tools.common.ParameterName;
  * accepts up to three parameters: RED, GREEN and BLUE, which are an ints from -255 to 255.
  *
  */
-public final class SelectiveRGBChanger extends ImageToolAbstract implements ParallelizableImageTool {
+public final class SelectiveRGBChanger extends AbstractImageTool implements ParallelizableImageTool {
     private static final int MAX = 255;
     private static final int DEFAULT =  0;
     private static final Set<ParameterName> ACCEPTED = new HashSet<>(

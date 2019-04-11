@@ -8,7 +8,7 @@ import java.util.Optional;
  * This abstact class implements the common function to all filters implementing ImageFilter.
  *
  */
-public abstract class ImageToolAbstract implements ImageTool {
+public abstract class AbstractImageTool implements ImageTool {
     private final Map<ParameterName, Parameter<? extends Number>> parameters = new HashMap<>();
 
 
@@ -97,10 +97,10 @@ public abstract class ImageToolAbstract implements ImageTool {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ImageToolAbstract)) {
+        if (!(obj instanceof AbstractImageTool)) {
             return false;
         }
-        final ImageToolAbstract other = (ImageToolAbstract) obj;
+        final AbstractImageTool other = (AbstractImageTool) obj;
         if (parameters == null) {
             if (other.parameters != null) {
                 return false;

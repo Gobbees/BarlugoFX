@@ -3,7 +3,7 @@ package barlugofx.model.tools;
 import java.awt.Point;
 
 import barlugofx.model.imagetools.ColorUtils;
-import barlugofx.model.tools.common.ImageToolAbstract;
+import barlugofx.model.tools.common.AbstractImageTool;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterName;
 
@@ -14,7 +14,7 @@ import barlugofx.model.tools.common.ParameterName;
  *
  *
  */
-public final class Brightness extends ImageToolAbstract implements ParallelizableImageTool {
+public final class Brightness extends AbstractImageTool implements ParallelizableImageTool {
     private static final double MAXVALUE = 255;
     private static final int DEFAULT_VALUE = 0;
     private int value = DEFAULT_VALUE;
