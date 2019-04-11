@@ -20,7 +20,6 @@ import barlugofx.utils.Format;
 
 /**
  *  Implementation of IOManager interface.
- *
  */
 public final class IOManagerImpl implements IOManager {
     private String inputFileName;

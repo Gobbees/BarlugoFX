@@ -31,29 +31,37 @@ public enum Format {
         this.outputForm = outputForm;
         this.possibleInputs = new ArrayList<>(Arrays.asList(possibleInputs));
     }
+
     /**
      * Returns the format's extension.
+     * 
      * @return the extension
      */
     public String toExtension() {
         return this.extension;
     }
+
     /**
      * Returns the format's output form (used by ImageIO library).
+     * 
      * @return the output form
      */
     public String toOutputForm() {
         return this.outputForm;
     }
+
     /**
      * Returns the possible input formats.
+     * 
      * @return the input formats.
      */
     public List<String> getPossibleInputs() {
         return Collections.unmodifiableList(possibleInputs);
     }
+
     /**
      * This function returns all the possible input formats that barlugofx accepts.
+     * 
      * @return the list of all possible input formats
      */
     public static List<String> getAllPossibleInputs() {

@@ -47,33 +47,60 @@ public final class PresetController implements ViewController, EventHandler<Acti
     private static final int STEP = 1;
     private static final int SUBSTRING_INDEX_NAME = 3;
     private static final int SUBSTRING_INDEX_EXTENSION = 4;
-    @FXML private JFXButton btnSave;
-    @FXML private JFXButton btnCancel;
-    @FXML private Separator horizSep;
-    @FXML private Separator verticSep;
-    @FXML private Separator leftSep;
-    @FXML private Spinner<Integer> spnExposure;
-    @FXML private Spinner<Integer> spnContrast;
-    @FXML private Spinner<Integer> spnBrightness;
-    @FXML private Spinner<Integer> spnWhiteBalance;
-    @FXML private Spinner<Integer> spnSaturation;
-    @FXML private Spinner<Integer> spnHue;
-    @FXML private Spinner<Integer> spnVibrance;
-    @FXML private Spinner<Integer> spnColR;
-    @FXML private Spinner<Integer> spnColG;
-    @FXML private Spinner<Integer> spnColB;
-    @FXML private Spinner<Integer> spnBlkR;
-    @FXML private Spinner<Integer> spnBlkG;
-    @FXML private Spinner<Integer> spnBlkB;
-    @FXML private JFXCheckBox chkExposure;
-    @FXML private JFXCheckBox chkContrast;
-    @FXML private JFXCheckBox chkBrightness;
-    @FXML private JFXCheckBox chkWhiteBalance;
-    @FXML private JFXCheckBox chkSaturation;
-    @FXML private JFXCheckBox chkHue;
-    @FXML private JFXCheckBox chkVibrance;
-    @FXML private JFXCheckBox chkColors;
-    @FXML private JFXCheckBox chkBlkWht;
+    @FXML
+    private JFXButton btnSave;
+    @FXML
+    private JFXButton btnCancel;
+    @FXML
+    private Separator horizSep;
+    @FXML
+    private Separator verticSep;
+    @FXML
+    private Separator leftSep;
+    @FXML
+    private Spinner<Integer> spnExposure;
+    @FXML
+    private Spinner<Integer> spnContrast;
+    @FXML
+    private Spinner<Integer> spnBrightness;
+    @FXML
+    private Spinner<Integer> spnWhiteBalance;
+    @FXML
+    private Spinner<Integer> spnSaturation;
+    @FXML
+    private Spinner<Integer> spnHue;
+    @FXML
+    private Spinner<Integer> spnVibrance;
+    @FXML
+    private Spinner<Integer> spnColR;
+    @FXML
+    private Spinner<Integer> spnColG;
+    @FXML
+    private Spinner<Integer> spnColB;
+    @FXML
+    private Spinner<Integer> spnBlkR;
+    @FXML
+    private Spinner<Integer> spnBlkG;
+    @FXML
+    private Spinner<Integer> spnBlkB;
+    @FXML
+    private JFXCheckBox chkExposure;
+    @FXML
+    private JFXCheckBox chkContrast;
+    @FXML
+    private JFXCheckBox chkBrightness;
+    @FXML
+    private JFXCheckBox chkWhiteBalance;
+    @FXML
+    private JFXCheckBox chkSaturation;
+    @FXML
+    private JFXCheckBox chkHue;
+    @FXML
+    private JFXCheckBox chkVibrance;
+    @FXML
+    private JFXCheckBox chkColors;
+    @FXML
+    private JFXCheckBox chkBlkWht;
     private Stage stage;
     private AppManager manager;
     private Map<JFXCheckBox, List<Spinner<Integer>>> components;
@@ -125,13 +152,14 @@ public final class PresetController implements ViewController, EventHandler<Acti
 
         addListeners();
     }
+
     @Override
     public void handle(final ActionEvent event) {
         final JFXCheckBox checkBox = (JFXCheckBox) event.getSource();
         final List<Spinner<Integer>> list = spinnersCheck(checkBox);
         if (checkBox.isSelected()) {
             for (final Spinner<Integer> spinner : list) {
-                ///TODO cancellare println
+                /// TODO cancellare println
                 System.out.println(spinner.getValue());
                 spinner.setDisable(true);
             }
@@ -143,8 +171,9 @@ public final class PresetController implements ViewController, EventHandler<Acti
     }
 
     /**
-     * Iterate over the entire components map to find the spinners 
-     * associated with the selected checkbox.
+     * Iterate over the entire components map to find the spinners associated with
+     * the selected checkbox.
+     * 
      * @param checkbox the checkbox that fired the event
      * @return a list of all spinners that correspond to the selected checkbox
      */
@@ -156,8 +185,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
                 spinners.add(entry.getValue());
             }
         }
-        return spinners.stream().flatMap(x -> x.stream())
-                .collect(Collectors.toList());
+        return spinners.stream().flatMap(x -> x.stream()).collect(Collectors.toList());
     }
 
     /**
@@ -192,12 +220,12 @@ public final class PresetController implements ViewController, EventHandler<Acti
             value = savingList.get(i).getValue().toString();
             if (filterName.equals(colBal)) {
                 filterName = "SelectiveColors";
-                value = value + "," + savingList.get(++i).getValue().toString() 
-                        + "," + savingList.get(++i).getValue().toString();
+                value = value + "," + savingList.get(++i).getValue().toString() + ","
+                        + savingList.get(++i).getValue().toString();
             } else if (filterName.equals(blkWht)) {
                 filterName = "BlackAndWhite";
-                value = value + "," + savingList.get(++i).getValue().toString() 
-                        + "," + savingList.get(++i).getValue().toString();
+                value = value + "," + savingList.get(++i).getValue().toString() + ","
+                        + savingList.get(++i).getValue().toString();
             }
             filters.setProperty(filterName, value);
         }
@@ -236,6 +264,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
 
     /**
      * Checks if the name file has the correct extension.
+     * 
      * @param f the file to check the extension
      * @return a file with the correct extension
      */
@@ -260,6 +289,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
         alert.setContentText("Select at least one filter to save!");
         alert.showAndWait();
     }
+
     private void resizeComponents() {
         final double width = stage.getScene().getWidth();
         final double height = stage.getScene().getHeight();
@@ -308,17 +338,18 @@ public final class PresetController implements ViewController, EventHandler<Acti
             entry.setOnAction(this);
         }
         /*
-         * This adds a listener to every spinner.focusedProperty() that will update the value when the focus is lost
-         * we have to do this because in JavaFX8 spinners won't update value automatically.
+         * This adds a listener to every spinner.focusedProperty() that will update the
+         * value when the focus is lost we have to do this because in JavaFX8 spinners
+         * won't update value automatically
          */
         for (final List<Spinner<Integer>> entry : components.values()) {
             for (final Spinner<Integer> e : entry) {
                 IntegerStringConverter.createFor(e);
                 e.focusedProperty().addListener((observable, oldValue, newValue) -> {
                     if (!newValue) {
-                        e.increment(0); //won't change value, but will commit editor
-                      }
-                    });
+                        e.increment(0); // won't change value, but will commit editor
+                    }
+                });
             }
         }
     }

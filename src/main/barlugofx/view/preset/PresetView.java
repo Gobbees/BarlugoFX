@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import barlugofx.app.AppManager;
 import barlugofx.view.AbstractView;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -19,10 +20,11 @@ public class PresetView extends AbstractView<PresetController> {
      * @param manager the input manager
      */
     public PresetView(final AppManager manager) {
-        super("Preset", "file:res/img/logo.png", new Stage(), new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * WIDTH_MULTIPLIER),
+        super("Preset", new Stage(), new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * WIDTH_MULTIPLIER),
               (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * HEIGHT_MULTIPLIER)));
+        this.getStage().getIcons().add(new Image(getClass().getResource("/img/logo.png").toExternalForm()));
         try {
-            this.loadFXML("file:res/fxml/FXMLPreset.fxml");
+            this.loadFXML(getClass().getResource("/fxml/FXMLPreset.fxml"));
         } catch (IOException e) {
             //TODO log!!!!!!!!!!!!!!!!!!!!!
             e.printStackTrace();
