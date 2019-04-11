@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 
 import barlugofx.model.imagetools.ColorUtils;
-import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ImageToolAbstract;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterName;
 
@@ -18,7 +18,7 @@ import barlugofx.model.tools.common.ParameterName;
  *
  * Eventual other value will result in an {@link IllegalStateException}.
  */
-public final class Vibrance extends ImageToolImpl implements ParallelizableImageTool {
+public final class Vibrance extends ImageToolAbstract implements ParallelizableImageTool {
     private static final float MIN_INCREMENT = -1;
     private static final float MAX_INCREMENT = 1;
     private static final float MAX_SATURATION = 1;

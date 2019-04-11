@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import barlugofx.model.imagetools.ColorUtils;
-import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ImageToolAbstract;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterName;
 
@@ -21,7 +21,7 @@ import barlugofx.model.tools.common.ParameterName;
  * Eventual other value or parameters will result in an {@link IllegalStateException}.
  *
  */
-public final class BlackAndWhite extends ImageToolImpl implements ParallelizableImageTool {
+public final class BlackAndWhite extends ImageToolAbstract implements ParallelizableImageTool {
     private static final double MIN_VALUE = 0;
     private static final double DEFAULT_VALUE = 1.0;
     private static final double RED_MULTIPLIER = 0.299;

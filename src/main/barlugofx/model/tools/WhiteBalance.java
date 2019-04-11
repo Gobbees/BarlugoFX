@@ -6,7 +6,7 @@ import java.util.function.UnaryOperator;
 import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
-import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ImageToolAbstract;
 import barlugofx.model.tools.common.ParameterName;
 
 /**
@@ -21,7 +21,7 @@ import barlugofx.model.tools.common.ParameterName;
  *      "https://docs.gimp.org/2.8/en/gimp-layer-white-balance.html">GIMP
  *      documentation</a>
  */
-public final class WhiteBalance extends ImageToolImpl {
+public final class WhiteBalance extends ImageToolAbstract {
     private static final double MINVALUE = 0;
     private static final double MAXRGB = 255.0;
     private static final float DEFAULT = 0f;

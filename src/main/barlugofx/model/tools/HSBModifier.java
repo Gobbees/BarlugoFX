@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import barlugofx.model.imagetools.ColorUtils;
-import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ImageToolAbstract;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterName;
 
@@ -22,7 +22,7 @@ import barlugofx.model.tools.common.ParameterName;
  *
  * Eventual other value will result in an {@link IllegalStateException}.
  */
-public final class HSBModifier extends ImageToolImpl implements ParallelizableImageTool {
+public final class HSBModifier extends ImageToolAbstract implements ParallelizableImageTool {
     private static final int MAX = 1;
     private static final int MIN = -1;
     private static final float DEFAULT_VALUE = 0f;

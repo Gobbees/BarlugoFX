@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.imagetools.ImageUtils;
-import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ImageToolAbstract;
 import barlugofx.model.tools.common.ParameterName;
 
 /**
@@ -17,7 +17,7 @@ import barlugofx.model.tools.common.ParameterName;
  *
  *  Eventual other value will result in an {@link IllegalStateException}.
  */
-public final class Rotator extends ImageToolImpl {
+public final class Rotator extends ImageToolAbstract {
     private static final int MAX = 180;
     private static final double DEFAULT = 0.0;
 

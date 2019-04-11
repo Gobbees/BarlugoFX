@@ -6,7 +6,7 @@ import java.util.Set;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
-import barlugofx.model.tools.common.ImageToolImpl;
+import barlugofx.model.tools.common.ImageToolAbstract;
 import barlugofx.model.tools.common.ParameterName;
 
 /**
@@ -18,7 +18,7 @@ import barlugofx.model.tools.common.ParameterName;
  * less than the image width and height respectively.
  *
  */
-public final class Cropper extends ImageToolImpl {
+public final class Cropper extends ImageToolAbstract {
 
     private static final int MIN_VALUE_1 = 0;
     private static final int MAX_VALUE_2 = 1;
