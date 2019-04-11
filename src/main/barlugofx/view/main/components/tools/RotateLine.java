@@ -15,7 +15,6 @@ public final class RotateLine implements ComplexNode {
     //constant fields
     private static final int LINE_WIDTH = 2;
     private static final int CIRCLE_WIDTH = 4;
-    private static final int INDICATOR_BG_SIZE = 20;
     private static final int LABEL_SHIFTER = 30;
     private static final Paint LIGHT_BLUE_COLOR = Color.web("rgb(90,255,208)");
     private final Line line;
@@ -24,7 +23,7 @@ public final class RotateLine implements ComplexNode {
     private final Circle circle;
     private final Label degrees;
     private double angle;
-	/**
+    /**
      * The class constructor.
      * @param startX the start X coordinate
      * @param startY the start Y coordinate
@@ -35,11 +34,11 @@ public final class RotateLine implements ComplexNode {
         line = createLine(startX, startY, endX, endY);
         start = createPoint(startX, startY);
         end = createPoint(endX, endY);
-        circle = new Circle(INDICATOR_BG_SIZE);
-        circle.setStroke(LIGHT_BLUE_COLOR);
-        circle.setFill(Color.BLACK);
         degrees = new Label();
         degrees.setTextFill(LIGHT_BLUE_COLOR);
+        circle = new Circle();
+        circle.setStroke(LIGHT_BLUE_COLOR);
+        circle.setFill(Color.BLACK);
     }
     /**
      * Returns the line.
@@ -62,21 +61,30 @@ public final class RotateLine implements ComplexNode {
     public Circle getEndPoint() {
         return end;
     }
-    
+    /**
+     * Returns the line angle.
+     * @return the line angle
+     */
     public double getAngle() {
-		return angle;
-	}
-    public void drag(final double x, final double y) {
-    	line.setEndX(x);
-    	line.setEndY(y);
-    	end.setCenterX(x);
-    	end.setCenterY(y);
-    	degrees.setLayoutX(x - LABEL_SHIFTER);
+        return angle;
+    }
+    /**
+     * Moves the line to (x, y).
+     * @param x the new x coordinate
+     * @param y the new y coordinate
+     */
+    public void move(final double x, final double y) {
+        line.setEndX(x);
+        line.setEndY(y);
+        end.setCenterX(x);
+        end.setCenterY(y);
+        degrees.setLayoutX(x - LABEL_SHIFTER);
         degrees.setLayoutY(y - LABEL_SHIFTER);
+        degrees.setText(String.format("%1$,.2fÂ°", angle));
+        circle.setRadius(degrees.getWidth() / 2 + 1);
         circle.setCenterX(degrees.getLayoutX() + degrees.getWidth() / 2);
         circle.setCenterY(degrees.getLayoutY() + degrees.getHeight() / 2);
-    	angle = computeAngle(start.getCenterX(), start.getCenterY(), x, y);
-        degrees.setText(String.format("%1$,.2f°",angle));
+        angle = computeAngle(start.getCenterX(), start.getCenterY(), x, y);
     }
     @Override
     public void addToPane(final Pane pane) {
@@ -107,7 +115,7 @@ public final class RotateLine implements ComplexNode {
         return l;
     }
     private double computeAngle(final double x1, final double y1, final double x2, final double y2) {
-    	double m;
+        double m;
         if (y2 < start.getCenterY()) {
             m = Math.abs(y2 - y1) / (x2 - x1);
         } else if (x2 < x1) {
