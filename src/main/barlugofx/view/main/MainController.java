@@ -319,21 +319,10 @@ public final class MainController implements ViewController {
             }
             startX.set(rotateLine.get().getStartPoint().getCenterX());
             startY.set(rotateLine.get().getStartPoint().getCenterY());
-            final double endX = rotateLine.get().getEndPoint().getCenterX();
-            final double endY = rotateLine.get().getEndPoint().getCenterY();
             apaneImage.setCursor(Cursor.WAIT);
             rotateLine.get().removeFromPane(apaneImage);
-            double m;
-            if (endY < startY.get()) {
-                m = Math.abs(endY - startY.get()) / (endX - startX.get());
-            } else if (endX < startX.get()) {
-                m = (endY - startY.get()) / Math.abs(endX - startX.get());
-            } else {
-                m = -(endY - startY.get()) / (endX - startX.get());
-            }
-            final double theta = Math.atan(m) * (180 / Math.PI);
             runNewThread("Rotator", () -> {
-                manager.rotate(theta);
+                manager.rotate(rotateLine.get().getAngle());
                 Platform.runLater(() -> {
                     updateImage();
                     apaneImage.setCursor(Cursor.DEFAULT);
@@ -345,11 +334,11 @@ public final class MainController implements ViewController {
         };
         final EventHandler<MouseEvent> mDragged = e -> {
             apaneImage.getChildren().clear();
-            if (e.getX() <= apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
-                    && e.getX() >= (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
-                    && e.getY() <= apaneImage.getHeight() - (apaneImage.getWidth() - iviewImage.getRealHeight()) / 2
-                    && e.getY() >= (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
-                rotateLine.set(new RotateLine(startX.get(), startY.get(), e.getX(), e.getY()));
+            if (e.getX() < apaneImage.getWidth() - (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getX() > (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
+                    && e.getY() < apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2
+                    && e.getY() > (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
+                rotateLine.get().drag(e.getX(), e.getY());
                 rotateLine.get().addToPane(apaneImage);
                 apaneImage.setOnMouseReleased(mReleased);
             }
@@ -357,16 +346,14 @@ public final class MainController implements ViewController {
         };
         final EventHandler<MouseEvent> mPressed = e -> {
             apaneImage.getChildren().clear();
-            startX.set(e.getX());
-            startY.set(e.getY());
-            e.consume();
+            rotateLine.set(new RotateLine(e.getX(), e.getY(), e.getX(), e.getY()));
             apaneImage.setOnMousePressed(null);
             apaneImage.setOnMouseDragged(mDragged);
         };
         apaneImage.setOnMousePressed(mPressed);
         scene.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ESCAPE)) {
-                if (rotateLine.get() != null) {
+                if (rotateLine != null) {
                     rotateLine.get().removeFromPane(apaneImage);
                 }
                 apaneImage.setOnMousePressed(mPressed);
