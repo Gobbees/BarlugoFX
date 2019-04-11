@@ -29,7 +29,7 @@ public final class ParallelFilterExecutor {
     }
 
     private ParallelFilterExecutor() {
-        nSubtask = Runtime.getRuntime().availableProcessors() + 1;
+        nSubtask = Runtime.getRuntime().availableProcessors() + 1; //This is  empirical
         exec = Executors.newCachedThreadPool();
     }
 
