@@ -1,7 +1,8 @@
 package barlugofx.view;
 
 /**
- * This exception is thrown when the input of a textfield is out of the min/max range.
+ * This exception is thrown when the input of a textfield is out of the min/max
+ * range.
  */
 @SuppressWarnings("serial")
 public class InputOutOfBoundException extends Exception {
@@ -11,8 +12,10 @@ public class InputOutOfBoundException extends Exception {
     public InputOutOfBoundException() {
         super();
     }
+
     /**
      * Constructor with a message.
+     * 
      * @param message the exception message
      */
     public InputOutOfBoundException(final String message) {

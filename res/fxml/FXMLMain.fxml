@@ -90,13 +90,15 @@
 						</Menu>
 						<Menu mnemonicParsing="false" text="Tools">
 							<items>
-								<MenuItem mnemonicParsing="false" text="Crop" onAction="#crop">
+								<MenuItem mnemonicParsing="false" text="Crop"
+									onAction="#crop">
 									<accelerator>
 										<KeyCodeCombination code="c" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
-								<MenuItem mnemonicParsing="false" text="Rotate" onAction="#rotate">
+								<MenuItem mnemonicParsing="false" text="Rotate"
+									onAction="#rotate">
 									<accelerator>
 										<KeyCodeCombination code="r" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -106,7 +108,7 @@
 								<MenuItem mnemonicParsing="false"
 									text="Save bps preset" onAction="#preset">
 									<accelerator>
-										<KeyCodeCombination code="h" control="DOWN"
+										<KeyCodeCombination code="p" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
@@ -121,17 +123,19 @@
 						</Menu>
 						<Menu mnemonicParsing="false" text="View">
 							<items>
-								<MenuItem mnemonicParsing="false" text="Zoom +" onAction="#zoomIn">
-								    <accelerator>
-                                        <KeyCodeCombination code="i" control="DOWN" 
-                                            alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
-                                    </accelerator>
-                                </MenuItem>
-								<MenuItem mnemonicParsing="false" text="Zoom -" onAction="#zoomOut">
-								    <accelerator>
-                                        <KeyCodeCombination code="o" control="DOWN"
-                                            alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
-                                    </accelerator>
+								<MenuItem mnemonicParsing="false" text="Zoom +"
+									onAction="#zoomIn">
+									<accelerator>
+										<KeyCodeCombination code="i" control="DOWN"
+											alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
+									</accelerator>
+								</MenuItem>
+								<MenuItem mnemonicParsing="false" text="Zoom -"
+									onAction="#zoomOut">
+									<accelerator>
+										<KeyCodeCombination code="o" control="DOWN"
+											alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
+									</accelerator>
 								</MenuItem>
 								<SeparatorMenuItem />
 								<MenuItem mnemonicParsing="false"
@@ -164,18 +168,20 @@
 		</AnchorPane>
 	</top>
 	<center>
-		<SplitPane fx:id="spaneMain" dividerPositions="0.8" style="-fx-border-width: 1 0 0 0">
-	       <items>
-			    <BorderPane fx:id="paneImage">
-				   <center>
-				     <StackPane>
-					    <children>
-						    <ZoomableImageView fx:id="iviewImage" pickOnBounds="true" preserveRatio="true"/>
-						    <AnchorPane fx:id="apaneImage"/>
-					    </children>
-				    </StackPane>
-				   </center>
-			    </BorderPane>
+		<SplitPane fx:id="spaneMain" dividerPositions="0.8"
+			style="-fx-border-width: 1 0 0 0">
+			<items>
+				<BorderPane fx:id="paneImage">
+					<center>
+						<StackPane>
+							<children>
+								<ZoomableImageView fx:id="iviewImage"
+									pickOnBounds="true" preserveRatio="true" />
+								<AnchorPane fx:id="apaneImage" />
+							</children>
+						</StackPane>
+					</center>
+				</BorderPane>
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL"
 					style="-fx-border-width: 0 0 0 0">
 					<items>
