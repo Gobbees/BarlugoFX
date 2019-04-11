@@ -481,18 +481,22 @@ public final class MainController implements ViewController {
         });
         scene.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
-                final int x1 = (int) ((cropper.getRectangle().getX()
+            	int tmpSize = (int) ((cropper.getRectangle().getX()
                         - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
                         / iviewImage.getRealWidth());
-                final int y1 = (int) ((cropper.getRectangle().getY()
+                final int x1 = tmpSize < 0 ? 0 : tmpSize;
+                tmpSize = (int) ((cropper.getRectangle().getY()
                         - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
                         * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
-                final int x2 = (int) ((cropper.getRectangle().getX() + cropper.getRectangle().getWidth()
+                final int y1 = tmpSize < 0 ? 0 : tmpSize;
+                tmpSize = (int) ((cropper.getRectangle().getX() + cropper.getRectangle().getWidth()
                         - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
                         / iviewImage.getRealWidth());
-                final int y2 = (int) ((cropper.getRectangle().getY() + cropper.getRectangle().getHeight()
+                final int x2 = tmpSize > iviewImage.getImage().getWidth() ? (int) iviewImage.getImage().getWidth() : tmpSize;
+                tmpSize = (int) ((cropper.getRectangle().getY() + cropper.getRectangle().getHeight()
                         - (iviewImage.getFitHeight() - iviewImage.getRealHeight()) / 2)
                         * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
+                final int y2 = tmpSize > iviewImage.getImage().getHeight() ? (int) iviewImage.getImage().getHeight() : tmpSize; 
                 runNewThread("Cropper", () -> {
                     manager.crop(x1, y1, x2, y2);
                     Platform.runLater(() -> {
