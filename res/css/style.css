@@ -1,15 +1,3 @@
-@font-face {
-    src: url(../font/Inconsolata-Regular.ttf);
-}
-@font-face {
-    src: url(../font/Inconsolata-Bold.ttf);
-}
-@font-face {
-    src: url(../font/OstrichSans-Heavy.otf);
-}
-@font-face {
-    src: url(../font/OstrichSans-Medium.otf);
-}
 /* WELCOME BUTTONS */
 .button {
     -jfx-button-type: RAISED;
@@ -17,7 +5,7 @@
     -fx-background-color: #312f2e;
     -fx-border-color: #5affd0;
     -fx-font-family: "Inconsolata Bold";
-    -fx-font-size: 20;
+    -fx-font-size: 20.0;
     -jfx-disable-visual-focus: true;
 }
 
@@ -25,16 +13,16 @@
 #generalabel {
     -fx-font-family: "Inconsolata Bold";
     -fx-text-fill: #5affd0;
-    -fx-font-size: 20;
+    -fx-font-size: 20.0;
 }
 #hintlabel {
     -fx-font-family: "Inconsolata Bold";
     -fx-text-fill: #5affd0;
-    -fx-font-size: 10;
+    -fx-font-size: 10.0;
 }
 #toolabel {
     -fx-text-fill: white;
-    -fx-font-size: 15;
+    -fx-font-size: 15.0;
     -fx-font-family: "Inconsolata Regular";
 }
 
@@ -49,11 +37,11 @@
     -fx-border-color: #5affd0;
 }
 .split-pane:horizontal > .split-pane-divider {
-    -fx-padding: 1;
+    -fx-padding: 1.0;
     -fx-background-color: #5affd0;
 }
 .split-pane:vertical > .split-pane-divider {
-    -fx-padding: 3;
+    -fx-padding: 3.0;
     -fx-background-color: #5affd0;
 }
 
@@ -63,8 +51,8 @@
 }
 .titled-pane > .title{
     -fx-background-color: #333130;
-    -fx-font-size: 18;
-    -fx-border-width: 1 0 0 0;
+    -fx-font-size: 18.0;
+    -fx-border-width: 1.0 0.0 0.0 0.0;
     -fx-border-color: #5affd0;
 }
 .titled-pane > .title > .arrow-button .arrow {
@@ -72,10 +60,10 @@
 }
 .titled-pane > *.content {
     -fx-background-color: #333130;
-    -fx-border-width: 0 0 0 0;
+    -fx-border-width: 0.0 0.0 0.0 0.0;
 }
 #firstitlepane > .title {
-    -fx-border-width: 0 0 0 0;
+    -fx-border-width: 0.0 0.0 0.0 0.0;
 }
 
 .scroll-pane > .viewport {
@@ -94,7 +82,7 @@
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
     -fx-background-color: #5affd0;
-    -fx-background-radius: 0em;
+    -fx-background-radius: 0.0em;
 }
 #border-pane {
     -fx-background-color: #333130;
@@ -105,7 +93,7 @@
     -fx-selection-bar: #333130 ;
     -fx-text-background-color: #5affd0;
     -fx-font-family: "Inconsolata Regular";
-    -fx-font-size: 15;  
+    -fx-font-size: 15.0;  
     -fx-focused-text-base-color:  #5affd0;
 }
 .menu .label{
@@ -114,14 +102,14 @@
 .context-menu {
     -fx-background-color: #333130;
     -fx-text-fill:white;
-    -fx-border-width: 0 1 1 1;
+    -fx-border-width: 0.0 1.0 1.0 1.0;
     -fx-border-color: #5affd0;
 }
 
 /* SLIDERS */
 .jfx-slider > .track {
      -fx-background-color: white;
-     -fx-pref-height: 4;
+     -fx-pref-height: 4.0;
 }
 .jfx-slider > .thumb {
      -fx-background-color: #5affd0;
@@ -205,9 +193,9 @@
     -fx-background-color: #333130;
     -fx-font-family: "Inconsolata Regular";
     -fx-text-fill: white;
-    -fx-font-size: 14;
-    -fx-pref-width:50;
-    -fx-pref-height:30;
+    -fx-font-size: 14.0;
+    -fx-pref-width:50.0;
+    -fx-pref-height:30.0;
     -fx-highlight-fill: #5affd0;
     -fx-highlight-text-fill: #333130;
 }
@@ -218,9 +206,9 @@
     -fx-prompt-text-fill: black;
     -fx-text-fill: black;
     -fx-background-color: none;
-	-fx-initial-delay: 1ms;
-	-fx-repeat-delay: 1ms;
-    -fx-padding: 0 0 3 0;   
+	-fx-initial-delay: 1.0ms;
+	-fx-repeat-delay: 1.0ms;
+    -fx-padding: 0.0 0.0 3.0 0.0;   
 }
 .spinner .increment-arrow-button,
 .spinner .decrement-arrow-button {
@@ -230,13 +218,13 @@
 .spinner .increment-arrow-button .increment-arrow,
 .spinner .decrement-arrow-button .decrement-arrow {
     -fx-background-color: #5affd0;
-    -fx-font-size: 25px;
+    -fx-font-size: 25.0px;
 }
 
 .spinner .text-field {
     -fx-background-color: transparent;
     -fx-text-fill: #5affd0;
-    -fx-border-width: 0 0 1 0;
+    -fx-border-width: 0.0 0.0 1.0 0.0;
     -fx-border-color: #bdbdbd;
 }
 .jfx-check-box {
@@ -254,11 +242,11 @@
 }
 #preset-checkbox {
     -fx-text-fill: #5affd0;
-    -fx-font-size: 20;
+    -fx-font-size: 20.0;
     -fx-font-family: "Inconsolata Regular";
 }
 #preset-label {
     -fx-text-fill: #5affd0;
-    -fx-font-size: 20;
+    -fx-font-size: 20.0;
     -fx-font-family: "Inconsolata Regular";
 }
