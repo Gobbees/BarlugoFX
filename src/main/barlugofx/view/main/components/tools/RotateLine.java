@@ -80,7 +80,7 @@ public final class RotateLine implements ComplexNode {
         end.setCenterY(y);
         degrees.setLayoutX(x - LABEL_SHIFTER);
         degrees.setLayoutY(y - LABEL_SHIFTER);
-        degrees.setText(String.format("%1$,.2f°", angle));
+        degrees.setText(String.format("%1$,.2f\u00B0", angle));
         circle.setRadius(degrees.getWidth() / 2 + 1);
         circle.setCenterX(degrees.getLayoutX() + degrees.getWidth() / 2);
         circle.setCenterY(degrees.getLayoutY() + degrees.getHeight() / 2);
