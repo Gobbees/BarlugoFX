@@ -8,9 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 
 /**
  * Abstract skeleton of a view class.
@@ -24,22 +22,24 @@ public abstract class AbstractView<T extends ViewController> {
     private final Stage stage;
     private T controller;
     private Scene scene;
+
     /**
      * Initializer of the main fields of the class.
+     * 
      * @param stageName name of the stage
-     * @param iconPath path of the icon image
-     * @param stage input stage
-     * @param dim scene dimension
+     * @param stage     input stage
+     * @param dim       scene dimension
      */
-    public AbstractView(final String stageName, final String iconPath, final Stage stage, final Dimension dim) {
+    public AbstractView(final String stageName, final Stage stage, final Dimension dim) {
         this.sceneDims = dim;
         this.stage = stage;
         this.stage.setTitle(stageName);
-        this.stage.getIcons().add(new Image(iconPath));
         this.fxml = new FXMLLoader();
     }
+
     /**
      * Displays an error alert.
+     * 
      * @param message the alert message
      */
     public static void showErrorAlert(final String message) {
@@ -47,23 +47,27 @@ public abstract class AbstractView<T extends ViewController> {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     /**
      * Loads fxml file and initializes the scene and the view controller.
-     * @param iconPath the fxml path
+     * 
+     * @param url the fxml path
      * @throws IOException if the fxml path is wrong
      */
-    protected void loadFXML(final String iconPath) throws IOException {
-        fxml.setLocation(new URL(iconPath));
+    protected void loadFXML(final URL url) throws IOException {
+        fxml.setLocation(url);
         scene = new Scene(fxml.load(), sceneDims.getWidth(), sceneDims.getHeight());
         controller = fxml.getController();
         stage.sizeToScene();
     }
+
     /**
      * @return the scene dimesion
      */
     protected Dimension getSceneDims() {
         return sceneDims;
     }
+
     /**
      * @return the scene
      */
@@ -81,6 +85,7 @@ public abstract class AbstractView<T extends ViewController> {
         }
         return (T) this.controller;
     }
+
     /**
      * @return the stage
      */

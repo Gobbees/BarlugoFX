@@ -6,6 +6,7 @@ import java.io.IOException;
 import barlugofx.view.AbstractView;
 import barlugofx.view.AnimationUtils;
 import javafx.animation.FadeTransition;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -21,9 +22,10 @@ public class LoadingView extends AbstractView<LoadingController> {
      * @param stage the input stage where the new scene will be updated
      */
     public LoadingView(final Stage stage) {
-        super("BarlugoFX", "file:res/img/logo.png", stage, new Dimension((int) stage.getScene().getWidth(), (int) stage.getScene().getHeight()));
+        super("BarlugoFX", stage, new Dimension((int) stage.getScene().getWidth(), (int) stage.getScene().getHeight()));
+        this.getStage().getIcons().add(new Image(getClass().getResource("/img/logo.png").toExternalForm()));
         try {
-            this.loadFXML("file:res/fxml/FXMLLoading.fxml");
+            this.loadFXML(getClass().getResource("/fxml/FXMLLoading.fxml"));
         } catch (IOException e) {
             AbstractView.showErrorAlert(e.getMessage());
             e.printStackTrace();

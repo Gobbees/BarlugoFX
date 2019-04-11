@@ -1,10 +1,10 @@
 package barlugofx;
 
 import javafx.application.Application;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import barlugofx.view.AbstractView;
 import barlugofx.view.welcome.WelcomeView;
 
 /**
@@ -13,29 +13,30 @@ import barlugofx.view.welcome.WelcomeView;
 public final class BarlugoFX extends Application {
     /**
      * Launches the start function, which will initialize the whole application.
-     * @param args : input parameters
+     * 
+     * @param args input parameters
      */
     public static void main(final String... args) {
         try {
             launch(args);
-        } catch (Error heapThrowable) {
-            //TODO
+        } catch (final Error heapThrowable) {
+            AbstractView.showErrorAlert(heapThrowable.getMessage());
             heapThrowable.printStackTrace();
         }
     }
+
     @Override
     public void start(final Stage stage) {
-        //initialize....
+        // load fonts from here because it is not possible with css files
+        Font.loadFont(getClass().getResourceAsStream("/font/Inconsolata-Regular.ttf"), 10);
+        Font.loadFont(getClass().getResourceAsStream("/font/Inconsolata-Bold.ttf"), 16);
+        Font.loadFont(getClass().getResourceAsStream("/font/OstrichSans-Medium.otf"), 16);
+        Font.loadFont(getClass().getResourceAsStream("/font/OstrichSans-Heavy.otf"), 16);
         try {
             new WelcomeView();
         } catch (Exception e) {
-            //add log
+            AbstractView.showErrorAlert(e.getMessage());
             e.printStackTrace();
-            final Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Ops, an error occurred");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
         }
     }
 }

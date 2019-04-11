@@ -16,7 +16,7 @@
              <center>
                 <ImageView fx:id="iviewIcon" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                     <image>
-                        <Image url="@../img/logo.png" />
+                        <Image url="@/img/logo.png" />
                     </image>
                  </ImageView>
              </center>
