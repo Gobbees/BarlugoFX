@@ -338,7 +338,7 @@ public final class MainController implements ViewController {
                     && e.getX() > (apaneImage.getWidth() - iviewImage.getRealWidth()) / 2
                     && e.getY() < apaneImage.getHeight() - (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2
                     && e.getY() > (apaneImage.getHeight() - iviewImage.getRealHeight()) / 2) {
-                rotateLine.get().drag(e.getX(), e.getY());
+                rotateLine.get().move(e.getX(), e.getY());
                 rotateLine.get().addToPane(apaneImage);
                 apaneImage.setOnMouseReleased(mReleased);
             }
@@ -358,9 +358,11 @@ public final class MainController implements ViewController {
                 }
                 apaneImage.setOnMousePressed(mPressed);
                 apaneImage.setOnMouseDragged(null);
-                apaneImage.setOnMouseReleased(null);
                 scene.setOnKeyPressed(null);
-                enableZoomAndColumnResize();
+                apaneImage.setOnMouseReleased(ev -> {
+                    enableZoomAndColumnResize();
+                    apaneImage.setOnMouseReleased(null);
+                });
             }
         });
     }
@@ -468,7 +470,7 @@ public final class MainController implements ViewController {
         });
         scene.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
-            	int tmpSize = (int) ((cropper.getRectangle().getX()
+                int tmpSize = (int) ((cropper.getRectangle().getX()
                         - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
                         / iviewImage.getRealWidth());
                 final int x1 = tmpSize < 0 ? 0 : tmpSize;
