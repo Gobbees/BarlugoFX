@@ -1,11 +1,13 @@
 package barlugofx.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
+import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
@@ -70,6 +72,10 @@ public final class AppManagerImpl implements AppManager {
     @Override
     public Image getImage() {
         return image;
+    }
+    @Override
+    public BufferedImage getBufferedImage() {
+        return ImageUtils.convertImageToBufferedImageWithAlpha(image);
     }
     @Override
     public void setImage(final File file) throws IOException {  //TODO reset history and all components

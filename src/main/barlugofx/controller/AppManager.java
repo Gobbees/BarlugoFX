@@ -1,5 +1,6 @@
 package barlugofx.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -14,10 +15,15 @@ import barlugofx.utils.Format;
  */
 public interface AppManager {
     /**
-     * This function returns the manager's image. 
+     * Returns the manager's image. 
      * @return the image
      */
     Image getImage();
+    /**
+     * Returns the manager's image in BufferedImage format.
+     * @return the bufferedimage
+     */
+    BufferedImage getBufferedImage();
     /**
      * Sets the new file as image.
      * @param file the input file
