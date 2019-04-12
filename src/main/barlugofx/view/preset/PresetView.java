@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 
-import barlugofx.app.AppManager;
+import barlugofx.controller.AppManager;
 import barlugofx.view.AbstractView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;

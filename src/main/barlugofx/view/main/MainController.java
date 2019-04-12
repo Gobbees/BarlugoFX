@@ -36,7 +36,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
-import barlugofx.app.AppManager;
+import barlugofx.controller.AppManager;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.Format;
 import barlugofx.utils.MutablePair;

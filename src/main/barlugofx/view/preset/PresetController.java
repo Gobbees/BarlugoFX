@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
-import barlugofx.app.AppManager;
+import barlugofx.controller.AppManager;
 import barlugofx.view.ViewController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

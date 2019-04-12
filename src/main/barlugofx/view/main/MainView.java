@@ -5,8 +5,8 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 
-import barlugofx.app.AppManager;
-import barlugofx.app.AppManagerImpl;
+import barlugofx.controller.AppManager;
+import barlugofx.controller.AppManagerImpl;
 import barlugofx.view.AbstractView;
 import barlugofx.view.AnimationUtils;
 import barlugofx.view.loading.LoadingView;

@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutionException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 
-import barlugofx.app.AppManager;
+import barlugofx.controller.AppManager;
 import barlugofx.utils.Format;
 import barlugofx.view.AbstractView;
 import barlugofx.view.ViewController;
