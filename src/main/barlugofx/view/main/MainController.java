@@ -37,18 +37,17 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
 import barlugofx.controller.AppManager;
-import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.utils.Format;
 import barlugofx.utils.MutablePair;
 import barlugofx.view.AbstractView;
 import barlugofx.view.InputOutOfBoundException;
 import barlugofx.view.ViewController;
+import barlugofx.view.components.tools.CropArea;
+import barlugofx.view.components.tools.RotateLine;
+import barlugofx.view.components.zoompane.ZoomDirection;
+import barlugofx.view.components.zoompane.ZoomableImageView;
 import barlugofx.view.export.ExportView;
-import barlugofx.view.main.components.tools.CropArea;
-import barlugofx.view.main.components.tools.RotateLine;
 import barlugofx.view.preset.PresetView;
-import barlugofx.view.main.components.zoompane.ZoomDirection;
-import barlugofx.view.main.components.zoompane.ZoomableImageView;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
@@ -617,8 +616,7 @@ public final class MainController implements ViewController {
 
     // updates the image and the real sizes
     private void updateImage() {
-        iviewImage.setImage(
-                SwingFXUtils.toFXImage(ImageUtils.convertImageToBufferedImageWithAlpha(manager.getImage()), null));
+        iviewImage.setImage(SwingFXUtils.toFXImage(manager.getBufferedImage(), null));
         // System.gc(); //it is necessary since I don't know why (testing with
         // jvisualvm) the gc doesn't perform after this operation.
         iviewImage.setFitWidth(apaneImage.getWidth());

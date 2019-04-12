@@ -1,4 +1,4 @@
-package barlugofx.view.main.components.zoompane;
+package barlugofx.view.components.zoompane;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

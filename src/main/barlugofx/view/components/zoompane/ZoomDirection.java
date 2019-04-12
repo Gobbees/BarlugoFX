@@ -1,4 +1,4 @@
-package barlugofx.view.main.components.zoompane;
+package barlugofx.view.components.zoompane;
 
 /**
  * This enum defines the two possible types of zoom.
