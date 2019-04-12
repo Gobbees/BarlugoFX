@@ -22,6 +22,7 @@ import barlugofx.model.tools.common.ParameterName;
  *      documentation</a>
  */
 public final class WhiteBalance extends AbstractImageTool {
+    //take a look at the code from which i was inspired: https://adadevelopment.github.io/gdal/white-balance-gdal.html
     private static final double MINVALUE = 0;
     private static final double MAXRGB = 255.0;
     private static final float DEFAULT = 0f;
