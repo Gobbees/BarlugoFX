@@ -195,6 +195,7 @@ public final class MainController extends AbstractViewControllerWithManager {
      * The constructor of the class. It is public because FXML obligates to do so.
      */
     public MainController() {
+        super();
         exportView = Optional.empty();
         presetView = Optional.empty();
         toolStatus = new HashMap<>();

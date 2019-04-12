@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
-import barlugofx.controller.AppManager;
 import barlugofx.view.View;
 import barlugofx.view.AbstractViewControllerWithManager;
 import javafx.event.ActionEvent;
@@ -108,16 +107,6 @@ public final class PresetController extends AbstractViewControllerWithManager im
     public void setStage(final Stage stage) {
         super.setStage(stage);
         initComponents();
-    }
-
-    /**
-     * This function sets the app manager (controller). It must be called in order
-     * to avoid future errors.
-     * 
-     * @param manager the input manager
-     */
-    public void setManager(final AppManager manager) {
-        super.setManager(manager);
     }
 
     private void initComponents() {
