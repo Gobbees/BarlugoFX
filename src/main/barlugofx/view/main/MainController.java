@@ -303,6 +303,7 @@ public final class MainController implements ViewController {
     @FXML
     public void rotate() {
         checkManager();
+        final AtomicReference<Boolean> mousePressed = new AtomicReference<>(false);
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         final AtomicReference<RotateLine> rotateLine = new AtomicReference<>();
         disableZoomAndColumnResize();
@@ -344,6 +345,7 @@ public final class MainController implements ViewController {
             e.consume();
         };
         final EventHandler<MouseEvent> mPressed = e -> {
+            mousePressed.set(true);
             apaneImage.getChildren().clear();
             rotateLine.set(new RotateLine(e.getX(), e.getY(), e.getX(), e.getY()));
             apaneImage.setOnMousePressed(null);
@@ -352,16 +354,23 @@ public final class MainController implements ViewController {
         apaneImage.setOnMousePressed(mPressed);
         scene.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ESCAPE)) {
-                if (rotateLine != null) {
+                if (rotateLine.get() != null) {
                     rotateLine.get().removeFromPane(apaneImage);
                 }
-                apaneImage.setOnMousePressed(mPressed);
-                apaneImage.setOnMouseDragged(null);
-                scene.setOnKeyPressed(null);
-                apaneImage.setOnMouseReleased(ev -> {
-                    enableZoomAndColumnResize();
+                if (mousePressed.get()) {
+                    apaneImage.setOnMouseReleased(ev -> {
+                        apaneImage.setOnMouseReleased(null);
+                        enableZoomAndColumnResize();
+                    });
+                    apaneImage.setOnMouseDragged(null);
+                    scene.setOnKeyPressed(null);
+                } else {
+                    apaneImage.setOnMousePressed(null);
                     apaneImage.setOnMouseReleased(null);
-                });
+                    apaneImage.setOnMouseDragged(null);
+                    scene.setOnKeyPressed(null);
+                    enableZoomAndColumnResize();
+                }
             }
         });
     }
