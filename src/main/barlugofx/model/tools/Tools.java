@@ -47,5 +47,23 @@ public enum Tools {
     /**
      * Enum for the Black and White tool.
      */
-    BLACKANDWHITE
+    BLACKANDWHITE;
+
+    private final int size;
+
+    /**
+     * Get the number of constants in the enum.
+     * @return the number of constants in the enum.
+     */
+    public int getSize() {
+        return this.size;
+    }
+
+    Tools() {
+        int fieldCounter = 0;
+        for (Tools t : Tools.values()) {
+            fieldCounter++;
+        }
+        this.size = fieldCounter;
+    }
 }
