@@ -57,7 +57,7 @@ public final class ParallelTest {
      * Testing black and white.
      */
     @Test
-    public void testBlackAndWait() {
+    public void testBlackAndWhite() {
         final ParallelizableImageTool bew = BlackAndWhite.createBlackAndWhite();
         bew.addParameter(ParameterName.WBLUE, new ParameterImpl<>(DOUBLE_DEFAULT_VALUE));
         bew.addParameter(ParameterName.WRED, new ParameterImpl<>(DOUBLE_DEFAULT_VALUE));
@@ -77,16 +77,6 @@ public final class ParallelTest {
     }
 
     /**
-     * Testing Vibrance.
-     */
-    @Test
-    public void testVibrance() {
-        final ParallelizableImageTool bew = Vibrance.createVibrance();
-        bew.addParameter(ParameterName.VIBRANCE_INCREMENT, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
-        testTool(bew, "VIBRANCE");
-    }
-
-    /**
      * Testing Selective RGB.
      */
     @Test
@@ -95,6 +85,16 @@ public final class ParallelTest {
         bew.addParameter(ParameterName.RED, new ParameterImpl<>(INT_DEFAULT_VALUE));
         bew.addParameter(ParameterName.BLUE, new ParameterImpl<>(INT_DEFAULT_VALUE));
         testTool(bew, "SELECTIVE RGB");
+    }
+
+    /**
+     * Testing Vibrance.
+     */
+    @Test
+    public void testVibrance() {
+        final ParallelizableImageTool bew = Vibrance.createVibrance();
+        bew.addParameter(ParameterName.VIBRANCE_INCREMENT, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+        testTool(bew, "VIBRANCE");
     }
 
     private void testTool(final ParallelizableImageTool tool, final String text) {
