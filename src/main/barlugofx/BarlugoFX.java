@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import barlugofx.view.AbstractView;
+import barlugofx.view.View;
 import barlugofx.view.welcome.WelcomeView;
 
 /**
@@ -20,7 +20,7 @@ public final class BarlugoFX extends Application {
         try {
             launch(args);
         } catch (final Error heapThrowable) {
-            AbstractView.showErrorAlert(heapThrowable.getMessage());
+            View.showErrorAlert(heapThrowable.getMessage());
             heapThrowable.printStackTrace();
         }
     }
@@ -35,7 +35,7 @@ public final class BarlugoFX extends Application {
         try {
             new WelcomeView();
         } catch (Exception e) {
-            AbstractView.showErrorAlert(e.getMessage());
+            View.showErrorAlert(e.getMessage());
             e.printStackTrace();
         }
     }

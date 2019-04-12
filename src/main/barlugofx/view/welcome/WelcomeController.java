@@ -6,8 +6,8 @@ import java.io.IOException;
 import com.jfoenix.controls.JFXButton;
 
 import barlugofx.utils.Format;
+import barlugofx.view.AbstractViewController;
 import barlugofx.view.AnimationUtils;
-import barlugofx.view.ViewController;
 import barlugofx.view.main.MainView;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
@@ -19,14 +19,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
  * This class manages the view events (i.e. button clicks, enter and exit) and effectively resizes the nodes.
  * Creating a WelcomeController object is useless and it probably will cause some sort of exception.
  */
-public final class WelcomeController implements ViewController {
+public final class WelcomeController extends AbstractViewController {
     //private constant fields (nodes multipliers)
     private static final double IMG_MULTIPLIER = 0.66;
     private static final double BTN_WIDTH_MULTIPLIER = 0.33;
@@ -47,12 +46,6 @@ public final class WelcomeController implements ViewController {
     private JFXButton btnImage;
     @FXML
     private JFXButton btnProject;
-    private Stage stage;
-
-    @Override
-    public void setStage(final Stage s) {
-        stage = s;
-    }
     /**
      * Resizes the components in relation to the new sizes.
      * @param width the new width
@@ -80,7 +73,7 @@ public final class WelcomeController implements ViewController {
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
         fc.setTitle(btnImage.getText());
-        openMainView(fc.showOpenDialog(stage));
+        openMainView(fc.showOpenDialog(this.getStage()));
     }
     /**
      * Called by view events, this method opens a filechooser window and allow to open a file.
@@ -91,7 +84,7 @@ public final class WelcomeController implements ViewController {
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select a BarlugoFX bfx file", "*.bfx"));
         fc.setTitle(btnProject.getText());
-        openMainView(fc.showOpenDialog(stage));
+        openMainView(fc.showOpenDialog(this.getStage()));
     }
     /**
      * Effects.
@@ -124,9 +117,9 @@ public final class WelcomeController implements ViewController {
     //private functions
     private void openMainView(final File file) {
         if (file != null) {
-            final FadeTransition ft = AnimationUtils.fadeOutTransition(Duration.millis(ANIM_MILLIS), stage.getScene().getRoot());
+            final FadeTransition ft = AnimationUtils.fadeOutTransition(Duration.millis(ANIM_MILLIS), this.getStage().getScene().getRoot());
             ft.setOnFinished(e -> {
-                new MainView(stage, file);
+                new MainView(this.getStage(), file);
             });
             ft.play();
         }

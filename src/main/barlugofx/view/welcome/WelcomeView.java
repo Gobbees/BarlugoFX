@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 
-import barlugofx.view.AbstractView;
+import barlugofx.view.View;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  * This class shows the welcome view of barlugofx program. It must be called by
  * its constructor method.
  */
-public class WelcomeView extends AbstractView<WelcomeController> {
+public class WelcomeView extends View<WelcomeController> {
     private static final double MIN_DIM_MULTIPLIER = 0.2;
 
     /**
@@ -28,7 +28,7 @@ public class WelcomeView extends AbstractView<WelcomeController> {
         try {
             this.loadFXML(getClass().getResource("/fxml/FXMLWelcome.fxml"));
         } catch (final IOException e) {
-            AbstractView.showErrorAlert(e.getMessage());
+            View.showErrorAlert(e.getMessage());
             e.printStackTrace();
             return;
         }

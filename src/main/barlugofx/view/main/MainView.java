@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import barlugofx.controller.AppManager;
 import barlugofx.controller.AppManagerImpl;
-import barlugofx.view.AbstractView;
+import barlugofx.view.View;
 import barlugofx.view.AnimationUtils;
 import barlugofx.view.loading.LoadingView;
 import javafx.animation.FadeTransition;
@@ -20,7 +20,7 @@ import javafx.util.Duration;
 /**
  * This class creates the main view. It must be called by its constructor method.
  */
-public class MainView extends AbstractView<MainController> {
+public class MainView extends View<MainController> {
     // private constant fields
     private static final double ANIM_MILLIS = 400.0;
     private static final double ANIM_STEP = 50.0;
@@ -38,7 +38,7 @@ public class MainView extends AbstractView<MainController> {
         try {
             this.loadFXML(getClass().getResource("/fxml/FXMLMain.fxml"));
         } catch (IOException e) {
-            AbstractView.showErrorAlert(e.getMessage());
+            View.showErrorAlert(e.getMessage());
             e.printStackTrace();
         }
         new Thread(() -> {
@@ -46,7 +46,7 @@ public class MainView extends AbstractView<MainController> {
             try {
                 manager = new AppManagerImpl(file);
             } catch (IOException e) {
-                AbstractView.showErrorAlert(e.getMessage());
+                View.showErrorAlert(e.getMessage());
                 e.printStackTrace();
                 return;
             }

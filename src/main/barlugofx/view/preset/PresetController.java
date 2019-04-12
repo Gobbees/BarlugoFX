@@ -15,8 +15,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
 import barlugofx.controller.AppManager;
-import barlugofx.view.AbstractView;
-import barlugofx.view.ViewController;
+import barlugofx.view.View;
+import barlugofx.view.AbstractViewControllerWithManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,7 +33,7 @@ import javafx.stage.Stage;
  * setManager() function. Creating a PresetController object is useless and it
  * probably will cause some sort of exception.
  */
-public final class PresetController implements ViewController, EventHandler<ActionEvent> {
+public final class PresetController extends AbstractViewControllerWithManager implements EventHandler<ActionEvent> {
     private static final double BTN_WIDTH_MULTIPLIER = 0.5;
     private static final double BTN_HEIGHT_MULTIPLIER = 0.1;
     private static final double SPN_WIDTH_MULTIPLIER = 0.22;
@@ -102,13 +102,11 @@ public final class PresetController implements ViewController, EventHandler<Acti
     private JFXCheckBox chkColors;
     @FXML
     private JFXCheckBox chkBlkWht;
-    private Stage stage;
-    private AppManager manager;
     private Map<JFXCheckBox, List<Spinner<Integer>>> components;
 
     @Override
     public void setStage(final Stage stage) {
-        this.stage = stage;
+        super.setStage(stage);
         initComponents();
     }
 
@@ -119,7 +117,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
      * @param manager the input manager
      */
     public void setManager(final AppManager manager) {
-        this.manager = manager;
+        super.setManager(manager);
     }
 
     private void initComponents() {
@@ -203,7 +201,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
             }
         }
         if (valuesToSave.isEmpty()) {
-            showErrorMessage();
+            View.showErrorAlert("Select at least one filter to save!");
             return;
         }
 
@@ -236,9 +234,9 @@ public final class PresetController implements ViewController, EventHandler<Acti
             checkExtension(file);
             new Thread(() -> {
                 try {
-                    manager.savePreset(filters, file);
+                    this.getManager().savePreset(filters, file);
                 } catch (IOException | InterruptedException | ExecutionException e) {
-                    AbstractView.showErrorAlert(e.getMessage());
+                    View.showErrorAlert(e.getMessage());
                     e.printStackTrace();
                 }
             }, "Save preset").start();
@@ -247,7 +245,7 @@ public final class PresetController implements ViewController, EventHandler<Acti
             alert.setHeaderText(null);
             alert.setContentText("The preset was successfully saved!");
             alert.showAndWait();
-            this.stage.close();
+            this.getStage().close();
         }
     }
 
@@ -256,14 +254,14 @@ public final class PresetController implements ViewController, EventHandler<Acti
      */
     @FXML
     public void cancel() {
-        this.stage.close();
+        this.getStage().close();
     }
 
     private File getFileFromDialog() {
         final FileChooser choose = new FileChooser();
         choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("BarlugoFX preset(.bps)", "*.bps"));
         choose.setInitialFileName("New Preset" + ".bps");
-        return choose.showSaveDialog(stage);
+        return choose.showSaveDialog(this.getStage());
     }
 
     /**
@@ -280,23 +278,9 @@ public final class PresetController implements ViewController, EventHandler<Acti
         return file;
     }
 
-    private void checkManager() throws IllegalStateException {
-        if (manager == null) {
-            throw new IllegalStateException("The manager is null");
-        }
-    }
-
-    private void showErrorMessage() {
-        final Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText("Select at least one filter to save!");
-        alert.showAndWait();
-    }
-
     private void resizeComponents() {
-        final double width = stage.getScene().getWidth();
-        final double height = stage.getScene().getHeight();
+        final double width = this.getStage().getScene().getWidth();
+        final double height = this.getStage().getScene().getHeight();
 
         btnSave.setMinWidth(width * BTN_WIDTH_MULTIPLIER);
         btnSave.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);

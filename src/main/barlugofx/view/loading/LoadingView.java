@@ -3,7 +3,7 @@ package barlugofx.view.loading;
 import java.awt.Dimension;
 import java.io.IOException;
 
-import barlugofx.view.AbstractView;
+import barlugofx.view.View;
 import barlugofx.view.AnimationUtils;
 import javafx.animation.FadeTransition;
 import javafx.scene.image.Image;
@@ -14,7 +14,7 @@ import javafx.util.Duration;
  *  This class switches from the past scene to a new loading scene. It must be called by its constructor method.
  *  The view is not resizable.
  */
-public class LoadingView extends AbstractView<LoadingController> {
+public class LoadingView extends View<LoadingController> {
     //private constant fields
     private static final int ANIM_MILLIS = 600;
     /**
@@ -27,7 +27,7 @@ public class LoadingView extends AbstractView<LoadingController> {
         try {
             this.loadFXML(getClass().getResource("/fxml/FXMLLoading.fxml"));
         } catch (IOException e) {
-            AbstractView.showErrorAlert(e.getMessage());
+            View.showErrorAlert(e.getMessage());
             e.printStackTrace();
             return;
         }

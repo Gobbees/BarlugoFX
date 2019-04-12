@@ -39,9 +39,9 @@ import com.jfoenix.controls.JFXTextField;
 import barlugofx.controller.AppManager;
 import barlugofx.utils.Format;
 import barlugofx.utils.MutablePair;
-import barlugofx.view.AbstractView;
+import barlugofx.view.View;
+import barlugofx.view.AbstractViewControllerWithManager;
 import barlugofx.view.InputOutOfBoundException;
-import barlugofx.view.ViewController;
 import barlugofx.view.components.tools.CropArea;
 import barlugofx.view.components.tools.RotateLine;
 import barlugofx.view.components.zoompane.ZoomDirection;
@@ -53,7 +53,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
@@ -75,7 +74,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
  * setManager() function. Creating a MainController object is useless and
  * calling its functions will cause some sort of exception.
  */
-public final class MainController implements ViewController {
+public final class MainController extends AbstractViewControllerWithManager {
     // private constant fields
     private static final double RIGHT_COLUMN_MIN_MULTIPLIER = 0.15;
     private static final double RIGHT_COLUMN_MAX_MULTIPLIER = 0.4;
@@ -188,9 +187,6 @@ public final class MainController implements ViewController {
     private JFXTextField tfBWB;
     @FXML
     private JFXButton btnBWApply;
-    private Scene scene;
-    private Stage stage;
-    private AppManager manager;
     private Optional<ExportView> exportView;
     private Optional<PresetView> presetView;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
@@ -206,11 +202,7 @@ public final class MainController implements ViewController {
 
     @Override
     public void setStage(final Stage stage) {
-        if (stage == null) {
-            throw new IllegalArgumentException("The stage must not be null");
-        }
-        this.stage = stage;
-        this.scene = stage.getScene();
+        super.setStage(stage);
         initComponentSize();
         initToolStatus();
         addListeners();
@@ -232,11 +224,9 @@ public final class MainController implements ViewController {
      * 
      * @param manager the input manager
      */
+    @Override
     public void setManager(final AppManager manager) {
-        if (stage == null) {
-            throw new IllegalArgumentException("The manager must not be null");
-        }
-        this.manager = manager;
+        super.setManager(manager);
         updateImage();
         iviewImage.updateRealSizes();
         enableZoomAndColumnResize();
@@ -270,16 +260,16 @@ public final class MainController implements ViewController {
         checkManager();
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
-        final File file = fc.showOpenDialog(stage);
+        final File file = fc.showOpenDialog(this.getStage());
         if (file != null) {
             runNewThread("New photo", createCompleteRunnable(() -> {
                 try {
-                    manager.setImage(file);
+                    this.getManager().setImage(file);
                     Platform.runLater(() -> {
-                        stage.setTitle(manager.getInputFileName());
+                        this.getStage().setTitle(this.getManager().getInputFileName());
                     });
                 } catch (IOException e) {
-                    AbstractView.showErrorAlert(e.getMessage());
+                    View.showErrorAlert(e.getMessage());
                     e.printStackTrace();
                 }
             }));
@@ -291,10 +281,11 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void export() {
+        checkManager();
         if (exportView.isPresent()) {
             exportView.get().closeStage();
         }
-        exportView = Optional.of(new ExportView(manager));
+        exportView = Optional.of(new ExportView(this.getManager()));
     }
 
     /**
@@ -314,7 +305,7 @@ public final class MainController implements ViewController {
             if (rotateLine.get() == null) {
                 apaneImage.setOnMouseDragged(null);
                 apaneImage.setOnMouseReleased(null);
-                scene.setCursor(Cursor.DEFAULT);
+                this.getScene().setCursor(Cursor.DEFAULT);
                 return;
             }
             startX.set(rotateLine.get().getStartPoint().getCenterX());
@@ -322,7 +313,7 @@ public final class MainController implements ViewController {
             apaneImage.setCursor(Cursor.WAIT);
             rotateLine.get().removeFromPane(apaneImage);
             runNewThread("Rotator", () -> {
-                manager.rotate(rotateLine.get().getAngle());
+                this.getManager().rotate(rotateLine.get().getAngle());
                 Platform.runLater(() -> {
                     updateImage();
                     apaneImage.setCursor(Cursor.DEFAULT);
@@ -352,7 +343,7 @@ public final class MainController implements ViewController {
             apaneImage.setOnMouseDragged(mDragged);
         };
         apaneImage.setOnMousePressed(mPressed);
-        scene.setOnKeyPressed(e -> {
+        this.getScene().setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ESCAPE)) {
                 if (rotateLine.get() != null) {
                     rotateLine.get().removeFromPane(apaneImage);
@@ -363,12 +354,12 @@ public final class MainController implements ViewController {
                         enableZoomAndColumnResize();
                     });
                     apaneImage.setOnMouseDragged(null);
-                    scene.setOnKeyPressed(null);
+                    this.getScene().setOnKeyPressed(null);
                 } else {
                     apaneImage.setOnMousePressed(null);
                     apaneImage.setOnMouseReleased(null);
                     apaneImage.setOnMouseDragged(null);
-                    scene.setOnKeyPressed(null);
+                    this.getScene().setOnKeyPressed(null);
                     enableZoomAndColumnResize();
                 }
             }
@@ -476,7 +467,7 @@ public final class MainController implements ViewController {
                         cropper.getBottomRightPoint().getCenterX(), cropper.getBottomRightPoint().getCenterY());
             }
         });
-        scene.setOnKeyPressed(ke -> {
+        this.getScene().setOnKeyPressed(ke -> {
             if (ke.getCode().equals(KeyCode.ENTER)) {
                 int tmpSize = (int) ((cropper.getRectangle().getX()
                         - (iviewImage.getFitWidth() - iviewImage.getRealWidth()) / 2) * iviewImage.getImage().getWidth()
@@ -495,13 +486,13 @@ public final class MainController implements ViewController {
                         * iviewImage.getImage().getHeight() / iviewImage.getRealHeight());
                 final int y2 = tmpSize > iviewImage.getImage().getHeight() ? (int) iviewImage.getImage().getHeight() : tmpSize; 
                 runNewThread("Cropper", () -> {
-                    manager.crop(x1, y1, x2, y2);
+                    this.getManager().crop(x1, y1, x2, y2);
                     Platform.runLater(() -> {
                         updateImage();
                         cropper.removeFromPane(apaneImage);
                         apaneImage.setOnMouseDragged(null);
                         apaneImage.setOnMouseReleased(null);
-                        scene.setOnKeyPressed(null);
+                        this.getScene().setOnKeyPressed(null);
                         enableZoomAndColumnResize();
                     });
                 });
@@ -509,7 +500,7 @@ public final class MainController implements ViewController {
                 cropper.removeFromPane(apaneImage);
                 apaneImage.setOnMouseDragged(null);
                 apaneImage.setOnMouseReleased(null);
-                scene.setOnKeyPressed(null);
+                this.getScene().setOnKeyPressed(null);
                 enableZoomAndColumnResize();
             }
         });
@@ -520,10 +511,11 @@ public final class MainController implements ViewController {
      */
     @FXML
     public void preset() {
+        checkManager();
         if (presetView.isPresent()) {
             presetView.get().closeStage();
         }
-        presetView = Optional.of(new PresetView(manager));
+        presetView = Optional.of(new PresetView(this.getManager()));
     }
 
     /**
@@ -535,7 +527,7 @@ public final class MainController implements ViewController {
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select a .bps preset", "*.bps"));
         fc.setTitle("Select a .bps preset");
-        final File input = fc.showOpenDialog(stage);
+        final File input = fc.showOpenDialog(this.getStage());
         if (input == null) {
             System.out.println("ciao");
             return;
@@ -556,12 +548,12 @@ public final class MainController implements ViewController {
                 if (filterName.equals("SelectiveColors") || filterName.equals("BlackAndWhite")) {
                     values = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToInt(Integer::parseInt).toArray();
-                    m = manager.getClass().getDeclaredMethod("set" + filterName, paramTypes);
-                    m.invoke(manager, values[0], values[1], values[2]);
+                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, paramTypes);
+                    m.invoke(this.getManager(), values[0], values[1], values[2]);
                 } else {
                     value = Integer.parseInt(properties.getProperty(filterName));
-                    m = manager.getClass().getDeclaredMethod("set" + filterName, paramTypes[0]);
-                    m.invoke(manager, value);
+                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, paramTypes[0]);
+                    m.invoke(this.getManager(), value);
                 }
             }
             updateImage();
@@ -598,7 +590,7 @@ public final class MainController implements ViewController {
     @FXML
     public void toggleFullScreen() {
         checkStage();
-        stage.setFullScreen(true);
+        this.getStage().setFullScreen(true);
     }
 
     /**
@@ -607,7 +599,7 @@ public final class MainController implements ViewController {
     @FXML
     public void toggleMinimize() {
         checkStage();
-        stage.setIconified(true);
+        this.getStage().setIconified(true);
     }
 
     /**
@@ -618,14 +610,14 @@ public final class MainController implements ViewController {
         try {
             Desktop.getDesktop().browse(new URI("https://gobbees.github.io/BarlugoFX"));
         } catch (IOException | URISyntaxException e) {
-            AbstractView.showErrorAlert(e.getMessage());
+            View.showErrorAlert(e.getMessage());
             e.printStackTrace();
         }
     }
 
     // updates the image and the real sizes
     private void updateImage() {
-        iviewImage.setImage(SwingFXUtils.toFXImage(manager.getBufferedImage(), null));
+        iviewImage.setImage(SwingFXUtils.toFXImage(this.getManager().getBufferedImage(), null));
         // System.gc(); //it is necessary since I don't know why (testing with
         // jvisualvm) the gc doesn't perform after this operation.
         iviewImage.setFitWidth(apaneImage.getWidth());
@@ -660,7 +652,7 @@ public final class MainController implements ViewController {
                 resizeToDefault();
             }
         });
-        spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
+        spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
     }
 
     private void disableZoomAndColumnResize() {
@@ -684,10 +676,10 @@ public final class MainController implements ViewController {
     private void initComponentSize() {
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
         tflowLogo.setVisible(true);
-        spaneRightColumn.setMinWidth(scene.getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
-        spaneRightColumn.setMaxWidth(scene.getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
+        spaneRightColumn.setMinWidth(this.getScene().getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
+        spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setDividerPosition(0, spaneRightColumn.getWidth());
-        spaneMain.setMaxWidth(scene.getWidth());
+        spaneMain.setMaxWidth(this.getScene().getWidth());
     }
 
     private void initToolStatus() {
@@ -756,65 +748,65 @@ public final class MainController implements ViewController {
         // exposure
         addKeyListener(tfExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
             toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
-            manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+            this.getManager().setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
         }));
         addKeyListener(slExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
             toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
-            manager.setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+            this.getManager().setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
         }));
         // contrast
         addKeyListener(tfContrast, KeyCode.ENTER, CONTRAST, createCompleteRunnable(() -> {
             toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
-            manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+            this.getManager().setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
         }));
         addKeyListener(slContrast, KeyCode.ENTER, CONTRAST, createCompleteRunnable(() -> {
             toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
-            manager.setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+            this.getManager().setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
         }));
         // brightness
         addKeyListener(tfBrightness, KeyCode.ENTER, BRIGHTNESS, createCompleteRunnable(() -> {
             toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
-            manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
+            this.getManager().setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
         }));
         addKeyListener(slBrightness, KeyCode.ENTER, BRIGHTNESS, createCompleteRunnable(() -> {
             toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
-            manager.setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
+            this.getManager().setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
         }));
         // wb
         addKeyListener(tfWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
-            manager.setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+            this.getManager().setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
         }));
         addKeyListener(slWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
-            manager.setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+            this.getManager().setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
         }));
         // saturation
         addKeyListener(tfSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
             toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
-            manager.setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
+            this.getManager().setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
         }));
         addKeyListener(slSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
             toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
-            manager.setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
+            this.getManager().setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
         }));
         // hue
         addKeyListener(tfHue, KeyCode.ENTER, HUE, createCompleteRunnable(() -> {
             toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
-            manager.setHue(toolStatus.get(HUE).getFirst().intValue());
+            this.getManager().setHue(toolStatus.get(HUE).getFirst().intValue());
         }));
         addKeyListener(slHue, KeyCode.ENTER, HUE, createCompleteRunnable(() -> {
             toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
-            manager.setHue(toolStatus.get(HUE).getFirst().intValue());
+            this.getManager().setHue(toolStatus.get(HUE).getFirst().intValue());
         }));
         // vibrance
         addKeyListener(tfVibrance, KeyCode.ENTER, VIBRANCE, createCompleteRunnable(() -> {
             toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
-            manager.setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
+            this.getManager().setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
         }));
         addKeyListener(slVibrance, KeyCode.ENTER, VIBRANCE, createCompleteRunnable(() -> {
             toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
-            manager.setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
+            this.getManager().setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
         }));
         btnSCApply.setOnMouseClicked(ev -> {
             if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()
@@ -825,7 +817,7 @@ public final class MainController implements ViewController {
                     toolStatus.get(SCR).setFirst((int) slSCR.getValue());
                     toolStatus.get(SCG).setFirst((int) slSCG.getValue());
                     toolStatus.get(SCB).setFirst((int) slSCB.getValue());
-                    manager.setSelectiveColors(toolStatus.get(SCR).getFirst().intValue(),
+                    this.getManager().setSelectiveColors(toolStatus.get(SCR).getFirst().intValue(),
                             toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
                 }));
             }
@@ -839,16 +831,16 @@ public final class MainController implements ViewController {
                     toolStatus.get(BWR).setFirst((int) slBWR.getValue());
                     toolStatus.get(BWG).setFirst((int) slBWG.getValue());
                     toolStatus.get(BWB).setFirst((int) slBWB.getValue());
-                    manager.setBlackAndWhite(toolStatus.get(BWR).getFirst().intValue(),
+                    this.getManager().setBlackAndWhite(toolStatus.get(BWR).getFirst().intValue(),
                             toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
                 }));
             }
         });
         // set imageView width according to the divider position
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
-            if ((int) (scene.getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain
+            if ((int) (this.getScene().getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain
                     .getMaxWidth()) {
-                iviewImage.setFitWidth((int) (scene.getWidth() * nv.doubleValue()) - 2); // if not -2 the scene resizes
+                iviewImage.setFitWidth((int) (this.getScene().getWidth() * nv.doubleValue()) - 2); // if not -2 the scene resizes
                                                                                          // (idk why)
                 iviewImage.updateRealSizes();
             }
@@ -874,11 +866,11 @@ public final class MainController implements ViewController {
 
     private Runnable createCompleteRunnable(final Runnable rn) {
         return () -> {
-            scene.setCursor(Cursor.WAIT);
+            this.getScene().setCursor(Cursor.WAIT);
             rn.run();
             Platform.runLater(() -> {
                 updateImage();
-                scene.setCursor(Cursor.DEFAULT);
+                this.getScene().setCursor(Cursor.DEFAULT);
             });
         };
     }
@@ -887,26 +879,14 @@ public final class MainController implements ViewController {
         checkStage();
         KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
         Runnable runnable = () -> export();
-        scene.getAccelerators().put(kc, runnable);
+        this.getScene().getAccelerators().put(kc, runnable);
         kc = new KeyCharacterCombination("f", KeyCombination.CONTROL_DOWN);
         runnable = () -> toggleFullScreen();
-        scene.getAccelerators().put(kc, runnable);
+        this.getScene().getAccelerators().put(kc, runnable);
     }
 
     private void runNewThread(final String threadName, final Runnable task) {
         new Thread(task, threadName).start();
-    }
-
-    private void checkManager() {
-        if (manager == null) {
-            throw new IllegalStateException("The manager is null");
-        }
-    }
-
-    private void checkStage() {
-        if (stage == null) {
-            throw new IllegalStateException("The stage is null");
-        }
     }
     private void showErrorMessage() {
         final Alert alert = new Alert(AlertType.ERROR);

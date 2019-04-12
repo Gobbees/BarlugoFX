@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  *
  * @param <T>
  */
-public abstract class AbstractView<T extends ViewController> {
+public class View<T extends ViewController> {
 
     private final Dimension sceneDims;
     private final FXMLLoader fxml;
@@ -31,7 +31,7 @@ public abstract class AbstractView<T extends ViewController> {
      * @param stage     input stage
      * @param dim       scene dimension
      */
-    public AbstractView(final String stageName, final Stage stage, final Dimension dim) {
+    protected View(final String stageName, final Stage stage, final Dimension dim) {
         this.sceneDims = dim;
         this.stage = stage;
         this.stage.setTitle(stageName);

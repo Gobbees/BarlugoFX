@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 
 import barlugofx.controller.AppManager;
-import barlugofx.view.AbstractView;
+import barlugofx.view.View;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * This class shows the export view of barlugofx program. It must be called by
  * its constructor method.
  */
-public class ExportView extends AbstractView<ExportController> {
+public class ExportView extends View<ExportController> {
     private static final double WIDTH_MULTIPLIER = 0.33;
     private static final double HEIGHT_MULTIPLIER = 0.25;
 
@@ -31,7 +31,7 @@ public class ExportView extends AbstractView<ExportController> {
         try {
             this.loadFXML(getClass().getResource("/fxml/FXMLExport.fxml"));
         } catch (IOException e) {
-            AbstractView.showErrorAlert(e.getMessage());
+            View.showErrorAlert(e.getMessage());
             e.printStackTrace();
             // TODO log4j
             return;

@@ -5,14 +5,14 @@ import java.awt.Toolkit;
 import java.io.IOException;
 
 import barlugofx.controller.AppManager;
-import barlugofx.view.AbstractView;
+import barlugofx.view.View;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
  *  This class shows the preset view of barlugofx program. It must be called by its constructor method.
  */
-public class PresetView extends AbstractView<PresetController> {
+public class PresetView extends View<PresetController> {
     private static final double WIDTH_MULTIPLIER = 0.23;
     private static final double HEIGHT_MULTIPLIER = 0.56;
     /**

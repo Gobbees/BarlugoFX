@@ -7,10 +7,9 @@ import java.util.concurrent.ExecutionException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
 
-import barlugofx.controller.AppManager;
 import barlugofx.utils.Format;
-import barlugofx.view.AbstractView;
-import barlugofx.view.ViewController;
+import barlugofx.view.View;
+import barlugofx.view.AbstractViewControllerWithManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
@@ -26,7 +25,7 @@ import static barlugofx.utils.Format.GIF;
  * setManager() function. Creating a ExportController object is useless and it
  * probably will cause some sort of exception.
  */
-public final class ExportController implements ViewController {
+public final class ExportController extends AbstractViewControllerWithManager {
     private static final double BTN_WIDTH_MULTIPLIER = 0.333;
     private static final double BTN_HEIGHT_MULTIPLIER = 1;
     private static final double SLIDER_WIDTH_MULTIPLIER = 0.2;
@@ -50,23 +49,11 @@ public final class ExportController implements ViewController {
     private Separator verticDistanceTop;
     @FXML
     private Separator verticDistanceBottom;
-    private Stage stage;
-    private AppManager manager;
 
     @Override
     public void setStage(final Stage stage) {
-        this.stage = stage;
+        super.setStage(stage);
         initComponents();
-    }
-
-    /**
-     * This function sets the app manager (controller). It must be called in order
-     * to avoid future errors.
-     * 
-     * @param manager the input manager
-     */
-    public void setManager(final AppManager manager) {
-        this.manager = manager;
     }
 
     /**
@@ -116,8 +103,8 @@ public final class ExportController implements ViewController {
     }
 
     private void initComponents() {
-        final double width = stage.getScene().getWidth();
-        final double height = stage.getScene().getHeight();
+        final double width = this.getStage().getScene().getWidth();
+        final double height = this.getStage().getScene().getHeight();
 
         btnPNG.setMinWidth(width * BTN_WIDTH_MULTIPLIER);
         btnPNG.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
@@ -137,9 +124,9 @@ public final class ExportController implements ViewController {
             checkManager();
             new Thread(() -> {
                 try {
-                    manager.exportImage(file, format);
+                    this.getManager().exportImage(file, format);
                 } catch (IOException | InterruptedException | ExecutionException e) {
-                    AbstractView.showErrorAlert(e.getMessage());
+                    View.showErrorAlert(e.getMessage());
                     e.printStackTrace();
                 }
             }, "Saving").start();
@@ -152,9 +139,9 @@ public final class ExportController implements ViewController {
             checkManager();
             new Thread(() -> {
                 try {
-                    manager.exportImage(file, quality);
+                    this.getManager().exportImage(file, quality);
                 } catch (IOException | InterruptedException | ExecutionException e) {
-                    AbstractView.showErrorAlert(e.getMessage());
+                    View.showErrorAlert(e.getMessage());
                     e.printStackTrace();
                 }
             }, "Saving").start();
@@ -166,17 +153,11 @@ public final class ExportController implements ViewController {
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(format.toString(), "*" + format.toExtension()));
         try {
             checkManager();
-            fc.setInitialFileName(manager.getInputFileName() + format.toExtension());
+            fc.setInitialFileName(this.getManager().getInputFileName() + format.toExtension());
         } catch (IllegalStateException e) {
-            AbstractView.showErrorAlert(e.getMessage());
+            View.showErrorAlert(e.getMessage());
             e.printStackTrace();
         }
-        return fc.showSaveDialog(stage);
-    }
-
-    private void checkManager() throws IllegalStateException {
-        if (manager == null) {
-            throw new IllegalStateException("The manager is null");
-        }
+        return fc.showSaveDialog(this.getStage());
     }
 }
