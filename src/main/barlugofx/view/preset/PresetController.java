@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
 import barlugofx.controller.AppManager;
+import barlugofx.view.AbstractView;
 import barlugofx.view.ViewController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -231,13 +232,16 @@ public final class PresetController implements ViewController, EventHandler<Acti
         }
         final File file = getFileFromDialog();
         if (file != null) {
-            try {
-                checkManager();
-                checkExtension(file);
-                manager.savePreset(filters, file);
-            } catch (IOException | InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+            checkManager();
+            checkExtension(file);
+            new Thread(() -> {
+                try {
+                    manager.savePreset(filters, file);
+                } catch (IOException | InterruptedException | ExecutionException e) {
+                    AbstractView.showErrorAlert(e.getMessage());
+                    e.printStackTrace();
+                }
+            }, "Save preset").start();
             final Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Saved");
             alert.setHeaderText(null);
@@ -330,7 +334,6 @@ public final class PresetController implements ViewController, EventHandler<Acti
     }
 
     private void addListeners() {
-        
         /*
          * Adds a listener to every checkbox.
          */
