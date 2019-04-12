@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URL;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -45,7 +46,7 @@ public abstract class AbstractView<T extends ViewController> {
     public static void showErrorAlert(final String message) {
         final Alert alert = new Alert(AlertType.ERROR);
         alert.setContentText(message);
-        alert.showAndWait();
+        Platform.runLater(() -> alert.showAndWait());
     }
 
     /**
