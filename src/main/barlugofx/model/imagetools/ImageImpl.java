@@ -46,7 +46,7 @@ public final class ImageImpl implements Image {
         width = pixels[0].length;
         height = pixels.length;
         hasAlphaChannel = true;
-        this.pixels = Arrays.copyOf(pixels, pixels.length);
+        this.pixels = pixels;
     }
 
     /**
@@ -162,7 +162,4 @@ public final class ImageImpl implements Image {
         }
         return width == other.width;
     }
-
-
-
 }
