@@ -15,7 +15,9 @@ import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
-import barlugofx.model.tools.HSBModifier;
+import barlugofx.model.tools.Exposure;
+import barlugofx.model.tools.Hue;
+import barlugofx.model.tools.Saturation;
 import barlugofx.model.tools.SelectiveRGBChanger;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.common.ParallelizableImageTool;
@@ -65,15 +67,33 @@ public final class ParallelTest {
     }
 
     /**
-     * Testing HSB.
+     * Testing Saturation.
      */
     @Test
-    public void testHSB() {
-        final ParallelizableImageTool bew = HSBModifier.createHSB();
-        bew.addParameter(ParameterName.HUE, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+    public void testSaturation() {
+        final ParallelizableImageTool bew = Saturation.createSaturation();
         bew.addParameter(ParameterName.SATURATION, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+        testTool(bew, "HUE");
+    }
+
+    /**
+     * Testing Exposure.
+     */
+    @Test
+    public void testExposure() {
+        final ParallelizableImageTool bew = Exposure.createExposure();
         bew.addParameter(ParameterName.EXPOSURE, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
-        testTool(bew, "HUE SAT EXPOSURE");
+        testTool(bew, "Saturation");
+    }
+
+    /**
+     * Testing Hue.
+     */
+    @Test
+    public void testHue() {
+        final ParallelizableImageTool bew = Hue.createHue();
+        bew.addParameter(ParameterName.HUE, new ParameterImpl<>(FLOAT_DEFAULT_VALUE));
+        testTool(bew, "EXPOSURE");
     }
 
     /**
