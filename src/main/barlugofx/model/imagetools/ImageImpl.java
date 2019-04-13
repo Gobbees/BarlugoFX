@@ -76,7 +76,7 @@ public final class ImageImpl implements Image {
 
     @Override
     public int[][] getImageRGBvalues() {
-        return Arrays.copyOf(pixels, pixels.length);
+        return pixels;
     }
 
     @Override
