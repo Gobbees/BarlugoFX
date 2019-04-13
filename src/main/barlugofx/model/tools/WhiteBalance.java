@@ -106,4 +106,8 @@ public final class WhiteBalance extends AbstractImageTool {
         return name == ParameterName.WHITEBALANCE;
     }
 
+    @Override
+    public Tools getTool() {
+        return Tools.WHITEBALANCE;
+    }
 }

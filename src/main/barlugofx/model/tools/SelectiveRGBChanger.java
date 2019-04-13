@@ -59,4 +59,9 @@ public final class SelectiveRGBChanger extends AbstractImageTool implements Para
     protected boolean isAccepted(final ParameterName name) {
         return ACCEPTED.contains(name);
     }
+
+    @Override
+    public Tools getTool() {
+        return Tools.SELECTIVECOLOR;
+    }
 }

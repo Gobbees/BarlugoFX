@@ -60,4 +60,9 @@ public final class Cropper extends AbstractImageTool {
         return ACCEPTED.contains(name);
     }
 
+    @Override
+    public Tools getTool() {
+        return Tools.CROPPER;
+    }
+
 }
