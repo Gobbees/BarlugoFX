@@ -95,4 +95,8 @@ public final class Rotator extends AbstractImageTool {
         return name == ParameterName.ANGLE;
     }
 
+    @Override
+    public Tools getTool() {
+        return Tools.ROTATOR;
+    }
 }

@@ -3,6 +3,7 @@ package barlugofx.model.tools.common;
 import java.util.Optional;
 
 import barlugofx.model.imagetools.Image;
+import barlugofx.model.tools.Tools;
 
 /**
  * This interface models any tool or modification that can be applied to an {@link Image}.
@@ -40,4 +41,10 @@ public interface ImageTool {
      * @param name the name of the parameter to be removed.
      */
     void removeParameter(ParameterName name);
+
+    /**
+     * Return the Name of the tool as an Enumerator.
+     * @return the enumerator tool.
+     */
+    Tools getTool();
 }

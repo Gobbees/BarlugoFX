@@ -58,4 +58,9 @@ public final class Contrast extends AbstractImageTool implements ParallelizableI
     protected boolean isAccepted(final ParameterName name) {
         return name == ParameterName.CONTRAST;
     }
+
+    @Override
+    public Tools getTool() {
+        return Tools.CONTRAST;
+    }
 }

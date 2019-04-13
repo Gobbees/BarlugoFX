@@ -81,4 +81,8 @@ public final class Vibrance extends AbstractImageTool implements ParallelizableI
         return ParameterName.VIBRANCE_INCREMENT == name;
     }
 
+    @Override
+    public Tools getTool() {
+        return Tools.VIBRANCE;
+    }
 }

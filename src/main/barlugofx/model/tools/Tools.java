@@ -40,12 +40,22 @@ public enum Tools {
     VIBRANCE,
 
     /**
-     * Enum for the SelectiveColor tool.
+     * Enum for the SelectiveRGBChanger tool.
      */
     SELECTIVECOLOR,
 
     /**
      * Enum for the Black and White tool.
      */
-    BLACKANDWHITE
+    BLACKANDWHITE,
+
+    /**
+     * Enum for Crop tool.
+     */
+    CROPPER,
+
+    /**
+     * Enum for rotate tool.
+     */
+    ROTATOR;
 }

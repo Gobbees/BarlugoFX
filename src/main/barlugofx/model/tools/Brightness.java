@@ -51,4 +51,9 @@ public final class Brightness extends AbstractImageTool implements Parallelizabl
     protected boolean isAccepted(final ParameterName name) {
         return ParameterName.BRIGHTNESS == name;
     }
+
+    @Override
+    public Tools getTool() {
+        return Tools.BRIGHTNESS;
+    }
 }
