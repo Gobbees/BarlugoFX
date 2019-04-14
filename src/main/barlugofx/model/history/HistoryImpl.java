@@ -5,9 +5,9 @@ package barlugofx.model.history;
 
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.model.tools.Tools;
 
 import java.util.Optional;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -15,42 +15,52 @@ import java.util.HashMap;
  *
  */
 public class HistoryImpl implements History {
-    private static final int TOOL_LIMIT = 16;
-    private ArrayList<SequenceNode> nodes = new ArrayList<SequenceNode>();
+    private final int totalToolCount = Tools.values().length;
+    private Adjustment[] adjustments = new Adjustment[totalToolCount];
+    private int nextIndex;
+    private HashMap<Tools, Integer> toolMap = new HashMap<Tools, Integer>();
     private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
 
-    /* (non-Javadoc)
+    HistoryImpl() {
+        this.nextIndex = 0;
+    }
+
+    /**
      * @see barlugofx.model.history.History#addFilter(barlugofx.model.history.SequenceNode)
      */
     @Override
-    public void addTool(final SequenceNode node) throws ToolLimitReachedException {
-        if (node == null) {
-            throw new java.lang.IllegalArgumentException("Node reference is null");
+    public void addAdjustment(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
+        if (adjustment == null) {
+            throw new java.lang.IllegalArgumentException("Adjustment reference is null");
         }
-        if (this.nameMap.containsKey(node.getNodeName())) {
-            throw new java.lang.IllegalArgumentException("Node name is already in use");
+        if (this.nameMap.containsKey(adjustment.getName())) {
+            throw new java.lang.IllegalArgumentException("Adjustment name is already in use");
         }
-        if (this.nodes.size() >= HistoryImpl.TOOL_LIMIT) {
-            throw new ToolLimitReachedException("History is full, can't add any more tools");
+        if (this.toolMap.containsKey(adjustment.getToolType())) {
+            throw new AdjustmentAlreadyPresentException("History is full, can't add any more tools");
         }
 
-        this.nameMap.put(node.getNodeName(), this.nodes.size());
-        this.nodes.add(node);
+        this.nameMap.put(adjustment.getName(), this.nextIndex);
+        this.adjustments[this.nextIndex] = adjustment;
+        this.nextIndex++;
     }
 
     /* (non-Javadoc)
      * @see barlugofx.model.history.History#deleteTool(int)
      */
     @Override
-    public void deleteTool(final int index) {
-        if (index < 0 || index >= this.nodes.size()) {
+    public void removeAdjustment(final int index) {
+        if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
-        this.nameMap.remove(this.nodes.get(index).getNodeName());
-        this.nodes.remove(index);
-        // updating indexes into the map
-        for (int i = 0; i < this.nodes.size(); i++) {
-            this.nameMap.replace(this.nodes.get(i).getNodeName(), i);
+        this.nameMap.remove(this.adjustments[index].getName());
+        this.toolMap.remove(this.adjustments[index].getToolType());
+        this.adjustments[index] = null;
+        // shifting back and updating indexes into the map
+        for (int i = index; i < this.nextIndex - 1; i++) {
+            this.adjustments[i] = this.adjustments[i + 1];
+            this.nameMap.replace(this.adjustments[i].getName(), i);
+            this.toolMap.replace(this.adjustments[i].getToolType(), i);
         }
     }
 
@@ -58,30 +68,30 @@ public class HistoryImpl implements History {
      * @see barlugofx.model.history.History#hideTool(int)
      */
     @Override
-    public void disableTool(final int index) {
-        if (index < 0 || index >= this.nodes.size()) {
+    public void disableAdjustment(final int index) {
+        if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
-        this.nodes.get(index).disable();
+        this.adjustments[index].disable();
     }
 
     /* (non-Javadoc)
      * @see barlugofx.model.history.History#showTool(int)
      */
     @Override
-    public void enableTool(final int index) {
-        if (index < 0 || index >= this.nodes.size()) {
+    public void enableAdjustment(final int index) {
+        if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
-        this.nodes.get(index).enable();
+        this.adjustments[index].enable();
     }
 
     /* (non-Javadoc)
      * @see barlugofx.model.history.History#findByName(java.lang.String)
      */
     @Override
-    public int findByName(final String toolName) {
-        Integer index = this.nameMap.get(toolName);
+    public int findByName(final String adjustmentName) {
+        Integer index = this.nameMap.get(adjustmentName);
         if (index == null) {
             return -1;
         }
@@ -92,16 +102,20 @@ public class HistoryImpl implements History {
      * @see barlugofx.model.history.History#editTool(int, barlugofx.model.history.SequenceNode)
      */
     @Override
-    public void editTool(final int index, final SequenceNode node) {
-        if (index < 0 || index >= this.nodes.size()) {
+    public void editAdjustment(final int index, final Adjustment adjustment) {
+        if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
-        if (node == null) {
-            throw new java.lang.IllegalArgumentException("node reference is null");
+        if (adjustment == null) {
+            throw new java.lang.IllegalArgumentException("Adjustment reference is null");
         }
-        this.deleteTool(index);
-        this.nodes.add(index, node);
-        this.nameMap.put(node.getNodeName(), index);
+        if (this.adjustments[index].getToolType() != adjustment.getToolType()) {
+            throw new java.lang.IllegalArgumentException("Adjustment tool type isn't the same.");
+        }
+
+        this.nameMap.remove(this.adjustments[index].getName());
+        this.nameMap.put(adjustment.getName(), index);
+        this.adjustments[index] = adjustment;
     }
 
     /* (non-Javadoc)
@@ -109,31 +123,22 @@ public class HistoryImpl implements History {
      */
     @Override
     public Optional<Parameter<? extends Number>> getValue(final int index, final ParameterName name) {
-        if (index < 0 || index >= this.nodes.size()) {
+        if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
         if (name == null) {
             throw new java.lang.IllegalArgumentException("name reference is null");
         }
-        return this.nodes.get(index).getTool().getParameter(name);
+        return this.adjustments[index].getTool().getParameter(name);
     }
 
     @Override
     /**
-     * 
+     * @param toolType the type of tool you want to add.
      * @return true if you can add another tool, false otherwise.
      */
-    public boolean canAdd() {
-        return (this.nodes.size() < HistoryImpl.TOOL_LIMIT);
-    }
-
-    /**
-     * 
-     * @return the maximum number of tools you can have in the history.
-     */
-    @Override
-    public int getLimit() {
-        return HistoryImpl.TOOL_LIMIT;
+    public boolean canAdd(final Tools toolType) {
+        return (this.toolMap.get(toolType) == null);
     }
 
     /**
@@ -141,21 +146,21 @@ public class HistoryImpl implements History {
      */
     @Override
     public boolean isToolEnabled(final int index) {
-        if (index < 0 || index >= this.nodes.size()) {
+        if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
-        return this.nodes.get(index).isEnabled();
+        return this.adjustments[index].isEnabled();
     }
 
     /**
      * 
      * @return string representation of nodes array
      */
-    public String nodeNamesToString() {
+    public String adjustmentsNamesToString() {
         String res = "";
-        for (int i = 0; i < this.nodes.size(); i++) {
-            res = res + "(" + i + ")" + this.nodes.get(i).getNodeName();
-            if (i < this.nodes.size() - 1) {
+        for (int i = 0; i < this.nextIndex; i++) {
+            res = res + "(" + i + ")" + this.adjustments[i].getName();
+            if (i < this.nextIndex - 1) {
                 res += ",";
             }
         }
@@ -168,11 +173,11 @@ public class HistoryImpl implements History {
     @Override
     public String toString() {
         String res = "History{size="
-                + this.nodes.size()
-                + ",maxSize="
-                + HistoryImpl.TOOL_LIMIT
-                + ",nodes=["
-                + this.nodeNamesToString()
+                + this.totalToolCount
+                + ",nextIndex="
+                + this.nextIndex
+                + ",adjustments=["
+                + this.adjustmentsNamesToString()
                 + "]}";
         return res;
     }

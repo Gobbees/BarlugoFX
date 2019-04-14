@@ -5,6 +5,7 @@ package barlugofx.model.history;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.common.ImageTool;
+import barlugofx.model.tools.Tools;
 
 /**
  *
@@ -13,15 +14,14 @@ import barlugofx.model.tools.common.ImageTool;
 public class AdjustmentImpl implements Adjustment {
     private Image startImage;
     private boolean enabled;
-    private Tools toolType; // type as enum type
-    private String toolName; // name given by the user
+    private String adjustmentName; // name given by the user
     private final ImageTool tool;
 
     /**
-     * Some javadoc to write.
-     * @param nodeName a.
-     * @param tool b.
-     * @param startImage c.
+     * Adjustment constructor.
+     * @param nodeName chosen by the user.
+     * @param tool the tool used to edit the image.
+     * @param startImage the (cache) image, before the tool is applied.
      */
     public AdjustmentImpl(final String nodeName, final ImageTool tool, final Image startImage) {
         if (nodeName == null) {
@@ -34,21 +34,21 @@ public class AdjustmentImpl implements Adjustment {
             throw new java.lang.IllegalArgumentException("startImage reference is null");
         }
         this.startImage = startImage;
-        enabled = true;
-        this.nodeName = nodeName;
+        this.enabled = true;
+        this.adjustmentName = nodeName;
         this.tool = tool;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.history.SequenceNode#getStartImage()
+    /**
+     * @see barlugofx.model.history.Adjustment#getStartImage()
      */
     @Override
     public Image getStartImage() {
-        return startImage;
+        return this.startImage;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.history.SequenceNode#setStartImage()
+    /**
+     * @see barlugofx.model.history.Adjustment#setStartImage()
      */
     @Override
     public void setStartImage(final Image startImage) {
@@ -58,12 +58,12 @@ public class AdjustmentImpl implements Adjustment {
         this.startImage = startImage;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.history.SequenceNode#isActive()
+    /**
+     * @see barlugofx.model.history.Adjustment#isEnabled()
      */
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return this.enabled;
     }
 
     /**
@@ -71,7 +71,7 @@ public class AdjustmentImpl implements Adjustment {
      */
     @Override
     public void enable() {
-        enabled = true;
+        this.enabled = true;
     }
 
     /**
@@ -79,34 +79,42 @@ public class AdjustmentImpl implements Adjustment {
      */
     @Override
     public void disable() {
-        enabled = false;
+        this.enabled = false;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.history.SequenceNode#getNodeName()
+    /**
+     * @see barlugofx.model.history.Adjustment#getNodeName()
      */
     @Override
-    public String getNodeName() {
-        return nodeName;
+    public String getName() {
+        return this.adjustmentName;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.history.SequenceNode#setNodeName(java.lang.String)
+    /**
+     * @see barlugofx.model.history.Adjustment#setNodeName(java.lang.String)
      */
     @Override
-    public void setNodeName(final String name) {
+    public void setName(final String name) {
         if (name == null || name.length() == 0) {
-            throw new java.lang.IllegalArgumentException("nodeName is either null or empty");
+            throw new java.lang.IllegalArgumentException("Name is either null or empty");
         }
-        nodeName = name;
+        this.adjustmentName = name;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.history.SequenceNode#getTool()
+    /**
+     * @see barlugofx.model.history.Adjustment#getTool()
      */
     @Override
     public ImageTool getTool() {
-        return tool;
+        return this.tool;
     }
 
+    /**
+     *  Returns the Tool type as Enumerator. 
+     * @return tool type
+     */
+    @Override
+    public Tools getToolType() {
+        return this.tool.getToolType();
+    }
 }

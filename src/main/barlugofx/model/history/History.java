@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.model.tools.Tools;
 
 /**
  * 
@@ -16,31 +17,31 @@ public interface History {
      * 
      * @param node
      * Sequence node you want to add.
-     * @throws ToolLimitReachedException
+     * @throws AdjustmentAlreadyPresentException
      * when you try to add a tool and the history is already full.
      */
-    void addTool(Adjustment node) throws ToolLimitReachedException;
+    void addAdjustment(Adjustment node) throws AdjustmentAlreadyPresentException;
 
     /**
      * 
      * @param index
      * Index of the tool you want to delete.
      */
-    void deleteTool(int index);
+    void removeAdjustment(int index);
 
     /**
      * 
      * @param index
      * Index of the tool you want to disable.
      */
-    void disableTool(int index);
+    void disableAdjustment(int index);
 
     /**
      * 
      * @param index
      * Index of the tool you want to enable.
      */
-    void enableTool(int index);
+    void enableAdjustment(int index);
 
     /**
      * This function returns the enabled state of tool.
@@ -65,7 +66,7 @@ public interface History {
      * @param node
      * New node that is going to replace the node at index.
      */
-    void editTool(int index, Adjustment node);
+    void editAdjustment(int index, Adjustment node);
 
     /**
      * 
@@ -79,13 +80,8 @@ public interface History {
 
     /**
      * 
+     * @param toolType the type of tool you want to add.
      * @return true if you can add another tool, false otherwise.
      */
-    boolean canAdd();
-
-    /**
-     * 
-     * @return the maximum number of tools you can have in the history.
-     */
-    int getLimit();
+    boolean canAdd(Tools toolType);
 }

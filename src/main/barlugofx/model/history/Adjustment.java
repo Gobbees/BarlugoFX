@@ -2,7 +2,7 @@ package barlugofx.model.history;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.common.ImageTool;
-
+import barlugofx.model.tools.Tools;
 /**
  * 
  * 
@@ -17,7 +17,7 @@ public interface Adjustment {
 
     /**
      * @param startImage 
-     * Image before the tool il applied.
+     * Sets the Image before the tool is applied.
      */
     void setStartImage(Image startImage);
 
@@ -33,26 +33,33 @@ public interface Adjustment {
     void enable();
 
     /**
-     *  Disable the tool.
+     *  Disables the tool.
      */
     void disable();
 
     /**
-     * 
-     * @return node name
+     * Returns the adjustment name.
+     * The name is chosen by the User.
+     * @return adjustment name
      */
-    String getNodeName();
+    String getName();
 
     /**
      * 
      * @param name 
-     * nome del tool
+     * Sets the Adjustment name.
+     * The name is choosen by the User.
      */
-    void setNodeName(String name);
+    void setName(String name);
 
     /**
      * 
-     * @return tool
+     * @return ImageTool used in the Adjustment.
      */
     ImageTool getTool();
+
+    /**
+     * @return Tool type as Tools Enumerator.
+     */
+    Tools getToolType();
 }
