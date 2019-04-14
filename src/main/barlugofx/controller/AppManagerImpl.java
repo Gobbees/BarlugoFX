@@ -13,8 +13,10 @@ import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.Brightness;
 import barlugofx.model.tools.Contrast;
 import barlugofx.model.tools.Cropper;
-import barlugofx.model.tools.HSBModifier;
+import barlugofx.model.tools.Exposure;
+import barlugofx.model.tools.Hue;
 import barlugofx.model.tools.Rotator;
+import barlugofx.model.tools.Saturation;
 import barlugofx.model.tools.SelectiveRGBChanger;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.WhiteBalance;
@@ -37,10 +39,12 @@ public final class AppManagerImpl implements AppManager {
 
     private Image image;
     //Tools
-    private final ParallelizableImageTool hsb;
+    private final ParallelizableImageTool exposure;
     private final ParallelizableImageTool contrast;
     private final ParallelizableImageTool brightness;
     private final ImageTool wb;
+    private final ParallelizableImageTool saturation;
+    private final ParallelizableImageTool hue;
     private final ParallelizableImageTool srgb;
     private final ParallelizableImageTool bw;
     private final ImageTool cropper;
@@ -57,12 +61,14 @@ public final class AppManagerImpl implements AppManager {
     public AppManagerImpl(final File file) throws IOException {
         fileManager = new IOManagerImpl();
         setImage(file);
-        hsb = HSBModifier.createHSB();
+        exposure = Exposure.createExposure();
         contrast = Contrast.createContrast();
         brightness = Brightness.createBrightness();
         wb = WhiteBalance.createWhiteBalance();
         srgb = SelectiveRGBChanger.createSelective();
         bw = BlackAndWhite.createBlackAndWhite();
+        saturation = Saturation.createSaturation();
+        hue = Hue.createHue();
         cropper = Cropper.createCropper();
         rotator = Rotator.createRotator();
         vibrance = Vibrance.createVibrance();
@@ -88,13 +94,13 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setExposure(final int value) {
-       hsb.addParameter(ParameterName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
+       exposure.addParameter(ParameterName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
        if (parallel) {
-           image = executor.applyTool(hsb, image);
+           image = executor.applyTool(exposure, image);
        } else {
-           image = hsb.applyTool(image);
+           image = exposure.applyTool(image);
        }
-       hsb.removeParameter(ParameterName.EXPOSURE);
+       exposure.removeParameter(ParameterName.EXPOSURE);
     }
 
     @Override
@@ -128,24 +134,24 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setSaturation(final int value) {
-        hsb.addParameter(ParameterName.SATURATION, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
+        saturation.addParameter(ParameterName.SATURATION, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         if (parallel) {
-            image = executor.applyTool(hsb, image);
+            image = executor.applyTool(saturation, image);
         } else {
-            image = hsb.applyTool(image);
+            image = saturation.applyTool(image);
         }
-        hsb.removeParameter(ParameterName.SATURATION);
+        saturation.removeParameter(ParameterName.SATURATION);
     }
 
     @Override
     public void setHue(final int value) {
-        hsb.addParameter(ParameterName.HUE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
+        hue.addParameter(ParameterName.HUE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         if (parallel) {
-            image = executor.applyTool(hsb, image);
+            image = executor.applyTool(hue, image);
         } else {
-            image = hsb.applyTool(image);
+            image = hue.applyTool(image);
         }
-        hsb.removeParameter(ParameterName.HUE);
+        hue.removeParameter(ParameterName.HUE);
     }
 
     @Override
