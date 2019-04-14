@@ -10,10 +10,11 @@ import barlugofx.model.tools.common.ImageTool;
  *
  *
  */
-public class SequenceNodeImpl implements SequenceNode {
+public class AdjustmentImpl implements Adjustment {
     private Image startImage;
     private boolean enabled;
-    private String nodeName;
+    private Tools toolType; // type as enum type
+    private String toolName; // name given by the user
     private final ImageTool tool;
 
     /**
@@ -22,7 +23,7 @@ public class SequenceNodeImpl implements SequenceNode {
      * @param tool b.
      * @param startImage c.
      */
-    public SequenceNodeImpl(final String nodeName, final ImageTool tool, final Image startImage) {
+    public AdjustmentImpl(final String nodeName, final ImageTool tool, final Image startImage) {
         if (nodeName == null) {
             throw new java.lang.IllegalArgumentException("Name reference is null");
         }

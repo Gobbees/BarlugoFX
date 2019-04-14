@@ -8,7 +8,7 @@ import barlugofx.model.tools.common.ImageTool;
  * 
  *
  */
-public interface SequenceNode {
+public interface Adjustment {
     /**
      *
      * @return Image before the tool is applied.

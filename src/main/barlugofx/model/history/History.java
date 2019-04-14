@@ -19,7 +19,7 @@ public interface History {
      * @throws ToolLimitReachedException
      * when you try to add a tool and the history is already full.
      */
-    void addTool(SequenceNode node) throws ToolLimitReachedException;
+    void addTool(Adjustment node) throws ToolLimitReachedException;
 
     /**
      * 
@@ -65,7 +65,7 @@ public interface History {
      * @param node
      * New node that is going to replace the node at index.
      */
-    void editTool(int index, SequenceNode node);
+    void editTool(int index, Adjustment node);
 
     /**
      * 

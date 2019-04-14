@@ -6,8 +6,8 @@ import org.junit.Test;
 import barlugofx.model.history.ToolLimitReachedException;
 import barlugofx.model.history.History;
 import barlugofx.model.history.HistoryImpl;
-import barlugofx.model.history.SequenceNode;
-import barlugofx.model.history.SequenceNodeImpl;
+import barlugofx.model.history.Adjustment;
+import barlugofx.model.history.AdjustmentImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.BlackAndWhite;
@@ -64,7 +64,7 @@ public final class HistoryTest {
     public void testWorking() {
         final HistoryImpl hist = new HistoryImpl();
         try {
-            hist.addTool(new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addTool(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
         } catch (final IllegalArgumentException e) {
             Assert.fail("I should be able to add the tool");
@@ -73,7 +73,7 @@ public final class HistoryTest {
         }
 
         try {
-            hist.addTool(new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addTool(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.fail("I can't add two filter with the same name");
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
@@ -82,7 +82,7 @@ public final class HistoryTest {
         }
 
         try {
-            hist.addTool(new SequenceNodeImpl("CASA", DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addTool(new AdjustmentImpl("CASA", DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
         } catch (final ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool.");
@@ -106,14 +106,14 @@ public final class HistoryTest {
         Assert.assertTrue(hist.isToolEnabled(0));
 
         hist.disableTool(0);
-        hist.editTool(0, new SequenceNodeImpl("CASTA", DEFAULT_TOOL, DEFAULT_IMAGE));
+        hist.editTool(0, new AdjustmentImpl("CASTA", DEFAULT_TOOL, DEFAULT_IMAGE));
         Assert.assertTrue(hist.findByName("CASA") == -1);
         Assert.assertTrue(hist.findByName("CASTA") == 0);
         Assert.assertTrue(hist.isToolEnabled(0));
 
         DEFAULT_TOOL.addParameter(ParameterName.WRED, new ParameterImpl<>(10));
         try {
-            hist.addTool(new SequenceNodeImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addTool(new AdjustmentImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
         } catch (final ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool.");
@@ -134,7 +134,7 @@ public final class HistoryTest {
     @Test
     public void testEncapsulation() {
         final History hist = new HistoryImpl();
-        final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
+        final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
         try {
             hist.addTool(node);
         } catch (final ToolLimitReachedException e) {
@@ -150,9 +150,9 @@ public final class HistoryTest {
     @Test
     public void testToString() {
         final HistoryImpl h = new HistoryImpl();
-        final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        final SequenceNode node1 = new SequenceNodeImpl("giovanni", DEFAULT_TOOL, DEFAULT_IMAGE);
-        final SequenceNode node2 = new SequenceNodeImpl("barlughi", DEFAULT_TOOL, DEFAULT_IMAGE);
+        final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
+        final Adjustment node1 = new AdjustmentImpl("giovanni", DEFAULT_TOOL, DEFAULT_IMAGE);
+        final Adjustment node2 = new AdjustmentImpl("barlughi", DEFAULT_TOOL, DEFAULT_IMAGE);
         try {
             h.addTool(node);
         } catch (ToolLimitReachedException e) {
