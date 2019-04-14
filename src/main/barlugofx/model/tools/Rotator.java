@@ -96,7 +96,7 @@ public final class Rotator extends AbstractImageTool {
     }
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.ROTATOR;
     }
 }

@@ -61,7 +61,7 @@ public final class SelectiveRGBChanger extends AbstractImageTool implements Para
     }
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.SELECTIVECOLOR;
     }
 }

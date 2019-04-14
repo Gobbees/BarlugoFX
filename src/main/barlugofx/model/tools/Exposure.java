@@ -73,7 +73,7 @@ public final class Exposure extends AbstractImageTool implements ParallelizableI
 
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.EXPOSURE;
     }
 }

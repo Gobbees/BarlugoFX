@@ -53,7 +53,7 @@ public final class Brightness extends AbstractImageTool implements Parallelizabl
     }
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.BRIGHTNESS;
     }
 }

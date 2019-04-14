@@ -46,5 +46,5 @@ public interface ImageTool {
      * Return the Name of the tool as an Enumerator.
      * @return the enumerator tool.
      */
-    Tools getTool();
+    Tools getToolType();
 }

@@ -79,7 +79,7 @@ public final class BlackAndWhite extends AbstractImageTool implements Paralleliz
 
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.BLACKANDWHITE;
     }
 }

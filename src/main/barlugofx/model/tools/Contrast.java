@@ -60,7 +60,7 @@ public final class Contrast extends AbstractImageTool implements ParallelizableI
     }
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.CONTRAST;
     }
 }
