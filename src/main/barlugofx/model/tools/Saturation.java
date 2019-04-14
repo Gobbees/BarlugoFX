@@ -20,10 +20,11 @@ public final class Saturation extends AbstractImageTool implements Parallelizabl
     private static final int MIN = -1;
     private static final float DEFAULT_VALUE = 0f;
 
-    private float saturation = DEFAULT_VALUE;
+    private float value;
 
     private Saturation() {
         super();
+        value = DEFAULT_VALUE;
     }
 
     /**
@@ -42,7 +43,7 @@ public final class Saturation extends AbstractImageTool implements Parallelizabl
                 float[] hsv = new float[3];
                 hsv = Color.RGBtoHSB(ColorUtils.getRed(pixels[i][j]), ColorUtils.getGreen(pixels[i][j]),
                         ColorUtils.getGreen(pixels[i][j]), hsv);
-                hsv[1] = saturation == 0 ? hsv[1] : truncateSum(hsv[1], saturation);
+                hsv[1] = value == 0 ? hsv[1] : truncateSum(hsv[1], value);
                 newPixels[i][j] = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
                 newPixels[i][j] = ColorUtils.setAlpha(newPixels[i][j], ColorUtils.getAlpha(pixels[i][j]));
             }
@@ -51,7 +52,7 @@ public final class Saturation extends AbstractImageTool implements Parallelizabl
 
     @Override
     public void inizializeTool() {
-        saturation = getValueFromParameter(ParameterName.SATURATION, MIN, MAX, DEFAULT_VALUE);
+        value = getValueFromParameter(ParameterName.SATURATION, MIN, MAX, DEFAULT_VALUE);
     }
 
     private float truncateSum(final float hsv, final float hue) {

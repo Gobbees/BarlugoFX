@@ -25,7 +25,7 @@ public final class ParallelFilterExecutor {
 
 
     private static class LazyInizialization {
-        private static final ParallelFilterExecutor SINGLETON = new ParallelFilterExecutor();
+        private static final ParallelFilterExecutor SINGLETON = new ParallelFilterExecutor(); //Exactly like in Viroli's slides.
     }
 
     private ParallelFilterExecutor() {

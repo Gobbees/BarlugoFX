@@ -19,7 +19,6 @@ public final class Contrast extends AbstractImageTool implements ParallelizableI
     private static final int TRANSLATION = 128;
     private static final int DEFAULT_VALUE = 0;
 
-    private int value = DEFAULT_VALUE;
     private double contrastCorrectionFactor;
     private Contrast() {
         super();
@@ -49,7 +48,7 @@ public final class Contrast extends AbstractImageTool implements ParallelizableI
 
     @Override
     public void inizializeTool() {
-        value = super.getValueFromParameter(ParameterName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
+        final int value = super.getValueFromParameter(ParameterName.CONTRAST, -MAXVALUE, MAXVALUE, DEFAULT_VALUE);
         contrastCorrectionFactor = (MAXVALUE + 4) * (value + MAXVALUE) / (MAXVALUE * (MAXVALUE + 4 - value));
     }
 

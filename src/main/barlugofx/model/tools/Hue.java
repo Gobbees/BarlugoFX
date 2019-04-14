@@ -20,10 +20,11 @@ public final class Hue extends AbstractImageTool implements ParallelizableImageT
     private static final int MIN = -1;
     private static final float DEFAULT_VALUE = 0f;
 
-    private float hue = DEFAULT_VALUE;
+    private float value;
 
     private Hue() {
         super();
+        value = DEFAULT_VALUE;
     }
 
     /**
@@ -42,7 +43,7 @@ public final class Hue extends AbstractImageTool implements ParallelizableImageT
                 float[] hsv = new float[3];
                 hsv = Color.RGBtoHSB(ColorUtils.getRed(pixels[i][j]), ColorUtils.getGreen(pixels[i][j]),
                         ColorUtils.getGreen(pixels[i][j]), hsv);
-                hsv[0] = hue == 0 ? hsv[0] : hsv[0] + hue; // truncate qui non e' necessario
+                hsv[0] = value == 0 ? hsv[0] : hsv[0] + value; // truncate qui non e' necessario
                 newPixels[i][j] = Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]);
                 newPixels[i][j] = ColorUtils.setAlpha(newPixels[i][j], ColorUtils.getAlpha(pixels[i][j]));
             }
@@ -51,7 +52,7 @@ public final class Hue extends AbstractImageTool implements ParallelizableImageT
 
     @Override
     public void inizializeTool() {
-        hue = super.getValueFromParameter(ParameterName.HUE, MIN, MAX, DEFAULT_VALUE);
+        value = super.getValueFromParameter(ParameterName.HUE, MIN, MAX, DEFAULT_VALUE);
     }
 
     @Override
