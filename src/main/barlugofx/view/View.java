@@ -12,9 +12,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 /**
- * Abstract skeleton of a view class.
+ * Skeleton of a view class.
  *
- * @param <T>
+ * @param <T> the controller class
  */
 public class View<T extends ViewController> {
 
@@ -37,7 +37,6 @@ public class View<T extends ViewController> {
         this.stage.setTitle(stageName);
         this.fxml = new FXMLLoader();
     }
-
     /**
      * Displays an error alert.
      * 
@@ -63,13 +62,17 @@ public class View<T extends ViewController> {
     }
 
     /**
-     * @return the scene dimesion
+     * Returns the scene dimension.
+     * 
+     * @return the scene dimension
      */
     protected Dimension getSceneDims() {
         return sceneDims;
     }
 
     /**
+     * Returns the scene.
+     * 
      * @return the scene
      */
     protected Scene getScene() {
@@ -77,6 +80,8 @@ public class View<T extends ViewController> {
     }
 
     /**
+     * Returns the view controller.
+     * 
      * @return the view controller
      * @throws IllegalStateException if the controller is null
      */
@@ -88,6 +93,8 @@ public class View<T extends ViewController> {
     }
 
     /**
+     * Returns the stage.
+     * 
      * @return the stage
      */
     protected Stage getStage() {
