@@ -30,7 +30,7 @@ public final class SequenceNodeTest {
          */
         final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
         Assert.assertTrue(node.isEnabled());
-        Assert.assertSame(DEFAULT_NAME, node.getNodeName());
+        Assert.assertSame(DEFAULT_NAME, node.getName());
         Assert.assertSame(DEFAULT_IMAGE, node.getStartImage());
         Assert.assertSame(DEFAULT_TOOL, node.getTool());
     }
@@ -41,8 +41,8 @@ public final class SequenceNodeTest {
     @Test
     public void testSetAndGet() {
         final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        node.setNodeName("CIAO");
-        Assert.assertTrue(node.getNodeName().equals("CIAO"));
+        node.setName("CIAO");
+        Assert.assertTrue(node.getName().equals("CIAO"));
         final Image newS = ImageImpl.buildFromPixels(new int[3][3]);
         node.setStartImage(newS);
         Assert.assertSame(node.getStartImage(), newS);

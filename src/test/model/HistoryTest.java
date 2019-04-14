@@ -30,25 +30,25 @@ public final class HistoryTest {
     public void testInizialiation() {
         final History hist = new HistoryImpl();
         try {
-            hist.deleteTool(0);
+            hist.removeAdjustment(0);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         try {
-            hist.disableTool(0);
+            hist.disableAdjustment(0);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         try {
-            hist.enableTool(0);
+            hist.enableAdjustment(0);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         try {
-            hist.editTool(0, null);
+            hist.editAdjustment(0, null);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
@@ -64,7 +64,7 @@ public final class HistoryTest {
     public void testWorking() {
         final HistoryImpl hist = new HistoryImpl();
         try {
-            hist.addTool(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addAdjustment(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
         } catch (final IllegalArgumentException e) {
             Assert.fail("I should be able to add the tool");
@@ -73,7 +73,7 @@ public final class HistoryTest {
         }
 
         try {
-            hist.addTool(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addAdjustment(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.fail("I can't add two filter with the same name");
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
@@ -82,7 +82,7 @@ public final class HistoryTest {
         }
 
         try {
-            hist.addTool(new AdjustmentImpl("CASA", DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addAdjustment(new AdjustmentImpl("CASA", DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
         } catch (final ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool.");
@@ -94,26 +94,26 @@ public final class HistoryTest {
         // debuggg
         System.out.println(hist.nodeNamesToString());
 
-        hist.deleteTool(0);
+        hist.removeAdjustment(0);
 
         System.out.println(hist.nodeNamesToString());
 
         Assert.assertTrue(hist.findByName(DEFAULT_NAME) == -1);
         Assert.assertTrue(hist.findByName("CASA") == 0);
-        hist.disableTool(0);
+        hist.disableAdjustment(0);
         Assert.assertFalse(hist.isToolEnabled(0));
-        hist.enableTool(0);
+        hist.enableAdjustment(0);
         Assert.assertTrue(hist.isToolEnabled(0));
 
-        hist.disableTool(0);
-        hist.editTool(0, new AdjustmentImpl("CASTA", DEFAULT_TOOL, DEFAULT_IMAGE));
+        hist.disableAdjustment(0);
+        hist.editAdjustment(0, new AdjustmentImpl("CASTA", DEFAULT_TOOL, DEFAULT_IMAGE));
         Assert.assertTrue(hist.findByName("CASA") == -1);
         Assert.assertTrue(hist.findByName("CASTA") == 0);
         Assert.assertTrue(hist.isToolEnabled(0));
 
         DEFAULT_TOOL.addParameter(ParameterName.WRED, new ParameterImpl<>(10));
         try {
-            hist.addTool(new AdjustmentImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
+            hist.addAdjustment(new AdjustmentImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
         } catch (final ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool.");
@@ -136,11 +136,11 @@ public final class HistoryTest {
         final History hist = new HistoryImpl();
         final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
         try {
-            hist.addTool(node);
+            hist.addAdjustment(node);
         } catch (final ToolLimitReachedException e) {
             Assert.fail("I should be able to add tool.");
         }
-        node.setNodeName("CASSARO"); //modifiche fuori dalla sequence non devono riflettersi sulla History.
+        node.setName("CASSARO"); //modifiche fuori dalla sequence non devono riflettersi sulla History.
         Assert.assertTrue(hist.findByName("CASSARO") == -1);
     }
 
@@ -154,17 +154,17 @@ public final class HistoryTest {
         final Adjustment node1 = new AdjustmentImpl("giovanni", DEFAULT_TOOL, DEFAULT_IMAGE);
         final Adjustment node2 = new AdjustmentImpl("barlughi", DEFAULT_TOOL, DEFAULT_IMAGE);
         try {
-            h.addTool(node);
+            h.addAdjustment(node);
         } catch (ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool");
         }
         try {
-            h.addTool(node1);
+            h.addAdjustment(node1);
         } catch (ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool");
         }
         try {
-            h.addTool(node2);
+            h.addAdjustment(node2);
         } catch (ToolLimitReachedException e) {
             Assert.fail("I should be able to add the tool");
         }
