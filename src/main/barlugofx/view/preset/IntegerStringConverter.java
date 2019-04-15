@@ -18,7 +18,7 @@ import javafx.util.StringConverter;
  * valid input to a specified range when committed.
  * 
  * author Christoph Nahr
- * @version 1.0.2
+ * 
  */
 public class IntegerStringConverter extends StringConverter<Integer> {
     private Runnable reset;
@@ -79,7 +79,7 @@ public class IntegerStringConverter extends StringConverter<Integer> {
                 return;
             }
             try {
-                final int value = Integer.parseInt(newValue); //tries to convert newValue in an int 
+                final int value = Integer.parseInt(newValue); //tries to convert newValue to an int 
                 if (value < min || value > max) {             //if value is not in the range this will throw an exception
                     throw new InputOutOfBoundException(); 
                 }

@@ -536,8 +536,10 @@ public final class MainController extends AbstractViewControllerWithManager {
         final Properties properties = new Properties();
         String filterName = "";
         int value;
-        int[] values;
-        final Class<?>[] paramTypes = { int.class, int.class, int.class };
+        int[] intValues;
+        double[] doubleValues;
+        final Class<?> typeInt = int.class;
+        final Class<?> typeDouble = double.class;
         Method m;
         try {
             final FileInputStream fStream = new FileInputStream(input);
@@ -546,14 +548,22 @@ public final class MainController extends AbstractViewControllerWithManager {
             final Enumeration<?> e = properties.propertyNames();
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
-                if (filterName.equals("SelectiveColors") || filterName.equals("BlackAndWhite")) {
-                    values = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
+                if (filterName.equals("SelectiveColors")) {
+                    intValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToInt(Integer::parseInt).toArray();
-                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, paramTypes);
-                    m.invoke(this.getManager(), values[0], values[1], values[2]);
+                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, typeInt, typeInt, typeInt);
+                    m.invoke(this.getManager(), intValues[0], intValues[1], intValues[2]);
+                } else if (filterName.equals("BlackAndWhite")) {
+                    doubleValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
+                            .mapToDouble(Double::parseDouble).toArray();
+                    for (int i = 0; i < doubleValues.length; i++) {
+                        doubleValues[i] /= 100;
+                    }
+                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, typeDouble, typeDouble, typeDouble);
+                    m.invoke(this.getManager(), doubleValues[0], doubleValues[1], doubleValues[2]);
                 } else {
                     value = Integer.parseInt(properties.getProperty(filterName));
-                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, paramTypes[0]);
+                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, typeInt);
                     m.invoke(this.getManager(), value);
                 }
             }
@@ -561,11 +571,11 @@ public final class MainController extends AbstractViewControllerWithManager {
         } catch (InvocationTargetException | IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
-            System.out.println("vaccamado");
+            System.out.println("n");
             showErrorMessage();
         } catch (NoSuchMethodException | SecurityException | IOException | IllegalAccessException e) {
             e.printStackTrace();
-            System.out.println("porcodio");
+            System.out.println("h");
         }
     }
 

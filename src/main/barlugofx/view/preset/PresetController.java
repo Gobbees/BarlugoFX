@@ -24,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
+import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -78,11 +79,11 @@ public final class PresetController extends AbstractViewControllerWithManager im
     @FXML
     private Spinner<Integer> spnColB;
     @FXML
-    private Spinner<Integer> spnBlkR;
+    private Spinner<Double> spndBlkR;
     @FXML
-    private Spinner<Integer> spnBlkG;
+    private Spinner<Double> spndBlkG;
     @FXML
-    private Spinner<Integer> spnBlkB;
+    private Spinner<Double> spndBlkB;
     @FXML
     private JFXCheckBox chkExposure;
     @FXML
@@ -102,6 +103,9 @@ public final class PresetController extends AbstractViewControllerWithManager im
     @FXML
     private JFXCheckBox chkBlkWht;
     private Map<JFXCheckBox, List<Spinner<Integer>>> components;
+    private Spinner<Integer> spnBlkR;
+    private Spinner<Integer> spnBlkG;
+    private Spinner<Integer> spnBlkB;
 
     @Override
     public void setStage(final Stage stage) {
@@ -113,6 +117,15 @@ public final class PresetController extends AbstractViewControllerWithManager im
 
         resizeComponents();
 
+/*        Spinner<Integer> spne = new Spinner<>();
+        Spinner<Double> spinner = new Spinner<>();
+        spne.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, 1000, MIN_ZERO, STEP));
+        spne.getValueFactory().setValue((int) (spinner.getValueFactory().getValue() * 100));
+*/
+        spnBlkR = new Spinner<>();
+        spnBlkG = new Spinner<>();
+        spnBlkB = new Spinner<>();
+
         spnExposure.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnContrast.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
         spnBrightness.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
@@ -123,9 +136,17 @@ public final class PresetController extends AbstractViewControllerWithManager im
         spnColR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
         spnColG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
         spnColB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        spnBlkR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        spnBlkG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        spnBlkB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spndBlkR.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
+        spndBlkG.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
+        spndBlkB.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, 0.5));
+
+
+        spnBlkR.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, 10000, MIN_ZERO, STEP));
+        spnBlkG.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, 10000, MIN_ZERO, STEP));
+        spnBlkB.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, 10000, MIN_ZERO, STEP));
+        spnBlkR.setId("spnBlkR");
+        spnBlkG.setId("spnBlkG");
+        spnBlkB.setId("spnBlkB");
 
         components = new LinkedHashMap<>();
         components.put(chkExposure, Arrays.asList(spnExposure));
@@ -202,6 +223,8 @@ public final class PresetController extends AbstractViewControllerWithManager im
         String value;
         final List<Spinner<Integer>> savingList = valuesToSave.stream().flatMap(x -> x.stream())
                 .collect(Collectors.toList());
+
+        ///TODO Remove print
         savingList.forEach(x -> System.out.println(x));
 
         for (int i = 0; i < savingList.size(); i++) {
@@ -299,12 +322,12 @@ public final class PresetController extends AbstractViewControllerWithManager im
         spnColG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
         spnColB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
         spnColB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnBlkR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnBlkG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spnBlkB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spndBlkR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spndBlkR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spndBlkG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spndBlkG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spndBlkB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spndBlkB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
         horizSep.setMinWidth(width);
         verticSep.setMinHeight(height * SEP_HEIGHT_MULTIPLIER);
         leftSep.setMinWidth(width * SEP_WIDTH_MULTIPLIER);
@@ -332,5 +355,29 @@ public final class PresetController extends AbstractViewControllerWithManager im
                 });
             }
         }
+        spndBlkR.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                spndBlkR.increment(0); // won't change value, but will commit editor
+                spnBlkR.getValueFactory().setValue((int) (spndBlkR.getValueFactory().getValue() * MAX_HUNDRED));
+                System.out.println(spnBlkR.getValue());
+            }
+        });
+        DoubleStringConverter.createFor(spndBlkR);
+        spndBlkG.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                spndBlkG.increment(0); // won't change value, but will commit editor
+                spnBlkG.getValueFactory().setValue((int) (spndBlkG.getValueFactory().getValue() * MAX_HUNDRED));
+                System.out.println(spnBlkG.getValue());
+            }
+        });
+        DoubleStringConverter.createFor(spndBlkG);
+        spndBlkB.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                spndBlkB.increment(0); // won't change value, but will commit editor
+                spnBlkB.getValueFactory().setValue((int) (spndBlkB.getValueFactory().getValue() * MAX_HUNDRED));
+                System.out.println(spnBlkB.getValue());
+            }
+        });
+        DoubleStringConverter.createFor(spndBlkB);
     }
 }
