@@ -18,6 +18,7 @@ public abstract class AbstractViewControllerWithManager extends AbstractViewCont
      * This function sets the app manager (controller). It must be called in order
      * to avoid future errors.
      * @param manager the input manager
+     * @throws IllegalArgumentException if the input parameter is null
      */
     public void setManager(final AppManager manager) {
         if (manager == null) {
@@ -29,7 +30,7 @@ public abstract class AbstractViewControllerWithManager extends AbstractViewCont
      * Check if the manager is not null.
      * @throws IllegalStateException if the manager is null
      */
-    protected void checkManager() throws IllegalStateException {
+    protected void checkManager() {
         if (manager == null) {
             throw new IllegalStateException("The manager is null");
         }

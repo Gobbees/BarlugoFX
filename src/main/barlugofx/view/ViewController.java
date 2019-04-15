@@ -9,6 +9,7 @@ public interface ViewController {
     /**
      * Sets the private field stage.
      * @param stage the input stage
+     * @throws IllegalArgumentException if the input parameter is null
      */
     void setStage(Stage stage);
 }

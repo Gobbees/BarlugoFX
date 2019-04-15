@@ -183,6 +183,7 @@ public final class PresetController extends AbstractViewControllerWithManager im
      */
     @FXML
     public void save() {
+        checkManager();
         final List<List<Spinner<Integer>>> valuesToSave = new ArrayList<>();
         for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry : components.entrySet()) {
             if (entry.getKey().isSelected()) {
@@ -243,10 +244,12 @@ public final class PresetController extends AbstractViewControllerWithManager im
      */
     @FXML
     public void cancel() {
+        checkStage();
         this.getStage().close();
     }
 
     private File getFileFromDialog() {
+        checkStage();
         final FileChooser choose = new FileChooser();
         choose.getExtensionFilters().add(new FileChooser.ExtensionFilter("BarlugoFX preset(.bps)", "*.bps"));
         choose.setInitialFileName("New Preset" + ".bps");
@@ -268,6 +271,7 @@ public final class PresetController extends AbstractViewControllerWithManager im
     }
 
     private void resizeComponents() {
+        checkStage();
         final double width = this.getStage().getScene().getWidth();
         final double height = this.getStage().getScene().getHeight();
 

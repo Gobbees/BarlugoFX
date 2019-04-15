@@ -694,7 +694,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         toolStatus.put(SCR, new MutablePair<>(slSCR.getValue(), true));
         toolStatus.put(SCG, new MutablePair<>(slSCG.getValue(), true));
         toolStatus.put(SCB, new MutablePair<>(slSCB.getValue(), true));
-        // TODO temp: to resolve the fact that if the user presses apply on default
+        //to resolve the fact that if the user presses apply on default
         // values the bw won't apply
         toolStatus.put(BWR, new MutablePair<>(slBWR.getMin() - 1, true));
         toolStatus.put(BWG, new MutablePair<>(slBWG.getMin() - 1, true));
@@ -842,7 +842,7 @@ public final class MainController extends AbstractViewControllerWithManager {
             if ((int) (this.getScene().getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain
                     .getMaxWidth()) {
                 iviewImage.setFitWidth((int) (this.getScene().getWidth() * nv.doubleValue()) - 2); // if not -2 the scene resizes
-                                                                                         // (idk why)
+                                                                                                   // (idk why)
                 iviewImage.updateRealSizes();
             }
         });

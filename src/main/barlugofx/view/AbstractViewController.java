@@ -37,7 +37,7 @@ public abstract class AbstractViewController implements ViewController {
      * Check if the stage is not null.
      * @throws IllegalStateException if the stage is null
      */
-    protected void checkStage() throws IllegalStateException {
+    protected void checkStage() {
         if (stage == null) {
             throw new IllegalStateException("The stage is null");
         }

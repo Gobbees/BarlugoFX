@@ -85,7 +85,7 @@ public class View<T extends ViewController> {
      * @return the view controller
      * @throws IllegalStateException if the controller is null
      */
-    protected T getController() throws IllegalStateException {
+    protected T getController() {
         if (this.controller == null) {
             throw new IllegalStateException("The controller is null");
         }

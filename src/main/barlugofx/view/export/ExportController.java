@@ -103,6 +103,7 @@ public final class ExportController extends AbstractViewControllerWithManager {
     }
 
     private void initComponents() {
+        checkStage();
         final double width = this.getStage().getScene().getWidth();
         final double height = this.getStage().getScene().getHeight();
 
@@ -119,6 +120,7 @@ public final class ExportController extends AbstractViewControllerWithManager {
     }
 
     private void exportImage(final Format format) {
+        checkManager();
         final File file = getFileFromDialog(format);
         if (file != null) {
             checkManager();
@@ -134,6 +136,7 @@ public final class ExportController extends AbstractViewControllerWithManager {
     }
 
     private void exportImageJPEG(final float quality) {
+        checkManager();
         final File file = getFileFromDialog(JPEG);
         if (file != null) {
             checkManager();
