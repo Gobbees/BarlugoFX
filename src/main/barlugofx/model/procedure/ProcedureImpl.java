@@ -1,7 +1,7 @@
 /**
  * 
  */
-package barlugofx.model.history;
+package barlugofx.model.procedure;
 
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
@@ -14,19 +14,19 @@ import java.util.HashMap;
  *
  *
  */
-public class HistoryImpl implements History {
+public class ProcedureImpl implements Procedure {
     private final int totalToolCount = Tools.values().length;
     private Adjustment[] adjustments = new Adjustment[totalToolCount];
     private int nextIndex;
     private HashMap<Tools, Integer> toolMap = new HashMap<Tools, Integer>();
     private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
 
-    HistoryImpl() {
+    ProcedureImpl() {
         this.nextIndex = 0;
     }
 
     /**
-     * @see barlugofx.model.history.History#addFilter(barlugofx.model.history.SequenceNode)
+     * @see barlugofx.model.procedure.Procedure#addFilter(barlugofx.model.procedure.SequenceNode)
      */
     @Override
     public void addAdjustment(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
@@ -37,7 +37,7 @@ public class HistoryImpl implements History {
             throw new java.lang.IllegalArgumentException("Adjustment name is already in use");
         }
         if (this.toolMap.containsKey(adjustment.getToolType())) {
-            throw new AdjustmentAlreadyPresentException("History is full, can't add any more tools");
+            throw new AdjustmentAlreadyPresentException("Procedure is full, can't add any more tools");
         }
 
         this.nameMap.put(adjustment.getName(), this.nextIndex);
@@ -46,7 +46,7 @@ public class HistoryImpl implements History {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.history.History#deleteTool(int)
+     * @see barlugofx.model.procedure.Procedure#deleteTool(int)
      */
     @Override
     public void removeAdjustment(final int index) {
@@ -65,7 +65,7 @@ public class HistoryImpl implements History {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.history.History#hideTool(int)
+     * @see barlugofx.model.procedure.Procedure#hideTool(int)
      */
     @Override
     public void disableAdjustment(final int index) {
@@ -76,7 +76,7 @@ public class HistoryImpl implements History {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.history.History#showTool(int)
+     * @see barlugofx.model.procedure.Procedure#showTool(int)
      */
     @Override
     public void enableAdjustment(final int index) {
@@ -87,7 +87,7 @@ public class HistoryImpl implements History {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.history.History#findByName(java.lang.String)
+     * @see barlugofx.model.procedure.Procedure#findByName(java.lang.String)
      */
     @Override
     public int findByName(final String adjustmentName) {
@@ -99,7 +99,7 @@ public class HistoryImpl implements History {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.history.History#editTool(int, barlugofx.model.history.SequenceNode)
+     * @see barlugofx.model.procedure.Procedure#editTool(int, barlugofx.model.procedure.SequenceNode)
      */
     @Override
     public void editAdjustment(final int index, final Adjustment adjustment) {
@@ -119,7 +119,7 @@ public class HistoryImpl implements History {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.history.History#getValue(java.lang.String)
+     * @see barlugofx.model.procedure.Procedure#getValue(java.lang.String)
      */
     @Override
     public Optional<Parameter<? extends Number>> getValue(final int index, final ParameterName name) {
@@ -168,11 +168,11 @@ public class HistoryImpl implements History {
     }
 
     /**
-     * @return string representation of History Object
+     * @return string representation of Procedure Object
      */
     @Override
     public String toString() {
-        String res = "History{size="
+        String res = "Procedure{size="
                 + this.totalToolCount
                 + ",nextIndex="
                 + this.nextIndex

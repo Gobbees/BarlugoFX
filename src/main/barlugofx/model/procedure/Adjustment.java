@@ -1,4 +1,4 @@
-package barlugofx.model.history;
+package barlugofx.model.procedure;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.common.ImageTool;

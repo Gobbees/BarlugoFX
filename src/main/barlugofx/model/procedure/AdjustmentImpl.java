@@ -1,7 +1,7 @@
 /**
  *
  */
-package barlugofx.model.history;
+package barlugofx.model.procedure;
 
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.common.ImageTool;
@@ -40,7 +40,7 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
-     * @see barlugofx.model.history.Adjustment#getStartImage()
+     * @see barlugofx.model.procedure.Adjustment#getStartImage()
      */
     @Override
     public Image getStartImage() {
@@ -48,7 +48,7 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
-     * @see barlugofx.model.history.Adjustment#setStartImage()
+     * @see barlugofx.model.procedure.Adjustment#setStartImage()
      */
     @Override
     public void setStartImage(final Image startImage) {
@@ -59,7 +59,7 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
-     * @see barlugofx.model.history.Adjustment#removeStartImage()
+     * @see barlugofx.model.procedure.Adjustment#removeStartImage()
      */
     @Override
     public void removeStartImage() {
@@ -67,7 +67,7 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
-     * @see barlugofx.model.history.Adjustment#isEnabled()
+     * @see barlugofx.model.procedure.Adjustment#isEnabled()
      */
     @Override
     public boolean isEnabled() {
@@ -91,7 +91,7 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
-     * @see barlugofx.model.history.Adjustment#getNodeName()
+     * @see barlugofx.model.procedure.Adjustment#getNodeName()
      */
     @Override
     public String getName() {
@@ -99,7 +99,7 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
-     * @see barlugofx.model.history.Adjustment#setNodeName(java.lang.String)
+     * @see barlugofx.model.procedure.Adjustment#setNodeName(java.lang.String)
      */
     @Override
     public void setName(final String name) {
@@ -110,7 +110,7 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
-     * @see barlugofx.model.history.Adjustment#getTool()
+     * @see barlugofx.model.procedure.Adjustment#getTool()
      */
     @Override
     public ImageTool getTool() {

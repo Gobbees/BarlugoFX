@@ -3,10 +3,10 @@ package model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import barlugofx.model.history.Adjustment;
-import barlugofx.model.history.AdjustmentImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.procedure.Adjustment;
+import barlugofx.model.procedure.AdjustmentImpl;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.common.ImageTool;
 

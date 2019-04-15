@@ -3,20 +3,20 @@ package model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import barlugofx.model.history.ToolLimitReachedException;
-import barlugofx.model.history.History;
-import barlugofx.model.history.HistoryImpl;
-import barlugofx.model.history.Adjustment;
-import barlugofx.model.history.AdjustmentImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.procedure.Adjustment;
+import barlugofx.model.procedure.AdjustmentImpl;
+import barlugofx.model.procedure.Procedure;
+import barlugofx.model.procedure.ProcedureImpl;
+import barlugofx.model.procedure.ToolLimitReachedException;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.common.ImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParameterName;
 
 /**
- * A simple class that test History.
+ * A simple class that test Procedure.
  *
  */
 public final class HistoryTest {
@@ -28,7 +28,7 @@ public final class HistoryTest {
      */
     @Test
     public void testInizialiation() {
-        final History hist = new HistoryImpl();
+        final Procedure hist = new ProcedureImpl();
         try {
             hist.removeAdjustment(0);
             Assert.fail();
@@ -62,7 +62,7 @@ public final class HistoryTest {
      */
     @Test
     public void testWorking() {
-        final HistoryImpl hist = new HistoryImpl();
+        final ProcedureImpl hist = new ProcedureImpl();
         try {
             hist.addAdjustment(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
             Assert.assertTrue(true);
@@ -133,14 +133,14 @@ public final class HistoryTest {
      */
     @Test
     public void testEncapsulation() {
-        final History hist = new HistoryImpl();
+        final Procedure hist = new ProcedureImpl();
         final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
         try {
             hist.addAdjustment(node);
         } catch (final ToolLimitReachedException e) {
             Assert.fail("I should be able to add tool.");
         }
-        node.setName("CASSARO"); //modifiche fuori dalla sequence non devono riflettersi sulla History.
+        node.setName("CASSARO"); //modifiche fuori dalla sequence non devono riflettersi sulla Procedure.
         Assert.assertTrue(hist.findByName("CASSARO") == -1);
     }
 
@@ -149,7 +149,7 @@ public final class HistoryTest {
      */
     @Test
     public void testToString() {
-        final HistoryImpl h = new HistoryImpl();
+        final ProcedureImpl h = new ProcedureImpl();
         final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
         final Adjustment node1 = new AdjustmentImpl("giovanni", DEFAULT_TOOL, DEFAULT_IMAGE);
         final Adjustment node2 = new AdjustmentImpl("barlughi", DEFAULT_TOOL, DEFAULT_IMAGE);

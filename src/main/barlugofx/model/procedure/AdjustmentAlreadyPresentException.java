@@ -1,8 +1,8 @@
-package barlugofx.model.history;
+package barlugofx.model.procedure;
 
 /**
  *  This Exception gets thrown when you try to add an Adjustment
- *  to the History and another Adjustment, with the same tool,
+ *  to the Procedure and another Adjustment, with the same tool,
  *  is already present. 
  */
 @SuppressWarnings("serial")

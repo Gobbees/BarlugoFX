@@ -1,4 +1,4 @@
-package barlugofx.model.history;
+package barlugofx.model.procedure;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import barlugofx.model.tools.Tools;
  *
  */
 
-public interface History {
+public interface Procedure {
     /**
      * 
      * @param node
