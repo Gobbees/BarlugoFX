@@ -59,6 +59,14 @@ public class AdjustmentImpl implements Adjustment {
     }
 
     /**
+     * @see barlugofx.model.history.Adjustment#removeStartImage()
+     */
+    @Override
+    public void removeStartImage() {
+        this.startImage = null;
+    }
+
+    /**
      * @see barlugofx.model.history.Adjustment#isEnabled()
      */
     @Override

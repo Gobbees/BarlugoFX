@@ -20,6 +20,12 @@ public interface Adjustment {
      * Sets the Image before the tool is applied.
      */
     void setStartImage(Image startImage);
+ 
+    /**
+     * Removes start image from the Adjustment.
+     * This method is needed for lighter storage in the modification History.
+     */
+    void removeStartImage();
 
     /**
      * 
