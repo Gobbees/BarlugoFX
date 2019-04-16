@@ -26,7 +26,7 @@ public class ProcedureImpl implements Procedure {
     }
 
     /**
-     * @see barlugofx.model.procedure.Procedure#addFilter(barlugofx.model.procedure.SequenceNode)
+     * @see barlugofx.model.procedure.Procedure#addAdjustment(barlugofx.model.procedure.SequenceNode)
      */
     @Override
     public void addAdjustment(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
@@ -46,7 +46,7 @@ public class ProcedureImpl implements Procedure {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.procedure.Procedure#deleteTool(int)
+     * @see barlugofx.model.procedure.Procedure#removeAdjustment(int)
      */
     @Override
     public void removeAdjustment(final int index) {
@@ -65,7 +65,7 @@ public class ProcedureImpl implements Procedure {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.procedure.Procedure#hideTool(int)
+     * @see barlugofx.model.procedure.Procedure#disableAdjustment(int)
      */
     @Override
     public void disableAdjustment(final int index) {
@@ -76,7 +76,7 @@ public class ProcedureImpl implements Procedure {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.procedure.Procedure#showTool(int)
+     * @see barlugofx.model.procedure.Procedure#enableAdjustment(int)
      */
     @Override
     public void enableAdjustment(final int index) {
@@ -99,7 +99,7 @@ public class ProcedureImpl implements Procedure {
     }
 
     /* (non-Javadoc)
-     * @see barlugofx.model.procedure.Procedure#editTool(int, barlugofx.model.procedure.SequenceNode)
+     * @see barlugofx.model.procedure.Procedure#editAdjustment(int, barlugofx.model.procedure.SequenceNode)
      */
     @Override
     public void editAdjustment(final int index, final Adjustment adjustment) {
@@ -135,7 +135,7 @@ public class ProcedureImpl implements Procedure {
     @Override
     /**
      * @param toolType the type of tool you want to add.
-     * @return true if you can add another tool, false otherwise.
+     * @return true if you can add an Adjustment based on that tool, false otherwise.
      */
     public boolean canAdd(final Tools toolType) {
         return (this.toolMap.get(toolType) == null);
@@ -145,7 +145,7 @@ public class ProcedureImpl implements Procedure {
      * 
      */
     @Override
-    public boolean isToolEnabled(final int index) {
+    public boolean isAdjustmentEnabled(final int index) {
         if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
         }
@@ -154,7 +154,7 @@ public class ProcedureImpl implements Procedure {
 
     /**
      * 
-     * @return string representation of nodes array
+     * @return string representation of adjustments array
      */
     public String adjustmentsNamesToString() {
         String res = "";

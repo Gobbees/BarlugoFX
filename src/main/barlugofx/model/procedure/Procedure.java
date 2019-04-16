@@ -15,73 +15,73 @@ import barlugofx.model.tools.Tools;
 public interface Procedure {
     /**
      * 
-     * @param node
-     * Sequence node you want to add.
+     * @param adjustment
+     * The Adjustment you want to add.
      * @throws AdjustmentAlreadyPresentException
-     * when you try to add a tool and the history is already full.
+     * when you try to add an Adjustment with a Tool already in use.
      */
-    void addAdjustment(Adjustment node) throws AdjustmentAlreadyPresentException;
+    void addAdjustment(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
 
     /**
      * 
      * @param index
-     * Index of the tool you want to delete.
+     * Index of the adjustment you want to delete.
      */
     void removeAdjustment(int index);
 
     /**
      * 
      * @param index
-     * Index of the tool you want to disable.
+     * Index of the adjustment you want to disable.
      */
     void disableAdjustment(int index);
 
     /**
      * 
      * @param index
-     * Index of the tool you want to enable.
+     * Index of the adjustment you want to enable.
      */
     void enableAdjustment(int index);
 
     /**
-     * This function returns the enabled state of tool.
+     * This function returns the enabled state of adjustment.
      * @param index
-     * Index of the tool of which I want the state
-     * @return true if the tool is enabled, false otherwise.
+     * Index of the adjustment of which I want the state
+     * @return true if the adjustment is enabled, false otherwise.
      */
-    boolean isToolEnabled(int index);
+    boolean isAdjustmentEnabled(int index);
 
     /**
      * 
-     * @param toolName
-     * Name of the tool of which you want the index.
-     * @return index of the tool.
+     * @param adjustmentName
+     * Name of the adjustment of which you want the index.
+     * @return index of the adjustment.
      */
-    int findByName(String toolName);
+    int findByName(String adjustmentName);
 
     /**
      * 
      * @param index
-     * Index of the tool you want to edit.
-     * @param node
-     * New node that is going to replace the node at index.
+     * Index of the adjustment you want to edit.
+     * @param adjustment
+     * New adjustment that is going to replace the adjustment at index.
      */
-    void editAdjustment(int index, Adjustment node);
+    void editAdjustment(int index, Adjustment adjustment);
 
     /**
      * 
      * @param name
-     * Name of the tool of which you want the value.
+     * Name of the adjustment of which you want the value.
      * @param index
-     * index of the tool of which you want the value.
-     * @return value of the tool with name "name"
+     * index of the adjustment of which you want the value.
+     * @return value of the adjustment with name "name"
      */
     Optional<Parameter<? extends Number>> getValue(int index, ParameterName name);
 
     /**
      * 
-     * @param toolType the type of tool you want to add.
-     * @return true if you can add another tool, false otherwise.
+     * @param toolType the type of adjustment you want to add.
+     * @return true if you can add another adjustment, false otherwise.
      */
     boolean canAdd(Tools toolType);
 }
