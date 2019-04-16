@@ -62,6 +62,7 @@ public class ProcedureImpl implements Procedure {
             this.nameMap.replace(this.adjustments[i].getName(), i);
             this.toolMap.replace(this.adjustments[i].getToolType(), i);
         }
+        this.nextIndex--;
     }
 
     /* (non-Javadoc)
