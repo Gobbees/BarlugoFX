@@ -11,15 +11,17 @@ import javafx.scene.control.Tooltip;
 import javafx.util.StringConverter;
 
 /**
- * 
- * This is a quick copy of the "IntegerStringConverter" class appropriately modified
- * and it will be changed in the near future.
+ * Converts between user-edited strings and {@link Double} values. Accepts an
+ * optional {@link Runnable} that resets the editor on {@link NumberFormatException}
+ * or {@link InputOutOfBoundException}, or a {@link TextField} or {@link Spinner}
+ * that is preemptively monitored for invalid input during typing, and restricts 
+ * valid input to a specified range when committed.
  */
 public class DoubleStringConverter extends StringConverter<Double> {
 
         private Runnable reset;
         /**
-         * Creates an {@link IntegerStringConverter}. Swallows
+         * Creates a {@link DoubleStringConverter}. Swallows
          * {@link NumberFormatException} but does nothing in response until
          * {@link #setReset} is defined.
          */
@@ -28,7 +30,7 @@ public class DoubleStringConverter extends StringConverter<Double> {
         }
 
         /**
-         * Creates an {@link IntegerStringConverter} with an editor reset callback.
+         * Creates a {@link DoubleStringConverter} with an editor reset callback.
          * Specifying {@code null} has the same effect as the default constructor.
          * 
          * @param reset the {@link Runnable} to call upon {@link NumberFormatException}
@@ -39,15 +41,15 @@ public class DoubleStringConverter extends StringConverter<Double> {
         }
 
         /**
-         * Creates an {@link IntegerStringConverter} with the specified input range.
+         * Creates a {@link DoubleStringConverter} with the specified input range.
          * Preemptively monitors {@code input} to reject any invalid characters during
          * typing, restricts {@code input} to [{@code min}, {@code max}] (inclusive)
          * when valid text is committed, and resets {@code input} to the closest value
          * to zero within [{@code min}, {@code max}] when invalid text is committed.
          * 
          * @param input the {@link TextField} providing user-edited strings
-         * @param min   the smallest valid {@link Integer} value
-         * @param max   the greatest valid {@link Integer} value
+         * @param min   the smallest valid {@link Double} value
+         * @param max   the greatest valid {@link Double} value
          * @throws NullPointerException if {@code input} is {@code null}
          */
         public DoubleStringConverter(final TextField input, final double min, final double max) {
@@ -108,15 +110,15 @@ public class DoubleStringConverter extends StringConverter<Double> {
         }
 
         /**
-         * Creates an {@link IntegerStringConverter} for the specified {@link Spinner}.
+         * Creates a {@link DoubleStringConverter} for the specified {@link Spinner}.
          * Uses the {@link TextField} and minimum and maximum values of the specified
          * {@link Spinner} for construction, and also sets the new
-         * {@link IntegerStringConverter} on its
-         * {@link SpinnerValueFactory.IntegerSpinnerValueFactory}.
+         * {@link DoubleStringConverter} on its
+         * {@link SpinnerValueFactory.DoubleSpinnerValueFactory}.
          * 
-         * @param spinner the {@link Spinner} to create an
-         *                {@link IntegerStringConverter} for
-         * @return the new {@link IntegerStringConverter}
+         * @param spinner the {@link Spinner} to create a
+         *                {@link DoubleStringConverter} for
+         * @return the new {@link DoubleStringConverter}
          * @throws NullPointerException if {@code spinner} is {@code null}
          */
         public static DoubleStringConverter createFor(final Spinner<Double> spinner) {
@@ -135,7 +137,7 @@ public class DoubleStringConverter extends StringConverter<Double> {
 
         /**
          * Sets the editor reset callback. Specify {@code null} to clear a previously
-         * set {@link Runnable}. When creating an {@link IntegerStringConverter} for a
+         * set {@link Runnable}. When creating a {@link DoubleStringConverter} for a
          * {@link TextField} or {@link Spinner}, this callback is automatically defined
          * to reset committed invalid input to the closest value to zero within the
          * legal range. Setting a different callback will overwrite this functionality.
@@ -148,12 +150,12 @@ public class DoubleStringConverter extends StringConverter<Double> {
         }
 
         /**
-         * Converts the specified {@link String} into its {@link Integer} value. A
+         * Converts the specified {@link String} into its {@link Double} value. A
          * {@code null}, empty, or otherwise invalid argument returns zero and also
          * executes the editor reset callback, if any.
          * 
          * @param s the {@link String} to convert
-         * @return the {@link Integer} value of {@code s}
+         * @return the {@link Double} value of {@code s}
          * @see #setReset
          */
         @Override
@@ -176,10 +178,10 @@ public class DoubleStringConverter extends StringConverter<Double> {
         }
 
         /**
-         * * Converts the specified {@link Integer} into its {@link String} form. A
+         * * Converts the specified {@link Double} into its {@link String} form. A
          * {@code null} argument is converted into the literal string "0".
          * 
-         * @param value the {@link Integer} to convert
+         * @param value the {@link Double} to convert
          * @return the {@link String} form of {@code value}
          */
         @Override
