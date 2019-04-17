@@ -79,11 +79,11 @@ public final class PresetController extends AbstractViewControllerWithManager im
     @FXML
     private Spinner<Integer> spnColB;
     @FXML
-    private Spinner<Double> spndBlkR;
+    private Spinner<Double> spnBlkR;
     @FXML
-    private Spinner<Double> spndBlkG;
+    private Spinner<Double> spnBlkG;
     @FXML
-    private Spinner<Double> spndBlkB;
+    private Spinner<Double> spnBlkB;
     @FXML
     private JFXCheckBox chkExposure;
     @FXML
@@ -102,10 +102,7 @@ public final class PresetController extends AbstractViewControllerWithManager im
     private JFXCheckBox chkColors;
     @FXML
     private JFXCheckBox chkBlkWht;
-    private Map<JFXCheckBox, List<Spinner<Integer>>> components;
-    private Spinner<Integer> spnBlkR;
-    private Spinner<Integer> spnBlkG;
-    private Spinner<Integer> spnBlkB;
+    private Map<JFXCheckBox, List<Spinner<? extends Number>>> components;
 
     @Override
     public void setStage(final Stage stage) {
@@ -114,39 +111,8 @@ public final class PresetController extends AbstractViewControllerWithManager im
     }
 
     private void initComponents() {
-
         resizeComponents();
-
-/*        Spinner<Integer> spne = new Spinner<>();
-        Spinner<Double> spinner = new Spinner<>();
-        spne.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, 1000, MIN_ZERO, STEP));
-        spne.getValueFactory().setValue((int) (spinner.getValueFactory().getValue() * 100));
-*/
-        spnBlkR = new Spinner<>();
-        spnBlkG = new Spinner<>();
-        spnBlkB = new Spinner<>();
-
-        spnExposure.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnContrast.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnBrightness.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnWhiteBalance.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnSaturation.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnHue.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnVibrance.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnColR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        spnColG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        spnColB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        spndBlkR.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
-        spndBlkG.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
-        spndBlkB.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, 0.5));
-
-
-        spnBlkR.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, 10000, MIN_ZERO, STEP));
-        spnBlkG.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, 10000, MIN_ZERO, STEP));
-        spnBlkB.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, 10000, MIN_ZERO, STEP));
-        spnBlkR.setId("spnBlkR");
-        spnBlkG.setId("spnBlkG");
-        spnBlkB.setId("spnBlkB");
+        initSpinners();
 
         components = new LinkedHashMap<>();
         components.put(chkExposure, Arrays.asList(spnExposure));
@@ -165,15 +131,15 @@ public final class PresetController extends AbstractViewControllerWithManager im
     @Override
     public void handle(final ActionEvent event) {
         final JFXCheckBox checkBox = (JFXCheckBox) event.getSource();
-        final List<Spinner<Integer>> list = spinnersCheck(checkBox);
+        final List<Spinner<? extends Number>> list = spinnersCheck(checkBox);
         if (checkBox.isSelected()) {
-            for (final Spinner<Integer> spinner : list) {
+            for (final Spinner<? extends Number> spinner : list) {
                 /// TODO cancellare println
                 System.out.println(spinner.getValue());
                 spinner.setDisable(true);
             }
         } else {
-            for (final Spinner<Integer> spinner : list) {
+            for (final Spinner<? extends Number> spinner : list) {
                 spinner.setDisable(false);
             }
         }
@@ -186,10 +152,10 @@ public final class PresetController extends AbstractViewControllerWithManager im
      * @param checkbox the checkbox that fired the event
      * @return a list of all spinners that correspond to the selected checkbox
      */
-    private List<Spinner<Integer>> spinnersCheck(final JFXCheckBox checkBox) {
+    private List<Spinner<? extends Number>> spinnersCheck(final JFXCheckBox checkBox) {
 
-        final List<List<Spinner<Integer>>> spinners = new ArrayList<>();
-        for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry : components.entrySet()) {
+        final List<List<Spinner<? extends Number>>> spinners = new ArrayList<>();
+        for (final Map.Entry<JFXCheckBox, List<Spinner<? extends Number>>> entry : components.entrySet()) {
             if (entry.getKey().equals(checkBox)) {
                 spinners.add(entry.getValue());
             }
@@ -205,8 +171,8 @@ public final class PresetController extends AbstractViewControllerWithManager im
     @FXML
     public void save() {
         checkManager();
-        final List<List<Spinner<Integer>>> valuesToSave = new ArrayList<>();
-        for (final Map.Entry<JFXCheckBox, List<Spinner<Integer>>> entry : components.entrySet()) {
+        final List<List<Spinner<? extends Number>>> valuesToSave = new ArrayList<>();
+        for (final Map.Entry<JFXCheckBox, List<Spinner<? extends Number>>> entry : components.entrySet()) {
             if (entry.getKey().isSelected()) {
                 valuesToSave.add(entry.getValue());
             }
@@ -221,7 +187,7 @@ public final class PresetController extends AbstractViewControllerWithManager im
         final String colBal = "ColR";
         final String blkWht = "BlkR";
         String value;
-        final List<Spinner<Integer>> savingList = valuesToSave.stream().flatMap(x -> x.stream())
+        final List<Spinner<? extends Number>> savingList = valuesToSave.stream().flatMap(x -> x.stream())
                 .collect(Collectors.toList());
 
         ///TODO Remove print
@@ -322,17 +288,33 @@ public final class PresetController extends AbstractViewControllerWithManager im
         spnColG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
         spnColB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
         spnColB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spndBlkR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spndBlkR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spndBlkG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spndBlkG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spndBlkB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
-        spndBlkB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnBlkR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnBlkG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
+        spnBlkB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
         horizSep.setMinWidth(width);
         verticSep.setMinHeight(height * SEP_HEIGHT_MULTIPLIER);
         leftSep.setMinWidth(width * SEP_WIDTH_MULTIPLIER);
     }
 
+    private void initSpinners() {
+        spnExposure.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnContrast.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnBrightness.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnWhiteBalance.setValueFactory(new IntegerSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnSaturation.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnHue.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnVibrance.setValueFactory(new IntegerSpinnerValueFactory(MIN_HUNDRED, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnColR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnColG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnColB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
+        spnBlkR.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnBlkG.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
+        spnBlkB.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, 0.5));
+    }
+    @SuppressWarnings("unchecked")
     private void addListeners() {
         /*
          * Adds a listener to every checkbox.
@@ -345,9 +327,13 @@ public final class PresetController extends AbstractViewControllerWithManager im
          * value when the focus is lost we have to do this because in JavaFX8 spinners
          * won't update value automatically
          */
-        for (final List<Spinner<Integer>> entry : components.values()) {
-            for (final Spinner<Integer> e : entry) {
-                IntegerStringConverter.createFor(e);
+        for (final List<Spinner<? extends Number>> entry : components.values()) {
+            for (final Spinner<? extends Number> e : entry) {
+                if (e.getValueFactory() instanceof IntegerSpinnerValueFactory) {
+                    IntegerStringConverter.createFor((Spinner<Integer>) e);
+                } else if (e.getValueFactory() instanceof DoubleSpinnerValueFactory) {
+                    DoubleStringConverter.createFor((Spinner<Double>) e);
+                } 
                 e.focusedProperty().addListener((observable, oldValue, newValue) -> {
                     if (!newValue) {
                         e.increment(0); // won't change value, but will commit editor
@@ -355,29 +341,5 @@ public final class PresetController extends AbstractViewControllerWithManager im
                 });
             }
         }
-        spndBlkR.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                spndBlkR.increment(0); // won't change value, but will commit editor
-                spnBlkR.getValueFactory().setValue((int) (spndBlkR.getValueFactory().getValue() * MAX_HUNDRED));
-                System.out.println(spnBlkR.getValue());
-            }
-        });
-        DoubleStringConverter.createFor(spndBlkR);
-        spndBlkG.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                spndBlkG.increment(0); // won't change value, but will commit editor
-                spnBlkG.getValueFactory().setValue((int) (spndBlkG.getValueFactory().getValue() * MAX_HUNDRED));
-                System.out.println(spnBlkG.getValue());
-            }
-        });
-        DoubleStringConverter.createFor(spndBlkG);
-        spndBlkB.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                spndBlkB.increment(0); // won't change value, but will commit editor
-                spnBlkB.getValueFactory().setValue((int) (spndBlkB.getValueFactory().getValue() * MAX_HUNDRED));
-                System.out.println(spnBlkB.getValue());
-            }
-        });
-        DoubleStringConverter.createFor(spndBlkB);
     }
 }

@@ -185,15 +185,15 @@
 									<HBox>
 										<VBox>
 											<Label text="R" id="preset-label" />
-											<Spinner fx:id="spndBlkR" editable="true" />
+											<Spinner fx:id="spnBlkR" editable="true" />
 										</VBox>
 										<VBox>
 											<Label text="G" id="preset-label" />
-											<Spinner fx:id="spndBlkG" editable="true" />
+											<Spinner fx:id="spnBlkG" editable="true" />
 										</VBox>
 										<VBox>
 											<Label text="B" id="preset-label" />
-											<Spinner fx:id="spndBlkB" editable="true" />
+											<Spinner fx:id="spnBlkB" editable="true" />
 										</VBox>
 									</HBox>
 								</VBox>

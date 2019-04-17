@@ -541,13 +541,13 @@ public final class MainController extends AbstractViewControllerWithManager {
         final Class<?> typeInt = int.class;
         final Class<?> typeDouble = double.class;
         Method m;
-        try {
-            final FileInputStream fStream = new FileInputStream(input);
+        try (FileInputStream fStream = new FileInputStream(input)) {
             properties.load(fStream);
-            fStream.close();
             final Enumeration<?> e = properties.propertyNames();
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
+                ///TODO Remove print
+                //System.out.println(filterName + properties.getProperty(filterName));
                 if (filterName.equals("SelectiveColors")) {
                     intValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToInt(Integer::parseInt).toArray();
@@ -556,9 +556,6 @@ public final class MainController extends AbstractViewControllerWithManager {
                 } else if (filterName.equals("BlackAndWhite")) {
                     doubleValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToDouble(Double::parseDouble).toArray();
-                    for (int i = 0; i < doubleValues.length; i++) {
-                        doubleValues[i] /= 100;
-                    }
                     m = this.getManager().getClass().getDeclaredMethod("set" + filterName, typeDouble, typeDouble, typeDouble);
                     m.invoke(this.getManager(), doubleValues[0], doubleValues[1], doubleValues[2]);
                 } else {
