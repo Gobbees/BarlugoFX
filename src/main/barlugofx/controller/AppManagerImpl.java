@@ -3,6 +3,10 @@ package barlugofx.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -227,8 +231,46 @@ public final class AppManagerImpl implements AppManager {
         fileManager.writePreset(filters, file);
     }
     @Override
-    public void applyPreset(final File file) {
-        //return;
+    public void applyPreset(final File file) throws IOException {
+        final Properties properties = fileManager.loadPreset(file);
+        String filterName = "";
+        int value;
+        int[] intValues;
+        double[] doubleValues;
+        final Class<?> typeInt = int.class;
+        final Class<?> typeDouble = double.class;
+        Method m;
+        try {
+            final Enumeration<?> e = properties.propertyNames();
+            while (e.hasMoreElements()) {
+                filterName = (String) e.nextElement();
+                ///TODO Remove print
+                //System.out.println(filterName + properties.getProperty(filterName));
+                if (filterName.equals("SelectiveColors")) {
+                    intValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
+                            .mapToInt(Integer::parseInt).toArray();
+                    m = this.getClass().getDeclaredMethod("set" + filterName, typeInt, typeInt, typeInt);
+                    m.invoke(this, intValues[0], intValues[1], intValues[2]);
+                } else if (filterName.equals("BlackAndWhite")) {
+                    doubleValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
+                            .mapToDouble(Double::parseDouble).toArray();
+                    m = this.getClass().getDeclaredMethod("set" + filterName, typeDouble, typeDouble, typeDouble);
+                    m.invoke(this, doubleValues[0], doubleValues[1], doubleValues[2]);
+                } else {
+                    value = Integer.parseInt(properties.getProperty(filterName));
+                    m = this.getClass().getDeclaredMethod("set" + filterName, typeInt);
+                    m.invoke(this, value);
+                }
+            }
+        } catch (InvocationTargetException | IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            System.out.println("n");
+            //showErrorMessage();
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException e) {
+            e.printStackTrace();
+            System.out.println("h");
+        }
     }
     //TODO history
 }

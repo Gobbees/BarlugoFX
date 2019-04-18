@@ -1,6 +1,7 @@
 package barlugofx.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -58,17 +59,15 @@ public final class IOManagerImpl implements IOManager {
     @Override
     public void writePreset(final Properties filters, final File file) throws IOException, InterruptedException, ExecutionException {
         final OutputStream output = new FileOutputStream(file);
-        try {
-            filters.store(output, "Preset properties");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            output.close();
-        }
+        filters.store(output, "Preset properties");
+        output.close();
     }
     @Override
-    public void applyPreset(final File file) {
-        //return;
+    public Properties loadPreset(final File file) throws IOException {
+        final Properties properties = new Properties();
+        final FileInputStream fStream = new FileInputStream(file);
+        properties.load(fStream);
+        fStream.close();
+        return properties;
     }
-
 }

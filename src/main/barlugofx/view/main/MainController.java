@@ -17,19 +17,13 @@ import static barlugofx.view.main.Tool.WHITEBALANCE;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.jfoenix.controls.JFXButton;
@@ -536,59 +530,20 @@ public final class MainController extends AbstractViewControllerWithManager {
 
     /**
      * Apply preset event triggered.
+     * @throws IOException 
      */
     @FXML
-    public void openPreset() {
+    public void openPreset() throws IOException {
         checkManager();
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select a .bps preset", "*.bps"));
         fc.setTitle("Select a .bps preset");
         final File input = fc.showOpenDialog(this.getStage());
         if (input == null) {
-            System.out.println("ciao");
             return;
         }
-        final Properties properties = new Properties();
-        String filterName = "";
-        int value;
-        int[] intValues;
-        double[] doubleValues;
-        final Class<?> typeInt = int.class;
-        final Class<?> typeDouble = double.class;
-        Method m;
-        try (FileInputStream fStream = new FileInputStream(input)) {
-            properties.load(fStream);
-            final Enumeration<?> e = properties.propertyNames();
-            while (e.hasMoreElements()) {
-                filterName = (String) e.nextElement();
-                ///TODO Remove print
-                //System.out.println(filterName + properties.getProperty(filterName));
-                if (filterName.equals("SelectiveColors")) {
-                    intValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
-                            .mapToInt(Integer::parseInt).toArray();
-                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, typeInt, typeInt, typeInt);
-                    m.invoke(this.getManager(), intValues[0], intValues[1], intValues[2]);
-                } else if (filterName.equals("BlackAndWhite")) {
-                    doubleValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
-                            .mapToDouble(Double::parseDouble).toArray();
-                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, typeDouble, typeDouble, typeDouble);
-                    m.invoke(this.getManager(), doubleValues[0], doubleValues[1], doubleValues[2]);
-                } else {
-                    value = Integer.parseInt(properties.getProperty(filterName));
-                    m = this.getManager().getClass().getDeclaredMethod("set" + filterName, typeInt);
-                    m.invoke(this.getManager(), value);
-                }
-            }
-            updateImage();
-        } catch (InvocationTargetException | IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
-            System.out.println("n");
-            showErrorMessage();
-        } catch (NoSuchMethodException | SecurityException | IOException | IllegalAccessException e) {
-            e.printStackTrace();
-            System.out.println("h");
-        }
+        this.getManager().applyPreset(input);
+        updateImage();
     }
 
     /**

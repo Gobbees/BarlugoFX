@@ -128,6 +128,7 @@ public interface AppManager {
     /**
      * Applies the selected preset to the image.
      * @param file the input preset file where filters are saved
+     * @throws IOException if the operation fails caused by an I/O error
      */
-    void applyPreset(File file);
+    void applyPreset(File file) throws IOException;
 }

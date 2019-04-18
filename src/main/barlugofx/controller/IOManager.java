@@ -56,8 +56,10 @@ public interface IOManager {
      */
     void writePreset(Properties filters, File file) throws IOException, InterruptedException, ExecutionException;
     /**
-     * Applies the filters in the file to the image.
+     * Load the selected file in properties
      * @param file the input preset file where filters are saved
+     * @throws IOException if the operation fails caused by an I/O error
+     * @return the properties file
      */
-    void applyPreset(File file);
+    Properties loadPreset(File file) throws IOException;
 }
