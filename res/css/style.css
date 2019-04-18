@@ -15,10 +15,15 @@
     -fx-text-fill: #5affd0;
     -fx-font-size: 20.0;
 }
+#historylabel {
+    -fx-font-family: "Inconsolata Regular";
+    -fx-text-fill: #5affd0;
+    -fx-font-size: 20.0;
+}
 #hintlabel {
     -fx-font-family: "Inconsolata Bold";
     -fx-text-fill: #5affd0;
-    -fx-font-size: 10.0;
+    -fx-font-size: 15.0;
 }
 #toolabel {
     -fx-text-fill: white;
@@ -248,5 +253,17 @@
 #preset-label {
     -fx-text-fill: #5affd0;
     -fx-font-size: 20.0;
+    -fx-font-family: "Inconsolata Regular";
+}
+
+/*LIST VIEW */
+
+.list-view {
+    -fx-background-color: #333130;
+}
+.list-cell {
+    -fx-background-color: #333130;
+    -fx-text-fill: #5affd0;
+    -fx-text-sie: 13;
     -fx-font-family: "Inconsolata Regular";
 }

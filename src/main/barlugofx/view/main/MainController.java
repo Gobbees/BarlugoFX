@@ -33,6 +33,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 
@@ -53,11 +54,13 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.input.KeyCombination;
@@ -187,6 +190,12 @@ public final class MainController extends AbstractViewControllerWithManager {
     private JFXTextField tfBWB;
     @FXML
     private JFXButton btnBWApply;
+    @FXML
+    private Label lblHistory;
+    @FXML
+    private JFXListView<String> lvHistory;
+    @FXML
+    private JFXButton btnUndo;
     private Optional<ExportView> exportView;
     private Optional<PresetView> presetView;
     private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
@@ -287,6 +296,12 @@ public final class MainController extends AbstractViewControllerWithManager {
             exportView.get().closeStage();
         }
         exportView = Optional.of(new ExportView(this.getManager()));
+    }
+    
+    @FXML
+    public void undo() {
+        checkManager();
+        lvHistory.getItems().add("Ciao");
     }
 
     /**
@@ -686,8 +701,9 @@ public final class MainController extends AbstractViewControllerWithManager {
         tflowLogo.setVisible(true);
         spaneRightColumn.setMinWidth(this.getScene().getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
-        spaneMain.setDividerPosition(0, spaneRightColumn.getWidth());
         spaneMain.setMaxWidth(this.getScene().getWidth());
+        //TODO temp
+        lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
     }
 
     private void initToolStatus() {
@@ -723,6 +739,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         addComponentProperties(tfBWR, slBWR, BWR);
         addComponentProperties(tfBWG, slBWG, BWG);
         addComponentProperties(tfBWB, slBWB, BWB);
+        
     }
 
     private void addComponentProperties(final JFXTextField tfield, final JFXSlider slider, final Tool tool) {
@@ -852,6 +869,11 @@ public final class MainController extends AbstractViewControllerWithManager {
                                                                                                    // (idk why)
                 iviewImage.updateRealSizes();
             }
+        });
+        //set history table height according to the divider position
+        spaneRightColumn.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
+            lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * nv.doubleValue()) - lblHistory.getHeight() - btnUndo.getHeight());
+
         });
     }
 
