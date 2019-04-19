@@ -19,12 +19,12 @@ public class AdjustmentImpl implements Adjustment {
 
     /**
      * Adjustment constructor.
-     * @param nodeName chosen by the user.
+     * @param adjustmentName chosen by the user.
      * @param tool the tool used to edit the image.
      * @param startImage the (cache) image, before the tool is applied.
      */
-    public AdjustmentImpl(final String nodeName, final ImageTool tool, final Image startImage) {
-        if (nodeName == null) {
+    public AdjustmentImpl(final String adjustmentName, final ImageTool tool, final Image startImage) {
+        if (adjustmentName == null) {
             throw new java.lang.IllegalArgumentException("Name reference is null");
         }
         if (tool == null) {
@@ -35,7 +35,7 @@ public class AdjustmentImpl implements Adjustment {
         }
         this.startImage = startImage;
         this.enabled = true;
-        this.adjustmentName = nodeName;
+        this.adjustmentName = adjustmentName;
         this.tool = tool;
     }
 
