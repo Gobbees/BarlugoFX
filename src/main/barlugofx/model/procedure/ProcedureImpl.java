@@ -21,7 +21,10 @@ public class ProcedureImpl implements Procedure {
     private HashMap<Tools, Integer> toolMap = new HashMap<Tools, Integer>();
     private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
 
-    ProcedureImpl() {
+    /**
+     * 
+     */
+    public ProcedureImpl() {
         this.nextIndex = 0;
     }
 
