@@ -36,11 +36,11 @@ public class ProcedureImpl implements Procedure {
         if (adjustment == null) {
             throw new java.lang.IllegalArgumentException("Adjustment reference is null");
         }
+        if (this.toolMap.containsKey(adjustment.getToolType())) {
+            throw new AdjustmentAlreadyPresentException("Can't add another tool with type " + adjustment.getToolType().toString());
+        }
         if (this.nameMap.containsKey(adjustment.getName())) {
             throw new java.lang.IllegalArgumentException("Adjustment name is already in use");
-        }
-        if (this.toolMap.containsKey(adjustment.getToolType())) {
-            throw new AdjustmentAlreadyPresentException("Procedure is full, can't add any more tools");
         }
 
         this.nameMap.put(adjustment.getName(), this.nextIndex);
