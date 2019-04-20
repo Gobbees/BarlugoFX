@@ -54,7 +54,7 @@ public class ProcedureImpl implements Procedure {
     @Override
     public void removeAdjustment(final int index) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
         }
         this.nameMap.remove(this.adjustments[index].getName());
         this.toolMap.remove(this.adjustments[index].getToolType());
@@ -74,7 +74,7 @@ public class ProcedureImpl implements Procedure {
     @Override
     public void disableAdjustment(final int index) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
         }
         this.adjustments[index].disable();
     }
@@ -85,7 +85,7 @@ public class ProcedureImpl implements Procedure {
     @Override
     public void enableAdjustment(final int index) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
         }
         this.adjustments[index].enable();
     }
