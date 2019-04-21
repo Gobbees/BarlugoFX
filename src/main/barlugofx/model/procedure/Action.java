@@ -1,7 +1,5 @@
 package barlugofx.model.procedure;
 
-import java.util.Optional;
-
 /**
  * 
  *
@@ -24,5 +22,5 @@ public interface Action {
      * Not always needed.
      * @return the index in which you want to restore the Adjustment.
      */
-    Optional<Integer> getIndex();
+    int getIndex();
 }

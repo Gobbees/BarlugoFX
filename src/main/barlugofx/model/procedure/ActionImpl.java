@@ -8,7 +8,7 @@ import java.util.Optional;
  *
  */
 public class ActionImpl implements Action {
-    private final Optional<Integer> index;
+    private final int index;
     private final Adjustment adjustment;
     private final Actions type;
 
@@ -21,15 +21,12 @@ public class ActionImpl implements Action {
      * @param index
      * Optional, the index at which you need to restore the Adjustment.
      */
-    public ActionImpl(final Actions type, final Adjustment adjustment, final Optional<Integer> index) {
+    public ActionImpl(final Actions type, final Adjustment adjustment, final int index) {
         if (type == null) {
             throw new IllegalArgumentException("Type argument is null.");
         }
         if (adjustment == null) {
             throw new IllegalArgumentException("Adjustment argument is null");
-        }
-        if (index == null) {
-            throw new IllegalArgumentException("Index argument is null, should be Optional<Integer>.");
         }
         this.type = type;
         this.adjustment = adjustment;
@@ -56,7 +53,7 @@ public class ActionImpl implements Action {
      * 
      */
     @Override
-    public Optional<Integer> getIndex() {
+    public int getIndex() {
         return this.index;
     }
 }
