@@ -20,6 +20,12 @@ public class ProcedureImpl implements Procedure {
     private int nextIndex;
     private HashMap<Tools, Integer> toolMap = new HashMap<Tools, Integer>();
     private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
+    private final History history = new HistoryImpl();
+
+    /**
+     * Wrapper of History MAX_SIZE.
+     */
+    public static final int HISTORY_MAX_SIZE = HistoryImpl.MAX_SIZE;
 
     /**
      * 
@@ -32,19 +38,31 @@ public class ProcedureImpl implements Procedure {
      * @see barlugofx.model.procedure.Procedure#addAdjustment(barlugofx.model.procedure.SequenceNode)
      */
     @Override
-    public void addAdjustment(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
+    public void add(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
+        this.insert(this.nextIndex, adjustment);
+        this.history.addAction(new ActionImpl(Actions.ADD, this.nextIndex, adjustment));
+    }
+
+    private void insert(final int index, final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
         if (adjustment == null) {
-            throw new java.lang.IllegalArgumentException("Adjustment reference is null");
+            throw new java.lang.IllegalArgumentException("Adjustment reference is null.");
         }
-        if (this.toolMap.containsKey(adjustment.getToolType())) {
+        if (index < 0 || index >= this.nextIndex) {
+            throw new java.lang.IllegalArgumentException("Invalid index.");
+        }
+        if (this.toolMap.containsKey((adjustment.getToolType()))) {
             throw new AdjustmentAlreadyPresentException("Can't add another tool with type " + adjustment.getToolType().toString());
         }
         if (this.nameMap.containsKey(adjustment.getName())) {
-            throw new java.lang.IllegalArgumentException("Adjustment name is already in use");
+           throw new java.lang.IllegalArgumentException("Adjustment name is already in use.");
         }
 
-        this.nameMap.put(adjustment.getName(), this.nextIndex);
-        this.adjustments[this.nextIndex] = adjustment;
+        for (int i = this.nextIndex; i > index; i--) {
+            this.adjustments[i] = this.adjustments[i - 1];
+        }
+        this.adjustments[index] = adjustment;
+        this.nameMap.put(adjustment.getName(), index);
+        this.toolMap.put(adjustment.getToolType(), index);
         this.nextIndex++;
     }
 
@@ -52,7 +70,12 @@ public class ProcedureImpl implements Procedure {
      * @see barlugofx.model.procedure.Procedure#removeAdjustment(int)
      */
     @Override
-    public void removeAdjustment(final int index) {
+    public void remove(final int index) {
+        this.delete(index);
+        this.history.addAction(new ActionImpl(Actions.REMOVE, index, this.adjustments[index]));
+    }
+
+    private void delete(final int index) {
         if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
         }
@@ -66,6 +89,30 @@ public class ProcedureImpl implements Procedure {
             this.toolMap.replace(this.adjustments[i].getToolType(), i);
         }
         this.nextIndex--;
+    }
+
+    /* (non-Javadoc)
+     * @see barlugofx.model.procedure.Procedure#editAdjustment(int, barlugofx.model.procedure.SequenceNode)
+     */
+    @Override
+    public void edit(final int index, final Adjustment adjustment) {
+        this.replace(index, adjustment);
+        this.history.addAction(new ActionImpl(Actions.EDIT, index, adjustment, this.adjustments[index]));
+    }
+
+    private void replace(final int index, final Adjustment adjustment) {
+        if (index < 0 || index >= this.nextIndex) {
+            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+        }
+        if (adjustment == null) {
+            throw new java.lang.IllegalArgumentException("Adjustment reference is null");
+        }
+        if (this.adjustments[index].getToolType() != adjustment.getToolType()) {
+            throw new java.lang.IllegalArgumentException("Adjustment tool type isn't the same.");
+        }
+        this.nameMap.remove(this.adjustments[index].getName());
+        this.nameMap.put(adjustment.getName(), index);
+        this.adjustments[index] = adjustment;
     }
 
     /* (non-Javadoc)
@@ -100,26 +147,6 @@ public class ProcedureImpl implements Procedure {
             return -1;
         }
         return (int) index;
-    }
-
-    /* (non-Javadoc)
-     * @see barlugofx.model.procedure.Procedure#editAdjustment(int, barlugofx.model.procedure.SequenceNode)
-     */
-    @Override
-    public void editAdjustment(final int index, final Adjustment adjustment) {
-        if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
-        }
-        if (adjustment == null) {
-            throw new java.lang.IllegalArgumentException("Adjustment reference is null");
-        }
-        if (this.adjustments[index].getToolType() != adjustment.getToolType()) {
-            throw new java.lang.IllegalArgumentException("Adjustment tool type isn't the same.");
-        }
-
-        this.nameMap.remove(this.adjustments[index].getName());
-        this.nameMap.put(adjustment.getName(), index);
-        this.adjustments[index] = adjustment;
     }
 
     /* (non-Javadoc)
@@ -184,5 +211,67 @@ public class ProcedureImpl implements Procedure {
                 + this.adjustmentsNamesToString()
                 + "]}";
         return res;
+    }
+
+    /**
+     * @throws NoMoreActionsException 
+     * @throws AdjustmentAlreadyPresentException 
+     * 
+     */
+    @Override
+    public void undoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
+        Action action = this.history.undoAction();
+
+        switch (action.getType()) {
+        case ADD:
+            this.delete(action.getIndex());
+            break;
+        case EDIT:
+            this.replace(action.getIndex(), action.getAdjustmentBefore());
+            break;
+        case REMOVE:
+            this.insert(action.getIndex(), action.getAdjustment());
+            break;
+        default:
+            throw new java.lang.IllegalArgumentException("Action type not recognized.");
+        }
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void redoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
+        Action action = this.history.redoAction();
+
+        switch (action.getType()) {
+        case ADD:
+            this.insert(action.getIndex(), action.getAdjustment());
+            break;
+        case EDIT:
+            this.replace(action.getIndex(), action.getAdjustment());
+            break;
+        case REMOVE:
+            this.delete(action.getIndex());
+            break;
+        default:
+            throw new java.lang.IllegalArgumentException("Action type not recognized.");
+        }
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public String[] getHistoryStringRep() {
+        return this.history.getActionList();
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public int getHistorySize() {
+        return this.history.getSize();
     }
 }

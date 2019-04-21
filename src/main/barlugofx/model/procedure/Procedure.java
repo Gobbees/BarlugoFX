@@ -20,14 +20,14 @@ public interface Procedure {
      * @throws AdjustmentAlreadyPresentException
      * when you try to add an Adjustment with a Tool already in use.
      */
-    void addAdjustment(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
+    void add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
 
     /**
      * 
      * @param index
      * Index of the adjustment you want to delete.
      */
-    void removeAdjustment(int index);
+    void remove(int index);
 
     /**
      * 
@@ -66,7 +66,7 @@ public interface Procedure {
      * @param adjustment
      * New adjustment that is going to replace the adjustment at index.
      */
-    void editAdjustment(int index, Adjustment adjustment);
+    void edit(int index, Adjustment adjustment);
 
     /**
      * 
@@ -84,4 +84,32 @@ public interface Procedure {
      * @return true if you can add another adjustment, false otherwise.
      */
     boolean canAdd(Tools toolType);
+
+    /**
+     * 
+     * @throws NoMoreActionsException
+     * In case there are no more actions to undo.
+     * @throws AdjustmentAlreadyPresentException 
+     */
+    void undoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+
+    /**
+     * 
+     * @throws NoMoreActionsException
+     * In case there are no more actions to redo.
+     * @throws AdjustmentAlreadyPresentException 
+     */
+    void redoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+
+    /**
+     * 
+     * @return String representation of the history.
+     */
+    String[] getHistoryStringRep();
+
+    /**
+     * 
+     * @return the current number of actions saved in the procedure.
+     */
+    int getHistorySize();
 }

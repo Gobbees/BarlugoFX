@@ -9,27 +9,38 @@ import java.util.Optional;
  */
 public class ActionImpl implements Action {
     private final int index;
-    private final Adjustment adjustment;
+    private final Adjustment adjustmentAfter;
+    private final Adjustment adjustmentBefore;
     private final Actions type;
 
     /**
      * 
      * @param type
      * Enumeration representing the type of action performed.
-     * @param adjustment
-     * The adjustment you'll have to restore when you decide to undo this action.
      * @param index
      * Optional, the index at which you need to restore the Adjustment.
+     * @param adjustment
+     * First the adjustment you'll have to restore when you decide to undo this action.
+     * Second (used only with EDIT actions), the adjustment you are replacing.
      */
-    public ActionImpl(final Actions type, final Adjustment adjustment, final int index) {
+    public ActionImpl(final Actions type, final int index, final Adjustment... adjustment) {
         if (type == null) {
             throw new IllegalArgumentException("Type argument is null.");
         }
-        if (adjustment == null) {
-            throw new IllegalArgumentException("Adjustment argument is null");
+        if ((type == Actions.ADD || type == Actions.REMOVE) && adjustment.length != 1) {
+            String msg = "For ADD and REMOVE actions you must pass only one ajustment.";
+            throw new IllegalArgumentException(msg);
+        }
+        if (type == Actions.EDIT && adjustment.length != 2) {
+            String msg = "For EDIT actions you must pass exactly two adjustments.";
+            throw new IllegalArgumentException(msg);
+        }
+        if (type == Actions.EDIT && adjustment[0].getToolType() != adjustment[1].getToolType()) {
+            throw new IllegalArgumentException("Adjustment types don't match.");
         }
         this.type = type;
-        this.adjustment = adjustment;
+        this.adjustmentAfter = adjustment[0];
+        this.adjustmentBefore = (type == Actions.EDIT) ? adjustment[1] : null;
         this.index = index;
     }
 
@@ -46,7 +57,16 @@ public class ActionImpl implements Action {
      */
     @Override
     public Adjustment getAdjustment() {
-        return this.adjustment;
+        return this.adjustmentAfter;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    @Override
+    public Adjustment getAdjustmentBefore() {
+        return this.adjustmentBefore;
     }
 
     /**

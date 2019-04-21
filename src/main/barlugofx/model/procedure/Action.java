@@ -23,4 +23,10 @@ public interface Action {
      * @return the index in which you want to restore the Adjustment.
      */
     int getIndex();
+
+    /**
+     * Useful only for EDIT Actions.
+     * @return the adjustment present before the action.
+     */
+    Adjustment getAdjustmentBefore();
 }
