@@ -45,6 +45,8 @@ public class View<T extends ViewController> {
     public static void showErrorAlert(final String message) {
         Platform.runLater(() -> {
             final Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
             alert.setContentText(message);
             alert.showAndWait();
         });
