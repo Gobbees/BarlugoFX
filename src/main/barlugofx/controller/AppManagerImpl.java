@@ -29,6 +29,7 @@ import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParameterName;
 import barlugofx.utils.Format;
+import barlugofx.view.View;
 
 /**
  * The main controller class.
@@ -263,13 +264,10 @@ public final class AppManagerImpl implements AppManager {
                 }
             }
         } catch (InvocationTargetException | IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
             ex.printStackTrace();
-            System.out.println("n");
-            //showErrorMessage();
+            View.showErrorAlert("The selected file is corrupted!");
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException e) {
             e.printStackTrace();
-            System.out.println("h");
         }
     }
     //TODO history
