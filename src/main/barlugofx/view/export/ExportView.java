@@ -8,6 +8,7 @@ import barlugofx.controller.AppManager;
 import barlugofx.view.View;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * This class shows the export view of barlugofx program. It must be called by
@@ -41,6 +42,7 @@ public class ExportView extends View<ExportController> {
         this.getController().setStage(this.getStage());
         this.getController().setManager(manager);
         this.getStage().centerOnScreen();
+        this.getStage().initStyle(StageStyle.UTILITY);
         this.getStage().show();
     }
 
