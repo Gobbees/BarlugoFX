@@ -95,4 +95,20 @@ public class HistoryImpl implements History {
        this.currentActionIndex--;
        this.lastActionIndex--;
     }
+
+    /**
+     * 
+     */
+    @Override
+    public String toString() {
+       String res = "History{size="
+               + Integer.toString(this.lastActionIndex + 1)
+               + ",actions=[";
+       for (int i = 0; i <= this.lastActionIndex; i++) {
+           res += this.history[i].getType().toString();
+           res += (i == this.currentActionIndex) ? "*" : "";
+           res += (i != this.lastActionIndex) ? ", " : "]}";
+       }
+       return res;
+    }
 }

@@ -119,7 +119,7 @@ public class ProcedureImpl implements Procedure {
      * @see barlugofx.model.procedure.Procedure#disableAdjustment(int)
      */
     @Override
-    public void disableAdjustment(final int index) {
+    public void disable(final int index) {
         if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
         }
@@ -130,7 +130,7 @@ public class ProcedureImpl implements Procedure {
      * @see barlugofx.model.procedure.Procedure#enableAdjustment(int)
      */
     @Override
-    public void enableAdjustment(final int index) {
+    public void enable(final int index) {
         if (index < 0 || index >= this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
         }
@@ -209,7 +209,9 @@ public class ProcedureImpl implements Procedure {
                 + this.nextIndex
                 + ",adjustments=["
                 + this.adjustmentsNamesToString()
-                + "]}";
+                + "], "
+                + this.history.toString()
+                + "}";
         return res;
     }
 
