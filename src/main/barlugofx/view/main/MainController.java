@@ -48,12 +48,9 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCharacterCombination;
@@ -291,7 +288,9 @@ public final class MainController extends AbstractViewControllerWithManager {
         }
         exportView = Optional.of(new ExportView(this.getManager()));
     }
-    
+    /**
+     * Undo event triggered.
+     */
     @FXML
     public void undo() {
         checkManager();
@@ -658,6 +657,8 @@ public final class MainController extends AbstractViewControllerWithManager {
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setMaxWidth(this.getScene().getWidth());
         //TODO temp
+        System.out.println("spaneRightColumn: " + (spaneMain.getHeight() + menuBar.getHeight()));
+        System.out.println("scene: " + this.getScene().getHeight());
         lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
     }
 
@@ -694,7 +695,6 @@ public final class MainController extends AbstractViewControllerWithManager {
         addComponentProperties(tfBWR, slBWR, BWR);
         addComponentProperties(tfBWG, slBWG, BWG);
         addComponentProperties(tfBWB, slBWB, BWB);
-        
     }
 
     private void addComponentProperties(final JFXTextField tfield, final JFXSlider slider, final Tool tool) {
@@ -820,15 +820,13 @@ public final class MainController extends AbstractViewControllerWithManager {
         spaneMain.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
             if ((int) (this.getScene().getWidth() * nv.doubleValue()) + spaneRightColumn.getMinWidth() < spaneMain
                     .getMaxWidth()) {
-                iviewImage.setFitWidth((int) (this.getScene().getWidth() * nv.doubleValue()) - 2); // if not -2 the scene resizes
-                                                                                                   // (idk why)
+                iviewImage.setFitWidth((int) (this.getScene().getWidth() * nv.doubleValue()) - 2); // if not -2 the scene resizes (idk why)
                 iviewImage.updateRealSizes();
             }
         });
         //set history table height according to the divider position
         spaneRightColumn.getDividers().get(0).positionProperty().addListener((ev, ov, nv) -> {
             lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * nv.doubleValue()) - lblHistory.getHeight() - btnUndo.getHeight());
-
         });
     }
 
@@ -872,12 +870,5 @@ public final class MainController extends AbstractViewControllerWithManager {
 
     private void runNewThread(final String threadName, final Runnable task) {
         new Thread(task, threadName).start();
-    }
-    private void showErrorMessage() {
-        final Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText("The selected file is corrupted!");
-        alert.showAndWait();
     }
 }

@@ -79,7 +79,8 @@
 						</Menu>
 						<Menu mnemonicParsing="false" text="Edit">
 							<items>
-								<MenuItem mnemonicParsing="true" text="Undo" onAction="#undo">
+								<MenuItem mnemonicParsing="true" text="Undo"
+									onAction="#undo">
 									<accelerator>
 										<KeyCodeCombination code="z" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -420,21 +421,27 @@
 							</content>
 						</ScrollPane>
 						<VBox>
-						  <children>
-						  <Separator orientation="vertical" prefHeight="5" visible="false"/>
-						  <Label fx:id="lblHistory" text=" History" id="historylabel"/>
-						  <Separator orientation="vertical" prefHeight="5" visible="false"/>
-                          <JFXListView fx:id="lvHistory">
-                          </JFXListView>
-                          <Separator orientation="vertical" prefHeight="5" visible="false"/>
-		                  <HBox>
-		                  <children>
-		                      <Separator orientation="horizontal" prefWidth="10" visible="false"/>
-		                      <JFXButton fx:id="btnUndo" text="Undo" onAction="#undo"/>		                      
-		                  </children>
-		                  </HBox>
-		                  <Separator orientation="vertical" prefHeight="5" visible="false"/>
-						</children>
+							<children>
+								<Separator orientation="vertical" prefHeight="5"
+									visible="false" />
+								<Label fx:id="lblHistory" text=" History"
+									id="historylabel" />
+								<Separator orientation="vertical" prefHeight="5"
+									visible="false" />
+								<JFXListView fx:id="lvHistory"/>
+								<Separator orientation="vertical" prefHeight="5"
+									visible="false" />
+								<HBox>
+									<children>
+										<Separator orientation="horizontal" prefWidth="5"
+											visible="false" />
+										<JFXButton fx:id="btnUndo" text="Undo"
+											onAction="#undo" />
+									</children>
+								</HBox>
+								<Separator orientation="vertical" prefHeight="5" 
+									visible="false" />
+							</children>
 						</VBox>
 					</items>
 				</SplitPane>
