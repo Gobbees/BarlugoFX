@@ -656,9 +656,6 @@ public final class MainController extends AbstractViewControllerWithManager {
         spaneRightColumn.setMinWidth(this.getScene().getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setMaxWidth(this.getScene().getWidth());
-        //TODO temp
-        System.out.println("spaneRightColumn: " + (spaneMain.getHeight() + menuBar.getHeight()));
-        System.out.println("scene: " + this.getScene().getHeight());
         lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
     }
 

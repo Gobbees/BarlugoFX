@@ -185,7 +185,7 @@
 				<SplitPane fx:id="spaneRightColumn" orientation="VERTICAL"
 					style="-fx-border-width: 0 0 0 0" dividerPositions="0.7">
 					<items>
-						<ScrollPane fitToWidth="true" styleClass="edge-to-edge">
+						<ScrollPane fitToWidth="true">
 							<content>
 								<VBox>
 									<children>
@@ -436,7 +436,7 @@
 										<Separator orientation="horizontal" prefWidth="5"
 											visible="false" />
 										<JFXButton fx:id="btnUndo" text="Undo"
-											onAction="#undo" />
+											onAction="#undo"/>
 									</children>
 								</HBox>
 								<Separator orientation="vertical" prefHeight="5" 
