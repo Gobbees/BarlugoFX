@@ -23,24 +23,34 @@ public class ActionImpl implements Action {
      * First the adjustment you'll have to restore when you decide to undo this action.
      * Second (used only with EDIT actions), the adjustment you are replacing.
      */
-    public ActionImpl(final Actions type, final int index, final Adjustment... adjustment) {
-        if (type == null) {
-            throw new IllegalArgumentException("Type argument is null.");
+    public ActionImpl(final Actions type, final int index, final Adjustment adjustment) {
+        this(type, index, adjustment, null);
+    }
+
+    /**
+     * 
+     * @param type
+     * The type of the Action
+     * @param index
+     * The index of the Action in the Procedure.
+     * @param adjustmentAfter
+     * The new adjustment
+     * @param adjustmentBefore
+     * The old adjustment, useful only when applying an Edit.
+     */
+    public ActionImpl(final Actions type, final int index, final Adjustment adjustmentAfter, final Adjustment adjustmentBefore) {
+        if (adjustmentAfter == null) {
+            throw new java.lang.IllegalArgumentException("First adjustment reference is null!");
         }
-        if ((type == Actions.ADD || type == Actions.REMOVE) && adjustment.length != 1) {
-            String msg = "For ADD and REMOVE actions you must pass only one ajustment.";
-            throw new IllegalArgumentException(msg);
+        if (type == Actions.EDIT && adjustmentBefore == null) {
+            throw new java.lang.IllegalArgumentException("EDIT action with only one valid adjustment reference.");
         }
-        if (type == Actions.EDIT && adjustment.length != 2) {
-            String msg = "For EDIT actions you must pass exactly two adjustments.";
-            throw new IllegalArgumentException(msg);
-        }
-        if (type == Actions.EDIT && adjustment[0].getToolType() != adjustment[1].getToolType()) {
-            throw new IllegalArgumentException("Adjustment types don't match.");
+        if (type != Actions.EDIT && adjustmentBefore != null) {
+            throw new java.lang.IllegalArgumentException(type.toString() + " action with second adjustment reference not null.");
         }
         this.type = type;
-        this.adjustmentAfter = adjustment[0];
-        this.adjustmentBefore = (type == Actions.EDIT) ? adjustment[1] : null;
+        this.adjustmentAfter = adjustmentAfter;
+        this.adjustmentBefore = adjustmentBefore;
         this.index = index;
     }
 
