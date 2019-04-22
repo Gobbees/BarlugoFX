@@ -8,6 +8,7 @@ import barlugofx.controller.AppManager;
 import barlugofx.view.View;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *  This class shows the preset view of barlugofx program. It must be called by its constructor method.
@@ -34,6 +35,7 @@ public class PresetView extends View<PresetController> {
         this.getController().setStage(this.getStage());
         this.getController().setManager(manager);
         this.getStage().centerOnScreen();
+        this.getStage().initStyle(StageStyle.UTILITY);
         this.getStage().show();
     }
     /**

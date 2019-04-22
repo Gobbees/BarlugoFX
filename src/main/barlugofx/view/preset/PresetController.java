@@ -27,6 +27,7 @@ import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * This class manages the view events. IMPORTANT: set the app manager with
@@ -223,6 +224,7 @@ public final class PresetController extends AbstractViewControllerWithManager im
             alert.setTitle("Saved");
             alert.setHeaderText(null);
             alert.setContentText("The preset was successfully saved!");
+            alert.initStyle(StageStyle.UTILITY);
             alert.showAndWait();
             this.getStage().close();
         }
