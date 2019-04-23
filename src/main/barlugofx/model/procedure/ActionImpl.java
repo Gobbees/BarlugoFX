@@ -86,4 +86,12 @@ public class ActionImpl implements Action {
     public int getIndex() {
         return this.index;
     }
+
+    /**
+     * 
+     */
+    @Override
+    public String toString() {
+        return this.type.name();
+    }
 }

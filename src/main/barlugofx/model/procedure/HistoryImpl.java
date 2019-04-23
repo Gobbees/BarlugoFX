@@ -18,15 +18,15 @@ public class HistoryImpl implements History {
      * Until undoAction() is called lastActionIndex equals currentActionIndex,
      * after the call currentActionIndex goes back one action and lastActionIndex remains the same.
      */
-    private int currentActionIndex = 0;
-    private int lastActionIndex = 0;
+    private int currentActionIndex = -1;
+    private int lastActionIndex = -1;
 
     /**
      * 
      */
     public HistoryImpl() {
-        this.currentActionIndex = 0;
-        this.lastActionIndex = 0;
+        this.currentActionIndex = -1;
+        this.lastActionIndex = -1;
     }
 
     /* (non-Javadoc)
@@ -36,6 +36,9 @@ public class HistoryImpl implements History {
     public void addAction(final Action action) { 
         if (this.currentActionIndex == HistoryImpl.MAX_SIZE - 1) {
             this.shiftLeftHistory();
+        }
+        for (int i = this.currentActionIndex + 1; i <= this.lastActionIndex; i++) {
+            this.history[i] = null;
         }
         this.history[this.currentActionIndex + 1] = action;
         this.currentActionIndex++;
@@ -47,7 +50,7 @@ public class HistoryImpl implements History {
      */
     @Override
     public Action undoAction() throws NoMoreActionsException {
-        if (this.currentActionIndex <= 0) {
+        if (this.currentActionIndex < 0) {
             throw new NoMoreActionsException("There are no more actions to undo.");
         }
         Action action = this.history[this.currentActionIndex];
@@ -72,7 +75,7 @@ public class HistoryImpl implements History {
      */
     @Override
     public int getSize() {
-        return this.lastActionIndex;
+        return this.lastActionIndex + 1;
     }
 
     /* (non-Javadoc)
@@ -81,8 +84,8 @@ public class HistoryImpl implements History {
      */
     @Override
     public String[] getActionList() {
-        String[] stringRepresentation = new String[this.lastActionIndex];
-        for (int i = 0; i < this.lastActionIndex; i++) {
+        String[] stringRepresentation = new String[this.lastActionIndex + 1];
+        for (int i = 0; i <= this.lastActionIndex; i++) {
             stringRepresentation[i] = this.history[i].getType().toString() + " " + this.history[i].getAdjustment().getToolType().toString();
         }
         return stringRepresentation;
@@ -103,12 +106,17 @@ public class HistoryImpl implements History {
     public String toString() {
        String res = "History{size="
                + Integer.toString(this.lastActionIndex + 1)
+               + ",curr="
+               + this.currentActionIndex
+               + ",last="
+               + this.lastActionIndex
                + ",actions=[";
        for (int i = 0; i <= this.lastActionIndex; i++) {
-           res += this.history[i].getType().toString();
+           res += this.history[i];
            res += (i == this.currentActionIndex) ? "*" : "";
-           res += (i != this.lastActionIndex) ? ", " : "]}";
+           res += (i != this.lastActionIndex) ? ", " : "";
        }
+       res += "]}";
        return res;
     }
 }
