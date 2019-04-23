@@ -39,15 +39,16 @@ public class ProcedureImpl implements Procedure {
      */
     @Override
     public void add(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
-        this.insert(this.nextIndex, adjustment);
-        this.history.addAction(new ActionImpl(Actions.ADD, this.nextIndex, adjustment));
+        final int index = this.nextIndex;
+        this.insert(index, adjustment);
+        this.history.addAction(new ActionImpl(Actions.ADD, index, adjustment));
     }
 
     private void insert(final int index, final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
         if (adjustment == null) {
             throw new java.lang.IllegalArgumentException("Adjustment reference is null.");
         }
-        if (index < 0 || index >= this.nextIndex) {
+        if (index < 0 || index > this.nextIndex) {
             throw new java.lang.IllegalArgumentException("Invalid index.");
         }
         if (this.toolMap.containsKey((adjustment.getToolType()))) {
@@ -66,13 +67,35 @@ public class ProcedureImpl implements Procedure {
         this.nextIndex++;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.procedure.Procedure#removeAdjustment(int)
+    /**
+     * 
+     */
+    @Override
+    public void remove(final Tools type) {
+        if (type == null) {
+            throw new java.lang.IllegalArgumentException("Type reference is null.");
+        }
+        this.remove(this.findByType(type));
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void remove(final String adjustmentName) {
+        if (adjustmentName == null) {
+            throw new java.lang.IllegalArgumentException("Name reference is null.");
+        }
+        this.remove(this.findByName(adjustmentName));
+    }
+
+    /**
+     * 
      */
     @Override
     public void remove(final int index) {
-        this.delete(index);
         this.history.addAction(new ActionImpl(Actions.REMOVE, index, this.adjustments[index]));
+        this.delete(index);
     }
 
     private void delete(final int index) {
@@ -142,11 +165,28 @@ public class ProcedureImpl implements Procedure {
      */
     @Override
     public int findByName(final String adjustmentName) {
+        if (adjustmentName == null) {
+            throw new java.lang.IllegalArgumentException("adjustmentName reference is null");
+        }
         Integer index = this.nameMap.get(adjustmentName);
         if (index == null) {
             return -1;
         }
         return (int) index;
+    }
+
+    /**
+     * 
+     * @param type
+     * @return
+     */
+    @Override
+    public int findByType(final Tools type) {
+        if (type == null) {
+            throw new java.lang.IllegalArgumentException("type reference is null");
+        }
+        Integer index = this.toolMap.get(type);
+        return index;
     }
 
     /* (non-Javadoc)
@@ -221,7 +261,7 @@ public class ProcedureImpl implements Procedure {
      * 
      */
     @Override
-    public void undoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
+    public void undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
         Action action = this.history.undoAction();
 
         switch (action.getType()) {
@@ -243,7 +283,7 @@ public class ProcedureImpl implements Procedure {
      * 
      */
     @Override
-    public void redoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
+    public void redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
         Action action = this.history.redoAction();
 
         switch (action.getType()) {

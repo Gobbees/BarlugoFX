@@ -31,17 +31,31 @@ public interface Procedure {
 
     /**
      * 
+     * @param type
+     * The type of tool you want to remove.
+     */
+    void remove(Tools type);
+
+    /**
+     * 
+     * @param adjustmentName
+     * The name of the adjustment you want to remove.
+     */
+    void remove(String adjustmentName);
+
+    /**
+     * 
      * @param index
      * Index of the adjustment you want to disable.
      */
-    void disableAdjustment(int index);
+    void disable(int index);
 
     /**
      * 
      * @param index
      * Index of the adjustment you want to enable.
      */
-    void enableAdjustment(int index);
+    void enable(int index);
 
     /**
      * This function returns the enabled state of adjustment.
@@ -58,6 +72,15 @@ public interface Procedure {
      * @return index of the adjustment.
      */
     int findByName(String adjustmentName);
+
+    /**
+     * 
+     * @param type
+     * The type of the tool
+     * @return
+     * The index of the tool, if present, -1 otherwise.
+     */
+    int findByType(Tools type);
 
     /**
      * 
@@ -91,7 +114,7 @@ public interface Procedure {
      * In case there are no more actions to undo.
      * @throws AdjustmentAlreadyPresentException 
      */
-    void undoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+    void undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
 
     /**
      * 
@@ -99,7 +122,7 @@ public interface Procedure {
      * In case there are no more actions to redo.
      * @throws AdjustmentAlreadyPresentException 
      */
-    void redoLastAction() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+    void redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
 
     /**
      * 
@@ -112,4 +135,5 @@ public interface Procedure {
      * @return the current number of actions saved in the procedure.
      */
     int getHistorySize();
+
 }
