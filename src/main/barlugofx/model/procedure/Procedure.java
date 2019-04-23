@@ -76,11 +76,29 @@ public interface Procedure {
     /**
      * 
      * @param type
-     * The type of the tool
+     * The type of tool used in the adjustment.
      * @return
      * The index of the tool, if present, -1 otherwise.
      */
     int findByType(Tools type);
+
+    /**
+     * 
+     * @param adjustmentName
+     * The name of the adjustment you want to edit.
+     * @param adjustment
+     * The new adjustment.
+     */
+    void edit(String adjustmentName, Adjustment adjustment);
+
+    /**
+     * 
+     * @param type
+     * The type of tool used in the adjustment you want to edit.
+     * @param adjustment
+     * The new adjustment.
+     */
+    void edit(Tools type, Adjustment adjustment);
 
     /**
      * 

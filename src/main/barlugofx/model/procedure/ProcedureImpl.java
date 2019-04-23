@@ -114,8 +114,34 @@ public class ProcedureImpl implements Procedure {
         this.nextIndex--;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.procedure.Procedure#editAdjustment(int, barlugofx.model.procedure.SequenceNode)
+    /**
+     * 
+     * @param adjustmentName
+     * @param adjustment
+     */
+    @Override
+    public void edit(final String adjustmentName, final Adjustment adjustment) {
+        if (adjustmentName == null) {
+            throw new java.lang.IllegalArgumentException("AdjustmentName reference is null.");
+        }
+        this.edit(this.findByName(adjustmentName), adjustment);
+    }
+
+    /**
+     * 
+     * @param type
+     * @param adjustment
+     */
+    @Override
+    public void edit(final Tools type, final Adjustment adjustment) {
+        if (type == null) {
+            throw new java.lang.IllegalArgumentException("Type reference is null.");
+        }
+        this.edit(this.findByType(type), adjustment);
+    }
+
+    /**
+     * 
      */
     @Override
     public void edit(final int index, final Adjustment adjustment) {
