@@ -145,8 +145,8 @@ public class ProcedureImpl implements Procedure {
      */
     @Override
     public void edit(final int index, final Adjustment adjustment) {
-        this.replace(index, adjustment);
         this.history.addAction(new ActionImpl(Actions.EDIT, index, adjustment, this.adjustments[index]));
+        this.replace(index, adjustment);
     }
 
     private void replace(final int index, final Adjustment adjustment) {
