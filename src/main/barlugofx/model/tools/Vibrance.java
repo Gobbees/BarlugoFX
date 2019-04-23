@@ -85,4 +85,12 @@ public final class Vibrance extends AbstractImageTool implements ParallelizableI
     public Tools getToolType() {
         return Tools.VIBRANCE;
     }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static float getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
 }

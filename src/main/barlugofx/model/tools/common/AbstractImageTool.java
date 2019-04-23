@@ -74,7 +74,6 @@ public abstract class AbstractImageTool implements ImageTool {
         return result;
     }
 
-
     /**
      * .
      */

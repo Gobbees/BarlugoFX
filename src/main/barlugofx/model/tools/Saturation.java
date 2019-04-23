@@ -78,4 +78,11 @@ public final class Saturation extends AbstractImageTool implements Parallelizabl
     public Tools getToolType() {
         return Tools.SATURATION;
     }
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static float getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
 }

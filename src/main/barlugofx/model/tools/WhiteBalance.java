@@ -25,7 +25,7 @@ public final class WhiteBalance extends AbstractImageTool {
     //take a look at the code from which i was inspired: https://adadevelopment.github.io/gdal/white-balance-gdal.html
     private static final double MINVALUE = 0;
     private static final double MAXRGB = 255.0;
-    private static final float DEFAULT = 0f;
+    private static final float DEFAULT_VALUE = 0f;
 
     private WhiteBalance() {
         super();
@@ -43,7 +43,7 @@ public final class WhiteBalance extends AbstractImageTool {
     @Override
     public Image applyTool(final Image toApply) {
         final float value = super.getValueFromParameter(ParameterName.WHITEBALANCE, MINVALUE, Integer.MAX_VALUE,
-                DEFAULT);
+                DEFAULT_VALUE);
         final int[][] pixels = toApply.getImageRGBvalues();
         final int[][] newPixels = new int[pixels.length][pixels[0].length];
         final int[] pixelsAsArray = Arrays.stream(pixels).flatMapToInt(x -> Arrays.stream(x)).toArray();
@@ -109,5 +109,13 @@ public final class WhiteBalance extends AbstractImageTool {
     @Override
     public Tools getToolType() {
         return Tools.WHITEBALANCE;
+    }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static float getDefaultValue() {
+        return DEFAULT_VALUE;
     }
 }

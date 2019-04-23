@@ -56,4 +56,12 @@ public final class Brightness extends AbstractImageTool implements Parallelizabl
     public Tools getToolType() {
         return Tools.BRIGHTNESS;
     }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static int getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
 }

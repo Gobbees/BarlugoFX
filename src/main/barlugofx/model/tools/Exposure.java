@@ -77,4 +77,12 @@ public final class Exposure extends AbstractImageTool implements ParallelizableI
     public Tools getToolType() {
         return Tools.EXPOSURE;
     }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static float getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
 }

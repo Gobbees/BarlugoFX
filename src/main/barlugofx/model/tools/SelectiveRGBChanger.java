@@ -17,7 +17,7 @@ import barlugofx.model.tools.common.ParameterName;
  */
 public final class SelectiveRGBChanger extends AbstractImageTool implements ParallelizableImageTool {
     private static final int MAX = 255;
-    private static final int DEFAULT =  0;
+    private static final int DEFAULT_VALUE =  0;
     private static final Set<ParameterName> ACCEPTED = new HashSet<>(
             Arrays.asList(ParameterName.RED, ParameterName.GREEN, ParameterName.BLUE));
 
@@ -50,9 +50,9 @@ public final class SelectiveRGBChanger extends AbstractImageTool implements Para
 
     @Override
     public void inizializeTool() {
-        red = getValueFromParameter(ParameterName.RED, -MAX, MAX, DEFAULT);
-        green = getValueFromParameter(ParameterName.GREEN, -MAX, MAX, DEFAULT);
-        blue = getValueFromParameter(ParameterName.BLUE, -MAX, MAX, DEFAULT);
+        red = getValueFromParameter(ParameterName.RED, -MAX, MAX, DEFAULT_VALUE);
+        green = getValueFromParameter(ParameterName.GREEN, -MAX, MAX, DEFAULT_VALUE);
+        blue = getValueFromParameter(ParameterName.BLUE, -MAX, MAX, DEFAULT_VALUE);
     }
 
     @Override
@@ -63,5 +63,13 @@ public final class SelectiveRGBChanger extends AbstractImageTool implements Para
     @Override
     public Tools getToolType() {
         return Tools.SELECTIVECOLOR;
+    }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static int getDefaultValue() {
+        return DEFAULT_VALUE;
     }
 }

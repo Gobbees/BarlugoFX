@@ -82,4 +82,12 @@ public final class BlackAndWhite extends AbstractImageTool implements Paralleliz
     public Tools getToolType() {
         return Tools.BLACKANDWHITE;
     }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static double getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
 }

@@ -65,4 +65,12 @@ public final class Hue extends AbstractImageTool implements ParallelizableImageT
     public Tools getToolType() {
         return Tools.HUE;
     }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static float getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
 }

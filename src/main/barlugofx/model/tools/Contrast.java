@@ -62,4 +62,12 @@ public final class Contrast extends AbstractImageTool implements ParallelizableI
     public Tools getToolType() {
         return Tools.CONTRAST;
     }
+
+    /**
+     * Return the default value for this tool.
+     * @return the default value.
+     */
+    public static int getDefaultValue() {
+        return DEFAULT_VALUE;
+    }
 }
