@@ -99,6 +99,9 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setExposure(final int value) {
+        if (value == Exposure.getDefaultValue()) {
+            return;
+        }
        exposure.addParameter(ParameterName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
        if (parallel) {
            image = executor.applyTool(exposure, image);
@@ -110,6 +113,9 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setContrast(final int value) {
+        if (value == Contrast.getDefaultValue()) {
+            return;
+        }
         contrast.addParameter(ParameterName.CONTRAST, new ParameterImpl<Integer>(value));
         if (parallel) {
             image = executor.applyTool(contrast, image);
@@ -121,6 +127,9 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setBrightness(final int value) {
+        if (value == Brightness.getDefaultValue()) {
+            return;
+        }
         brightness.addParameter(ParameterName.BRIGHTNESS, new ParameterImpl<Integer>(value));
         if (parallel) {
             image = executor.applyTool(brightness, image);
@@ -132,6 +141,9 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setWhiteBalance(final int value) {
+        if (value == WhiteBalance.getDefaultValue()) {
+            return;
+        }
         wb.addParameter(ParameterName.WHITEBALANCE, new ParameterImpl<Float>(value * WB_MULTIPLIER));
         image = wb.applyTool(image);
         wb.removeParameter(ParameterName.WHITEBALANCE);
@@ -139,6 +151,9 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setSaturation(final int value) {
+        if (value == Saturation.getDefaultValue()) {
+            return;
+        }
         saturation.addParameter(ParameterName.SATURATION, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         if (parallel) {
             image = executor.applyTool(saturation, image);
@@ -150,6 +165,9 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setHue(final int value) {
+        if (value == Hue.getDefaultValue()) {
+            return;
+        }
         hue.addParameter(ParameterName.HUE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         if (parallel) {
             image = executor.applyTool(hue, image);
@@ -161,6 +179,9 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setVibrance(final int value) {
+        if (value == Vibrance.getDefaultValue()) {
+            return;
+        }
         vibrance.addParameter(ParameterName.VIBRANCE_INCREMENT, new ParameterImpl<Float>(value * VIBRANCE_MULTIPLIER));
         if (parallel) {
             image = executor.applyTool(vibrance, image);
@@ -173,6 +194,9 @@ public final class AppManagerImpl implements AppManager {
     @Override
     public void setSelectiveColors(final int r, final int g, final int b) {
         //TODO make it possible to change only one of these.
+        if (r == SelectiveRGBChanger.getDefaultValue() || g == SelectiveRGBChanger.getDefaultValue() || b == SelectiveRGBChanger.getDefaultValue()) {
+            return;
+        }
         srgb.addParameter(ParameterName.RED, new ParameterImpl<Integer>(r));
         srgb.addParameter(ParameterName.GREEN, new ParameterImpl<Integer>(g));
         srgb.addParameter(ParameterName.BLUE, new ParameterImpl<Integer>(b));
@@ -188,8 +212,12 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public void setBlackAndWhite(final double r, final double g, final double b) {
+        if (r == BlackAndWhite.getDefaultValue() || g == BlackAndWhite.getDefaultValue() || b == BlackAndWhite.getDefaultValue()) {
+            return;
+        }
         bw.addParameter(ParameterName.WRED, new ParameterImpl<Double>(r * BW_MULTIPLIER + BW_SHIFTER));
         bw.addParameter(ParameterName.WGREEN, new ParameterImpl<Double>(g * BW_MULTIPLIER + BW_SHIFTER));
+        bw.addParameter(ParameterName.WBLUE, new ParameterImpl<Double>(b * BW_MULTIPLIER + BW_SHIFTER));
         if (parallel) {
             image = executor.applyTool(bw, image);
         } else {
