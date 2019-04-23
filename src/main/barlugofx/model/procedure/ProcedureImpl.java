@@ -275,7 +275,7 @@ public class ProcedureImpl implements Procedure {
         if (type == null) {
             throw new java.lang.IllegalArgumentException("type reference is null");
         }
-        Integer index = this.findByType(type);
+        Integer index = this.toolMap.get(type);
         if (index == null) {
             return "null";
         }
