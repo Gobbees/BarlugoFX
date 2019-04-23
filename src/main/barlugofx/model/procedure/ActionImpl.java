@@ -1,7 +1,5 @@
 package barlugofx.model.procedure;
 
-import java.util.Optional;
-
 /**
  * 
  *
