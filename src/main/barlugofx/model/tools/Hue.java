@@ -1,3 +1,4 @@
+import barlugofx.model.imagetools.ColorUtils;
 package barlugofx.model.tools;
 
 import java.awt.Color;
@@ -62,7 +63,7 @@ public final class Hue extends AbstractImageTool implements ParallelizableImageT
 
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.HUE;
     }
 }

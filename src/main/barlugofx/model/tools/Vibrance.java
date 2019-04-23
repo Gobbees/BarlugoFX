@@ -82,7 +82,7 @@ public final class Vibrance extends AbstractImageTool implements ParallelizableI
     }
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.VIBRANCE;
     }
 }

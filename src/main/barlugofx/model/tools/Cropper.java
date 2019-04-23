@@ -61,7 +61,7 @@ public final class Cropper extends AbstractImageTool {
     }
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.CROPPER;
     }
 

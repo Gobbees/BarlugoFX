@@ -107,7 +107,7 @@ public final class WhiteBalance extends AbstractImageTool {
     }
 
     @Override
-    public Tools getTool() {
+    public Tools getToolType() {
         return Tools.WHITEBALANCE;
     }
 }

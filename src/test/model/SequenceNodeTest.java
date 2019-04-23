@@ -3,10 +3,10 @@ package model;
 import org.junit.Assert;
 import org.junit.Test;
 
-import barlugofx.model.history.SequenceNode;
-import barlugofx.model.history.SequenceNodeImpl;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
+import barlugofx.model.procedure.Adjustment;
+import barlugofx.model.procedure.AdjustmentImpl;
 import barlugofx.model.tools.BlackAndWhite;
 import barlugofx.model.tools.common.ImageTool;
 
@@ -28,9 +28,9 @@ public final class SequenceNodeTest {
         /*
          *TODO : If this test passed than all the equals are implemented correctly
          */
-        final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
+        final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
         Assert.assertTrue(node.isEnabled());
-        Assert.assertSame(DEFAULT_NAME, node.getNodeName());
+        Assert.assertSame(DEFAULT_NAME, node.getName());
         Assert.assertSame(DEFAULT_IMAGE, node.getStartImage());
         Assert.assertSame(DEFAULT_TOOL, node.getTool());
     }
@@ -40,9 +40,9 @@ public final class SequenceNodeTest {
      */
     @Test
     public void testSetAndGet() {
-        final SequenceNode node = new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        node.setNodeName("CIAO");
-        Assert.assertTrue(node.getNodeName().equals("CIAO"));
+        final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
+        node.setName("CIAO");
+        Assert.assertTrue(node.getName().equals("CIAO"));
         final Image newS = ImageImpl.buildFromPixels(new int[3][3]);
         node.setStartImage(newS);
         Assert.assertSame(node.getStartImage(), newS);
@@ -66,19 +66,19 @@ public final class SequenceNodeTest {
     @Test
     public void testNullValues() {
         try {
-            new SequenceNodeImpl(null, DEFAULT_TOOL, DEFAULT_IMAGE);
+            new AdjustmentImpl(null, DEFAULT_TOOL, DEFAULT_IMAGE);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         try {
-            new SequenceNodeImpl(DEFAULT_NAME, DEFAULT_TOOL, null);
+            new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, null);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
         try {
-            new SequenceNodeImpl(DEFAULT_NAME, null, DEFAULT_IMAGE);
+            new AdjustmentImpl(DEFAULT_NAME, null, DEFAULT_IMAGE);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
