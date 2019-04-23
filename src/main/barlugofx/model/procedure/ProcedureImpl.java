@@ -265,6 +265,24 @@ public class ProcedureImpl implements Procedure {
     }
 
     /**
+     * 
+     * @param type
+     * the type of tool in the adjustment of which you wish to know the name.
+     * @return
+     * the name if present, "null" otherwise.
+     */
+    public String getAdjustmentName(final Tools type) {
+        if (type == null) {
+            throw new java.lang.IllegalArgumentException("type reference is null");
+        }
+        Integer index = this.findByType(type);
+        if (index == null) {
+            return "null";
+        }
+        return this.adjustments[index].getName();
+    }
+
+    /**
      * @return string representation of Procedure Object
      */
     @Override
