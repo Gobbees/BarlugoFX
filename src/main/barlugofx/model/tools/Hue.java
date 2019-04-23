@@ -1,4 +1,3 @@
-import barlugofx.model.imagetools.ColorUtils;
 package barlugofx.model.tools;
 
 import java.awt.Color;
