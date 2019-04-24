@@ -11,6 +11,7 @@ import barlugofx.model.tools.Tools;
  */
 public final class AdjustmentImpl implements Adjustment {
     private Image startImage;
+    private Image endImage;
     private boolean enabled;
     private String adjustmentName; // name given by the user
     private final ImageTool tool;
@@ -21,48 +22,42 @@ public final class AdjustmentImpl implements Adjustment {
      * Adjustment constructor with unparallelizable image tool.
      * @param adjustmentName chosen by the user.
      * @param tool the tool used to edit the image.
-     * @param startImage the (cache) image, before the tool is applied.
      */ 
-    public AdjustmentImpl(final String adjustmentName, final ImageTool tool, final Image startImage) {
+    public AdjustmentImpl(final String adjustmentName, final ImageTool tool) {
         if (tool == null) {
             throw new java.lang.IllegalArgumentException("Tool reference is null");
         }
         if (adjustmentName == null) {
             throw new java.lang.IllegalArgumentException("Name reference is null");
         }
-        if (startImage == null) {
-            throw new java.lang.IllegalArgumentException("startImage reference is null");
-        }
-        this.startImage = startImage;
         this.enabled = true;
         this.adjustmentName = adjustmentName;
         this.isParallelizable = false;
         this.tool = tool;
         this.parallelizableTool = null;
+        this.startImage = null;
+        this.endImage = null;
     }
 
     /**
      * Adjustment constructor with parallelizable image tool.
      * @param adjustmentName chosen by the user.
      * @param tool the (parallelizable) tool used to create the image
-     * @param startImage the (cache) image, before the tool is applied.
      */
-    public AdjustmentImpl(final String adjustmentName, final ParallelizableImageTool tool, final Image startImage) {
+    public AdjustmentImpl(final String adjustmentName, final ParallelizableImageTool tool) {
         if (tool == null) {
             throw new java.lang.IllegalArgumentException("Tool reference is null");
         }
         if (adjustmentName == null) {
             throw new java.lang.IllegalArgumentException("Name reference is null");
         }
-        if (startImage == null) {
-            throw new java.lang.IllegalArgumentException("startImage reference is null");
-        }
-        this.startImage = startImage;
         this.enabled = true;
         this.adjustmentName = adjustmentName;
         this.isParallelizable = true;
         this.parallelizableTool = tool;
         this.tool = null;
+        this.startImage = null;
+        this.endImage = null;
     }
 
     @Override
@@ -76,11 +71,41 @@ public final class AdjustmentImpl implements Adjustment {
             throw new java.lang.IllegalArgumentException("Image null reference");
         }
         this.startImage = startImage;
+        this.removeEndImage();
     }
 
     @Override
     public void removeStartImage() {
         this.startImage = null;
+        this.removeEndImage();
+    }
+
+    @Override
+    public boolean isStartImagePresent() {
+        return (this.startImage != null);
+    }
+
+    @Override
+    public Image getEndImage() {
+        return this.endImage;
+    }
+
+    @Override
+    public void setEndImage(final Image endImage) {
+        if (endImage == null) {
+            throw new java.lang.IllegalArgumentException("Image null reference");
+        }
+        this.endImage = endImage;
+    }
+
+    @Override
+    public void removeEndImage() {
+        this.endImage = null;
+    }
+
+    @Override
+    public boolean isEndImagePresent() {
+        return (this.endImage != null);
     }
 
     @Override

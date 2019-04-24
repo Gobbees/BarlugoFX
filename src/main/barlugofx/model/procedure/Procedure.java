@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.Tools;
 
 /**
@@ -19,40 +20,46 @@ public interface Procedure {
      * 
      * @param adjustment
      * The Adjustment you want to add.
+     * @return the processed image resulting from the add.
      * @throws AdjustmentAlreadyPresentException
      * when you try to add an Adjustment with a Tool already in use.
      */
-    void add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
+    Image add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
 
     /**
      * @param index
      * Index of the adjustment you want to delete.
+     * @return the processed image resulting from the remove.
      */
-    void remove(int index);
+    Image remove(int index);
 
     /**
      * @param type
      * The type of tool you want to remove.
+     * @return the processed image resulting from the remove.
      */
-    void remove(Tools type);
+    Image remove(Tools type);
 
     /**
      * @param adjustmentName
      * The name of the adjustment you want to remove.
+     * @return the processed image resulting from the remove.
      */
-    void remove(String adjustmentName);
+    Image remove(String adjustmentName);
 
     /**
      * @param index
      * Index of the adjustment you want to disable.
+     * @return the processed image resulting from the disable.
      */
-    void disable(int index);
+    Image disable(int index);
 
     /**
      * @param index
      * Index of the adjustment you want to enable.
+     * @return the processed image resulting from the enable.
      */
-    void enable(int index);
+    Image enable(int index);
 
     /**
      * This function returns the enabled state of adjustment.
@@ -83,8 +90,9 @@ public interface Procedure {
      * The name of the adjustment you want to edit.
      * @param adjustment
      * The new adjustment.
+     * @return the processed image resulting from the edit.
      */
-    void edit(String adjustmentName, Adjustment adjustment);
+    Image edit(String adjustmentName, Adjustment adjustment);
 
     /**
      * Edit an Adjustment knowing it's type in the procedure.
@@ -92,8 +100,9 @@ public interface Procedure {
      * The type of tool used in the adjustment you want to edit.
      * @param adjustment
      * The new adjustment.
+     * @return the processed image resulting from the edit.
      */
-    void edit(Tools type, Adjustment adjustment);
+    Image edit(Tools type, Adjustment adjustment);
 
     /**
      * Edit an Adjustment knowing it's index in the procedure.
@@ -101,8 +110,9 @@ public interface Procedure {
      * Index of the adjustment you want to edit.
      * @param adjustment
      * New adjustment that is going to replace the adjustment at index.
+     * @return the processed image resulting from the edit.
      */
-    void edit(int index, Adjustment adjustment);
+    Image edit(int index, Adjustment adjustment);
 
     /**
      * Name of the adjustment of which you want the value.
@@ -126,15 +136,17 @@ public interface Procedure {
      * @throws NoMoreActionsException
      * In case there are no more actions to undo.
      * @throws AdjustmentAlreadyPresentException 
+     * @return the processed image resulting from the undo.
      */
-    void undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+    Image undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
 
     /**
      * @throws NoMoreActionsException
      * In case there are no more actions to redo.
      * @throws AdjustmentAlreadyPresentException 
+     * @return the processed image resulting from the redo.
      */
-    void redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+    Image redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
 
     /**
      * @return String representation of the history.
@@ -151,4 +163,10 @@ public interface Procedure {
      */
     void clear();
 
+    /**
+     * Applies the adjustments to the startImage and returns it.
+     * @param index the index from which to start the processing.
+     * @return Image.
+     */
+    Image processImage(int index);
 }

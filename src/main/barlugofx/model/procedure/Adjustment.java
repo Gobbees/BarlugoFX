@@ -12,23 +12,6 @@ import barlugofx.model.tools.Tools;
  */
 public interface Adjustment {
     /**
-     * Returns the start image.
-     * @return Image before the tool is applied.
-     */
-    Image getStartImage();
-
-    /**
-     * @param startImage 
-     * Sets the Image before the tool is applied.
-     */
-    void setStartImage(Image startImage);
- 
-    /**
-     * Drops start image from the Adjustment.
-     */
-    void removeStartImage();
-
-    /**
      * Get the state of the adjustment.
      * @return true if the adjustment is enabled, false otherwise.
      */
@@ -80,4 +63,52 @@ public interface Adjustment {
      * @return the parallelizable tool.
      */
     ParallelizableImageTool getParallelizableTool();
+
+    /**
+     * Returns the start image.
+     * @return Image before the tool is applied.
+     */
+    Image getStartImage();
+
+    /**
+     * @param startImage 
+     * Sets the cached Image before the tool is applied.
+     * Also deletes the end image, as it must be recalculated.
+     */
+    void setStartImage(Image startImage);
+ 
+    /**
+     * Drops both start and end image from the Adjustment.
+     * When the start image changes, automatically the end image is outdated.
+     */
+    void removeStartImage();
+
+    /**
+     * 
+     * @return true if the image is present, false otherwise.
+     */
+    boolean isStartImagePresent();
+
+    /**
+     * Returns the image after the application of the adjustment.
+     * @return Image after the tool execution.
+     */
+    Image getEndImage();
+
+    /**
+     * Saves the image after the tool execution as cache.
+     * @param endImage the image that resulted from the tool execution.
+     */
+    void setEndImage(Image endImage);
+
+    /**
+     * Removes the cached end image.
+     */
+    void removeEndImage();
+
+    /**
+     * Returns true if the end image is present.
+     * @return true if the image is present, false otherwise.
+     */
+    boolean isEndImagePresent();
 }
