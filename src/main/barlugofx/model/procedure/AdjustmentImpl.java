@@ -136,6 +136,6 @@ public final class AdjustmentImpl implements Adjustment {
 
     @Override
     public Tools getToolType() {
-        return this.tool.getToolType();
+        return (this.parallelizable) ? this.parallelizableTool.getToolType() : this.tool.getToolType();
     }
 }
