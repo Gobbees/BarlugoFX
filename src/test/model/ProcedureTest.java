@@ -252,7 +252,7 @@ public final class ProcedureTest {
             procedure.add(new AdjustmentImpl("giovanni", Brightness.createBrightness(), DEFAULT_IMAGE));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("I should be able to add the tool.");
         }
 
@@ -299,7 +299,7 @@ public final class ProcedureTest {
             procedure.undo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to undo the action.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("I should be able to undo the action.");
         }
@@ -311,7 +311,7 @@ public final class ProcedureTest {
             procedure.undo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to undo the action.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("I should be able to undo the action.");
         }
         Assert.assertTrue(procedure.getHistorySize() == 5);
@@ -324,7 +324,7 @@ public final class ProcedureTest {
             Assert.fail("Shouldn't be able to undo this much!");
         } catch (NoMoreActionsException e) {
             Assert.assertTrue(true);
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("Unexpected exception, something is wrong.");
         }
@@ -341,7 +341,7 @@ public final class ProcedureTest {
             procedure.redo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to redo the actions.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("I should be able to redo the actions.");
         }
         Assert.assertTrue(procedure.getHistorySize() == 5);
@@ -359,7 +359,7 @@ public final class ProcedureTest {
             }
         } catch (NoMoreActionsException e) {
             Assert.assertTrue(true);
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("Unexpected exception, something is wrong.");
         }
 
@@ -388,7 +388,7 @@ public final class ProcedureTest {
             procedure.add(new AdjustmentImpl("cuore", Hue.createHue(), DEFAULT_IMAGE));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("I should be able to add the tool.");
         }
@@ -411,7 +411,7 @@ public final class ProcedureTest {
             procedure.undo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to undo the action.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("I should be able to undo the action.");
         }
@@ -423,7 +423,7 @@ public final class ProcedureTest {
             procedure.undo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to undo the action.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("I should be able to undo the action.");
         }
         Assert.assertTrue(procedure.getHistorySize() == 7);
@@ -437,7 +437,7 @@ public final class ProcedureTest {
             Assert.fail("Shouldn't be able to undo this much!");
         } catch (NoMoreActionsException e) {
             Assert.assertTrue(true);
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("Unexpected exception, something is wrong.");
         }
@@ -454,7 +454,7 @@ public final class ProcedureTest {
             procedure.redo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to redo the actions.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("I should be able to redo the actions.");
         }
         Assert.assertTrue(procedure.getHistorySize() == 7);
@@ -472,7 +472,7 @@ public final class ProcedureTest {
             }
         } catch (NoMoreActionsException e) {
             Assert.assertTrue(true);
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("Unexpected exception, something is wrong.");
         }
 
@@ -501,7 +501,7 @@ public final class ProcedureTest {
             procedure.add(new AdjustmentImpl("cuore", Hue.createHue(), DEFAULT_IMAGE));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("I should be able to add the tool.");
         }
@@ -519,35 +519,35 @@ public final class ProcedureTest {
 
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST) == "DORE");
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION) == "NEL MIO");
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("DORE"));
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("NEL MIO"));
 
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to undo the action.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("I should be able to undo the action.");
         }
         Assert.assertTrue(procedure.getHistorySize() == 7);
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST) == "DORE");
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION) == "nel mio");
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("DORE"));
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("nel mio"));
 
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
             Assert.fail("I should be able to undo the action.");
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("I should be able to undo the action.");
         }
         Assert.assertTrue(procedure.getHistorySize() == 7);
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST) == "dore");
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION) == "nel mio");
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("dore"));
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("nel mio"));
 
         try {
             for (int i = 0; i < 10; i++) {
@@ -556,7 +556,7 @@ public final class ProcedureTest {
             Assert.fail("Shouldn't be able to undo this much!");
         } catch (NoMoreActionsException e) {
             Assert.assertTrue(true);
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             Assert.fail("Unexpected exception, something is wrong.");
         }
@@ -574,7 +574,7 @@ public final class ProcedureTest {
             }
         } catch (NoMoreActionsException e) {
             Assert.assertTrue(true);
-        } catch (java.lang.Exception e) {
+        } catch (Exception e) {
             Assert.fail("Unexpected exception, something is wrong.");
         }
 
@@ -583,8 +583,8 @@ public final class ProcedureTest {
         Assert.assertFalse(procedure.canAdd(Tools.HUE));
         Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
         Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST) == "DORE");
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION) == "NEL MIO");
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("DORE"));
+        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("NEL MIO"));
         Assert.assertTrue(procedure.getHistorySize() == 7);
 
         System.out.println("<<");
