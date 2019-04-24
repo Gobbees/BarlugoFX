@@ -188,6 +188,9 @@ public final class ProcedureImpl implements Procedure {
         if (name == null) {
             throw new IllegalArgumentException("name reference is null");
         }
+        if (this.adjustments[index].isParallelizable()) {
+            return this.adjustments[index].getParallelizableTool().getParameter(name);
+        }
         return this.adjustments[index].getTool().getParameter(name);
     }
 
