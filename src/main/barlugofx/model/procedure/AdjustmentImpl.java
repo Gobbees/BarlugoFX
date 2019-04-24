@@ -13,25 +13,20 @@ public final class AdjustmentImpl implements Adjustment {
     private Image startImage;
     private Image endImage;
     private boolean enabled;
-    private String adjustmentName; // name given by the user
     private final ImageTool tool;
     private final ParallelizableImageTool parallelizableTool;
     private final boolean parallelizable;
 
     /**
      * Adjustment constructor with unparallelizable image tool.
-     * @param adjustmentName chosen by the user.
      * @param tool the tool used to edit the image.
      */ 
-    public AdjustmentImpl(final String adjustmentName, final ImageTool tool) {
+    public AdjustmentImpl(final ImageTool tool) {
         if (tool == null) {
             throw new IllegalArgumentException("Tool reference is null");
         }
-        if (adjustmentName == null) {
-            throw new IllegalArgumentException("Name reference is null");
-        }
+
         this.enabled = true;
-        this.adjustmentName = adjustmentName;
         this.parallelizable = false;
         this.tool = tool;
         this.parallelizableTool = null;
@@ -41,18 +36,14 @@ public final class AdjustmentImpl implements Adjustment {
 
     /**
      * Adjustment constructor with parallelizable image tool.
-     * @param adjustmentName chosen by the user.
      * @param tool the (parallelizable) tool used to create the image
      */
-    public AdjustmentImpl(final String adjustmentName, final ParallelizableImageTool tool) {
+    public AdjustmentImpl(final ParallelizableImageTool tool) {
         if (tool == null) {
             throw new IllegalArgumentException("Tool reference is null");
         }
-        if (adjustmentName == null) {
-            throw new IllegalArgumentException("Name reference is null");
-        }
+
         this.enabled = true;
-        this.adjustmentName = adjustmentName;
         this.parallelizable = true;
         this.parallelizableTool = tool;
         this.tool = null;
@@ -125,15 +116,7 @@ public final class AdjustmentImpl implements Adjustment {
 
     @Override
     public String getName() {
-        return this.adjustmentName;
-    }
-
-    @Override
-    public void setName(final String name) {
-        if (name == null || name.length() == 0) {
-            throw new IllegalArgumentException("Name is either null or empty");
-        }
-        this.adjustmentName = name;
+        return this.tool.getToolType().toString();
     }
 
     @Override

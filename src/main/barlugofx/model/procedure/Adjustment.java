@@ -28,19 +28,11 @@ public interface Adjustment {
     void disable();
 
     /**
-     * Returns the adjustment name.
-     * The name is chosen by the User.
+     * Returns the adjustment name as string representation of Enum.
      * @return adjustment name
      */
     String getName();
 
-    /**
-     * Sets the name of the Adjustment.
-     * @param name 
-     * Sets the Adjustment name.
-     * The name is choosen by the User.
-     */
-    void setName(String name);
 
     /**
      * Returns the ImageTool used by the Adjustment.

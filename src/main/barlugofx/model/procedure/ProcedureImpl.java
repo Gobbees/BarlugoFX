@@ -47,7 +47,7 @@ public final class ProcedureImpl implements Procedure {
      * @param canParallelize true if the procedure can parallelize, false otherwise.
      * @return a new instance of a ProcedureImpl object.
      */
-    public static Procedure createProcedure(final Image baseImage, final boolean canParallelize) {
+    public Procedure createProcedure(final Image baseImage, final boolean canParallelize) {
         if (baseImage == null) {
             throw new IllegalArgumentException("baseImage reference is null.");
         }
@@ -101,14 +101,6 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
-    public Image remove(final String adjustmentName) {
-        if (adjustmentName == null) {
-            throw new IllegalArgumentException("Name reference is null.");
-        }
-        return this.remove(this.findByName(adjustmentName));
-    }
-
-    @Override
     public Image remove(final int index) {
         this.history.addAction(new ActionImpl(Actions.REMOVE, index, this.adjustments[index]));
         return this.delete(index);
@@ -129,14 +121,6 @@ public final class ProcedureImpl implements Procedure {
         }
         this.nextIndex--;
         return this.processImage(index);
-    }
-
-    @Override
-    public Image edit(final String adjustmentName, final Adjustment adjustment) {
-        if (adjustmentName == null) {
-            throw new IllegalArgumentException("AdjustmentName reference is null.");
-        }
-        return this.edit(this.findByName(adjustmentName), adjustment);
     }
 
     @Override
@@ -189,18 +173,6 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
-    public int findByName(final String adjustmentName) {
-        if (adjustmentName == null) {
-            throw new IllegalArgumentException("adjustmentName reference is null");
-        }
-        final Integer index = this.nameMap.get(adjustmentName);
-        if (index == null) {
-            return -1;
-        }
-        return (int) index;
-    }
-
-    @Override
     public int findByType(final Tools type) {
         if (type == null) {
             throw new IllegalArgumentException("type reference is null");
@@ -234,21 +206,6 @@ public final class ProcedureImpl implements Procedure {
 
     /**
      * 
-     * @return string representation of adjustments array
-     */
-    public String adjustmentsNamesToString() {
-        String res = "";
-        for (int i = 0; i < this.nextIndex; i++) {
-            res = res + "(" + i + ")" + this.adjustments[i].getName();
-            if (i < this.nextIndex - 1) {
-                res += ",";
-            }
-        }
-        return res;
-    }
-
-    /**
-     * 
      * @param type
      * the type of tool in the adjustment of which you wish to know the name.
      * @return
@@ -271,9 +228,7 @@ public final class ProcedureImpl implements Procedure {
                 + this.totalToolCount
                 + ",nextIndex="
                 + this.nextIndex
-                + ",adjustments=["
-                + this.adjustmentsNamesToString()
-                + "], "
+                + ","
                 + this.history.toString()
                 + "}";
     }

@@ -15,6 +15,18 @@ import barlugofx.model.tools.Tools;
  * which allows you to undo and redo your actions.
  */
 public interface Procedure {
+
+
+	 /* 
+	 * 
+	 * 
+	 * 
+	 * @param baseImage the base image as imported from the filesystem.
+	 * @param canParallelize true if the procedure can parallelize, false otherwise.
+	 * @return a new procedure instance.
+	 */
+	Procedure createProcedure(Image baseImage, boolean canParallelize);
+	
     /**
      * Add an adjustment to the Procedure.
      * 
@@ -24,7 +36,7 @@ public interface Procedure {
      * @throws AdjustmentAlreadyPresentException
      * when you try to add an Adjustment with a Tool already in use.
      */
-    Image add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
+	Image add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
 
     /**
      * @param index
@@ -39,13 +51,6 @@ public interface Procedure {
      * @return the processed image resulting from the remove.
      */
     Image remove(Tools type);
-
-    /**
-     * @param adjustmentName
-     * The name of the adjustment you want to remove.
-     * @return the processed image resulting from the remove.
-     */
-    Image remove(String adjustmentName);
 
     /**
      * @param index
@@ -70,29 +75,12 @@ public interface Procedure {
     boolean isAdjustmentEnabled(int index);
 
     /**
-     * @param adjustmentName
-     * Name of the adjustment of which you want the index.
-     * @return index of the adjustment.
-     */
-    int findByName(String adjustmentName);
-
-    /**
      * @param type
      * The type of tool used in the adjustment.
      * @return
      * The index of the tool, if present, -1 otherwise.
      */
     int findByType(Tools type);
-
-    /**
-     * Edit an Adjustment knowing it's name in the procedure.
-     * @param adjustmentName
-     * The name of the adjustment you want to edit.
-     * @param adjustment
-     * The new adjustment.
-     * @return the processed image resulting from the edit.
-     */
-    Image edit(String adjustmentName, Adjustment adjustment);
 
     /**
      * Edit an Adjustment knowing it's type in the procedure.
