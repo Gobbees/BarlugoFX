@@ -24,11 +24,16 @@ public final class ProcedureImpl implements Procedure {
      */
     public static final int HISTORY_MAX_SIZE = HistoryImpl.MAX_SIZE;
 
-    /**
-     * No parameter constructor, initializes the Procedure.
-     */
-    public ProcedureImpl() {
+    private ProcedureImpl() {
         this.nextIndex = 0;
+    }
+
+    /**
+     * 
+     * @return a new instance of a ProcedureImpl object.
+     */
+    public static Procedure createProcedure() {
+        return new ProcedureImpl();
     }
 
     @Override
