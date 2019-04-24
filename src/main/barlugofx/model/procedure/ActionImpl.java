@@ -1,25 +1,22 @@
 package barlugofx.model.procedure;
 
 /**
- * 
- *
- *
+ * Implementation of Action.
+ * An Action is the act of adding, removing or replacing a change in the project.
+ * Allows the user to undo and redo add/remove actions as well as edit actions.
  */
-public class ActionImpl implements Action {
+public final class ActionImpl implements Action {
     private final int index;
     private final Adjustment adjustmentAfter;
     private final Adjustment adjustmentBefore;
     private final Actions type;
 
     /**
+     * @param type Enumeration representing the type of action performed.
+     * @param index The index at which the Adjustment is being added to or removed from.
+     * @param adjustment the Adjustment you are adding or removing.
      * 
-     * @param type
-     * Enumeration representing the type of action performed.
-     * @param index
-     * Optional, the index at which you need to restore the Adjustment.
-     * @param adjustment
-     * First the adjustment you'll have to restore when you decide to undo this action.
-     * Second (used only with EDIT actions), the adjustment you are replacing.
+     * Creates a new Action with the specified adjustment and a null reference as "before" version.
      */
     public ActionImpl(final Actions type, final int index, final Adjustment adjustment) {
         this(type, index, adjustment, null);
@@ -27,14 +24,12 @@ public class ActionImpl implements Action {
 
     /**
      * 
-     * @param type
-     * The type of the Action
-     * @param index
-     * The index of the Action in the Procedure.
-     * @param adjustmentAfter
-     * The new adjustment
-     * @param adjustmentBefore
-     * The old adjustment, useful only when applying an Edit.
+     * @param type The type of Action
+     * @param index The index of the Adjustment in the Procedure.
+     * @param adjustmentAfter the new Adjustment.
+     * @param adjustmentBefore The old adjustment, the one that gets replaced with the EDIT action.
+     * 
+     * Creates a new Action with the specified adjustments as "before" and "after" version of the adjustment.
      */
     public ActionImpl(final Actions type, final int index, final Adjustment adjustmentAfter, final Adjustment adjustmentBefore) {
         if (adjustmentAfter == null) {
@@ -52,42 +47,26 @@ public class ActionImpl implements Action {
         this.index = index;
     }
 
-    /**
-     * 
-     */
     @Override
     public Actions getType() {
         return this.type;
     }
 
-    /**
-     *
-     */
     @Override
     public Adjustment getAdjustment() {
         return this.adjustmentAfter;
     }
 
-    /**
-     * 
-     * @return
-     */
     @Override
     public Adjustment getAdjustmentBefore() {
         return this.adjustmentBefore;
     }
 
-    /**
-     * 
-     */
     @Override
     public int getIndex() {
         return this.index;
     }
 
-    /**
-     * 
-     */
     @Override
     public String toString() {
         return this.type.name();

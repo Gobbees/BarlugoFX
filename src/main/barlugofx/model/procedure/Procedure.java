@@ -7,13 +7,15 @@ import barlugofx.model.tools.common.ParameterName;
 import barlugofx.model.tools.Tools;
 
 /**
- * 
- *
- *
+ * This interface model the contract of the Procedure object.
+ * The procedure is the ordered container of Adjustments made to the Image.
+ * You can add, remove and edit the Adjustments.
+ * Each time you add, remove or edit your change is saved in the integrated History,
+ * which allows you to undo and redo your actions.
  */
-
 public interface Procedure {
     /**
+     * Add an adjustment to the Procedure.
      * 
      * @param adjustment
      * The Adjustment you want to add.
@@ -23,35 +25,30 @@ public interface Procedure {
     void add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
 
     /**
-     * 
      * @param index
      * Index of the adjustment you want to delete.
      */
     void remove(int index);
 
     /**
-     * 
      * @param type
      * The type of tool you want to remove.
      */
     void remove(Tools type);
 
     /**
-     * 
      * @param adjustmentName
      * The name of the adjustment you want to remove.
      */
     void remove(String adjustmentName);
 
     /**
-     * 
      * @param index
      * Index of the adjustment you want to disable.
      */
     void disable(int index);
 
     /**
-     * 
      * @param index
      * Index of the adjustment you want to enable.
      */
@@ -66,7 +63,6 @@ public interface Procedure {
     boolean isAdjustmentEnabled(int index);
 
     /**
-     * 
      * @param adjustmentName
      * Name of the adjustment of which you want the index.
      * @return index of the adjustment.
@@ -74,7 +70,6 @@ public interface Procedure {
     int findByName(String adjustmentName);
 
     /**
-     * 
      * @param type
      * The type of tool used in the adjustment.
      * @return
@@ -83,7 +78,7 @@ public interface Procedure {
     int findByType(Tools type);
 
     /**
-     * 
+     * Edit an Adjustment knowing it's name in the procedure.
      * @param adjustmentName
      * The name of the adjustment you want to edit.
      * @param adjustment
@@ -92,7 +87,7 @@ public interface Procedure {
     void edit(String adjustmentName, Adjustment adjustment);
 
     /**
-     * 
+     * Edit an Adjustment knowing it's type in the procedure.
      * @param type
      * The type of tool used in the adjustment you want to edit.
      * @param adjustment
@@ -101,7 +96,7 @@ public interface Procedure {
     void edit(Tools type, Adjustment adjustment);
 
     /**
-     * 
+     * Edit an Adjustment knowing it's index in the procedure.
      * @param index
      * Index of the adjustment you want to edit.
      * @param adjustment
@@ -110,24 +105,24 @@ public interface Procedure {
     void edit(int index, Adjustment adjustment);
 
     /**
-     * 
-     * @param name
      * Name of the adjustment of which you want the value.
      * @param index
-     * index of the adjustment of which you want the value.
+     * Index of the adjustment of which you want the value.
+     * @param name
+     * The name of the parameter you want to get.
      * @return value of the adjustment with name "name"
      */
     Optional<Parameter<? extends Number>> getValue(int index, ParameterName name);
 
     /**
-     * 
-     * @param toolType the type of adjustment you want to add.
-     * @return true if you can add another adjustment, false otherwise.
+     * Tells you if you can add an adjustment using a tool of type toolType.
+     * @param toolType
+     * The type of tool used in the adjustment you want to add.
+     * @return true if you can add the adjustment, false otherwise.
      */
     boolean canAdd(Tools toolType);
 
     /**
-     * 
      * @throws NoMoreActionsException
      * In case there are no more actions to undo.
      * @throws AdjustmentAlreadyPresentException 
@@ -135,7 +130,6 @@ public interface Procedure {
     void undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
 
     /**
-     * 
      * @throws NoMoreActionsException
      * In case there are no more actions to redo.
      * @throws AdjustmentAlreadyPresentException 
@@ -143,13 +137,11 @@ public interface Procedure {
     void redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
 
     /**
-     * 
      * @return String representation of the history.
      */
     String[] getHistoryStringRep();
 
     /**
-     * 
      * @return the current number of actions saved in the procedure.
      */
     int getHistorySize();

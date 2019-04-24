@@ -1,6 +1,3 @@
-/**
- *
- */
 package barlugofx.model.procedure;
 
 import barlugofx.model.imagetools.Image;
@@ -8,10 +5,10 @@ import barlugofx.model.tools.common.ImageTool;
 import barlugofx.model.tools.Tools;
 
 /**
- *
- *
+ * Adjustment implementation.
+ * Has the ImageTool used for the change and an internal image for caching.
  */
-public class AdjustmentImpl implements Adjustment {
+public final class AdjustmentImpl implements Adjustment {
     private Image startImage;
     private boolean enabled;
     private String adjustmentName; // name given by the user
@@ -39,17 +36,11 @@ public class AdjustmentImpl implements Adjustment {
         this.tool = tool;
     }
 
-    /**
-     * @see barlugofx.model.procedure.Adjustment#getStartImage()
-     */
     @Override
     public Image getStartImage() {
         return this.startImage;
     }
 
-    /**
-     * @see barlugofx.model.procedure.Adjustment#setStartImage()
-     */
     @Override
     public void setStartImage(final Image startImage) {
         if (startImage == null) {
@@ -58,49 +49,31 @@ public class AdjustmentImpl implements Adjustment {
         this.startImage = startImage;
     }
 
-    /**
-     * @see barlugofx.model.procedure.Adjustment#removeStartImage()
-     */
     @Override
     public void removeStartImage() {
         this.startImage = null;
     }
 
-    /**
-     * @see barlugofx.model.procedure.Adjustment#isEnabled()
-     */
     @Override
     public boolean isEnabled() {
         return this.enabled;
     }
 
-    /**
-     *  Enables the tool.
-     */
     @Override
     public void enable() {
         this.enabled = true;
     }
 
-    /**
-     *  Disable the tool.
-     */
     @Override
     public void disable() {
         this.enabled = false;
     }
 
-    /**
-     * @see barlugofx.model.procedure.Adjustment#getNodeName()
-     */
     @Override
     public String getName() {
         return this.adjustmentName;
     }
 
-    /**
-     * @see barlugofx.model.procedure.Adjustment#setNodeName(java.lang.String)
-     */
     @Override
     public void setName(final String name) {
         if (name == null || name.length() == 0) {
@@ -109,18 +82,11 @@ public class AdjustmentImpl implements Adjustment {
         this.adjustmentName = name;
     }
 
-    /**
-     * @see barlugofx.model.procedure.Adjustment#getTool()
-     */
     @Override
     public ImageTool getTool() {
         return this.tool;
     }
 
-    /**
-     *  Returns the Tool type as Enumerator. 
-     * @return tool type
-     */
     @Override
     public Tools getToolType() {
         return this.tool.getToolType();

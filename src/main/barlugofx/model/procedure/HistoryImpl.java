@@ -1,14 +1,15 @@
-/**
- * 
- */
 package barlugofx.model.procedure;
 
 /**
- * 
- *
+ * Implementation of the History object, features a fixed size.
+ * Internally uses a standard array as a container.
+ * When the container is full, the oldest action gets dropped to make new space.
  */
-public class HistoryImpl implements History {
+public final class HistoryImpl implements History {
     /**
+     * The maximum number of Actions that can be saved at once in the History.
+     * When the History is full and you try to add another, the container will be shifted left by one,
+     * the leftmost element dropped and the new element added in the rightmost place.
      */
     public static final int MAX_SIZE = 32;
     private final Action[] history = new ActionImpl[HistoryImpl.MAX_SIZE];
@@ -18,20 +19,17 @@ public class HistoryImpl implements History {
      * Until undoAction() is called lastActionIndex equals currentActionIndex,
      * after the call currentActionIndex goes back one action and lastActionIndex remains the same.
      */
-    private int currentActionIndex = -1;
-    private int lastActionIndex = -1;
+    private int currentActionIndex;
+    private int lastActionIndex;
 
     /**
-     * 
+     * Single constructor with no parameters, initializes the indexes.
      */
     public HistoryImpl() {
         this.currentActionIndex = -1;
         this.lastActionIndex = -1;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.procedure.History#addAction(barlugofx.model.procedure.Action)
-     */
     @Override
     public void addAction(final Action action) { 
         if (this.currentActionIndex == HistoryImpl.MAX_SIZE - 1) {
@@ -45,9 +43,6 @@ public class HistoryImpl implements History {
         this.lastActionIndex = this.currentActionIndex;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.procedure.History#undoAction()
-     */
     @Override
     public Action undoAction() throws NoMoreActionsException {
         if (this.currentActionIndex < 0) {
@@ -58,9 +53,6 @@ public class HistoryImpl implements History {
         return action;
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.procedure.History#redoAction()
-     */
     @Override
     public Action redoAction() throws NoMoreActionsException {
         if (this.currentActionIndex >= this.lastActionIndex) {
@@ -70,18 +62,11 @@ public class HistoryImpl implements History {
         return this.history[this.currentActionIndex];
     }
 
-    /* (non-Javadoc)
-     * @see barlugofx.model.procedure.History#getSize()
-     */
     @Override
     public int getSize() {
         return this.lastActionIndex + 1;
     }
 
-    /* (non-Javadoc)
-     * Returns an array of Strings, each one representing an Action in the History.
-     * Each Action is represented with the action type and the tool type.
-     */
     @Override
     public String[] getActionList() {
         String[] stringRepresentation = new String[this.lastActionIndex + 1];
@@ -91,6 +76,11 @@ public class HistoryImpl implements History {
         return stringRepresentation;
     }
 
+    /*
+     * Shifts the history array one position to the left.
+     * The leftmost element gets dropped.
+     * This method is used to free up a space in the history array when it's full.
+     */
     private void shiftLeftHistory() {
        for (int i = 1; i < HistoryImpl.MAX_SIZE; i++) {
            this.history[i - 1] = this.history[i];
@@ -99,9 +89,6 @@ public class HistoryImpl implements History {
        this.lastActionIndex--;
     }
 
-    /**
-     * 
-     */
     @Override
     public String toString() {
        String res = "History{size="

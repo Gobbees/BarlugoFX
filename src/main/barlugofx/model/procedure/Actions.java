@@ -2,21 +2,20 @@ package barlugofx.model.procedure;
 
 /**
  * Enumeration of Action Types.
- *
  */
 public enum Actions {
     /**
-     * Add an Adjustment to the Procedure.
+     * The type ADD refers to an Action that adds an Adjustment to the Procedure.
      */
     ADD,
 
     /**
-     * Remove an Adjustment from the Procedure.
+     * The type REMOVE refers to an Action that removes an Adjustment to the Procedure.
      */
     REMOVE,
 
     /**
-     * Edit an Adjustment in the Procedure.
+     * The type EDIT refers to an Action that edits an Adjustment to the Procedure.
      */
     EDIT;
 }
