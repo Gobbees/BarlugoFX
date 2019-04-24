@@ -7,55 +7,64 @@ public enum Tools {
     /**
      * Enum for the Exposure tool.
      */
-    EXPOSURE,
+    EXPOSURE("Exposure"),
 
     /**
      * Enum for the Contrast tool.
      */
-    CONTRAST,
+    CONTRAST("Contrast"),
 
     /**
      * Enum for the Brightness tool.
      */
-    BRIGHTNESS,
+    BRIGHTNESS("Brightness"),
 
     /**
      * Enum for the White Balance tool.
      */
-    WHITEBALANCE,
+    WHITEBALANCE("White Balance"),
 
     /**
      * Enum for the Saturation tool.
      */
-    SATURATION,
+    SATURATION("Saturation"),
 
     /**
      * Enum for the Hue tool.
      */
-    HUE,
+    HUE("Hue"),
 
     /**
      * Enum for the Vibrance tool.
      */
-    VIBRANCE,
+    VIBRANCE("Vibrance"),
 
     /**
      * Enum for the SelectiveRGBChanger tool.
      */
-    SELECTIVECOLOR,
+    SELECTIVECOLOR("Selective Colour"),
 
     /**
      * Enum for the Black and White tool.
      */
-    BLACKANDWHITE,
+    BLACKANDWHITE("Black and White"),
 
     /**
      * Enum for Crop tool.
      */
-    CROPPER,
+    CROPPER("Cropper"),
 
     /**
      * Enum for rotate tool.
      */
-    ROTATOR;
+    ROTATOR("Rotator");
+
+    private final String name;
+    Tools(final String name) {
+        this.name = name;
+    }
+    @Override
+    public String toString() {
+        return name;
+    }
 }
