@@ -33,13 +33,13 @@ public final class ActionImpl implements Action {
      */
     public ActionImpl(final Actions type, final int index, final Adjustment adjustmentAfter, final Adjustment adjustmentBefore) {
         if (adjustmentAfter == null) {
-            throw new java.lang.IllegalArgumentException("First adjustment reference is null!");
+            throw new IllegalArgumentException("First adjustment reference is null!");
         }
         if (type == Actions.EDIT && adjustmentBefore == null) {
-            throw new java.lang.IllegalArgumentException("EDIT action with only one valid adjustment reference.");
+            throw new IllegalArgumentException("EDIT action with only one valid adjustment reference.");
         }
         if (type != Actions.EDIT && adjustmentBefore != null) {
-            throw new java.lang.IllegalArgumentException(type.toString() + " action with second adjustment reference not null.");
+            throw new IllegalArgumentException(type.toString() + " action with second adjustment reference not null.");
         }
         this.type = type;
         this.adjustmentAfter = adjustmentAfter;

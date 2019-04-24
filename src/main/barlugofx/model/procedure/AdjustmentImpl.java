@@ -16,7 +16,7 @@ public final class AdjustmentImpl implements Adjustment {
     private String adjustmentName; // name given by the user
     private final ImageTool tool;
     private final ParallelizableImageTool parallelizableTool;
-    private final boolean isParallelizable;
+    private final boolean parallelizable;
 
     /**
      * Adjustment constructor with unparallelizable image tool.
@@ -25,14 +25,14 @@ public final class AdjustmentImpl implements Adjustment {
      */ 
     public AdjustmentImpl(final String adjustmentName, final ImageTool tool) {
         if (tool == null) {
-            throw new java.lang.IllegalArgumentException("Tool reference is null");
+            throw new IllegalArgumentException("Tool reference is null");
         }
         if (adjustmentName == null) {
-            throw new java.lang.IllegalArgumentException("Name reference is null");
+            throw new IllegalArgumentException("Name reference is null");
         }
         this.enabled = true;
         this.adjustmentName = adjustmentName;
-        this.isParallelizable = false;
+        this.parallelizable = false;
         this.tool = tool;
         this.parallelizableTool = null;
         this.startImage = null;
@@ -46,14 +46,14 @@ public final class AdjustmentImpl implements Adjustment {
      */
     public AdjustmentImpl(final String adjustmentName, final ParallelizableImageTool tool) {
         if (tool == null) {
-            throw new java.lang.IllegalArgumentException("Tool reference is null");
+            throw new IllegalArgumentException("Tool reference is null");
         }
         if (adjustmentName == null) {
-            throw new java.lang.IllegalArgumentException("Name reference is null");
+            throw new IllegalArgumentException("Name reference is null");
         }
         this.enabled = true;
         this.adjustmentName = adjustmentName;
-        this.isParallelizable = true;
+        this.parallelizable = true;
         this.parallelizableTool = tool;
         this.tool = null;
         this.startImage = null;
@@ -68,7 +68,7 @@ public final class AdjustmentImpl implements Adjustment {
     @Override
     public void setStartImage(final Image startImage) {
         if (startImage == null) {
-            throw new java.lang.IllegalArgumentException("Image null reference");
+            throw new IllegalArgumentException("Image null reference");
         }
         this.startImage = startImage;
         this.removeEndImage();
@@ -93,7 +93,7 @@ public final class AdjustmentImpl implements Adjustment {
     @Override
     public void setEndImage(final Image endImage) {
         if (endImage == null) {
-            throw new java.lang.IllegalArgumentException("Image null reference");
+            throw new IllegalArgumentException("Image null reference");
         }
         this.endImage = endImage;
     }
@@ -131,14 +131,14 @@ public final class AdjustmentImpl implements Adjustment {
     @Override
     public void setName(final String name) {
         if (name == null || name.length() == 0) {
-            throw new java.lang.IllegalArgumentException("Name is either null or empty");
+            throw new IllegalArgumentException("Name is either null or empty");
         }
         this.adjustmentName = name;
     }
 
     @Override
     public boolean isParallelizable() {
-        return this.isParallelizable;
+        return this.parallelizable;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package barlugofx.model.procedure;
 
 import barlugofx.model.tools.common.Parameter;
-import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParameterName;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
@@ -9,6 +8,7 @@ import barlugofx.model.tools.Tools;
 
 import java.util.Optional;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -17,12 +17,12 @@ import java.util.HashMap;
 public final class ProcedureImpl implements Procedure {
     private final int totalToolCount = Tools.values().length;
     private Adjustment[] adjustments = new Adjustment[totalToolCount];
-    private HashMap<Tools, Integer> toolMap = new HashMap<Tools, Integer>();
-    private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
+    private final Map<Tools, Integer> toolMap = new HashMap<Tools, Integer>();
+    private final Map<String, Integer> nameMap = new HashMap<String, Integer>();
     private final History history = new HistoryImpl();
-    private Image baseImage;
+    private final Image baseImage;
     private int nextIndex;
-    private boolean canParallelize;
+    private final boolean canParallelize;
     private final ParallelFilterExecutor executor;
 
     /**
@@ -57,7 +57,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public Image add(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
         final int index = this.nextIndex;
-        Image image = this.insert(index, adjustment);
+        final Image image = this.insert(index, adjustment);
         this.history.addAction(new ActionImpl(Actions.ADD, index, adjustment));
         return image;
     }
@@ -69,16 +69,16 @@ public final class ProcedureImpl implements Procedure {
      */
     private Image insert(final int index, final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
         if (adjustment == null) {
-            throw new java.lang.IllegalArgumentException("Adjustment reference is null.");
+            throw new IllegalArgumentException("Adjustment reference is null.");
         }
         if (index < 0 || index > this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index.");
+            throw new IllegalArgumentException("Invalid index.");
         }
         if (this.toolMap.containsKey((adjustment.getToolType()))) {
             throw new AdjustmentAlreadyPresentException("Can't add another tool with type " + adjustment.getToolType().toString());
         }
         if (this.nameMap.containsKey(adjustment.getName())) {
-           throw new java.lang.IllegalArgumentException("Adjustment name is already in use.");
+           throw new IllegalArgumentException("Adjustment name is already in use.");
         }
 
         for (int i = this.nextIndex; i > index; i--) {
@@ -95,7 +95,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public Image remove(final Tools type) {
         if (type == null) {
-            throw new java.lang.IllegalArgumentException("Type reference is null.");
+            throw new IllegalArgumentException("Type reference is null.");
         }
         return this.remove(this.findByType(type));
     }
@@ -103,7 +103,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public Image remove(final String adjustmentName) {
         if (adjustmentName == null) {
-            throw new java.lang.IllegalArgumentException("Name reference is null.");
+            throw new IllegalArgumentException("Name reference is null.");
         }
         return this.remove(this.findByName(adjustmentName));
     }
@@ -116,7 +116,7 @@ public final class ProcedureImpl implements Procedure {
 
     private Image delete(final int index) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
+            throw new IllegalArgumentException("Invalid index (either negative or too big).");
         }
         this.nameMap.remove(this.adjustments[index].getName());
         this.toolMap.remove(this.adjustments[index].getToolType());
@@ -134,7 +134,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public Image edit(final String adjustmentName, final Adjustment adjustment) {
         if (adjustmentName == null) {
-            throw new java.lang.IllegalArgumentException("AdjustmentName reference is null.");
+            throw new IllegalArgumentException("AdjustmentName reference is null.");
         }
         return this.edit(this.findByName(adjustmentName), adjustment);
     }
@@ -142,7 +142,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public Image edit(final Tools type, final Adjustment adjustment) {
         if (type == null) {
-            throw new java.lang.IllegalArgumentException("Type reference is null.");
+            throw new IllegalArgumentException("Type reference is null.");
         }
         return this.edit(this.findByType(type), adjustment);
     }
@@ -155,13 +155,13 @@ public final class ProcedureImpl implements Procedure {
 
     private Image replace(final int index, final Adjustment adjustment) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+            throw new IllegalArgumentException("Invalid index (either negative or too big)");
         }
         if (adjustment == null) {
-            throw new java.lang.IllegalArgumentException("Adjustment reference is null");
+            throw new IllegalArgumentException("Adjustment reference is null");
         }
         if (this.adjustments[index].getToolType() != adjustment.getToolType()) {
-            throw new java.lang.IllegalArgumentException("Adjustment tool type isn't the same.");
+            throw new IllegalArgumentException("Adjustment tool type isn't the same.");
         }
         this.nameMap.remove(this.adjustments[index].getName());
         this.nameMap.put(adjustment.getName(), index);
@@ -173,7 +173,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public Image disable(final int index) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
+            throw new IllegalArgumentException("Invalid index (either negative or too big).");
         }
         this.adjustments[index].disable();
         return this.processImage(index);
@@ -182,7 +182,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public Image enable(final int index) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big).");
+            throw new IllegalArgumentException("Invalid index (either negative or too big).");
         }
         this.adjustments[index].enable();
         return this.processImage(index);
@@ -191,9 +191,9 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public int findByName(final String adjustmentName) {
         if (adjustmentName == null) {
-            throw new java.lang.IllegalArgumentException("adjustmentName reference is null");
+            throw new IllegalArgumentException("adjustmentName reference is null");
         }
-        Integer index = this.nameMap.get(adjustmentName);
+        final Integer index = this.nameMap.get(adjustmentName);
         if (index == null) {
             return -1;
         }
@@ -203,19 +203,18 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public int findByType(final Tools type) {
         if (type == null) {
-            throw new java.lang.IllegalArgumentException("type reference is null");
+            throw new IllegalArgumentException("type reference is null");
         }
-        Integer index = this.toolMap.get(type);
-        return index;
+        return this.toolMap.get(type);
     }
 
     @Override
     public Optional<Parameter<? extends Number>> getValue(final int index, final ParameterName name) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+            throw new IllegalArgumentException("Invalid index (either negative or too big)");
         }
         if (name == null) {
-            throw new java.lang.IllegalArgumentException("name reference is null");
+            throw new IllegalArgumentException("name reference is null");
         }
         return this.adjustments[index].getTool().getParameter(name);
     }
@@ -228,7 +227,7 @@ public final class ProcedureImpl implements Procedure {
     @Override
     public boolean isAdjustmentEnabled(final int index) {
         if (index < 0 || index >= this.nextIndex) {
-            throw new java.lang.IllegalArgumentException("Invalid index (either negative or too big)");
+            throw new IllegalArgumentException("Invalid index (either negative or too big)");
         }
         return this.adjustments[index].isEnabled();
     }
@@ -257,9 +256,9 @@ public final class ProcedureImpl implements Procedure {
      */
     public String getAdjustmentName(final Tools type) {
         if (type == null) {
-            throw new java.lang.IllegalArgumentException("type reference is null");
+            throw new IllegalArgumentException("type reference is null");
         }
-        Integer index = this.toolMap.get(type);
+        final Integer index = this.toolMap.get(type);
         if (index == null) {
             return "null";
         }
@@ -268,7 +267,7 @@ public final class ProcedureImpl implements Procedure {
 
     @Override
     public String toString() {
-        String res = "Procedure{size="
+        return "Procedure{size="
                 + this.totalToolCount
                 + ",nextIndex="
                 + this.nextIndex
@@ -277,12 +276,11 @@ public final class ProcedureImpl implements Procedure {
                 + "], "
                 + this.history.toString()
                 + "}";
-        return res;
     }
 
     @Override
     public Image undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
-        Action action = this.history.undoAction();
+        final Action action = this.history.undoAction();
 
         switch (action.getType()) {
         case ADD:
@@ -292,13 +290,13 @@ public final class ProcedureImpl implements Procedure {
         case REMOVE:
             return this.insert(action.getIndex(), action.getAdjustment());
         default:
-            throw new java.lang.IllegalArgumentException("Action type not recognized.");
+            throw new IllegalArgumentException("Action type not recognized.");
         }
     }
 
     @Override
     public Image redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
-        Action action = this.history.redoAction();
+        final Action action = this.history.redoAction();
 
         switch (action.getType()) {
         case ADD:
@@ -308,7 +306,7 @@ public final class ProcedureImpl implements Procedure {
         case REMOVE:
             return this.delete(action.getIndex());
         default:
-            throw new java.lang.IllegalArgumentException("Action type not recognized.");
+            throw new IllegalArgumentException("Action type not recognized.");
         }
     }
 
@@ -348,7 +346,7 @@ public final class ProcedureImpl implements Procedure {
 
     private void applyAdjustment(final Adjustment adjustment) {
         if (adjustment.getStartImage() == null) {
-            throw new java.lang.IllegalArgumentException("startImage reference is null.");
+            throw new IllegalArgumentException("startImage reference is null.");
         }
         Image result = null;
         if (adjustment.isParallelizable() && this.canParallelize) {

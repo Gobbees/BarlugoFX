@@ -48,7 +48,7 @@ public final class HistoryImpl implements History {
         if (this.currentActionIndex < 0) {
             throw new NoMoreActionsException("There are no more actions to undo.");
         }
-        Action action = this.history[this.currentActionIndex];
+        final Action action = this.history[this.currentActionIndex];
         this.currentActionIndex--;
         return action;
     }
