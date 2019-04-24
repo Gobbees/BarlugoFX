@@ -106,4 +106,13 @@ public final class HistoryImpl implements History {
        res += "]}";
        return res;
     }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < HistoryImpl.MAX_SIZE; i++) {
+           this.history[i] = null; 
+        }
+        this.currentActionIndex = -1;
+        this.lastActionIndex = -1;
+    }
 }

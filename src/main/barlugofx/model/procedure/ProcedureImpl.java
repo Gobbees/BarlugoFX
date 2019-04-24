@@ -293,6 +293,17 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
+    public void clear() {
+       for (int i = 0; i < this.totalToolCount; i++) {
+           this.adjustments[i] = null;
+       }
+       this.nameMap.clear();
+       this.toolMap.clear();
+       this.history.clear();
+       this.nextIndex = 0;
+    }
+
+    @Override
     public String[] getHistoryStringRep() {
         return this.history.getActionList();
     }

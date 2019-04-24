@@ -38,4 +38,9 @@ public interface History {
      */
     String[] getActionList();
 
+    /**
+     * Clears the history, resetting it to an "as new" state.
+     */
+    void clear();
+
 }

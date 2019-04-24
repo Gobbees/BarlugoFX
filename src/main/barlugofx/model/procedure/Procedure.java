@@ -146,4 +146,9 @@ public interface Procedure {
      */
     int getHistorySize();
 
+    /**
+     * Clears the procedure, resetting it to an "as new" state.
+     */
+    void clear();
+
 }
