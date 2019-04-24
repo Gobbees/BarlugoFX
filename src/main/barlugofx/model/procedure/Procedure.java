@@ -16,17 +16,6 @@ import barlugofx.model.tools.Tools;
  */
 public interface Procedure {
 
-
-	 /* 
-	 * 
-	 * 
-	 * 
-	 * @param baseImage the base image as imported from the filesystem.
-	 * @param canParallelize true if the procedure can parallelize, false otherwise.
-	 * @return a new procedure instance.
-	 */
-	Procedure createProcedure(Image baseImage, boolean canParallelize);
-	
     /**
      * Add an adjustment to the Procedure.
      * 
@@ -36,7 +25,7 @@ public interface Procedure {
      * @throws AdjustmentAlreadyPresentException
      * when you try to add an Adjustment with a Tool already in use.
      */
-	Image add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
+    Image add(Adjustment adjustment) throws AdjustmentAlreadyPresentException;
 
     /**
      * @param index
