@@ -102,6 +102,16 @@ public interface Procedure {
     Optional<Parameter<? extends Number>> getValue(int index, ParameterName name);
 
     /**
+     * Name of the adjustment of which you want the value.
+     * @param tool
+     * Tool that contains the requested parameter;
+     * @param name
+     * The name of the parameter you want to get.
+     * @return value of the adjustment with name "name"
+     */
+    Optional<Parameter<? extends Number>> getValue(Tools tool, ParameterName name);
+
+    /**
      * Tells you if you can add an adjustment using a tool of type toolType.
      * @param toolType
      * The type of tool used in the adjustment you want to add.

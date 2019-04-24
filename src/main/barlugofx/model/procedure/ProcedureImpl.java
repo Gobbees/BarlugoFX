@@ -187,6 +187,11 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
+    public Optional<Parameter<? extends Number>> getValue(final Tools tool, final ParameterName name) {
+        return this.getValue(this.findByType(tool), name);
+    }
+
+    @Override
     public boolean canAdd(final Tools toolType) {
         return (this.toolMap.get(toolType) == null);
     }
