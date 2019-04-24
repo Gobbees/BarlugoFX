@@ -10,8 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.util.StringConverter;
 
-//This class was originally made by Christoph Nahr
 /**
+ * This class was originally made by Christoph Nahr.
  * Converts between user-edited strings and {@link Integer} values. Accepts an
  * optional {@link Runnable} that resets the editor on {@link NumberFormatException} 
  * or {@link InputOutOfBoundException},  or a {@link TextField} or {@link Spinner} 

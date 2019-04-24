@@ -38,6 +38,7 @@ public final class PresetController extends AbstractViewControllerWithManager im
     private static final double BTN_WIDTH_MULTIPLIER = 0.5;
     private static final double BTN_HEIGHT_MULTIPLIER = 0.1;
     private static final double SPN_WIDTH_MULTIPLIER = 0.22;
+    private static final double D_SPN_WIDTH_MULTIPLIER = 0.23;
     private static final double SPN_HEIGHT_MULTIPLIER = 0.01;
     private static final double SEP_HEIGHT_MULTIPLIER = 0.02;
     private static final double SEP_WIDTH_MULTIPLIER = 0.01;
@@ -47,6 +48,7 @@ public final class PresetController extends AbstractViewControllerWithManager im
     private static final int MAX_HUNDRED = 100;
     private static final int MAX_RGB = 255;
     private static final int STEP = 1;
+    private static final double STEP_DOUBLE = 0.5;
     private static final int SUBSTRING_INDEX_NAME = 3;
     private static final int SUBSTRING_INDEX_EXTENSION = 4;
     @FXML
@@ -135,8 +137,6 @@ public final class PresetController extends AbstractViewControllerWithManager im
         final List<Spinner<? extends Number>> list = spinnersCheck(checkBox);
         if (checkBox.isSelected()) {
             for (final Spinner<? extends Number> spinner : list) {
-                /// TODO cancellare println
-                System.out.println(spinner.getValue());
                 spinner.setDisable(true);
             }
         } else {
@@ -190,9 +190,6 @@ public final class PresetController extends AbstractViewControllerWithManager im
         String value;
         final List<Spinner<? extends Number>> savingList = valuesToSave.stream().flatMap(x -> x.stream())
                 .collect(Collectors.toList());
-
-        ///TODO Remove print
-        savingList.forEach(x -> System.out.println(x));
 
         for (int i = 0; i < savingList.size(); i++) {
             filterName = savingList.get(i).getId().substring(SUBSTRING_INDEX_NAME);
@@ -290,11 +287,11 @@ public final class PresetController extends AbstractViewControllerWithManager im
         spnColG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
         spnColB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
         spnColB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkR.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkR.setPrefWidth(width * D_SPN_WIDTH_MULTIPLIER);
         spnBlkR.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkG.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkG.setPrefWidth(width * D_SPN_WIDTH_MULTIPLIER);
         spnBlkG.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
-        spnBlkB.setPrefWidth(width * SPN_WIDTH_MULTIPLIER);
+        spnBlkB.setPrefWidth(width * D_SPN_WIDTH_MULTIPLIER);
         spnBlkB.setPrefHeight(height * SPN_HEIGHT_MULTIPLIER);
         horizSep.setMinWidth(width);
         verticSep.setMinHeight(height * SEP_HEIGHT_MULTIPLIER);
@@ -312,9 +309,9 @@ public final class PresetController extends AbstractViewControllerWithManager im
         spnColR.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
         spnColG.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
         spnColB.setValueFactory(new IntegerSpinnerValueFactory(MIN_RGB, MAX_RGB, MIN_ZERO, STEP));
-        spnBlkR.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnBlkG.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP));
-        spnBlkB.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, 0.5));
+        spnBlkR.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP_DOUBLE));
+        spnBlkG.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP_DOUBLE));
+        spnBlkB.setValueFactory(new DoubleSpinnerValueFactory(MIN_ZERO, MAX_HUNDRED, MIN_ZERO, STEP_DOUBLE));
     }
     @SuppressWarnings("unchecked")
     private void addListeners() {
