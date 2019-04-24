@@ -30,10 +30,12 @@ public final class ProcedureImpl implements Procedure {
      */
     public static final int HISTORY_MAX_SIZE = HistoryImpl.MAX_SIZE;
 
-    private ProcedureImpl(final Image baseImage, final boolean canParallelize) {
-        if (baseImage == null) {
-            throw new IllegalArgumentException("baseImage reference is null.");
-        }
+    /**
+     * Creates a new procedure object, setting it's base image.
+     * @param baseImage baseImage the base image.
+     * @param canParallelize canParallelize true if the procedure can parallelize, false otherwise.
+     */
+    public ProcedureImpl(final Image baseImage, final boolean canParallelize) {
         this.nextIndex = 0;
         this.baseImage = baseImage;
         this.canParallelize = canParallelize;
