@@ -3,6 +3,7 @@ package barlugofx.model.procedure;
 import barlugofx.model.imagetools.Image;
 
 import barlugofx.model.tools.common.ImageTool;
+import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.Tools;
 /**
  * This interface models an Adjustment applied to an Image.
@@ -69,4 +70,14 @@ public interface Adjustment {
      * @return Tool type as Tools Enumerator.
      */
     Tools getToolType();
+
+    /**
+     * @return true if the tool is parallelizable, false otherwise.
+     */
+    boolean isParallelizable();
+
+    /**
+     * @return the parallelizable tool.
+     */
+    ParallelizableImageTool getParallelizableTool();
 }
