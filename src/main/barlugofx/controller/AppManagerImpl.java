@@ -240,27 +240,44 @@ public final class AppManagerImpl implements AppManager {
         final Class<?> typeInt = int.class;
         final Class<?> typeDouble = double.class;
         final List<String> list = new ArrayList<>();
+        final StringBuilder sb = new StringBuilder();
         Method m;
         try {
             final Enumeration<?> e = properties.propertyNames();
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
-                list.add(filterName);
+                sb.append(filterName);
+                sb.append(" set to: ");
                 if (filterName.equals("SelectiveColors")) {
                     intValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToInt(Integer::parseInt).toArray();
                     m = this.getClass().getDeclaredMethod("set" + filterName, typeInt, typeInt, typeInt);
                     m.invoke(this, intValues[0], intValues[1], intValues[2]);
+                    sb.append(intValues[0]);
+                    sb.append(", ");
+                    sb.append(intValues[1]);
+                    sb.append(", ");
+                    sb.append(intValues[2]);
+                    list.add(sb.toString());
                 } else if (filterName.equals("BlackAndWhite")) {
                     doubleValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToDouble(Double::parseDouble).toArray();
                     m = this.getClass().getDeclaredMethod("set" + filterName, typeDouble, typeDouble, typeDouble);
                     m.invoke(this, doubleValues[0], doubleValues[1], doubleValues[2]);
+                    sb.append((int) doubleValues[0]);
+                    sb.append(", ");
+                    sb.append((int) doubleValues[1]);
+                    sb.append(", ");
+                    sb.append((int) doubleValues[2]);
+                    list.add(sb.toString());
                 } else {
                     value = Integer.parseInt(properties.getProperty(filterName));
                     m = this.getClass().getDeclaredMethod("set" + filterName, typeInt);
                     m.invoke(this, value);
+                    sb.append(value);
+                    list.add(sb.toString());
                 }
+                sb.setLength(0);
             }
         } catch (InvocationTargetException | IllegalArgumentException ex) {
             throw new IllegalStateException("The selected file is corrupted.");
