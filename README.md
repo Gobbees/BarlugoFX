@@ -16,3 +16,4 @@ Have fun using it!
 ## List of known bugs
 * On some linux distribution rarely the image is loaded with some white band on left and right. Closing and reopening the application will resolve the issue. 
 * Triggering a Ctrl+Z shortcut while a textfield is focused will throw a NullPointerException on the JavaFX Application Thread. This doesn't cause any problem though.
+* Reaching and exceeding the limit of the history (at the time of this writing, 32) and then undoing all operation will still visualize the operation which are previous to the last 32. This is however only a visual glitch, the program will work as expected 
