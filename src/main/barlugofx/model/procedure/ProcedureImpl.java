@@ -3,6 +3,7 @@ package barlugofx.model.procedure;
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
 import barlugofx.utils.Tools;
+import javafx.util.Pair;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 
@@ -310,5 +311,25 @@ public final class ProcedureImpl implements Procedure {
             result = adjustment.getTool().applyTool(adjustment.getStartImage());
         }
         adjustment.setEndImage(result);
+    }
+
+    @Override
+    public Optional<Pair<Actions, Tools>> getLastUndoneActionInfo() {
+        final Actions actionType = this.history.getLastUndoneActionType();
+        final Tools toolType = this.history.getLastUndoneToolType();
+        if (actionType != null  && toolType != null) {
+            return Optional.of(new Pair<Actions, Tools>(actionType, toolType));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Pair<Actions, Tools>> getLastRedoneActionInfo() {
+        final Actions actionType = this.history.getLastRedoneActionType();
+        final Tools toolType = this.history.getLastRedoneToolType();
+        if (actionType != null  && toolType != null) {
+            return Optional.of(new Pair<Actions, Tools>(actionType, toolType));
+        }
+        return Optional.empty();
     }
 }

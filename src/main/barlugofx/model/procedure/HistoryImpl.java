@@ -1,5 +1,7 @@
 package barlugofx.model.procedure;
 
+import barlugofx.utils.Tools;
+
 /**
  * Implementation of the History object, features a fixed size.
  * Internally uses a standard array as a container.
@@ -21,6 +23,7 @@ public final class HistoryImpl implements History {
      */
     private int currentActionIndex;
     private int lastActionIndex;
+    private HistoryActions lastHistoryAction;
 
     /**
      * Single constructor with no parameters, initializes the indexes.
@@ -28,6 +31,7 @@ public final class HistoryImpl implements History {
     public HistoryImpl() {
         this.currentActionIndex = -1;
         this.lastActionIndex = -1;
+        this.lastHistoryAction = null;
     }
 
     @Override
@@ -41,6 +45,7 @@ public final class HistoryImpl implements History {
         this.history[this.currentActionIndex + 1] = action;
         this.currentActionIndex++;
         this.lastActionIndex = this.currentActionIndex;
+        this.lastHistoryAction = HistoryActions.ADD;
     }
 
     @Override
@@ -50,6 +55,7 @@ public final class HistoryImpl implements History {
         }
         final Action action = this.history[this.currentActionIndex];
         this.currentActionIndex--;
+        this.lastHistoryAction = HistoryActions.UNDO;
         return action;
     }
 
@@ -59,6 +65,7 @@ public final class HistoryImpl implements History {
             throw new NoMoreActionsException("There are no more actions to redo.");
         }
         this.currentActionIndex++;
+        this.lastHistoryAction = HistoryActions.REDO;
         return this.history[this.currentActionIndex];
     }
 
@@ -114,5 +121,38 @@ public final class HistoryImpl implements History {
         }
         this.currentActionIndex = -1;
         this.lastActionIndex = -1;
+        this.lastHistoryAction = null;
+    }
+
+    @Override
+    public Actions getLastUndoneActionType() {
+        if (this.lastHistoryAction == HistoryActions.UNDO) {
+            return this.history[this.currentActionIndex + 1].getType();
+        }
+        return null;
+    }
+
+    @Override
+    public Tools getLastUndoneToolType() {
+        if (this.lastHistoryAction == HistoryActions.UNDO) {
+            return this.history[this.currentActionIndex + 1].getAdjustment().getToolType();
+        }
+        return null;
+    }
+
+    @Override
+    public Actions getLastRedoneActionType() {
+        if (this.lastHistoryAction == HistoryActions.REDO) {
+            return this.history[this.currentActionIndex].getType();
+        }
+        return null;
+    }
+
+    @Override
+    public Tools getLastRedoneToolType() {
+        if (this.lastHistoryAction == HistoryActions.REDO) {
+            return this.history[this.currentActionIndex].getAdjustment().getToolType();
+        }
+        return null;
     }
 }

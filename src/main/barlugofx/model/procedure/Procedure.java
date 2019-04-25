@@ -5,6 +5,7 @@ import java.util.Optional;
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
 import barlugofx.utils.Tools;
+import javafx.util.Pair;
 import barlugofx.model.imagetools.Image;
 
 /**
@@ -156,4 +157,16 @@ public interface Procedure {
      * @return Image.
      */
     Image processImage(int index);
+
+    /**
+     * Returns a pair with the type of action and the type of tool involved in the last undone action.
+     * @return an optional pair with action type and tool type of the last undone action.
+     */
+    Optional<Pair<Actions, Tools>> getLastUndoneActionInfo();
+
+    /**
+     * Returns a pair with the type of action and the type of tool involved in the last redone action.
+     * @return an optional pair with action type and tool type of the last redone action.
+     */
+    Optional<Pair<Actions, Tools>> getLastRedoneActionInfo();
 }

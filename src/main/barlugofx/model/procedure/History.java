@@ -1,5 +1,7 @@
 package barlugofx.model.procedure;
 
+import barlugofx.utils.Tools;
+
 /**
  * The History interface models the behaviour of a history object which allows the user to save an action,
  * and also rewind or replay the saved actions.
@@ -43,4 +45,27 @@ public interface History {
      */
     void clear();
 
+    /**
+     * Returns the Action type, as Actions enumeration, of the last undone action, if any.
+     * @return Actions enum, if an action has been undone, null otherwise.
+     */
+    Actions getLastUndoneActionType();
+
+    /**
+     * Returns the Tool type, as Tools enum, of the Adjustment involved in the last undone action, if any.
+     * @return Actions enum, if an action has been undone, null otherwise.
+     */
+    Tools getLastUndoneToolType();
+
+    /**
+     * Returns the Action type, as Actions enumeration, of the last redone action, if any.
+     * @return Actions enum, if an action has been redone, null otherwise.
+     */
+    Actions getLastRedoneActionType();
+
+    /**
+     * Returns the Tool type, as Tools enum, of the Adjustment involved in the last redone action, if any.
+     * @return Actions enum, if an action has been redone, null otherwise.
+     */
+    Tools getLastRedoneToolType();
 }
