@@ -238,12 +238,6 @@ public final class AppManagerImpl implements AppManager {
     public void undo() throws IllegalStateException {
         try {
             image = procedure.undo();
-            Optional<Pair<Actions, Tools>> tool = procedure.getLastUndoneActionInfo();
-            if (tool.isPresent()) {
-                for (ParameterName pn : getParametersFromTool(tool.get().getValue())) {
-                    procedure.getValue(tool.get().getValue(), pn);
-                }
-            }
         } catch (NoMoreActionsException e) {
             throw new IllegalStateException(e.getMessage());
         }
@@ -303,6 +297,13 @@ public final class AppManagerImpl implements AppManager {
             e.printStackTrace();
         }
     }
+    //To avoid big copy paste of this section of code
+    private void addParametersToCropper(final Cropper cropper, final int x1, final int y1, final int x2, final int y2) {
+        cropper.addParameter(ParameterName.X1, new ParameterImpl<Integer>(x1));
+        cropper.addParameter(ParameterName.X2, new ParameterImpl<Integer>(x2));
+        cropper.addParameter(ParameterName.Y1, new ParameterImpl<Integer>(y1));
+        cropper.addParameter(ParameterName.Y2, new ParameterImpl<Integer>(y2));
+    }
     //Model choices. I cannot delete this copy paste.
     private Image uploadProcedure(final Tools toolType, final ParallelizableImageTool tool) {
         if (procedure.canAdd(toolType)) {
@@ -325,12 +326,5 @@ public final class AppManagerImpl implements AppManager {
         } else {
             return procedure.edit(toolType, new AdjustmentImpl(tool));
         }
-    }
-    //To avoid big copy paste of this section of code
-    private void addParametersToCropper(final Cropper cropper, final int x1, final int y1, final int x2, final int y2) {
-        cropper.addParameter(ParameterName.X1, new ParameterImpl<Integer>(x1));
-        cropper.addParameter(ParameterName.X2, new ParameterImpl<Integer>(x2));
-        cropper.addParameter(ParameterName.Y1, new ParameterImpl<Integer>(y1));
-        cropper.addParameter(ParameterName.Y2, new ParameterImpl<Integer>(y2));
     }
 }
