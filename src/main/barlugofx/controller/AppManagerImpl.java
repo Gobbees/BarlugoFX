@@ -37,7 +37,6 @@ import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParameterName;
 import barlugofx.utils.Format;
-import barlugofx.view.View;
 
 /**
  * The main controller class.
@@ -259,7 +258,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void applyPreset(final File file) throws IOException {
+    public void applyPreset(final File file) throws IOException, IllegalStateException {
         final Properties properties = fileManager.loadPreset(file);
         String filterName = "";
         int value;
@@ -291,8 +290,7 @@ public final class AppManagerImpl implements AppManager {
                 }
             }
         } catch (InvocationTargetException | IllegalArgumentException ex) {
-            ex.printStackTrace();
-            View.showErrorAlert("The selected file is corrupted!");
+            throw new IllegalStateException("The selected file is corrupted.");
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException e) {
             e.printStackTrace();
         }

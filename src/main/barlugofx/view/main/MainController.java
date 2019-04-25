@@ -582,7 +582,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Preset", createCompleteRunnable(() -> {
             try {
                 this.getManager().applyPreset(input);
-            } catch (IOException e) {
+            } catch (IOException | IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
                 e.printStackTrace();
             }
