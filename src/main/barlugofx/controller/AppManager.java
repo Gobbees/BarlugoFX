@@ -3,6 +3,7 @@ package barlugofx.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -138,8 +139,9 @@ public interface AppManager {
     /**
      * Applies the selected preset to the image.
      * @param file the input preset file where filters are saved
+     * @return list a list of the used filters
      * @throws IOException if the operation fails caused by an I/O error
      * @throws IllegalStateException if the file is corrupted
      */
-    void applyPreset(File file) throws IOException, IllegalStateException;
+    List<String> applyPreset(File file) throws IOException, IllegalStateException;
 }

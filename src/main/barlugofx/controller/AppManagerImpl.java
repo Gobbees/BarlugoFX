@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -229,7 +231,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void applyPreset(final File file) throws IOException, IllegalStateException {
+    public List<String> applyPreset(final File file) throws IOException, IllegalStateException {
         final Properties properties = fileManager.loadPreset(file);
         String filterName = "";
         int value;
@@ -237,11 +239,13 @@ public final class AppManagerImpl implements AppManager {
         double[] doubleValues;
         final Class<?> typeInt = int.class;
         final Class<?> typeDouble = double.class;
+        final List<String> list = new ArrayList<>();
         Method m;
         try {
             final Enumeration<?> e = properties.propertyNames();
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
+                list.add(filterName);
                 if (filterName.equals("SelectiveColors")) {
                     intValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToInt(Integer::parseInt).toArray();
@@ -263,6 +267,7 @@ public final class AppManagerImpl implements AppManager {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException e) {
             e.printStackTrace();
         }
+        return list;
     }
     //To avoid big copy paste of this section of code
     private void addParametersToCropper(final Cropper cropper, final int x1, final int y1, final int x2, final int y2) {

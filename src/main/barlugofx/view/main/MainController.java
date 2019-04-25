@@ -581,7 +581,8 @@ public final class MainController extends AbstractViewControllerWithManager {
         }
         runNewThread("Preset", createCompleteRunnable(() -> {
             try {
-                this.getManager().applyPreset(input);
+                final List<String> s = new ArrayList<String>(this.getManager().applyPreset(input));
+                s.stream().forEach(x -> lvHistory.getItems().add(x));
             } catch (IOException | IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
                 e.printStackTrace();
