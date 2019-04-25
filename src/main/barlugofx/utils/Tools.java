@@ -1,4 +1,4 @@
-package barlugofx.model.tools;
+package barlugofx.utils;
 
 /**
  * This enumeration contains all the supported tool names (model side).

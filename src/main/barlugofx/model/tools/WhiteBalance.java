@@ -8,6 +8,7 @@ import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.AbstractImageTool;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.utils.Tools;
 
 /**
  * The white balance class implements one of the simplest auto-balancing

@@ -2,9 +2,9 @@ package barlugofx.model.procedure;
 
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.utils.Tools;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
-import barlugofx.model.tools.Tools;
 
 import java.util.Optional;
 import java.util.HashMap;

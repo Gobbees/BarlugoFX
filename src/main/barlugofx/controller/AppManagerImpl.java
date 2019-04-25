@@ -28,7 +28,6 @@ import barlugofx.model.tools.Hue;
 import barlugofx.model.tools.Rotator;
 import barlugofx.model.tools.Saturation;
 import barlugofx.model.tools.SelectiveRGBChanger;
-import barlugofx.model.tools.Tools;
 import barlugofx.model.tools.Vibrance;
 import barlugofx.model.tools.WhiteBalance;
 import barlugofx.model.tools.common.ImageTool;
@@ -37,6 +36,7 @@ import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterImpl;
 import barlugofx.model.tools.common.ParameterName;
 import barlugofx.utils.Format;
+import barlugofx.utils.Tools;
 import barlugofx.view.View;
 
 /**

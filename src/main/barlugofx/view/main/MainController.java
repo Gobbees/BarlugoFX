@@ -53,8 +53,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCharacterCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -207,7 +205,6 @@ public final class MainController extends AbstractViewControllerWithManager {
         initComponentSize();
         initToolStatus();
         addListeners();
-        addKeyboardShortcuts();
         stage.setOnCloseRequest(ev -> {
             if (exportView.isPresent()) {
                 exportView.get().closeStage();
@@ -255,7 +252,7 @@ public final class MainController extends AbstractViewControllerWithManager {
      * New photo event triggered.
      */
     @FXML
-    public void newPhoto() { // TODO reset history and all components
+    public void newPhoto() {
         // TODO discard changes
         checkManager();
         final FileChooser fc = new FileChooser();
@@ -297,6 +294,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Undo", createCompleteRunnable(() -> {
             try {
                 this.getManager().undo();
+                Platform.runLater(() -> lvHistory.getItems().remove(lvHistory.getItems().size() - 1));
             } catch (IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
             }
@@ -894,16 +892,6 @@ public final class MainController extends AbstractViewControllerWithManager {
                 this.getScene().setCursor(Cursor.DEFAULT);
             });
         };
-    }
-
-    private void addKeyboardShortcuts() {
-        checkStage();
-        KeyCombination kc = new KeyCharacterCombination("e", KeyCombination.CONTROL_DOWN);
-        Runnable runnable = () -> export();
-        this.getScene().getAccelerators().put(kc, runnable);
-        kc = new KeyCharacterCombination("f", KeyCombination.CONTROL_DOWN);
-        runnable = () -> toggleFullScreen();
-        this.getScene().getAccelerators().put(kc, runnable);
     }
 
     private void runNewThread(final String threadName, final Runnable task) {

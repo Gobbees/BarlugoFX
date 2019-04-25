@@ -8,6 +8,7 @@ import barlugofx.model.imagetools.Image;
 import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.tools.common.AbstractImageTool;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.utils.Tools;
 
 /**
  * This class performs the cropping of an {@link Image}. It needs 4 parameter X1, X2, Y1,Y2,

@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.utils.Tools;
 import barlugofx.model.imagetools.Image;
-import barlugofx.model.tools.Tools;
 
 /**
  * This interface model the contract of the Procedure object.

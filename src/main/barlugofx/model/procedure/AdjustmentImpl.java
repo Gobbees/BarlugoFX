@@ -3,7 +3,7 @@ package barlugofx.model.procedure;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.tools.common.ImageTool;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.model.tools.Tools;
+import barlugofx.utils.Tools;
 
 /**
  * Adjustment implementation.

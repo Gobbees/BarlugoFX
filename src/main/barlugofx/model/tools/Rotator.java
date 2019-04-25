@@ -10,6 +10,7 @@ import barlugofx.model.imagetools.ImageImpl;
 import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.tools.common.AbstractImageTool;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.utils.Tools;
 
 /**
  * This class allows an {@link Image} to be Rotated. It accepts one parameter, ANGLE,
