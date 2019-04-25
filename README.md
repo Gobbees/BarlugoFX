@@ -1,7 +1,6 @@
 # BarlugoFX
 
-Universal photo editor made with <3 in Italy
-
+A universal photo editor that allows you to make your photos look better than ever.
 
 
 In order to use BarlugoFX with bigger images, we higly suggest launching it with the command
