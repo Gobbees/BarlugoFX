@@ -57,6 +57,13 @@ public interface Procedure {
     Image enable(int index);
 
     /**
+     * This function returns the enabled state of the adjustment with the specified tool type, if present.
+     * @param type Tools enum type of the adjustment you want to check.
+     * @return true if the 
+     */
+    boolean isAdjustmentEnabled(Tools type);
+
+    /**
      * This function returns the enabled state of adjustment.
      * @param index
      * Index of the adjustment of which I want the state
@@ -70,7 +77,7 @@ public interface Procedure {
      * @return
      * The index of the tool, if present, -1 otherwise.
      */
-    int findByType(Tools type);
+    Integer findByType(Tools type);
 
     /**
      * Edit an Adjustment knowing it's type in the procedure.

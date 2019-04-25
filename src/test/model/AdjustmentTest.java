@@ -15,8 +15,7 @@ import barlugofx.model.tools.common.ImageTool;
  * A simple test class for sequence Node.
  *
  */
-public final class SequenceNodeTest {
-    private static final String DEFAULT_NAME = "TEST";
+public final class AdjustmentTest {
     private static final Image DEFAULT_IMAGE = ImageImpl.buildFromPixels(new int[2][2]);
     private static final ImageTool DEFAULT_TOOL = BlackAndWhite.createBlackAndWhite();
 
@@ -25,14 +24,9 @@ public final class SequenceNodeTest {
      */
     @Test
     public void checkInizialization() {
-        /*
-         *TODO : If this test passed than all the equals are implemented correctly
-         */
-        final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        Assert.assertTrue(node.isEnabled());
-        Assert.assertSame(DEFAULT_NAME, node.getName());
-        Assert.assertSame(DEFAULT_IMAGE, node.getStartImage());
-        Assert.assertSame(DEFAULT_TOOL, node.getTool());
+        final Adjustment adjustment = new AdjustmentImpl(DEFAULT_TOOL);
+        Assert.assertTrue(adjustment.isEnabled());
+        Assert.assertSame(DEFAULT_TOOL, adjustment.getTool());
     }
 
     /**
@@ -40,24 +34,42 @@ public final class SequenceNodeTest {
      */
     @Test
     public void testSetAndGet() {
-        final Adjustment node = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        node.setName("CIAO");
-        Assert.assertTrue(node.getName().equals("CIAO"));
-        final Image newS = ImageImpl.buildFromPixels(new int[3][3]);
-        node.setStartImage(newS);
-        Assert.assertSame(node.getStartImage(), newS);
+        final Adjustment adjustment = new AdjustmentImpl(DEFAULT_TOOL);
         try {
-            node.setStartImage(null);
+            adjustment.setStartImage(null);
             Assert.fail("Node should not accept null values");
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         } catch (final Exception e) {
             Assert.fail();
         }
-        node.disable();
-        Assert.assertFalse(node.isEnabled());
-        node.enable();
-        Assert.assertTrue(node.isEnabled());
+        adjustment.disable();
+        Assert.assertFalse(adjustment.isEnabled());
+        adjustment.enable();
+        Assert.assertTrue(adjustment.isEnabled());
+
+        Assert.assertFalse(adjustment.isStartImagePresent());
+        Assert.assertFalse(adjustment.isEndImagePresent());
+
+        adjustment.setEndImage(DEFAULT_IMAGE);
+        Assert.assertSame(DEFAULT_IMAGE, adjustment.getEndImage());
+        Assert.assertTrue(adjustment.isEndImagePresent());
+        Assert.assertFalse(adjustment.isStartImagePresent());
+
+        adjustment.setStartImage(DEFAULT_IMAGE);
+        Assert.assertSame(DEFAULT_IMAGE, adjustment.getStartImage());
+        Assert.assertNull(adjustment.getEndImage());
+        Assert.assertFalse(adjustment.isEndImagePresent());
+        Assert.assertTrue(adjustment.isStartImagePresent());
+
+        adjustment.setEndImage(DEFAULT_IMAGE);
+        adjustment.removeEndImage();
+        Assert.assertFalse(adjustment.isEndImagePresent());
+
+        adjustment.removeStartImage();
+        Assert.assertFalse(adjustment.isStartImagePresent());
+
+        Assert.assertSame(DEFAULT_TOOL.getToolType(), adjustment.getToolType());
     }
 
     /**
@@ -66,20 +78,23 @@ public final class SequenceNodeTest {
     @Test
     public void testNullValues() {
         try {
-            new AdjustmentImpl(null, DEFAULT_TOOL, DEFAULT_IMAGE);
+            new AdjustmentImpl(null);
             Assert.fail();
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
+
+        final Adjustment adjustment = new AdjustmentImpl(DEFAULT_TOOL);
         try {
-            new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, null);
-            Assert.fail();
+            adjustment.setStartImage(null);
+            Assert.fail("Shouldn't be able to set null image.");
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
+
         try {
-            new AdjustmentImpl(DEFAULT_NAME, null, DEFAULT_IMAGE);
-            Assert.fail();
+            adjustment.setEndImage(null);
+            Assert.fail("Shouldn't be able to set null image.");
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }

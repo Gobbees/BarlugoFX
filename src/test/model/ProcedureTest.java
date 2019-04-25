@@ -26,7 +26,6 @@ import barlugofx.model.tools.common.ParameterName;
  *
  */
 public final class ProcedureTest {
-    private static final String DEFAULT_NAME = "TEST";
     private static final Image DEFAULT_IMAGE = ImageImpl.buildFromPixels(new int[2][2]);
     private static final ImageTool DEFAULT_TOOL = BlackAndWhite.createBlackAndWhite();
     /**
@@ -34,7 +33,7 @@ public final class ProcedureTest {
      */
     @Test
     public void testInizialiation() {
-        final Procedure procedure = new ProcedureImpl();
+        final Procedure procedure = new ProcedureImpl(DEFAULT_IMAGE, true);
         try {
             procedure.remove(0);
             Assert.fail();
@@ -59,6 +58,18 @@ public final class ProcedureTest {
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         }
+        try {
+            procedure.undo();
+            Assert.fail();
+        } catch (final NoMoreActionsException e) {
+            Assert.assertTrue(true);
+        }
+        try {
+            procedure.redo();
+            Assert.fail();
+        } catch (final NoMoreActionsException e) {
+            Assert.assertTrue(true);
+        }
         Assert.assertTrue(procedure.canAdd(Tools.CONTRAST));
     }
 
@@ -67,9 +78,11 @@ public final class ProcedureTest {
      */
     @Test
     public void testWorking() {
-        final ProcedureImpl procedure = new ProcedureImpl();
+        final ProcedureImpl procedure = new ProcedureImpl(DEFAULT_IMAGE, true);
+
+        // add default adjustment
         try {
-            procedure.add(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(DEFAULT_TOOL));
             Assert.assertTrue(true);
         } catch (final IllegalArgumentException e) {
             Assert.fail("I should be able to add the adjustment.");
@@ -77,87 +90,101 @@ public final class ProcedureTest {
             Assert.fail("I should be able to add the adjustment.");
         }
 
+        // try to re-add the same type of adjustment
+        // must fail
         try {
-            procedure.add(new AdjustmentImpl("giovanni", DEFAULT_TOOL, DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(DEFAULT_TOOL));
             Assert.fail("I can't add two adjustment using the same tool.");
         } catch (final IllegalArgumentException e) {
             Assert.assertTrue(true);
         } catch (final Exception e) {
             Assert.assertTrue(true);
         }
-
-        try {
-            procedure.add(new AdjustmentImpl(DEFAULT_NAME, Brightness.createBrightness(), DEFAULT_IMAGE));
-            Assert.fail("I shouldn't be able to add two Adjustment with the same name.");
-        } catch (final IllegalArgumentException e) {
-            Assert.assertTrue(true);
-        } catch (final Exception e) {
-            Assert.assertTrue(true);
-        }
-        Assert.assertTrue(procedure.findByName(DEFAULT_NAME) == 0);
+ 
         Assert.assertTrue(procedure.getHistorySize() == 1);
 
-        // debuggg
-        System.out.println(procedure.adjustmentsNamesToString());
+        // add Brightness adjustment
+        try {
+            procedure.add(new AdjustmentImpl(Brightness.createBrightness()));
+        } catch (final IllegalArgumentException e) {
+            Assert.fail();
+        } catch (final Exception e) {
+            Assert.fail();
+        }
 
-        procedure.remove(0);
+        Assert.assertTrue(procedure.getHistorySize() == 2);
 
-        System.out.println(procedure.adjustmentsNamesToString());
+        procedure.remove(DEFAULT_TOOL.getToolType());
 
-        Assert.assertTrue(procedure.findByName(DEFAULT_NAME) == -1);
+        Assert.assertTrue(procedure.getHistorySize() == 3);
 
+        // disabling the remaining adjustment
         try {
             procedure.disable(0);
-            Assert.fail("Invalid index, should throw.");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue(true);
+            Assert.fail("Should be able to disable.");
         }
 
+        // check if it's actually disabled
+        Assert.assertFalse(procedure.isAdjustmentEnabled(0));
+
+        // enabling the remaining adjustment
         try {
             procedure.enable(0);
-            Assert.fail("Invalid index, should throw");
         } catch (IllegalArgumentException e) {
-            Assert.assertTrue(true);
+            Assert.fail("Should be able to enable.");
         }
 
+        // adding back another adjustment with default tool
         try {
-            procedure.add(new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(DEFAULT_TOOL));
         } catch (IllegalArgumentException e) {
             Assert.fail("Should be able to add the adjustment.");
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("Should be able to add the adjustment.");
         }
+
+        Assert.assertTrue(procedure.getHistorySize() == 4);
+
+        // disable the default adjustment
         try {
-            procedure.disable(0);
+            procedure.disable(1);
         } catch (IllegalArgumentException e) {
             Assert.fail("I should be able to disable the adjustment.");
         }
-        Assert.assertFalse(procedure.isAdjustmentEnabled(0));
+
+        Assert.assertFalse(procedure.isAdjustmentEnabled(1));
+
+        // enable it
         try {
-            procedure.enable(0);
+            procedure.enable(1);
         } catch (IllegalArgumentException e) {
             Assert.fail("I should be able to disable the adjustment.");
         }
-        Assert.assertTrue(procedure.isAdjustmentEnabled(0));
+
+        // check again the enabled status
+        Assert.assertTrue(procedure.isAdjustmentEnabled(1));
+        Assert.assertTrue(procedure.isAdjustmentEnabled(DEFAULT_TOOL.getToolType()));
 
         procedure.disable(0);
-        procedure.edit(0, new AdjustmentImpl("CASTA", DEFAULT_TOOL, DEFAULT_IMAGE));
-        Assert.assertTrue(procedure.findByName("CASA") == -1);
-        Assert.assertTrue(procedure.findByName("CASTA") == 0);
-        Assert.assertTrue(procedure.isAdjustmentEnabled(0));
+
+        // edit, should replace and set enabled
+        procedure.edit(1, new AdjustmentImpl(DEFAULT_TOOL));
+
+        Assert.assertTrue(procedure.isAdjustmentEnabled(1));
+        Assert.assertTrue(procedure.getHistorySize() == 5);
+
+        // try to add after edit, must fail
         try {
-            procedure.add(new AdjustmentImpl("CAVALA", DEFAULT_TOOL, DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(DEFAULT_TOOL));
             Assert.fail();
         } catch (final AdjustmentAlreadyPresentException e) {
             Assert.assertTrue(true); 
         }
 
-        // debuggg
-        System.out.println(">" + procedure);
+        Assert.assertTrue(procedure.getHistorySize() == 5);
 
-//        Assert.assertTrue(procedure.getValue(0, ParameterName.WRED).isPresent());
-//        Assert.assertFalse(procedure.getValue(0, ParameterName.ANGLE).isPresent());
-
+        // pull out a value, must fail
         try {
             procedure.getValue(2, ParameterName.WRED);
             Assert.fail();
@@ -167,48 +194,37 @@ public final class ProcedureTest {
     }
 
     /**
-     * Basic test to test encapsulation. Ugly but functional.
-     */
-    @Test
-    public void testEncapsulation() {
-        final Procedure procedure = new ProcedureImpl();
-        final Adjustment adjustment = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        try {
-            procedure.add(adjustment);
-        } catch (final AdjustmentAlreadyPresentException e) {
-            Assert.fail("I should be able to add tool.");
-        }
-        adjustment.setName("CASSARO"); //modifiche fuori dalla Procedure non devono riflettersi sulla Procedure.
-        Assert.assertTrue(procedure.findByName("CASSARO") == -1);
-    }
-
-    /**
-     * Test to see the output of toString() and nodeNamesToString().
+     * Test to see the output of procedure toString().
      */
     @Test
     public void testToString() {
-        final ProcedureImpl procedure = new ProcedureImpl();
-        final Adjustment adj = new AdjustmentImpl(DEFAULT_NAME, DEFAULT_TOOL, DEFAULT_IMAGE);
-        final Adjustment adj1 = new AdjustmentImpl("giovanni", Brightness.createBrightness(), DEFAULT_IMAGE);
-        final Adjustment adj2 = new AdjustmentImpl("barlughi", Contrast.createContrast(), DEFAULT_IMAGE);
+        System.out.println("# TEST -> toString");
+        final ProcedureImpl procedure = new ProcedureImpl(DEFAULT_IMAGE, true);
+        final Adjustment adj = new AdjustmentImpl(DEFAULT_TOOL);
+        final Adjustment adj1 = new AdjustmentImpl(Brightness.createBrightness());
+        final Adjustment adj2 = new AdjustmentImpl(Contrast.createContrast());
         try {
             procedure.add(adj);
+            procedure.add(adj1);
+            procedure.add(adj2);
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the adjustment.");
         }
         try {
-            procedure.add(adj1);
-        } catch (AdjustmentAlreadyPresentException e) {
-            Assert.fail("I should be able to add the tool.");
+            procedure.edit(Tools.BRIGHTNESS, new AdjustmentImpl(Brightness.createBrightness()));
+        } catch (IllegalArgumentException e) {
+            Assert.fail("I should be able to edit the adjustment.");
         }
         try {
-            procedure.add(adj2);
+            procedure.add(new AdjustmentImpl(Hue.createHue()));
+            procedure.remove(Tools.HUE);
         } catch (AdjustmentAlreadyPresentException e) {
-            Assert.fail("I should be able to add the tool.");
+            Assert.fail("I should be able to add the adjustment");
+        } catch (IllegalArgumentException e) {
+            Assert.fail("I should be able to remove the adjustment.");
         }
         System.out.println(procedure);
-        System.out.println(procedure.adjustmentsNamesToString());
-        Assert.assertTrue(true);
+        System.out.println("<<");
     }
 
     /**
@@ -217,10 +233,10 @@ public final class ProcedureTest {
     @Test
     public void testHistoryUpdate() {
         System.out.println("# TEST -> History Update:");
-        final Procedure procedure = new ProcedureImpl();
+        final Procedure procedure = new ProcedureImpl(DEFAULT_IMAGE, true);
         Assert.assertTrue(procedure.getHistorySize() == 0);
         try {
-            procedure.add(new AdjustmentImpl("giovanni", Brightness.createBrightness(), DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(Brightness.createBrightness()));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
         } catch (Exception e) {
@@ -230,7 +246,7 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.getHistorySize() == 1);
 
         try {
-            procedure.add(new AdjustmentImpl("dore", Contrast.createContrast(), DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(Contrast.createContrast()));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
         } catch (Exception e) {
@@ -238,7 +254,25 @@ public final class ProcedureTest {
         }
         Assert.assertTrue(procedure.getHistorySize() == 2);
 
+        try {
+            procedure.edit(Tools.BRIGHTNESS, new AdjustmentImpl(Brightness.createBrightness()));
+        } catch (IllegalArgumentException e) {
+            Assert.fail("I should be able to edit the tool.");
+        } catch (Exception e) {
+            Assert.fail("I should be able to edit the tool.");
+        }
+        Assert.assertTrue(procedure.getHistorySize() == 3);
+
+        try {
+            procedure.remove(Tools.BRIGHTNESS);
+            procedure.remove(Tools.CONTRAST);
+        } catch (IllegalArgumentException e) {
+            Assert.fail("I should be able to remove the tool.");
+        }
+        Assert.assertTrue(procedure.getHistorySize() == 5);
+
         System.out.println(procedure);
+        System.out.println("<<");
     }
 
     /**
@@ -247,41 +281,13 @@ public final class ProcedureTest {
     @Test
     public void testProcedureAddUndoRedo() {
         System.out.println("# TEST -> Procedure ADD Undo Redo");
-        final Procedure procedure = new ProcedureImpl();
+        final Procedure procedure = new ProcedureImpl(DEFAULT_IMAGE, true);
         try {
-            procedure.add(new AdjustmentImpl("giovanni", Brightness.createBrightness(), DEFAULT_IMAGE));
-        } catch (AdjustmentAlreadyPresentException e) {
-            Assert.fail("I should be able to add the tool.");
-        } catch (Exception e) {
-            Assert.fail("I should be able to add the tool.");
-        }
-
-        try {
-            procedure.add(new AdjustmentImpl("dore", Contrast.createContrast(), DEFAULT_IMAGE));
-        } catch (AdjustmentAlreadyPresentException e) {
-            Assert.fail("I should be able to add the tool.");
-        } catch (Exception e) {
-            Assert.fail("I should be able to add the tool.");
-        }
-
-        try {
-            procedure.add(new AdjustmentImpl("immenso", Vibrance.createVibrance(), DEFAULT_IMAGE));
-        } catch (AdjustmentAlreadyPresentException e) {
-            Assert.fail("I should be able to add the tool.");
-        } catch (Exception e) {
-            Assert.fail("I should be able to add the tool.");
-        }
-
-        try {
-            procedure.add(new AdjustmentImpl("nel mio", Saturation.createSaturation(), DEFAULT_IMAGE));
-        } catch (AdjustmentAlreadyPresentException e) {
-            Assert.fail("I should be able to add the tool.");
-        } catch (Exception e) {
-            Assert.fail("I should be able to add the tool.");
-        }
-
-        try {
-            procedure.add(new AdjustmentImpl("cuore", Hue.createHue(), DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(Brightness.createBrightness()));
+            procedure.add(new AdjustmentImpl(Contrast.createContrast()));
+            procedure.add(new AdjustmentImpl(Vibrance.createVibrance()));
+            procedure.add(new AdjustmentImpl(Saturation.createSaturation()));
+            procedure.add(new AdjustmentImpl(Hue.createHue()));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
         } catch (Exception e) {
@@ -295,6 +301,8 @@ public final class ProcedureTest {
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
         Assert.assertTrue(procedure.getHistorySize() == 5);
+
+        // undo ADD HUE
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
@@ -303,10 +311,15 @@ public final class ProcedureTest {
             System.out.println(e);
             Assert.fail("I should be able to undo the action.");
         }
+
         Assert.assertTrue(procedure.getHistorySize() == 5);
         Assert.assertTrue(procedure.canAdd(Tools.HUE));
-
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
+
+        // undo ADD SATURATION
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
@@ -314,11 +327,16 @@ public final class ProcedureTest {
         } catch (Exception e) {
             Assert.fail("I should be able to undo the action.");
         }
+
         Assert.assertTrue(procedure.getHistorySize() == 5);
         Assert.assertTrue(procedure.canAdd(Tools.SATURATION));
+        Assert.assertTrue(procedure.canAdd(Tools.HUE));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
 
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 procedure.undo();
             }
             Assert.fail("Shouldn't be able to undo this much!");
@@ -336,6 +354,9 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.canAdd(Tools.BRIGHTNESS));
         Assert.assertTrue(procedure.getHistorySize() == 5);
 
+        // the procedure is empty, redo:
+        // ADD BRIGHTNESS
+        // ADD CONTRAST
         try {
             procedure.redo();
             procedure.redo();
@@ -351,10 +372,9 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.canAdd(Tools.VIBRANCE));
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
-        Assert.assertTrue(procedure.getHistorySize() == 5);
 
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 procedure.redo();
             }
         } catch (NoMoreActionsException e) {
@@ -379,22 +399,18 @@ public final class ProcedureTest {
     @Test
     public void testProcedureRemoveUndoRedo() {
         System.out.println("# TEST -> Procedure REMOVE Undo Redo");
-        final Procedure procedure = new ProcedureImpl();
+        final Procedure procedure = new ProcedureImpl(DEFAULT_IMAGE, true);
         try {
-            procedure.add(new AdjustmentImpl("giovanni", Brightness.createBrightness(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("dore", Contrast.createContrast(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("immenso", Vibrance.createVibrance(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("nel mio", Saturation.createSaturation(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("cuore", Hue.createHue(), DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(Brightness.createBrightness()));
+            procedure.add(new AdjustmentImpl(Contrast.createContrast()));
+            procedure.add(new AdjustmentImpl(Vibrance.createVibrance()));
+            procedure.add(new AdjustmentImpl(Saturation.createSaturation()));
+            procedure.add(new AdjustmentImpl(Hue.createHue()));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
         } catch (Exception e) {
-            System.out.println(e);
             Assert.fail("I should be able to add the tool.");
         }
-
-        Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
 
         try {
             procedure.remove(Tools.CONTRAST);
@@ -406,7 +422,11 @@ public final class ProcedureTest {
 
         Assert.assertTrue(procedure.canAdd(Tools.CONTRAST));
         Assert.assertTrue(procedure.canAdd(Tools.SATURATION));
+        Assert.assertFalse(procedure.canAdd(Tools.HUE));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
 
+        // undo REMOVE SATURATION
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
@@ -415,10 +435,15 @@ public final class ProcedureTest {
             System.out.println(e);
             Assert.fail("I should be able to undo the action.");
         }
+
         Assert.assertTrue(procedure.getHistorySize() == 7);
         Assert.assertTrue(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
+        Assert.assertFalse(procedure.canAdd(Tools.HUE));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
 
+        // undo REMOVE CONTRAST
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
@@ -429,9 +454,12 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.getHistorySize() == 7);
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
+        Assert.assertFalse(procedure.canAdd(Tools.HUE));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
 
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 procedure.undo();
             }
             Assert.fail("Shouldn't be able to undo this much!");
@@ -449,6 +477,8 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.canAdd(Tools.BRIGHTNESS));
         Assert.assertTrue(procedure.getHistorySize() == 7);
 
+        // redo ADD BRIGHTNESS
+        // redo ADD CONTRAST
         try {
             procedure.redo();
             procedure.redo();
@@ -467,7 +497,7 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.getHistorySize() == 7);
 
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 procedure.redo();
             }
         } catch (NoMoreActionsException e) {
@@ -492,13 +522,13 @@ public final class ProcedureTest {
     @Test
     public void testProcedureEditUndoRedo() {
         System.out.println("# TEST -> Procedure REMOVE Undo Redo");
-        final ProcedureImpl procedure = new ProcedureImpl();
+        final ProcedureImpl procedure = new ProcedureImpl(DEFAULT_IMAGE, true);
         try {
-            procedure.add(new AdjustmentImpl("giovanni", Brightness.createBrightness(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("dore", Contrast.createContrast(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("immenso", Vibrance.createVibrance(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("nel mio", Saturation.createSaturation(), DEFAULT_IMAGE));
-            procedure.add(new AdjustmentImpl("cuore", Hue.createHue(), DEFAULT_IMAGE));
+            procedure.add(new AdjustmentImpl(Brightness.createBrightness()));
+            procedure.add(new AdjustmentImpl(Contrast.createContrast()));
+            procedure.add(new AdjustmentImpl(Vibrance.createVibrance()));
+            procedure.add(new AdjustmentImpl(Saturation.createSaturation()));
+            procedure.add(new AdjustmentImpl(Hue.createHue()));
         } catch (AdjustmentAlreadyPresentException e) {
             Assert.fail("I should be able to add the tool.");
         } catch (Exception e) {
@@ -506,12 +536,9 @@ public final class ProcedureTest {
             Assert.fail("I should be able to add the tool.");
         }
 
-        Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
-
         try {
-            procedure.edit(Tools.CONTRAST, new AdjustmentImpl("DORE", Contrast.createContrast(), DEFAULT_IMAGE));
-            procedure.edit(Tools.SATURATION, new AdjustmentImpl("NEL MIO", Saturation.createSaturation(), DEFAULT_IMAGE));
+            procedure.edit(Tools.CONTRAST, new AdjustmentImpl(Contrast.createContrast()));
+            procedure.edit(Tools.SATURATION, new AdjustmentImpl(Saturation.createSaturation()));
         } catch (Exception e) {
             System.out.println(e);
             Assert.fail("I should be able to remove those adjustments");
@@ -519,9 +546,11 @@ public final class ProcedureTest {
 
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("DORE"));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("NEL MIO"));
+        Assert.assertFalse(procedure.canAdd(Tools.HUE));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
 
+        // undo EDIT SATURATION
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
@@ -533,9 +562,11 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.getHistorySize() == 7);
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("DORE"));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("nel mio"));
+        Assert.assertFalse(procedure.canAdd(Tools.HUE));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
 
+        // undo EDIT CONTRAST
         try {
             procedure.undo();
         } catch (NoMoreActionsException e) {
@@ -546,11 +577,12 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.getHistorySize() == 7);
         Assert.assertFalse(procedure.canAdd(Tools.CONTRAST));
         Assert.assertFalse(procedure.canAdd(Tools.SATURATION));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("dore"));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("nel mio"));
+        Assert.assertFalse(procedure.canAdd(Tools.HUE));
+        Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
+        Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
 
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 procedure.undo();
             }
             Assert.fail("Shouldn't be able to undo this much!");
@@ -569,7 +601,7 @@ public final class ProcedureTest {
         Assert.assertTrue(procedure.getHistorySize() == 7);
 
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 procedure.redo();
             }
         } catch (NoMoreActionsException e) {
@@ -583,8 +615,6 @@ public final class ProcedureTest {
         Assert.assertFalse(procedure.canAdd(Tools.HUE));
         Assert.assertFalse(procedure.canAdd(Tools.VIBRANCE));
         Assert.assertFalse(procedure.canAdd(Tools.BRIGHTNESS));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.CONTRAST).equals("DORE"));
-        Assert.assertTrue(procedure.getAdjustmentName(Tools.SATURATION).equals("NEL MIO"));
         Assert.assertTrue(procedure.getHistorySize() == 7);
 
         System.out.println("<<");

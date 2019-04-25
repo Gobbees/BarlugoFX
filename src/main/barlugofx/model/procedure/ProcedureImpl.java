@@ -1,8 +1,8 @@
 package barlugofx.model.procedure;
 
-import barlugofx.model.tools.Tools;
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
+import barlugofx.model.tools.Tools;
 import javafx.util.Pair;
 import barlugofx.model.imagetools.Image;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
@@ -166,7 +166,7 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
-    public int findByType(final Tools type) {
+    public Integer findByType(final Tools type) {
         if (type == null) {
             throw new IllegalArgumentException("type reference is null");
         }
@@ -198,6 +198,15 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
+    public boolean isAdjustmentEnabled(final Tools type) {
+        final Integer index = this.findByType(type);
+        if (index == null) {
+            throw new IllegalArgumentException("Adjustment not present");
+        }
+        return this.isAdjustmentEnabled(index);
+    }
+
+    @Override
     public boolean isAdjustmentEnabled(final int index) {
         if (index < 0 || index >= this.nextIndex) {
             throw new IllegalArgumentException("Invalid index (either negative or too big)");
@@ -225,13 +234,18 @@ public final class ProcedureImpl implements Procedure {
 
     @Override
     public String toString() {
-        return "Procedure{size="
+        String res = "Procedure{size="
                 + this.totalToolCount
                 + ",nextIndex="
                 + this.nextIndex
-                + ","
-                + this.history.toString()
-                + "}";
+                + ",adjustments=[";
+        for (int i = 0; i < this.nextIndex; i++) {
+            res += this.adjustments[i].getToolType() + ((i != this.nextIndex - 1) ? ", " : "");
+        }
+        res += "],"
+            + this.history.toString()
+            + "}";
+        return res;
     }
 
     @Override

@@ -69,6 +69,6 @@ public final class ActionImpl implements Action {
 
     @Override
     public String toString() {
-        return this.type.name();
+        return this.type.toString() + "(" + this.adjustmentAfter.getToolType().toString() + ")";
     }
 }
