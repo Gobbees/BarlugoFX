@@ -301,11 +301,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Undo", createCompleteRunnable(() -> {
             try {
                 this.getManager().undo();
-                Platform.runLater(() -> {
-                    if (lvHistory.getItems().size() >= 1) {
-                        undoneOps.add(0, lvHistory.getItems().remove(lvHistory.getItems().size() - 1));
-                    }
-                });
+                Platform.runLater(() -> undoneOps.add(0, lvHistory.getItems().remove(lvHistory.getItems().size() - 1)));
             } catch (IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
             }
@@ -321,11 +317,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Redo", createCompleteRunnable(() -> {
             try {
                 this.getManager().redo();
-                Platform.runLater(() -> {
-                    if (undoneOps.size() >= 1) {
-                        lvHistory.getItems().add(undoneOps.remove(0));
-                    }
-                });
+                Platform.runLater(() -> lvHistory.getItems().add(undoneOps.remove(0)));
             } catch (IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
             }
@@ -837,10 +829,7 @@ public final class MainController extends AbstractViewControllerWithManager {
             Platform.runLater(() -> lvHistory.getItems().add("Vibrance set to: " + toolStatus.get(ViewTools.VIBRANCE).getFirst().intValue()));
         }));
         btnSCApply.setOnMouseClicked(ev -> {
-            if (toolStatus.get(ViewTools.SCR).getSecond() && toolStatus.get(ViewTools.SCG).getSecond() && toolStatus.get(ViewTools.SCB).getSecond()
-                    && ((int) slSCR.getValue() != toolStatus.get(ViewTools.SCR).getFirst().intValue()
-                            || (int) slSCG.getValue() != toolStatus.get(ViewTools.SCG).getFirst().intValue()
-                            || (int) slSCB.getValue() != toolStatus.get(ViewTools.SCB).getFirst().intValue())) {
+            if (toolStatus.get(ViewTools.SCR).getSecond() && toolStatus.get(ViewTools.SCG).getSecond() && toolStatus.get(ViewTools.SCB).getSecond()) {
                 runNewThread("Selective Color", createCompleteRunnable(() -> {
                     toolStatus.get(ViewTools.SCR).setFirst((int) slSCR.getValue());
                     toolStatus.get(ViewTools.SCG).setFirst((int) slSCG.getValue());
@@ -853,10 +842,7 @@ public final class MainController extends AbstractViewControllerWithManager {
             }
         });
         btnBWApply.setOnMouseClicked(ev -> {
-            if (toolStatus.get(ViewTools.BWR).getSecond() && toolStatus.get(ViewTools.BWG).getSecond() && toolStatus.get(ViewTools.BWB).getSecond()
-                    && (int) slBWR.getValue() != toolStatus.get(ViewTools.BWR).getFirst().intValue()
-                    || (int) slBWG.getValue() != toolStatus.get(ViewTools.BWG).getFirst().intValue()
-                    || (int) slBWB.getValue() != toolStatus.get(ViewTools.BWB).getFirst().intValue()) {
+            if (toolStatus.get(ViewTools.BWR).getSecond() && toolStatus.get(ViewTools.BWG).getSecond() && toolStatus.get(ViewTools.BWB).getSecond()) {
                 runNewThread("Black n White", createCompleteRunnable(() -> {
                     toolStatus.get(ViewTools.BWR).setFirst((int) slBWR.getValue());
                     toolStatus.get(ViewTools.BWG).setFirst((int) slBWG.getValue());
@@ -884,8 +870,7 @@ public final class MainController extends AbstractViewControllerWithManager {
 
     private void addKeyListener(final JFXTextField node, final KeyCode kc, final ViewTools tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(kc) && toolStatus.get(tool).getSecond()
-                    && Integer.parseInt(node.getText()) != toolStatus.get(tool).getFirst().intValue()) {
+            if (ke.getCode().equals(kc) && toolStatus.get(tool).getSecond()) {
                 runNewThread(tool.toString(), rn);
             }
         });
@@ -893,7 +878,7 @@ public final class MainController extends AbstractViewControllerWithManager {
 
     private void addKeyListener(final JFXSlider node, final KeyCode kc, final ViewTools tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {
-            if (ke.getCode().equals(kc) && (int) node.getValue() != toolStatus.get(tool).getFirst().intValue()) {
+            if (ke.getCode().equals(kc)) {
                 runNewThread(tool.toString(), rn);
             }
         });

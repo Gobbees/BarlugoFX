@@ -1,6 +1,6 @@
 package barlugofx.model.procedure;
 
-import barlugofx.utils.Tools;
+import barlugofx.model.tools.Tools;
 
 /**
  * Implementation of the History object, features a fixed size.

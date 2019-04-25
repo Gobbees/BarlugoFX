@@ -3,7 +3,7 @@ package barlugofx.model.tools.common;
 import java.util.Optional;
 
 import barlugofx.model.imagetools.Image;
-import barlugofx.utils.Tools;
+import barlugofx.model.tools.Tools;
 
 /**
  * This interface models any tool or modification that can be applied to an {@link Image}.

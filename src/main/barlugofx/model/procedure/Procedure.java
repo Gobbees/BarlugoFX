@@ -2,9 +2,9 @@ package barlugofx.model.procedure;
 
 import java.util.Optional;
 
+import barlugofx.model.tools.Tools;
 import barlugofx.model.tools.common.Parameter;
 import barlugofx.model.tools.common.ParameterName;
-import barlugofx.utils.Tools;
 import javafx.util.Pair;
 import barlugofx.model.imagetools.Image;
 

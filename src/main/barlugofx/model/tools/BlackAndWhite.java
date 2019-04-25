@@ -9,7 +9,6 @@ import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.AbstractImageTool;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterName;
-import barlugofx.utils.Tools;
 
 /**
  * This class models a black and white filter which accepts up to three

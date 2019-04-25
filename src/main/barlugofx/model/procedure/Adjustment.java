@@ -1,10 +1,9 @@
 package barlugofx.model.procedure;
 
 import barlugofx.model.imagetools.Image;
-
+import barlugofx.model.tools.Tools;
 import barlugofx.model.tools.common.ImageTool;
 import barlugofx.model.tools.common.ParallelizableImageTool;
-import barlugofx.utils.Tools;
 /**
  * This interface models an Adjustment applied to an Image.
  * An Adjustment is a change to the Image; each change it's made using an ImageFilter, which is accessible through the method.

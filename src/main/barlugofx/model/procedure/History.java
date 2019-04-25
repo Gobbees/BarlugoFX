@@ -1,6 +1,6 @@
 package barlugofx.model.procedure;
 
-import barlugofx.utils.Tools;
+import barlugofx.model.tools.Tools;
 
 /**
  * The History interface models the behaviour of a history object which allows the user to save an action,

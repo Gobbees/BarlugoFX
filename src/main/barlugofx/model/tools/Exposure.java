@@ -7,7 +7,6 @@ import barlugofx.model.imagetools.ColorUtils;
 import barlugofx.model.tools.common.AbstractImageTool;
 import barlugofx.model.tools.common.ParallelizableImageTool;
 import barlugofx.model.tools.common.ParameterName;
-import barlugofx.utils.Tools;
 
 /**
  * This class handles the change of an {@link Image} involving EXPOSURE. This class
