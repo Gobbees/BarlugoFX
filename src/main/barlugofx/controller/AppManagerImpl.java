@@ -16,6 +16,7 @@ import barlugofx.model.imagetools.ImageUtils;
 import barlugofx.model.parallelhandler.ParallelFilterExecutor;
 import barlugofx.model.procedure.AdjustmentAlreadyPresentException;
 import barlugofx.model.procedure.AdjustmentImpl;
+import barlugofx.model.procedure.NoMoreActionsException;
 import barlugofx.model.procedure.Procedure;
 import barlugofx.model.procedure.ProcedureImpl;
 import barlugofx.model.tools.BlackAndWhite;
@@ -231,6 +232,24 @@ public final class AppManagerImpl implements AppManager {
             addParametersToCropper(cropper, x1, y1, x2, y2);
         }
         image = uploadProcedure(Tools.CROPPER, cropper);
+    }
+
+    @Override
+    public void undo() throws IllegalStateException {
+        try {
+            image = procedure.undo();
+        } catch (NoMoreActionsException | AdjustmentAlreadyPresentException e) {
+            throw new IllegalStateException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void redo() throws IllegalStateException {
+        try {
+            image = procedure.redo();
+        } catch (NoMoreActionsException | AdjustmentAlreadyPresentException e) {
+            throw new IllegalStateException(e.getMessage());
+        }
     }
 
     @Override

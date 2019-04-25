@@ -7,6 +7,8 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
+import barlugofx.model.procedure.AdjustmentAlreadyPresentException;
+import barlugofx.model.procedure.NoMoreActionsException;
 import barlugofx.utils.Format;
 
 /**
@@ -97,6 +99,16 @@ public interface AppManager {
      * @param y2 the bottomright y coordinate
      */
     void crop(int x1, int y1, int x2, int y2);
+    /**
+     * Undoes the last edit.
+     * @throws IllegalStateException if there are no more actions to undo.
+     */
+    void undo() throws IllegalStateException;
+    /**
+     * Redoes the last undone edit.
+     * @throws IllegalStateException if there are no more actions to redo.
+     */
+    void redo() throws IllegalStateException;
     /**
      * Exports the image in the requested file and format.
      * @param file the output file

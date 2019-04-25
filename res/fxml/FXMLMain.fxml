@@ -86,6 +86,13 @@
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
+								<MenuItem mnemonicParsing="true" text="Redo"
+                                    onAction="#redo">
+                                    <accelerator>
+                                        <KeyCodeCombination code="z" control="DOWN"
+                                            alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
+                                    </accelerator>
+                                </MenuItem>
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Tools">
@@ -437,6 +444,10 @@
 											visible="false" />
 										<JFXButton fx:id="btnUndo" text="Undo"
 											onAction="#undo"/>
+									    <Separator orientation="horizontal" prefWidth="5"
+                                            visible="false" />
+                                        <JFXButton fx:id="btnRedo" text="Redo"
+                                            onAction="#redo"/>
 									</children>
 								</HBox>
 								<Separator orientation="vertical" prefHeight="5" 

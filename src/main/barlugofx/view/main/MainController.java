@@ -208,7 +208,6 @@ public final class MainController extends AbstractViewControllerWithManager {
         initToolStatus();
         addListeners();
         addKeyboardShortcuts();
-        // stage closing
         stage.setOnCloseRequest(ev -> {
             if (exportView.isPresent()) {
                 exportView.get().closeStage();
@@ -288,13 +287,35 @@ public final class MainController extends AbstractViewControllerWithManager {
         }
         exportView = Optional.of(new ExportView(this.getManager()));
     }
+
     /**
      * Undo event triggered.
      */
     @FXML
     public void undo() {
         checkManager();
-        lvHistory.getItems().add("Ciao");
+        runNewThread("Undo", createCompleteRunnable(() -> {
+            try {
+                this.getManager().undo();
+            } catch (IllegalStateException e) {
+                View.showErrorAlert(e.getMessage());
+            }
+        }));
+    }
+
+    /**
+     * Redo event triggered.
+     */
+    @FXML
+    public void redo() {
+        checkManager();
+        runNewThread("Redo", createCompleteRunnable(() -> {
+            try {
+                this.getManager().redo();
+            } catch (IllegalStateException e) {
+                View.showErrorAlert(e.getMessage());
+            }
+        }));
     }
 
     /**
@@ -325,6 +346,7 @@ public final class MainController extends AbstractViewControllerWithManager {
                 this.getManager().rotate(rotateLine.get().getAngle());
                 Platform.runLater(() -> {
                     updateImage();
+                    lvHistory.getItems().add("Image rotated");
                     apaneImage.setCursor(Cursor.DEFAULT);
                     apaneImage.setOnMouseDragged(null);
                     apaneImage.setOnMouseReleased(null);
@@ -383,7 +405,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         checkManager();
         disableZoomAndColumnResize();
         resizeToDefault();
-        spaneRightColumn.setMaxWidth(spaneRightColumn.getWidth());
+        spaneMain.setDividerPosition(0, (this.getScene().getWidth() - spaneRightColumn.getMinWidth()) / this.getScene().getWidth());
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         apaneImage.getChildren().clear();
         final CropArea cropper = new CropArea(iviewImage.getRealWidth() / 2, iviewImage.getRealHeight() / 2,
@@ -498,6 +520,7 @@ public final class MainController extends AbstractViewControllerWithManager {
                     this.getManager().crop(x1, y1, x2, y2);
                     Platform.runLater(() -> {
                         updateImage();
+                        lvHistory.getItems().add("Image cropped");
                         cropper.removeFromPane(apaneImage);
                         apaneImage.setOnMouseDragged(null);
                         apaneImage.setOnMouseReleased(null);
@@ -624,7 +647,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         apaneImage.setOnMouseReleased(e -> {
             apaneImage.setCursor(Cursor.OPEN_HAND);
         });
-        apaneImage.setOnMouseClicked(e -> { // TODO Tutorial
+        apaneImage.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 resizeToDefault();
             }
@@ -648,11 +671,11 @@ public final class MainController extends AbstractViewControllerWithManager {
         iviewImage.updateRealSizes();
     }
 
-    // this function initializes all the components sizes in relation to the screen
-    // size.
+    // this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
         tflowLogo.setVisible(true);
+        spaneMain.setDividerPosition(0, (this.getScene().getWidth() - spaneRightColumn.getMinWidth()) / this.getScene().getWidth());
         spaneRightColumn.setMinWidth(this.getScene().getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setMaxWidth(this.getScene().getWidth());
@@ -726,64 +749,78 @@ public final class MainController extends AbstractViewControllerWithManager {
         addKeyListener(tfExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
             toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
             this.getManager().setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Exposure set to: " + toolStatus.get(EXPOSURE).getFirst().intValue()));
         }));
         addKeyListener(slExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
             toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
             this.getManager().setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Exposure set to: " + toolStatus.get(EXPOSURE).getFirst().intValue()));
         }));
         // contrast
         addKeyListener(tfContrast, KeyCode.ENTER, CONTRAST, createCompleteRunnable(() -> {
             toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
             this.getManager().setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Contrast set to: " + toolStatus.get(CONTRAST).getFirst().intValue()));
         }));
         addKeyListener(slContrast, KeyCode.ENTER, CONTRAST, createCompleteRunnable(() -> {
             toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
             this.getManager().setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Contrast set to: " + toolStatus.get(CONTRAST).getFirst().intValue()));
         }));
         // brightness
         addKeyListener(tfBrightness, KeyCode.ENTER, BRIGHTNESS, createCompleteRunnable(() -> {
             toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
             this.getManager().setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Brightness set to: " + toolStatus.get(BRIGHTNESS).getFirst().intValue()));
         }));
         addKeyListener(slBrightness, KeyCode.ENTER, BRIGHTNESS, createCompleteRunnable(() -> {
             toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
             this.getManager().setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Brightness set to: " + toolStatus.get(BRIGHTNESS).getFirst().intValue()));
         }));
         // wb
         addKeyListener(tfWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
             this.getManager().setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("White Balance set to: " + toolStatus.get(WHITEBALANCE).getFirst().intValue()));
         }));
         addKeyListener(slWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
             toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
             this.getManager().setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("White Balance set to: " + toolStatus.get(WHITEBALANCE).getFirst().intValue()));
         }));
         // saturation
         addKeyListener(tfSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
             toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
             this.getManager().setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Saturation set to: " + toolStatus.get(SATURATION).getFirst().intValue()));
         }));
         addKeyListener(slSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
             toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
             this.getManager().setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Saturation set to: " + toolStatus.get(SATURATION).getFirst().intValue()));
         }));
         // hue
         addKeyListener(tfHue, KeyCode.ENTER, HUE, createCompleteRunnable(() -> {
             toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
             this.getManager().setHue(toolStatus.get(HUE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Hue set to: " + toolStatus.get(HUE).getFirst().intValue()));
         }));
         addKeyListener(slHue, KeyCode.ENTER, HUE, createCompleteRunnable(() -> {
             toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
             this.getManager().setHue(toolStatus.get(HUE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Hue set to: " + toolStatus.get(HUE).getFirst().intValue()));
         }));
         // vibrance
         addKeyListener(tfVibrance, KeyCode.ENTER, VIBRANCE, createCompleteRunnable(() -> {
             toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
             this.getManager().setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Vibrance set to: " + toolStatus.get(VIBRANCE).getFirst().intValue()));
         }));
         addKeyListener(slVibrance, KeyCode.ENTER, VIBRANCE, createCompleteRunnable(() -> {
             toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
             this.getManager().setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Vibrance set to: " + toolStatus.get(VIBRANCE).getFirst().intValue()));
         }));
         btnSCApply.setOnMouseClicked(ev -> {
             if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()
@@ -796,6 +833,8 @@ public final class MainController extends AbstractViewControllerWithManager {
                     toolStatus.get(SCB).setFirst((int) slSCB.getValue());
                     this.getManager().setSelectiveColors(toolStatus.get(SCR).getFirst().intValue(),
                             toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
+                    Platform.runLater(() -> lvHistory.getItems().add("Sel. Col. set to: " + toolStatus.get(SCR).getFirst().intValue() + ", "
+                            + toolStatus.get(SCG).getFirst().intValue() + " ," + toolStatus.get(SCB).getFirst().intValue()));
                 }));
             }
         });
@@ -810,6 +849,8 @@ public final class MainController extends AbstractViewControllerWithManager {
                     toolStatus.get(BWB).setFirst((int) slBWB.getValue());
                     this.getManager().setBlackAndWhite(toolStatus.get(BWR).getFirst().intValue(),
                             toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
+                    Platform.runLater(() -> lvHistory.getItems().add("B&W set to: " + toolStatus.get(BWR).getFirst().intValue() + ", "
+                            + toolStatus.get(BWG).getFirst().intValue() + " ," + toolStatus.get(BWB).getFirst().intValue()));
                 }));
             }
         });
