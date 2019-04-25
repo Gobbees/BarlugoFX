@@ -41,7 +41,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -199,7 +198,6 @@ public final class MainController extends AbstractViewControllerWithManager {
         initComponentSize();
         initToolStatus();
         addListeners();
-        removeBasicShortcuts();
         stage.setOnCloseRequest(ev -> {
             if (exportView.isPresent()) {
                 exportView.get().closeStage();
@@ -898,21 +896,6 @@ public final class MainController extends AbstractViewControllerWithManager {
                 runNewThread(tool.toString(), rn);
             }
         });
-    }
-    private void removeBasicShortcuts() {
-        tfExposure.setOnKeyPressed(KeyEvent::consume);
-        tfContrast.setOnKeyPressed(KeyEvent::consume);
-        tfBrightness.setOnKeyPressed(KeyEvent::consume);
-        tfWhitebalance.setOnKeyPressed(KeyEvent::consume);
-        tfSaturation.setOnKeyPressed(KeyEvent::consume);
-        tfHue.setOnKeyPressed(KeyEvent::consume);
-        tfVibrance.setOnKeyPressed(KeyEvent::consume);
-        tfSCR.setOnKeyPressed(KeyEvent::consume);
-        tfSCG.setOnKeyPressed(KeyEvent::consume);
-        tfSCB.setOnKeyPressed(KeyEvent::consume);
-        tfBWR.setOnKeyPressed(KeyEvent::consume);
-        tfBWG.setOnKeyPressed(KeyEvent::consume);
-        tfBWB.setOnKeyPressed(KeyEvent::consume);
     }
 
     private Runnable createCompleteRunnable(final Runnable rn) {
