@@ -220,21 +220,15 @@ public final class AppManagerImpl implements AppManager {
             final Optional<Parameter<? extends Number>> oldX2 = procedure.getValue(Tools.CROPPER, ParameterName.X2);
             final Optional<Parameter<? extends Number>> oldY2 = procedure.getValue(Tools.CROPPER, ParameterName.Y1);
             if (oldX1.isPresent() && oldY1.isPresent() && oldX2.isPresent() && oldY2.isPresent()) {
-                cropper.addParameter(ParameterName.X1, new ParameterImpl<Integer>(oldX1.get().getValue().intValue() + x1));
-                cropper.addParameter(ParameterName.X2, new ParameterImpl<Integer>(oldX2.get().getValue().intValue() - x2));
-                cropper.addParameter(ParameterName.Y1, new ParameterImpl<Integer>(oldY1.get().getValue().intValue() + y1));
-                cropper.addParameter(ParameterName.Y2, new ParameterImpl<Integer>(oldY2.get().getValue().intValue() - y2));
+                addParametersToCropper(cropper, oldX1.get().getValue().intValue() + x1, 
+                        oldY1.get().getValue().intValue() + y1, 
+                        oldX2.get().getValue().intValue() - ((oldX2.get().getValue().intValue() - oldX1.get().getValue().intValue()) - x2),
+                        oldY2.get().getValue().intValue() - ((oldY2.get().getValue().intValue() - oldY1.get().getValue().intValue()) - y2));
             } else {
-                cropper.addParameter(ParameterName.X1, new ParameterImpl<Integer>(x1));
-                cropper.addParameter(ParameterName.X2, new ParameterImpl<Integer>(x2));
-                cropper.addParameter(ParameterName.Y1, new ParameterImpl<Integer>(y1));
-                cropper.addParameter(ParameterName.Y2, new ParameterImpl<Integer>(y2));
+                addParametersToCropper(cropper, x1, y1, x2, y2);
             }
         } else {
-            cropper.addParameter(ParameterName.X1, new ParameterImpl<Integer>(x1));
-            cropper.addParameter(ParameterName.X2, new ParameterImpl<Integer>(x2));
-            cropper.addParameter(ParameterName.Y1, new ParameterImpl<Integer>(y1));
-            cropper.addParameter(ParameterName.Y2, new ParameterImpl<Integer>(y2));
+            addParametersToCropper(cropper, x1, y1, x2, y2);
         }
         image = uploadProcedure(Tools.CROPPER, cropper);
     }
@@ -306,5 +300,12 @@ public final class AppManagerImpl implements AppManager {
         } else {
             return procedure.edit(toolType, new AdjustmentImpl(tool));
         }
+    }
+    //To avoid big copy paste of this section of code
+    private void addParametersToCropper(final Cropper cropper, final int x1, final int y1, final int x2, final int y2) {
+        cropper.addParameter(ParameterName.X1, new ParameterImpl<Integer>(x1));
+        cropper.addParameter(ParameterName.X2, new ParameterImpl<Integer>(x2));
+        cropper.addParameter(ParameterName.Y1, new ParameterImpl<Integer>(y1));
+        cropper.addParameter(ParameterName.Y2, new ParameterImpl<Integer>(y2));
     }
 }
