@@ -5,7 +5,7 @@ package barlugofx.view.main;
  */
 enum ViewTools {
     EXPOSURE(0), CONTRAST(0), BRIGHTNESS(0), WHITEBALANCE(50), SATURATION(0), HUE(0), VIBRANCE(0), SCR(0), SCG(0),
-    SCB(50), BWR(50), BWG(50), BWB(50);
+    SCB(0), BWR(50), BWG(50), BWB(50);
     private final int defaultValue;
 
     ViewTools(final int defVal) {
