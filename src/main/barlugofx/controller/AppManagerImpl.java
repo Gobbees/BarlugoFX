@@ -79,7 +79,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setImage(final File file) throws IOException {
+    public synchronized void setImage(final File file) throws IOException {
         image = fileManager.loadImageFromFile(file);
         procedure = new ProcedureImpl(image, ParallelFilterExecutor.shouldYouParallelize(image));
     }
@@ -169,7 +169,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void rotate(final double angle) {
+    public synchronized void rotate(final double angle) {
         final Rotator rotator = Rotator.createRotator();
         if (!procedure.canAdd(Tools.ROTATOR)) {
             final Optional<Parameter<? extends Number>> oldAngle = procedure.getValue(Tools.ROTATOR, ParameterName.ANGLE);
@@ -185,7 +185,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void crop(final int x1, final int y1, final int x2, final int y2) {
+    public synchronized void crop(final int x1, final int y1, final int x2, final int y2) {
         final Cropper cropper = Cropper.createCropper();
         if (!procedure.canAdd(Tools.CROPPER)) {
             final Optional<Parameter<? extends Number>> oldX1 = procedure.getValue(Tools.CROPPER, ParameterName.X1);
@@ -231,7 +231,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public List<String> applyPreset(final File file) throws IOException, IllegalStateException {
+    public synchronized List<String> applyPreset(final File file) throws IOException, IllegalStateException {
         final Properties properties = fileManager.loadPreset(file);
         String filterName = "";
         int value;
