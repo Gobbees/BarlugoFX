@@ -555,7 +555,7 @@ public final class MainController extends AbstractViewControllerWithManager {
     }
 
     /**
-     * Preset event triggered.
+     * Save preset event triggered.
      */
     @FXML
     public void preset() {

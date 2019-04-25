@@ -89,9 +89,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setExposure(final int value) {
-        if (value == Exposure.getDefaultValue()) {
-            return;
-        }
         final Exposure exposure = Exposure.createExposure();
         exposure.addParameter(ParameterName.EXPOSURE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         image = uploadProcedure(Tools.EXPOSURE, exposure);
@@ -99,9 +96,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setContrast(final int value) {
-        if (value == Contrast.getDefaultValue()) {
-            return;
-        }
         final Contrast contrast = Contrast.createContrast();
         contrast.addParameter(ParameterName.CONTRAST, new ParameterImpl<Integer>(value));
         image = uploadProcedure(Tools.CONTRAST, contrast);
@@ -109,9 +103,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setBrightness(final int value) {
-        if (value == Brightness.getDefaultValue()) {
-            return;
-        }
         final Brightness brightness = Brightness.createBrightness();
         brightness.addParameter(ParameterName.BRIGHTNESS, new ParameterImpl<Integer>(value));
         image = uploadProcedure(Tools.BRIGHTNESS, brightness);
@@ -119,9 +110,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setWhiteBalance(final int value) {
-        if (value == WhiteBalance.getDefaultValue()) {
-            return;
-        }
         final WhiteBalance wb = WhiteBalance.createWhiteBalance();
         wb.addParameter(ParameterName.WHITEBALANCE, new ParameterImpl<Float>(value * WB_MULTIPLIER));
         image = uploadProcedure(Tools.WHITEBALANCE, wb);
@@ -129,9 +117,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setSaturation(final int value) {
-        if (value == Saturation.getDefaultValue()) {
-            return;
-        }
         final Saturation saturation = Saturation.createSaturation();
         saturation.addParameter(ParameterName.SATURATION, new ParameterImpl<Float>(value * SATURATION_MULTIPLIER));
         image = uploadProcedure(Tools.SATURATION, saturation);
@@ -139,9 +124,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setHue(final int value) {
-        if (value == Hue.getDefaultValue()) {
-            return;
-        }
         final Hue hue = Hue.createHue();
         hue.addParameter(ParameterName.HUE, new ParameterImpl<Float>(value * HSB_MULTIPLIER));
         image = uploadProcedure(Tools.HUE, hue);
@@ -149,9 +131,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setVibrance(final int value) {
-        if (value == Vibrance.getDefaultValue()) {
-            return;
-        }
         final Vibrance vibrance = Vibrance.createVibrance();
         vibrance.addParameter(ParameterName.VIBRANCE_INCREMENT, new ParameterImpl<Float>(value * VIBRANCE_MULTIPLIER));
         image = uploadProcedure(Tools.VIBRANCE, vibrance);
@@ -159,10 +138,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setSelectiveColors(final int r, final int g, final int b) {
-        if (r == SelectiveRGBChanger.getDefaultValue() && g == SelectiveRGBChanger.getDefaultValue()
-                && b == SelectiveRGBChanger.getDefaultValue()) {
-            return;
-        }
         final SelectiveRGBChanger srgb = SelectiveRGBChanger.createSelective();
         srgb.addParameter(ParameterName.RED, new ParameterImpl<Integer>(r));
         srgb.addParameter(ParameterName.GREEN, new ParameterImpl<Integer>(g));
@@ -172,10 +147,6 @@ public final class AppManagerImpl implements AppManager {
 
     @Override
     public synchronized void setBlackAndWhite(final double r, final double g, final double b) {
-        if (r == BlackAndWhite.getDefaultValue() || g == BlackAndWhite.getDefaultValue()
-                || b == BlackAndWhite.getDefaultValue()) {
-            return;
-        }
         final BlackAndWhite bw = BlackAndWhite.createBlackAndWhite();
         bw.addParameter(ParameterName.WRED, new ParameterImpl<Double>(r * BW_MULTIPLIER + BW_SHIFTER));
         bw.addParameter(ParameterName.WGREEN, new ParameterImpl<Double>(g * BW_MULTIPLIER + BW_SHIFTER));
@@ -271,8 +242,6 @@ public final class AppManagerImpl implements AppManager {
             final Enumeration<?> e = properties.propertyNames();
             while (e.hasMoreElements()) {
                 filterName = (String) e.nextElement();
-                /// TODO Remove print
-                // System.out.println(filterName + properties.getProperty(filterName));
                 if (filterName.equals("SelectiveColors")) {
                     intValues = Arrays.asList(properties.getProperty(filterName).split(",")).stream()
                             .mapToInt(Integer::parseInt).toArray();
