@@ -19,7 +19,6 @@ import barlugofx.model.tools.common.ParameterName;
  *
  */
 public final class Cropper extends AbstractImageTool {
-
     private static final int MIN_VALUE_1 = 0;
     private static final int MAX_VALUE_2 = 1;
     private static final int DEFAULT_VALUE_1 = 0;
