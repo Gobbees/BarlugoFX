@@ -58,7 +58,7 @@ public final class AppManagerImpl implements AppManager {
     /**
      * The constructor of the class. It takes the input file chosen by the user and
      * initiates all the elements
-     * 
+     *
      * @param file the input file
      * @throws IOException if the file opening fails
      */
@@ -89,7 +89,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setExposure(final int value) {
+    public synchronized void setExposure(final int value) {
         if (value == Exposure.getDefaultValue()) {
             return;
         }
@@ -99,7 +99,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setContrast(final int value) {
+    public synchronized void setContrast(final int value) {
         if (value == Contrast.getDefaultValue()) {
             return;
         }
@@ -109,7 +109,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setBrightness(final int value) {
+    public synchronized void setBrightness(final int value) {
         if (value == Brightness.getDefaultValue()) {
             return;
         }
@@ -119,7 +119,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setWhiteBalance(final int value) {
+    public synchronized void setWhiteBalance(final int value) {
         if (value == WhiteBalance.getDefaultValue()) {
             return;
         }
@@ -129,7 +129,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setSaturation(final int value) {
+    public synchronized void setSaturation(final int value) {
         if (value == Saturation.getDefaultValue()) {
             return;
         }
@@ -139,7 +139,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setHue(final int value) {
+    public synchronized void setHue(final int value) {
         if (value == Hue.getDefaultValue()) {
             return;
         }
@@ -149,7 +149,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setVibrance(final int value) {
+    public synchronized void setVibrance(final int value) {
         if (value == Vibrance.getDefaultValue()) {
             return;
         }
@@ -159,7 +159,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setSelectiveColors(final int r, final int g, final int b) {
+    public synchronized void setSelectiveColors(final int r, final int g, final int b) {
         if (r == SelectiveRGBChanger.getDefaultValue() && g == SelectiveRGBChanger.getDefaultValue()
                 && b == SelectiveRGBChanger.getDefaultValue()) {
             return;
@@ -172,7 +172,7 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void setBlackAndWhite(final double r, final double g, final double b) {
+    public synchronized void setBlackAndWhite(final double r, final double g, final double b) {
         if (r == BlackAndWhite.getDefaultValue() || g == BlackAndWhite.getDefaultValue()
                 || b == BlackAndWhite.getDefaultValue()) {
             return;
@@ -221,10 +221,10 @@ public final class AppManagerImpl implements AppManager {
             final Optional<Parameter<? extends Number>> oldX2 = procedure.getValue(Tools.CROPPER, ParameterName.X2);
             final Optional<Parameter<? extends Number>> oldY2 = procedure.getValue(Tools.CROPPER, ParameterName.Y1);
             if (oldX1.isPresent() && oldY1.isPresent() && oldX2.isPresent() && oldY2.isPresent()) {
-                addParametersToCropper(cropper, oldX1.get().getValue().intValue() + x1, 
-                        oldY1.get().getValue().intValue() + y1, 
-                        oldX2.get().getValue().intValue() - ((oldX2.get().getValue().intValue() - oldX1.get().getValue().intValue()) - x2),
-                        oldY2.get().getValue().intValue() - ((oldY2.get().getValue().intValue() - oldY1.get().getValue().intValue()) - y2));
+                addParametersToCropper(cropper, oldX1.get().getValue().intValue() + x1,
+                        oldY1.get().getValue().intValue() + y1,
+                        oldX2.get().getValue().intValue() - (oldX2.get().getValue().intValue() - oldX1.get().getValue().intValue() - x2),
+                        oldY2.get().getValue().intValue() - (oldY2.get().getValue().intValue() - oldY1.get().getValue().intValue() - y2));
             } else {
                 addParametersToCropper(cropper, x1, y1, x2, y2);
             }
@@ -235,19 +235,19 @@ public final class AppManagerImpl implements AppManager {
     }
 
     @Override
-    public void undo() throws IllegalStateException {
+    public synchronized void undo() throws IllegalStateException {
         try {
             image = procedure.undo();
-        } catch (NoMoreActionsException e) {
+        } catch (final NoMoreActionsException e) {
             throw new IllegalStateException(e.getMessage());
         }
     }
 
     @Override
-    public void redo() throws IllegalStateException {
+    public synchronized void redo() throws IllegalStateException {
         try {
             image = procedure.redo();
-        } catch (NoMoreActionsException e) {
+        } catch (final NoMoreActionsException e) {
             throw new IllegalStateException(e.getMessage());
         }
     }
@@ -309,7 +309,7 @@ public final class AppManagerImpl implements AppManager {
         if (procedure.canAdd(toolType)) {
             try {
                 return procedure.add(new AdjustmentImpl(tool));
-            } catch (AdjustmentAlreadyPresentException e) {
+            } catch (final AdjustmentAlreadyPresentException e) {
                 throw new IllegalStateException();
             }
         } else {
@@ -320,7 +320,7 @@ public final class AppManagerImpl implements AppManager {
         if (procedure.canAdd(toolType)) {
             try {
                 return procedure.add(new AdjustmentImpl(tool));
-            } catch (AdjustmentAlreadyPresentException e) {
+            } catch (final AdjustmentAlreadyPresentException e) {
                 throw new IllegalStateException();
             }
         } else {
