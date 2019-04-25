@@ -10,23 +10,28 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- *  This class shows the preset view of barlugofx program. It must be called by its constructor method.
+ * This class shows the preset view of barlugofx program. It must be called by
+ * its constructor method.
  */
 public class PresetView extends View<PresetController> {
     private static final double WIDTH_MULTIPLIER = 0.23;
     private static final double HEIGHT_MULTIPLIER = 0.56;
+
     /**
-     * The class constructor. It sets all the parameters and display the preset stage.
+     * The class constructor. It sets all the parameters and display the preset
+     * stage.
+     * 
      * @param manager the input manager
      */
     public PresetView(final AppManager manager) {
-        super("Preset", new Stage(), new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * WIDTH_MULTIPLIER),
-              (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * HEIGHT_MULTIPLIER)));
+        super("Preset", new Stage(),
+                new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * WIDTH_MULTIPLIER),
+                        (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * HEIGHT_MULTIPLIER)));
         this.getStage().getIcons().add(new Image(getClass().getResource("/img/logo.png").toExternalForm()));
         try {
             this.loadFXML(getClass().getResource("/fxml/FXMLPreset.fxml"));
         } catch (IOException e) {
-            //TODO log!!!!!!!!!!!!!!!!!!!!!
+            // TODO log!!!!!!!!!!!!!!!!!!!!!
             e.printStackTrace();
         }
         this.getStage().setResizable(false);
@@ -36,6 +41,7 @@ public class PresetView extends View<PresetController> {
         this.getStage().centerOnScreen();
         this.getStage().show();
     }
+
     /**
      * This function closes the opened stage.
      */

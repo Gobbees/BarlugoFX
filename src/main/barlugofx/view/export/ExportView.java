@@ -33,7 +33,6 @@ public class ExportView extends View<ExportController> {
         } catch (IOException e) {
             View.showErrorAlert(e.getMessage());
             e.printStackTrace();
-            // TODO log4j
             return;
         }
         this.getStage().setResizable(false);

@@ -46,38 +46,53 @@
 						<Menu mnemonicParsing="false" text="File">
 							<items>
 								<MenuItem mnemonicParsing="false"
-									text="New photo editing" onAction="#newPhoto" accelerator="Shortcut+N"/>
-								<MenuItem mnemonicParsing="false" text="Export" onAction="#export" accelerator="Shortcut+E"/>
+									text="New photo editing" onAction="#newPhoto"
+									accelerator="Shortcut+N" />
+								<MenuItem mnemonicParsing="false" text="Export"
+									onAction="#export" accelerator="Shortcut+E" />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Edit">
 							<items>
-								<MenuItem mnemonicParsing="true" text="Undo" onAction="#undo" accelerator="Shortcut+Z"/>
+								<MenuItem mnemonicParsing="true" text="Undo"
+									onAction="#undo" accelerator="Shortcut+Z" />
 								<MenuItem mnemonicParsing="true" text="Redo"
-                                    onAction="#redo" accelerator="Shortcut+Shift+Z"/>
+									onAction="#redo" accelerator="Shortcut+Shift+Z" />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Tools">
 							<items>
-								<MenuItem mnemonicParsing="false" text="Crop" onAction="#crop" accelerator="Shortcut+C"/>
-								<MenuItem mnemonicParsing="false" text="Rotate" onAction="#rotate" accelerator="Shortcut+R"/>
+								<MenuItem mnemonicParsing="false" text="Crop"
+									onAction="#crop" accelerator="Shortcut+C" />
+								<MenuItem mnemonicParsing="false" text="Rotate"
+									onAction="#rotate" accelerator="Shortcut+R" />
 								<SeparatorMenuItem />
-								<MenuItem mnemonicParsing="false" text="Save bps preset" onAction="#preset" accelerator="Shortcut+P"/>
-								<MenuItem mnemonicParsing="false" text="Apply bps preset" onAction="#openPreset" accelerator="Shortcut+O"/>
+								<MenuItem mnemonicParsing="false"
+									text="Save bps preset" onAction="#preset"
+									accelerator="Shortcut+P" />
+								<MenuItem mnemonicParsing="false"
+									text="Apply bps preset" onAction="#openPreset"
+									accelerator="Shortcut+O" />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="View">
 							<items>
-								<MenuItem mnemonicParsing="false" text="Zoom +" onAction="#zoomIn" accelerator="Shortcut+I"/>
-								<MenuItem mnemonicParsing="false" text="Zoom -" onAction="#zoomOut" accelerator="Shortcut+O"/>
+								<MenuItem mnemonicParsing="false" text="Zoom +"
+									onAction="#zoomIn" accelerator="Shortcut+I" />
+								<MenuItem mnemonicParsing="false" text="Zoom -"
+									onAction="#zoomOut" accelerator="Shortcut+O" />
 								<SeparatorMenuItem />
-								<MenuItem mnemonicParsing="false" text="Toggle full screen" onAction="#toggleFullScreen" accelerator="Shortcut+F"/>
-								<MenuItem mnemonicParsing="false" text="Minimize" onAction="#toggleMinimize" accelerator="Shortcut+M"/>
+								<MenuItem mnemonicParsing="false"
+									text="Toggle full screen" onAction="#toggleFullScreen"
+									accelerator="Shortcut+F" />
+								<MenuItem mnemonicParsing="false" text="Minimize"
+									onAction="#toggleMinimize" accelerator="Shortcut+M" />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Info">
 							<items>
-								<MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
+								<MenuItem mnemonicParsing="false" text="About"
+									onAction="#about" />
 							</items>
 						</Menu>
 					</menus>
@@ -349,7 +364,7 @@
 									id="historylabel" />
 								<Separator orientation="vertical" prefHeight="5"
 									visible="false" />
-								<JFXListView fx:id="lvHistory"/>
+								<JFXListView fx:id="lvHistory" />
 								<Separator orientation="vertical" prefHeight="5"
 									visible="false" />
 								<HBox>
@@ -357,14 +372,14 @@
 										<Separator orientation="horizontal" prefWidth="5"
 											visible="false" />
 										<JFXButton fx:id="btnUndo" text="Undo"
-											onAction="#undo"/>
-									    <Separator orientation="horizontal" prefWidth="5"
-                                            visible="false" />
-                                        <JFXButton fx:id="btnRedo" text="Redo"
-                                            onAction="#redo"/>
+											onAction="#undo" />
+										<Separator orientation="horizontal" prefWidth="5"
+											visible="false" />
+										<JFXButton fx:id="btnRedo" text="Redo"
+											onAction="#redo" />
 									</children>
 								</HBox>
-								<Separator orientation="vertical" prefHeight="5" 
+								<Separator orientation="vertical" prefHeight="5"
 									visible="false" />
 							</children>
 						</VBox>

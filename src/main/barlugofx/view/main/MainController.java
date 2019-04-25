@@ -304,7 +304,7 @@ public final class MainController extends AbstractViewControllerWithManager {
             try {
                 this.getManager().undo();
                 Platform.runLater(() -> {
-                    if (lvHistory.getItems().size() >= 1) {
+                    if (!lvHistory.getItems().isEmpty()) {
                         undoneOps.add(0, lvHistory.getItems().remove(lvHistory.getItems().size() - 1));
                     }
                 });
@@ -324,7 +324,7 @@ public final class MainController extends AbstractViewControllerWithManager {
             try {
                 this.getManager().redo();
                 Platform.runLater(() -> {
-                    if (undoneOps.size() >= 1) {
+                    if (!undoneOps.isEmpty()) {
                        lvHistory.getItems().add(undoneOps.remove(0));
                     }
                 });
