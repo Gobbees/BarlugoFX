@@ -701,6 +701,8 @@ public final class MainController extends AbstractViewControllerWithManager {
         spaneMain.setMinWidth(this.getScene().getWidth());
         spaneMain.setMaxHeight(this.getScene().getWidth() - menuBar.getHeight());
         spaneMain.setMinWidth(this.getScene().getWidth() - menuBar.getHeight());
+        paneGeneral.setMaxWidth(this.getScene().getWidth());
+        paneGeneral.setMinWidth(this.getScene().getWidth());
         lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
     }
 

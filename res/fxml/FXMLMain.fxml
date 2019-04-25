@@ -247,9 +247,6 @@
 												</VBox>
 											</content>
 										</TitledPane>
-
-
-
 										<TitledPane fx:id="tpaneColours" text="Colours"
 											style="-fx-border-width: 1 0 0 0">
 											<content>
@@ -316,7 +313,6 @@
 												</VBox>
 											</content>
 										</TitledPane>
-
 										<TitledPane fx:id="tpaneSC" text="Selective Colour">
 											<content>
 												<VBox>
