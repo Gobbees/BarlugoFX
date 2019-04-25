@@ -558,10 +558,9 @@ public final class MainController extends AbstractViewControllerWithManager {
 
     /**
      * Apply preset event triggered.
-     * @throws IOException 
      */
     @FXML
-    public void openPreset() throws IOException {
+    public void openPreset() {
         checkManager();
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select a .bps preset", "*.bps"));
@@ -570,8 +569,14 @@ public final class MainController extends AbstractViewControllerWithManager {
         if (input == null) {
             return;
         }
-        this.getManager().applyPreset(input);
-        updateImage();
+        runNewThread("Preset", createCompleteRunnable(() -> {
+            try {
+                this.getManager().applyPreset(input);
+            } catch (IOException e) {
+                View.showErrorAlert(e.getMessage());
+                e.printStackTrace();
+            }
+        }));
     }
 
     /**
