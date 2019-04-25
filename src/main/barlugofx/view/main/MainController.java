@@ -699,6 +699,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setMaxWidth(this.getScene().getWidth());
         lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
+        spaneMain.setPrefWidth(this.getScene().getWidth());
     }
 
     private void initToolStatus() {
