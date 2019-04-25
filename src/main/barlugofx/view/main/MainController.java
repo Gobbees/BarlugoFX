@@ -1,27 +1,14 @@
 package barlugofx.view.main;
 
-//to silence the warning
-import static barlugofx.view.main.Tool.BRIGHTNESS;
-import static barlugofx.view.main.Tool.BWB;
-import static barlugofx.view.main.Tool.BWG;
-import static barlugofx.view.main.Tool.BWR;
-import static barlugofx.view.main.Tool.CONTRAST;
-import static barlugofx.view.main.Tool.EXPOSURE;
-import static barlugofx.view.main.Tool.HUE;
-import static barlugofx.view.main.Tool.SATURATION;
-import static barlugofx.view.main.Tool.SCB;
-import static barlugofx.view.main.Tool.SCG;
-import static barlugofx.view.main.Tool.SCR;
-import static barlugofx.view.main.Tool.VIBRANCE;
-import static barlugofx.view.main.Tool.WHITEBALANCE;
-
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -187,7 +174,9 @@ public final class MainController extends AbstractViewControllerWithManager {
     private JFXButton btnUndo;
     private Optional<ExportView> exportView;
     private Optional<PresetView> presetView;
-    private final Map<Tool, MutablePair<Number, Boolean>> toolStatus;
+    private final Map<ViewTools, MutablePair<Number, Boolean>> toolStatus;
+    //list of undone operations
+    private final List<String> undoneOps;
 
     /**
      * The constructor of the class. It is public because FXML obligates to do so.
@@ -197,6 +186,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         exportView = Optional.empty();
         presetView = Optional.empty();
         toolStatus = new HashMap<>();
+        undoneOps = new ArrayList<>();
     }
 
     @Override
@@ -264,6 +254,21 @@ public final class MainController extends AbstractViewControllerWithManager {
                     this.getManager().setImage(file);
                     Platform.runLater(() -> {
                         this.getStage().setTitle(this.getManager().getInputFileName());
+                        slExposure.setValue(ViewTools.EXPOSURE.getDefaultValue());
+                        slContrast.setValue(ViewTools.CONTRAST.getDefaultValue());
+                        slBrightness.setValue(ViewTools.BRIGHTNESS.getDefaultValue());
+                        slWhitebalance.setValue(ViewTools.WHITEBALANCE.getDefaultValue());
+                        slSaturation.setValue(ViewTools.SATURATION.getDefaultValue());
+                        slHue.setValue(ViewTools.HUE.getDefaultValue());
+                        slVibrance.setValue(ViewTools.VIBRANCE.getDefaultValue());
+                        slSCR.setValue(ViewTools.SCR.getDefaultValue());
+                        slSCG.setValue(ViewTools.SCG.getDefaultValue());
+                        slSCB.setValue(ViewTools.SCB.getDefaultValue());
+                        slBWR.setValue(ViewTools.BWR.getDefaultValue());
+                        slBWG.setValue(ViewTools.BWG.getDefaultValue());
+                        slBWB.setValue(ViewTools.BWB.getDefaultValue());
+                        toolStatus.clear();
+                        lvHistory.getItems().clear();
                     });
                 } catch (IOException e) {
                     View.showErrorAlert(e.getMessage());
@@ -294,7 +299,11 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Undo", createCompleteRunnable(() -> {
             try {
                 this.getManager().undo();
-                Platform.runLater(() -> lvHistory.getItems().remove(lvHistory.getItems().size() - 1));
+                Platform.runLater(() -> {
+                    if (lvHistory.getItems().size() >= 1) {
+                        undoneOps.add(0, lvHistory.getItems().remove(lvHistory.getItems().size() - 1));
+                    }
+                });
             } catch (IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
             }
@@ -310,6 +319,11 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Redo", createCompleteRunnable(() -> {
             try {
                 this.getManager().redo();
+                Platform.runLater(() -> {
+                    if (lvHistory.getItems().size() >= 1) {
+                        lvHistory.getItems().add(undoneOps.remove(0));
+                    }
+                });
             } catch (IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
             }
@@ -681,41 +695,41 @@ public final class MainController extends AbstractViewControllerWithManager {
     }
 
     private void initToolStatus() {
-        toolStatus.put(EXPOSURE, new MutablePair<>(slExposure.getValue(), true));
-        toolStatus.put(CONTRAST, new MutablePair<>(slContrast.getValue(), true));
-        toolStatus.put(BRIGHTNESS, new MutablePair<>(slBrightness.getValue(), true));
-        toolStatus.put(WHITEBALANCE, new MutablePair<>(slWhitebalance.getValue(), true));
-        toolStatus.put(SATURATION, new MutablePair<>(slSaturation.getValue(), true));
-        toolStatus.put(HUE, new MutablePair<>(slHue.getValue(), true));
-        toolStatus.put(VIBRANCE, new MutablePair<>(slVibrance.getValue(), true));
-        toolStatus.put(SCR, new MutablePair<>(slSCR.getValue(), true));
-        toolStatus.put(SCG, new MutablePair<>(slSCG.getValue(), true));
-        toolStatus.put(SCB, new MutablePair<>(slSCB.getValue(), true));
+        toolStatus.put(ViewTools.EXPOSURE, new MutablePair<>(ViewTools.EXPOSURE.getDefaultValue(), true));
+        toolStatus.put(ViewTools.CONTRAST, new MutablePair<>(ViewTools.CONTRAST.getDefaultValue(), true));
+        toolStatus.put(ViewTools.BRIGHTNESS, new MutablePair<>(ViewTools.BRIGHTNESS.getDefaultValue(), true));
+        toolStatus.put(ViewTools.WHITEBALANCE, new MutablePair<>(ViewTools.WHITEBALANCE.getDefaultValue(), true));
+        toolStatus.put(ViewTools.SATURATION, new MutablePair<>(ViewTools.SATURATION.getDefaultValue(), true));
+        toolStatus.put(ViewTools.HUE, new MutablePair<>(ViewTools.HUE.getDefaultValue(), true));
+        toolStatus.put(ViewTools.VIBRANCE, new MutablePair<>(ViewTools.VIBRANCE.getDefaultValue(), true));
+        toolStatus.put(ViewTools.SCR, new MutablePair<>(ViewTools.SCR.getDefaultValue(), true));
+        toolStatus.put(ViewTools.SCG, new MutablePair<>(ViewTools.SCG.getDefaultValue(), true));
+        toolStatus.put(ViewTools.SCB, new MutablePair<>(ViewTools.SCB.getDefaultValue(), true));
         //to resolve the fact that if the user presses apply on default
         // values the bw won't apply
-        toolStatus.put(BWR, new MutablePair<>(slBWR.getMin() - 1, true));
-        toolStatus.put(BWG, new MutablePair<>(slBWG.getMin() - 1, true));
-        toolStatus.put(BWB, new MutablePair<>(slBWB.getMin() - 1, true));
+        toolStatus.put(ViewTools.BWR, new MutablePair<>(slBWR.getMin() - 1, true));
+        toolStatus.put(ViewTools.BWG, new MutablePair<>(slBWG.getMin() - 1, true));
+        toolStatus.put(ViewTools.BWB, new MutablePair<>(slBWB.getMin() - 1, true));
     }
 
     // This function adds all the components listeners.
     private void addListeners() {
-        addComponentProperties(tfExposure, slExposure, EXPOSURE);
-        addComponentProperties(tfContrast, slContrast, CONTRAST);
-        addComponentProperties(tfBrightness, slBrightness, BRIGHTNESS);
-        addComponentProperties(tfWhitebalance, slWhitebalance, WHITEBALANCE);
-        addComponentProperties(tfSaturation, slSaturation, SATURATION);
-        addComponentProperties(tfHue, slHue, HUE);
-        addComponentProperties(tfVibrance, slVibrance, VIBRANCE);
-        addComponentProperties(tfSCR, slSCR, SCR);
-        addComponentProperties(tfSCG, slSCG, SCG);
-        addComponentProperties(tfSCB, slSCB, SCB);
-        addComponentProperties(tfBWR, slBWR, BWR);
-        addComponentProperties(tfBWG, slBWG, BWG);
-        addComponentProperties(tfBWB, slBWB, BWB);
+        addComponentProperties(tfExposure, slExposure, ViewTools.EXPOSURE);
+        addComponentProperties(tfContrast, slContrast, ViewTools.CONTRAST);
+        addComponentProperties(tfBrightness, slBrightness, ViewTools.BRIGHTNESS);
+        addComponentProperties(tfWhitebalance, slWhitebalance, ViewTools.WHITEBALANCE);
+        addComponentProperties(tfSaturation, slSaturation, ViewTools.SATURATION);
+        addComponentProperties(tfHue, slHue, ViewTools.HUE);
+        addComponentProperties(tfVibrance, slVibrance, ViewTools.VIBRANCE);
+        addComponentProperties(tfSCR, slSCR, ViewTools.SCR);
+        addComponentProperties(tfSCG, slSCG, ViewTools.SCG);
+        addComponentProperties(tfSCB, slSCB, ViewTools.SCB);
+        addComponentProperties(tfBWR, slBWR, ViewTools.BWR);
+        addComponentProperties(tfBWG, slBWG, ViewTools.BWG);
+        addComponentProperties(tfBWB, slBWB, ViewTools.BWB);
     }
 
-    private void addComponentProperties(final JFXTextField tfield, final JFXSlider slider, final Tool tool) {
+    private void addComponentProperties(final JFXTextField tfield, final JFXSlider slider, final ViewTools tool) {
         tfield.textProperty().addListener((ev, ov, nv) -> {
             try {
                 final int newValue = Integer.parseInt(nv);
@@ -744,111 +758,111 @@ public final class MainController extends AbstractViewControllerWithManager {
     private void setEventListeners() {
         checkManager();
         // exposure
-        addKeyListener(tfExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
-            toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
-            this.getManager().setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Exposure set to: " + toolStatus.get(EXPOSURE).getFirst().intValue()));
+        addKeyListener(tfExposure, KeyCode.ENTER, ViewTools.EXPOSURE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
+            this.getManager().setExposure(toolStatus.get(ViewTools.EXPOSURE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Exposure set to: " + toolStatus.get(ViewTools.EXPOSURE).getFirst().intValue()));
         }));
-        addKeyListener(slExposure, KeyCode.ENTER, EXPOSURE, createCompleteRunnable(() -> {
-            toolStatus.get(EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
-            this.getManager().setExposure(toolStatus.get(EXPOSURE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Exposure set to: " + toolStatus.get(EXPOSURE).getFirst().intValue()));
+        addKeyListener(slExposure, KeyCode.ENTER, ViewTools.EXPOSURE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.EXPOSURE).setFirst(Integer.parseInt(tfExposure.getText()));
+            this.getManager().setExposure(toolStatus.get(ViewTools.EXPOSURE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Exposure set to: " + toolStatus.get(ViewTools.EXPOSURE).getFirst().intValue()));
         }));
         // contrast
-        addKeyListener(tfContrast, KeyCode.ENTER, CONTRAST, createCompleteRunnable(() -> {
-            toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
-            this.getManager().setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Contrast set to: " + toolStatus.get(CONTRAST).getFirst().intValue()));
+        addKeyListener(tfContrast, KeyCode.ENTER, ViewTools.CONTRAST, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
+            this.getManager().setContrast(toolStatus.get(ViewTools.CONTRAST).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Contrast set to: " + toolStatus.get(ViewTools.CONTRAST).getFirst().intValue()));
         }));
-        addKeyListener(slContrast, KeyCode.ENTER, CONTRAST, createCompleteRunnable(() -> {
-            toolStatus.get(CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
-            this.getManager().setContrast(toolStatus.get(CONTRAST).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Contrast set to: " + toolStatus.get(CONTRAST).getFirst().intValue()));
+        addKeyListener(slContrast, KeyCode.ENTER, ViewTools.CONTRAST, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.CONTRAST).setFirst(Integer.parseInt(tfContrast.getText()));
+            this.getManager().setContrast(toolStatus.get(ViewTools.CONTRAST).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Contrast set to: " + toolStatus.get(ViewTools.CONTRAST).getFirst().intValue()));
         }));
         // brightness
-        addKeyListener(tfBrightness, KeyCode.ENTER, BRIGHTNESS, createCompleteRunnable(() -> {
-            toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
-            this.getManager().setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Brightness set to: " + toolStatus.get(BRIGHTNESS).getFirst().intValue()));
+        addKeyListener(tfBrightness, KeyCode.ENTER, ViewTools.BRIGHTNESS, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
+            this.getManager().setBrightness(toolStatus.get(ViewTools.BRIGHTNESS).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Brightness set to: " + toolStatus.get(ViewTools.BRIGHTNESS).getFirst().intValue()));
         }));
-        addKeyListener(slBrightness, KeyCode.ENTER, BRIGHTNESS, createCompleteRunnable(() -> {
-            toolStatus.get(BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
-            this.getManager().setBrightness(toolStatus.get(BRIGHTNESS).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Brightness set to: " + toolStatus.get(BRIGHTNESS).getFirst().intValue()));
+        addKeyListener(slBrightness, KeyCode.ENTER, ViewTools.BRIGHTNESS, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.BRIGHTNESS).setFirst(Integer.parseInt(tfBrightness.getText()));
+            this.getManager().setBrightness(toolStatus.get(ViewTools.BRIGHTNESS).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Brightness set to: " + toolStatus.get(ViewTools.BRIGHTNESS).getFirst().intValue()));
         }));
         // wb
-        addKeyListener(tfWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
-            toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
-            this.getManager().setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("White Balance set to: " + toolStatus.get(WHITEBALANCE).getFirst().intValue()));
+        addKeyListener(tfWhitebalance, KeyCode.ENTER, ViewTools.WHITEBALANCE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
+            this.getManager().setWhiteBalance(toolStatus.get(ViewTools.WHITEBALANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("White Balance set to: " + toolStatus.get(ViewTools.WHITEBALANCE).getFirst().intValue()));
         }));
-        addKeyListener(slWhitebalance, KeyCode.ENTER, WHITEBALANCE, createCompleteRunnable(() -> {
-            toolStatus.get(WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
-            this.getManager().setWhiteBalance(toolStatus.get(WHITEBALANCE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("White Balance set to: " + toolStatus.get(WHITEBALANCE).getFirst().intValue()));
+        addKeyListener(slWhitebalance, KeyCode.ENTER, ViewTools.WHITEBALANCE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.WHITEBALANCE).setFirst(Integer.parseInt(tfWhitebalance.getText()));
+            this.getManager().setWhiteBalance(toolStatus.get(ViewTools.WHITEBALANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("White Balance set to: " + toolStatus.get(ViewTools.WHITEBALANCE).getFirst().intValue()));
         }));
         // saturation
-        addKeyListener(tfSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
-            toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
-            this.getManager().setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Saturation set to: " + toolStatus.get(SATURATION).getFirst().intValue()));
+        addKeyListener(tfSaturation, KeyCode.ENTER, ViewTools.SATURATION, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
+            this.getManager().setSaturation(toolStatus.get(ViewTools.SATURATION).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Saturation set to: " + toolStatus.get(ViewTools.SATURATION).getFirst().intValue()));
         }));
-        addKeyListener(slSaturation, KeyCode.ENTER, SATURATION, createCompleteRunnable(() -> {
-            toolStatus.get(SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
-            this.getManager().setSaturation(toolStatus.get(SATURATION).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Saturation set to: " + toolStatus.get(SATURATION).getFirst().intValue()));
+        addKeyListener(slSaturation, KeyCode.ENTER, ViewTools.SATURATION, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.SATURATION).setFirst(Integer.parseInt(tfSaturation.getText()));
+            this.getManager().setSaturation(toolStatus.get(ViewTools.SATURATION).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Saturation set to: " + toolStatus.get(ViewTools.SATURATION).getFirst().intValue()));
         }));
         // hue
-        addKeyListener(tfHue, KeyCode.ENTER, HUE, createCompleteRunnable(() -> {
-            toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
-            this.getManager().setHue(toolStatus.get(HUE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Hue set to: " + toolStatus.get(HUE).getFirst().intValue()));
+        addKeyListener(tfHue, KeyCode.ENTER, ViewTools.HUE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.HUE).setFirst(Integer.parseInt(tfHue.getText()));
+            this.getManager().setHue(toolStatus.get(ViewTools.HUE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Hue set to: " + toolStatus.get(ViewTools.HUE).getFirst().intValue()));
         }));
-        addKeyListener(slHue, KeyCode.ENTER, HUE, createCompleteRunnable(() -> {
-            toolStatus.get(HUE).setFirst(Integer.parseInt(tfHue.getText()));
-            this.getManager().setHue(toolStatus.get(HUE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Hue set to: " + toolStatus.get(HUE).getFirst().intValue()));
+        addKeyListener(slHue, KeyCode.ENTER, ViewTools.HUE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.HUE).setFirst(Integer.parseInt(tfHue.getText()));
+            this.getManager().setHue(toolStatus.get(ViewTools.HUE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Hue set to: " + toolStatus.get(ViewTools.HUE).getFirst().intValue()));
         }));
         // vibrance
-        addKeyListener(tfVibrance, KeyCode.ENTER, VIBRANCE, createCompleteRunnable(() -> {
-            toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
-            this.getManager().setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Vibrance set to: " + toolStatus.get(VIBRANCE).getFirst().intValue()));
+        addKeyListener(tfVibrance, KeyCode.ENTER, ViewTools.VIBRANCE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
+            this.getManager().setVibrance(toolStatus.get(ViewTools.VIBRANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Vibrance set to: " + toolStatus.get(ViewTools.VIBRANCE).getFirst().intValue()));
         }));
-        addKeyListener(slVibrance, KeyCode.ENTER, VIBRANCE, createCompleteRunnable(() -> {
-            toolStatus.get(VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
-            this.getManager().setVibrance(toolStatus.get(VIBRANCE).getFirst().intValue());
-            Platform.runLater(() -> lvHistory.getItems().add("Vibrance set to: " + toolStatus.get(VIBRANCE).getFirst().intValue()));
+        addKeyListener(slVibrance, KeyCode.ENTER, ViewTools.VIBRANCE, createCompleteRunnable(() -> {
+            toolStatus.get(ViewTools.VIBRANCE).setFirst(Integer.parseInt(tfVibrance.getText()));
+            this.getManager().setVibrance(toolStatus.get(ViewTools.VIBRANCE).getFirst().intValue());
+            Platform.runLater(() -> lvHistory.getItems().add("Vibrance set to: " + toolStatus.get(ViewTools.VIBRANCE).getFirst().intValue()));
         }));
         btnSCApply.setOnMouseClicked(ev -> {
-            if (toolStatus.get(SCR).getSecond() && toolStatus.get(SCG).getSecond() && toolStatus.get(SCB).getSecond()
-                    && ((int) slSCR.getValue() != toolStatus.get(SCR).getFirst().intValue()
-                            || (int) slSCG.getValue() != toolStatus.get(SCG).getFirst().intValue()
-                            || (int) slSCB.getValue() != toolStatus.get(SCB).getFirst().intValue())) {
+            if (toolStatus.get(ViewTools.SCR).getSecond() && toolStatus.get(ViewTools.SCG).getSecond() && toolStatus.get(ViewTools.SCB).getSecond()
+                    && ((int) slSCR.getValue() != toolStatus.get(ViewTools.SCR).getFirst().intValue()
+                            || (int) slSCG.getValue() != toolStatus.get(ViewTools.SCG).getFirst().intValue()
+                            || (int) slSCB.getValue() != toolStatus.get(ViewTools.SCB).getFirst().intValue())) {
                 runNewThread("Selective Color", createCompleteRunnable(() -> {
-                    toolStatus.get(SCR).setFirst((int) slSCR.getValue());
-                    toolStatus.get(SCG).setFirst((int) slSCG.getValue());
-                    toolStatus.get(SCB).setFirst((int) slSCB.getValue());
-                    this.getManager().setSelectiveColors(toolStatus.get(SCR).getFirst().intValue(),
-                            toolStatus.get(SCG).getFirst().intValue(), toolStatus.get(SCB).getFirst().intValue());
-                    Platform.runLater(() -> lvHistory.getItems().add("Sel. Col. set to: " + toolStatus.get(SCR).getFirst().intValue() + ", "
-                            + toolStatus.get(SCG).getFirst().intValue() + " ," + toolStatus.get(SCB).getFirst().intValue()));
+                    toolStatus.get(ViewTools.SCR).setFirst((int) slSCR.getValue());
+                    toolStatus.get(ViewTools.SCG).setFirst((int) slSCG.getValue());
+                    toolStatus.get(ViewTools.SCB).setFirst((int) slSCB.getValue());
+                    this.getManager().setSelectiveColors(toolStatus.get(ViewTools.SCR).getFirst().intValue(),
+                            toolStatus.get(ViewTools.SCG).getFirst().intValue(), toolStatus.get(ViewTools.SCB).getFirst().intValue());
+                    Platform.runLater(() -> lvHistory.getItems().add("Sel. Col. set to: " + toolStatus.get(ViewTools.SCR).getFirst().intValue() + ", "
+                            + toolStatus.get(ViewTools.SCG).getFirst().intValue() + " ," + toolStatus.get(ViewTools.SCB).getFirst().intValue()));
                 }));
             }
         });
         btnBWApply.setOnMouseClicked(ev -> {
-            if (toolStatus.get(BWR).getSecond() && toolStatus.get(BWG).getSecond() && toolStatus.get(BWB).getSecond()
-                    && (int) slBWR.getValue() != toolStatus.get(BWR).getFirst().intValue()
-                    || (int) slBWG.getValue() != toolStatus.get(BWG).getFirst().intValue()
-                    || (int) slBWB.getValue() != toolStatus.get(BWB).getFirst().intValue()) {
+            if (toolStatus.get(ViewTools.BWR).getSecond() && toolStatus.get(ViewTools.BWG).getSecond() && toolStatus.get(ViewTools.BWB).getSecond()
+                    && (int) slBWR.getValue() != toolStatus.get(ViewTools.BWR).getFirst().intValue()
+                    || (int) slBWG.getValue() != toolStatus.get(ViewTools.BWG).getFirst().intValue()
+                    || (int) slBWB.getValue() != toolStatus.get(ViewTools.BWB).getFirst().intValue()) {
                 runNewThread("Black n White", createCompleteRunnable(() -> {
-                    toolStatus.get(BWR).setFirst((int) slBWR.getValue());
-                    toolStatus.get(BWG).setFirst((int) slBWG.getValue());
-                    toolStatus.get(BWB).setFirst((int) slBWB.getValue());
-                    this.getManager().setBlackAndWhite(toolStatus.get(BWR).getFirst().intValue(),
-                            toolStatus.get(BWG).getFirst().intValue(), toolStatus.get(BWB).getFirst().intValue());
-                    Platform.runLater(() -> lvHistory.getItems().add("B&W set to: " + toolStatus.get(BWR).getFirst().intValue() + ", "
-                            + toolStatus.get(BWG).getFirst().intValue() + " ," + toolStatus.get(BWB).getFirst().intValue()));
+                    toolStatus.get(ViewTools.BWR).setFirst((int) slBWR.getValue());
+                    toolStatus.get(ViewTools.BWG).setFirst((int) slBWG.getValue());
+                    toolStatus.get(ViewTools.BWB).setFirst((int) slBWB.getValue());
+                    this.getManager().setBlackAndWhite(toolStatus.get(ViewTools.BWR).getFirst().intValue(),
+                            toolStatus.get(ViewTools.BWG).getFirst().intValue(), toolStatus.get(ViewTools.BWB).getFirst().intValue());
+                    Platform.runLater(() -> lvHistory.getItems().add("B&W set to: " + toolStatus.get(ViewTools.BWR).getFirst().intValue() + ", "
+                            + toolStatus.get(ViewTools.BWG).getFirst().intValue() + " ," + toolStatus.get(ViewTools.BWB).getFirst().intValue()));
                 }));
             }
         });
@@ -866,7 +880,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         });
     }
 
-    private void addKeyListener(final JFXTextField node, final KeyCode kc, final Tool tool, final Runnable rn) {
+    private void addKeyListener(final JFXTextField node, final KeyCode kc, final ViewTools tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(kc) && toolStatus.get(tool).getSecond()
                     && Integer.parseInt(node.getText()) != toolStatus.get(tool).getFirst().intValue()) {
@@ -875,7 +889,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         });
     }
 
-    private void addKeyListener(final JFXSlider node, final KeyCode kc, final Tool tool, final Runnable rn) {
+    private void addKeyListener(final JFXSlider node, final KeyCode kc, final ViewTools tool, final Runnable rn) {
         node.setOnKeyPressed(ke -> {
             if (ke.getCode().equals(kc) && (int) node.getValue() != toolStatus.get(tool).getFirst().intValue()) {
                 runNewThread(tool.toString(), rn);
