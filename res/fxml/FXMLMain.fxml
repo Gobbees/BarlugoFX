@@ -46,119 +46,38 @@
 						<Menu mnemonicParsing="false" text="File">
 							<items>
 								<MenuItem mnemonicParsing="false"
-									text="New photo editing" onAction="#newPhoto">
-									<accelerator>
-										<KeyCodeCombination code="n" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
-								<!-- <MenuItem mnemonicParsing="false" text="Open project">
-									<accelerator>
-										<KeyCodeCombination code="o" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
-								<SeparatorMenuItem />
-								
-								<MenuItem mnemonicParsing="false"
-									text="Save as bfx project">
-									<accelerator>
-										<KeyCodeCombination code="s" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem> -->
-								<MenuItem mnemonicParsing="false" text="Export"
-									onAction="#export">
-									<accelerator>
-										<KeyCodeCombination code="e" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
+									text="New photo editing" onAction="#newPhoto" accelerator="Shortcut+N"/>
+								<MenuItem mnemonicParsing="false" text="Export" onAction="#export" accelerator="Shortcut+E"/>
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Edit">
 							<items>
-								<MenuItem mnemonicParsing="true" text="Undo"
-									onAction="#undo">
-									<accelerator>
-										<KeyCodeCombination code="z" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
+								<MenuItem mnemonicParsing="true" text="Undo" onAction="#undo" accelerator="Shortcut+Z"/>
 								<MenuItem mnemonicParsing="true" text="Redo"
-                                    onAction="#redo">
-                                    <accelerator>
-                                        <KeyCodeCombination code="z" control="DOWN"
-                                            alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
-                                    </accelerator>
-                                </MenuItem>
+                                    onAction="#redo" accelerator="Shortcut+Shift+Z"/>
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Tools">
 							<items>
-								<MenuItem mnemonicParsing="false" text="Crop"
-									onAction="#crop">
-									<accelerator>
-										<KeyCodeCombination code="c" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
-								<MenuItem mnemonicParsing="false" text="Rotate"
-									onAction="#rotate">
-									<accelerator>
-										<KeyCodeCombination code="r" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
+								<MenuItem mnemonicParsing="false" text="Crop" onAction="#crop" accelerator="Shortcut+C"/>
+								<MenuItem mnemonicParsing="false" text="Rotate" onAction="#rotate" accelerator="Shortcut+R"/>
 								<SeparatorMenuItem />
-								<MenuItem mnemonicParsing="false"
-									text="Save bps preset" onAction="#preset">
-									<accelerator>
-										<KeyCodeCombination code="p" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
-								<MenuItem mnemonicParsing="false"
-									text="Apply bps preset" onAction="#openPreset">
-									<accelerator>
-										<KeyCodeCombination code="a" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
+								<MenuItem mnemonicParsing="false" text="Save bps preset" onAction="#preset" accelerator="Shortcut+P"/>
+								<MenuItem mnemonicParsing="false" text="Apply bps preset" onAction="#openPreset" accelerator="Shortcut+O"/>
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="View">
 							<items>
-								<MenuItem mnemonicParsing="false" text="Zoom +"
-									onAction="#zoomIn">
-									<accelerator>
-										<KeyCodeCombination code="i" control="DOWN"
-											alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
-								<MenuItem mnemonicParsing="false" text="Zoom -"
-									onAction="#zoomOut">
-									<accelerator>
-										<KeyCodeCombination code="o" control="DOWN"
-											alt="UP" meta="UP" shift="DOWN" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
+								<MenuItem mnemonicParsing="false" text="Zoom +" onAction="#zoomIn" accelerator="Shortcut+I"/>
+								<MenuItem mnemonicParsing="false" text="Zoom -" onAction="#zoomOut" accelerator="Shortcut+O"/>
 								<SeparatorMenuItem />
-								<MenuItem mnemonicParsing="false"
-									text="Toggle full screen" onAction="#toggleFullScreen">
-									<accelerator>
-										<KeyCodeCombination code="f" control="DOWN"
-											alt="UP" meta="UP" shift="UP" shortcut="UP" />
-									</accelerator>
-								</MenuItem>
-								<MenuItem mnemonicParsing="false" text="Minimize"
-									onAction="#toggleMinimize" />
+								<MenuItem mnemonicParsing="false" text="Toggle full screen" onAction="#toggleFullScreen" accelerator="Shortcut+F"/>
+								<MenuItem mnemonicParsing="false" text="Minimize" onAction="#toggleMinimize" accelerator="Shortcut+M"/>
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Info">
 							<items>
-								<MenuItem mnemonicParsing="false" text="About"
-									onAction="#about" />
+								<MenuItem mnemonicParsing="false" text="About" onAction="#about"/>
 							</items>
 						</Menu>
 					</menus>
