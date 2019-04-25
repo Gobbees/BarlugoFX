@@ -45,7 +45,7 @@ import barlugofx.view.View;
 public final class AppManagerImpl implements AppManager {
     // multipliers used to adapt the input from the view to the model
     private static final float HSB_MULTIPLIER = 0.01f;
-    private static final float EXPOSURE_MULTIPLIER = 0.005f;
+    private static final float SATURATION_MULTIPLIER = 0.005f;
     private static final float WB_MULTIPLIER = 0.015f;
     private static final float VIBRANCE_MULTIPLIER = 0.01f;
     private static final float BW_MULTIPLIER = 0.004f;
@@ -134,7 +134,7 @@ public final class AppManagerImpl implements AppManager {
             return;
         }
         final Saturation saturation = Saturation.createSaturation();
-        saturation.addParameter(ParameterName.SATURATION, new ParameterImpl<Float>(value * EXPOSURE_MULTIPLIER));
+        saturation.addParameter(ParameterName.SATURATION, new ParameterImpl<Float>(value * SATURATION_MULTIPLIER));
         image = uploadProcedure(Tools.SATURATION, saturation);
     }
 
