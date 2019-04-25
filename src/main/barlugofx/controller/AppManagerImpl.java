@@ -238,7 +238,13 @@ public final class AppManagerImpl implements AppManager {
     public void undo() throws IllegalStateException {
         try {
             image = procedure.undo();
-        } catch (NoMoreActionsException | AdjustmentAlreadyPresentException e) {
+            Optional<Pair<Actions, Tools>> tool = procedure.getLastUndoneActionInfo();
+            if (tool.isPresent()) {
+                for (ParameterName pn : getParametersFromTool(tool.get().getValue())) {
+                    procedure.getValue(tool.get().getValue(), pn);
+                }
+            }
+        } catch (NoMoreActionsException e) {
             throw new IllegalStateException(e.getMessage());
         }
     }
@@ -247,7 +253,7 @@ public final class AppManagerImpl implements AppManager {
     public void redo() throws IllegalStateException {
         try {
             image = procedure.redo();
-        } catch (NoMoreActionsException | AdjustmentAlreadyPresentException e) {
+        } catch (NoMoreActionsException e) {
             throw new IllegalStateException(e.getMessage());
         }
     }
