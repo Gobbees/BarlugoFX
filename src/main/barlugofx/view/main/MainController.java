@@ -640,7 +640,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         // System.gc(); //it is necessary since I don't know why (testing with
         // jvisualvm) the gc doesn't perform after this operation.
         iviewImage.setFitWidth(apaneImage.getWidth());
-        iviewImage.setFitHeight(spaneMain.getHeight());
+        iviewImage.setFitHeight(apaneImage.getHeight());
         iviewImage.updateRealSizes();
     }
 
@@ -699,6 +699,8 @@ public final class MainController extends AbstractViewControllerWithManager {
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
         spaneMain.setMaxWidth(this.getScene().getWidth());
         spaneMain.setMinWidth(this.getScene().getWidth());
+        spaneMain.setMaxHeight(this.getScene().getWidth() - menuBar.getHeight());
+        spaneMain.setMinWidth(this.getScene().getWidth() - menuBar.getHeight());
         lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
     }
 
