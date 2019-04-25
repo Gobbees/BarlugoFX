@@ -49,6 +49,9 @@ public final class ProcedureImpl implements Procedure {
 
     @Override
     public Image add(final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
+        if (this.toolMap.containsKey((adjustment.getToolType()))) {
+            throw new AdjustmentAlreadyPresentException("Can't add another tool with type " + adjustment.getToolType().toString());
+        }
         final int index = this.nextIndex;
         final Image image = this.insert(index, adjustment);
         this.history.addAction(new ActionImpl(Actions.ADD, index, adjustment));
@@ -60,15 +63,12 @@ public final class ProcedureImpl implements Procedure {
      * This method doesn't save an Action to the History, just adds the Adjustment.
      * This method is used by add(), undo() and redo().
      */
-    private Image insert(final int index, final Adjustment adjustment) throws AdjustmentAlreadyPresentException {
+    private Image insert(final int index, final Adjustment adjustment) {
         if (adjustment == null) {
             throw new IllegalArgumentException("Adjustment reference is null.");
         }
         if (index < 0 || index > this.nextIndex) {
             throw new IllegalArgumentException("Invalid index.");
-        }
-        if (this.toolMap.containsKey((adjustment.getToolType()))) {
-            throw new AdjustmentAlreadyPresentException("Can't add another tool with type " + adjustment.getToolType().toString());
         }
         if (this.nameMap.containsKey(adjustment.getName())) {
            throw new IllegalArgumentException("Adjustment name is already in use.");
@@ -235,7 +235,7 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
-    public Image undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
+    public Image undo() throws NoMoreActionsException {
         final Action action = this.history.undoAction();
 
         switch (action.getType()) {
@@ -251,7 +251,7 @@ public final class ProcedureImpl implements Procedure {
     }
 
     @Override
-    public Image redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException {
+    public Image redo() throws NoMoreActionsException {
         final Action action = this.history.redoAction();
 
         switch (action.getType()) {

@@ -126,7 +126,7 @@ public interface Procedure {
      * @throws AdjustmentAlreadyPresentException 
      * @return the processed image resulting from the undo.
      */
-    Image undo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+    Image undo() throws NoMoreActionsException;
 
     /**
      * @throws NoMoreActionsException
@@ -134,7 +134,7 @@ public interface Procedure {
      * @throws AdjustmentAlreadyPresentException 
      * @return the processed image resulting from the redo.
      */
-    Image redo() throws NoMoreActionsException, AdjustmentAlreadyPresentException;
+    Image redo() throws NoMoreActionsException;
 
     /**
      * @return String representation of the history.
