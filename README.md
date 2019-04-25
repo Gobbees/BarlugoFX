@@ -1,6 +1,7 @@
-# BarlugoFX
 
-A universal photo editor that allows you to make your photos look better than ever.
+![alt text](https://bitbucket.org/Gobbees/oop18-barlugofx/raw/253e4a8b025246997a5f93ed4bba9131f961ea4a/res/img/logoText.png)
+
+##A universal photo editor that allows you to make your photos look better than ever.
 
 
 In order to use BarlugoFX with bigger images, we higly suggest launching it with the command
