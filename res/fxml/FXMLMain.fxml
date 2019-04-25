@@ -72,7 +72,7 @@
 									accelerator="Shortcut+P" />
 								<MenuItem mnemonicParsing="false"
 									text="Apply bps preset" onAction="#openPreset"
-									accelerator="Shortcut+O" />
+									accelerator="Shortcut+A" />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="View">
