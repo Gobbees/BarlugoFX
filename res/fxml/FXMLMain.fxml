@@ -52,22 +52,21 @@
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
-								<!-- TODO -->
-								<MenuItem mnemonicParsing="false" text="Open project">
+								<!-- <MenuItem mnemonicParsing="false" text="Open project">
 									<accelerator>
 										<KeyCodeCombination code="o" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
 								</MenuItem>
 								<SeparatorMenuItem />
-								<!-- TODO -->
+								
 								<MenuItem mnemonicParsing="false"
 									text="Save as bfx project">
 									<accelerator>
 										<KeyCodeCombination code="s" control="DOWN"
 											alt="UP" meta="UP" shift="UP" shortcut="UP" />
 									</accelerator>
-								</MenuItem>
+								</MenuItem> -->
 								<MenuItem mnemonicParsing="false" text="Export"
 									onAction="#export">
 									<accelerator>
