@@ -269,6 +269,8 @@ public final class MainController extends AbstractViewControllerWithManager {
                         slBWB.setValue(ViewTools.BWB.getDefaultValue());
                         toolStatus.clear();
                         lvHistory.getItems().clear();
+                        undoneOps.clear();
+                        initToolStatus();
                     });
                 } catch (IOException e) {
                     View.showErrorAlert(e.getMessage());
@@ -320,7 +322,7 @@ public final class MainController extends AbstractViewControllerWithManager {
             try {
                 this.getManager().redo();
                 Platform.runLater(() -> {
-                    if (lvHistory.getItems().size() >= 1) {
+                    if (undoneOps.size() >= 1) {
                         lvHistory.getItems().add(undoneOps.remove(0));
                     }
                 });
