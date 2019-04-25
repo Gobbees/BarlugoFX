@@ -301,7 +301,11 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Undo", createCompleteRunnable(() -> {
             try {
                 this.getManager().undo();
-                Platform.runLater(() -> undoneOps.add(0, lvHistory.getItems().remove(lvHistory.getItems().size() - 1)));
+                Platform.runLater(() -> {
+                    if (lvHistory.getItems().size() >= 1) {
+                        undoneOps.add(0, lvHistory.getItems().remove(lvHistory.getItems().size() - 1));
+                    }
+                });
             } catch (IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
             }
@@ -317,7 +321,11 @@ public final class MainController extends AbstractViewControllerWithManager {
         runNewThread("Redo", createCompleteRunnable(() -> {
             try {
                 this.getManager().redo();
-                Platform.runLater(() -> lvHistory.getItems().add(undoneOps.remove(0)));
+                Platform.runLater(() -> {
+                    if (undoneOps.size() >= 1) {
+                       lvHistory.getItems().add(undoneOps.remove(0));
+                    }
+                });
             } catch (IllegalStateException e) {
                 View.showErrorAlert(e.getMessage());
             }
