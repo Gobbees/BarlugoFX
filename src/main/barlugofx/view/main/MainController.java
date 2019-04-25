@@ -696,13 +696,11 @@ public final class MainController extends AbstractViewControllerWithManager {
     private void initComponentSize() {
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
         tflowLogo.setVisible(true);
-        spaneMain.setPrefWidth(this.getScene().getWidth());
-        spaneMain.setDividerPosition(0, (this.getScene().getWidth() - spaneRightColumn.getMinWidth()) / this.getScene().getWidth());
         spaneRightColumn.setMinWidth(this.getScene().getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
+        spaneMain.setMaxWidth(this.getScene().getWidth());
         lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
     }
-
     private void initToolStatus() {
         toolStatus.put(ViewTools.EXPOSURE, new MutablePair<>(ViewTools.EXPOSURE.getDefaultValue(), true));
         toolStatus.put(ViewTools.CONTRAST, new MutablePair<>(ViewTools.CONTRAST.getDefaultValue(), true));
