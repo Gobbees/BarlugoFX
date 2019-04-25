@@ -36,10 +36,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -64,6 +66,8 @@ public final class MainController extends AbstractViewControllerWithManager {
     private BorderPane paneGeneral;
     @FXML
     private MenuBar menuBar;
+    @FXML
+    private MenuItem miUndo;
     @FXML
     private TextFlow tflowLogo;
     @FXML
@@ -195,6 +199,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         initComponentSize();
         initToolStatus();
         addListeners();
+        removeBasicShortcuts();
         stage.setOnCloseRequest(ev -> {
             if (exportView.isPresent()) {
                 exportView.get().closeStage();
@@ -243,7 +248,6 @@ public final class MainController extends AbstractViewControllerWithManager {
      */
     @FXML
     public void newPhoto() {
-        // TODO discard changes
         checkManager();
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select an image", Format.getAllPossibleInputs()));
@@ -690,14 +694,13 @@ public final class MainController extends AbstractViewControllerWithManager {
         iviewImage.updateRealSizes();
     }
 
-    // this function initializes all the components sizes in relation to the screen size.
     private void initComponentSize() {
         tflowLogo.setStyle("-fx-font-size: " + menuBar.getHeight());
         tflowLogo.setVisible(true);
+        spaneMain.setPrefWidth(this.getScene().getWidth());
         spaneMain.setDividerPosition(0, (this.getScene().getWidth() - spaneRightColumn.getMinWidth()) / this.getScene().getWidth());
         spaneRightColumn.setMinWidth(this.getScene().getWidth() * RIGHT_COLUMN_MIN_MULTIPLIER);
         spaneRightColumn.setMaxWidth(this.getScene().getWidth() * RIGHT_COLUMN_MAX_MULTIPLIER);
-        spaneMain.setPrefWidth(this.getScene().getWidth());
         lvHistory.setPrefHeight(spaneRightColumn.getHeight() - (spaneRightColumn.getHeight() * spaneRightColumn.getDividers().get(0).getPosition()) - lblHistory.getHeight() - btnUndo.getHeight());
     }
 
@@ -895,6 +898,21 @@ public final class MainController extends AbstractViewControllerWithManager {
                 runNewThread(tool.toString(), rn);
             }
         });
+    }
+    private void removeBasicShortcuts() {
+        tfExposure.setOnKeyPressed(KeyEvent::consume);
+        tfContrast.setOnKeyPressed(KeyEvent::consume);
+        tfBrightness.setOnKeyPressed(KeyEvent::consume);
+        tfWhitebalance.setOnKeyPressed(KeyEvent::consume);
+        tfSaturation.setOnKeyPressed(KeyEvent::consume);
+        tfHue.setOnKeyPressed(KeyEvent::consume);
+        tfVibrance.setOnKeyPressed(KeyEvent::consume);
+        tfSCR.setOnKeyPressed(KeyEvent::consume);
+        tfSCG.setOnKeyPressed(KeyEvent::consume);
+        tfSCB.setOnKeyPressed(KeyEvent::consume);
+        tfBWR.setOnKeyPressed(KeyEvent::consume);
+        tfBWG.setOnKeyPressed(KeyEvent::consume);
+        tfBWB.setOnKeyPressed(KeyEvent::consume);
     }
 
     private Runnable createCompleteRunnable(final Runnable rn) {
