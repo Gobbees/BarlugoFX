@@ -46,7 +46,7 @@ public final class ImageImpl implements Image {
         width = pixels[0].length;
         height = pixels.length;
         hasAlphaChannel = true;
-        this.pixels = pixels;
+        this.pixels = pixels; //Pmd i know but it's well written in the doc.
     }
 
     /**
@@ -76,7 +76,7 @@ public final class ImageImpl implements Image {
 
     @Override
     public int[][] getImageRGBvalues() {
-        return pixels;
+        return pixels; //Pmd I know. It's written the doc.
     }
 
     @Override
