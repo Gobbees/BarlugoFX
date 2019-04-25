@@ -29,7 +29,7 @@ public final class WelcomeController extends AbstractViewController {
     //private constant fields (nodes multipliers)
     private static final double IMG_MULTIPLIER = 0.66;
     private static final double BTN_WIDTH_MULTIPLIER = 0.33;
-    private static final double BTN_HEIGHT_MULTIPLIER = 0.5;
+    private static final double BTN_HEIGHT_MULTIPLIER = 1;
     private static final double BPANE_RIGHT_MULTIPLIER = 0.33;
     private static final int ANIM_MILLIS = 300;
     @FXML
@@ -44,8 +44,6 @@ public final class WelcomeController extends AbstractViewController {
     private Separator separLabel;
     @FXML
     private JFXButton btnImage;
-    @FXML
-    private JFXButton btnProject;
     /**
      * Resizes the components in relation to the new sizes.
      * @param width the new width
@@ -54,8 +52,6 @@ public final class WelcomeController extends AbstractViewController {
     public void resizeComponents(final double width, final double height) {
         btnImage.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
         btnImage.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER);
-        btnProject.setPrefWidth(width * BTN_WIDTH_MULTIPLIER);
-        btnProject.setPrefHeight(height * BTN_HEIGHT_MULTIPLIER - height % 2);
         AnchorPane.setRightAnchor(bpaneLeft, width * BPANE_RIGHT_MULTIPLIER);
         separLabel.setVisible(false);
         separLabel.setPrefHeight(height / 10);
@@ -83,7 +79,6 @@ public final class WelcomeController extends AbstractViewController {
     public void openProject() throws IOException {
         final FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new ExtensionFilter("Select a BarlugoFX bfx file", "*.bfx"));
-        fc.setTitle(btnProject.getText());
         openMainView(fc.showOpenDialog(this.getStage()));
     }
     /**
@@ -99,20 +94,6 @@ public final class WelcomeController extends AbstractViewController {
     @FXML
     public void imgExited() {
         btnImage.setEffect(null);
-    }
-    /**
-     * Effects.
-     */
-    @FXML
-    public void prjEntered() {
-        btnProject.setEffect(new Bloom());
-    }
-    /**
-     * Effects.
-     */
-    @FXML
-    public void prjExited() {
-        btnProject.setEffect(null);
     }
     //private functions
     private void openMainView(final File file) {
