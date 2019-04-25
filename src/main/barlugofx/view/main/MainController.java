@@ -421,6 +421,7 @@ public final class MainController extends AbstractViewControllerWithManager {
         checkManager();
         disableZoomAndColumnResize();
         resizeToDefault();
+        apaneImage.requestFocus();
         spaneMain.setDividerPosition(0, (this.getScene().getWidth() - spaneRightColumn.getMinWidth()) / this.getScene().getWidth());
         final AtomicReference<Double> startX = new AtomicReference<>(), startY = new AtomicReference<>();
         apaneImage.getChildren().clear();
