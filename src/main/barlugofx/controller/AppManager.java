@@ -7,8 +7,6 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import barlugofx.model.imagetools.Image;
-import barlugofx.model.procedure.AdjustmentAlreadyPresentException;
-import barlugofx.model.procedure.NoMoreActionsException;
 import barlugofx.utils.Format;
 
 /**
