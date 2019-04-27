@@ -12,6 +12,7 @@ You can download the [latest available release](https://github.com/Gobbees/Barlu
 ```
 -JRE or JDK (8 and above)
 -OpenJFX (if JRE is Oracle >= 9 or Open)
+-JUnit
 ```
 
 In order to use BarlugoFX with bigger images, we higly suggest launching it with the command
