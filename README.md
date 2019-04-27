@@ -1,12 +1,22 @@
 
-![alt text](https://bitbucket.org/Gobbees/oop18-barlugofx/raw/253e4a8b025246997a5f93ed4bba9131f961ea4a/res/img/logoText.png)
+![Alt text](/res/img/logoText.png)
 
-##A universal photo editor that allows you to make your photos look better than ever.
 
+### A universal photo editor that allows you to make your photos look better than ever.
+
+## Getting Started
+
+You can download the [latest available release](https://github.com/Gobbees/BarlugoFX/releases)
+
+### Prerequisites
+```
+-JRE or JDK (8 and above)
+-OpenJFX (if JRE is Oracle >= 9 or Open)
+```
 
 In order to use BarlugoFX with bigger images, we higly suggest launching it with the command
 
--java -XmxNg barlugoFX
+**java -XmxNg BarlugoFX**
 
 Where N is the number of Gigabytes you want to allocate for the program. We highly suggest to use at least 4Gb of ram for the program to function properly on big images (4K and over). 
 
